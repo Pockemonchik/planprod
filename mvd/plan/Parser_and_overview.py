@@ -61,27 +61,94 @@ def xlsPrepod(nameDoc):
 
 # Функция для получения упорядоченного списка всех нужных переменных из xls файла и его возврат
 def takeXls(nameDoc,namePrepod):
-    wb = openpyxl.load_workbook(filename =nameDoc, data_only=True)
+    #wb = openpyxl.load_workbook(filename =  '/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/' + nameDoc + '.xlsx', data_only=True)
+    wb = openpyxl.load_workbook(filename = nameDoc , data_only=True)
 
+    '''
     needColumnFirst = ['O','Q','S','U','W','X','Y','AA','AC','AE','AG','AI','AK','AM','AO','AQ','AS','AU','AW','AY','BA','BC','BE','BF','BG' ]
-    needColumnSecond = ['CA','CB','CC','CE','CG','CI','CJ','CK','CM','CO','CQ','CS','CU','CW','CY','DA','DC','DE','DG','DI','DK','DM','DO','DQ','DR','DS']
+    needColumnSecond = ['CA','CC','CE','CG','CI','CJ','CK','CM','CO','CQ','CS','CU','CW','CY','DA','DC','DE','DG','DI','DK','DM','DO','DQ','DS','DT']
     needColumnThird = ['EM','EO','EQ','ES','EU','EV','EW','EY','FA','FC','FE','FG','FI','FK','FM','FO','FQ','FS','FU','FW','FY','GA','GC','GE','GF']
+    '''
+    nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР   руководство', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Плановая нагрузка', 'Плановая аудиторная нагрузка']
+    nameprepodColumn = ['наименование дисциплины', 'Факультет', 'Курс, группа']
+
+
+
     listFirst = []
     listSecond = []
     listResult = []
+
+    needColumnFirst = []
+    needColumnSecond = []
+    needColumnThird = []
+    needPrepodColumn = []
+
+
 
 
     sheets = wb.sheetnames
     ws = wb[sheets[0]]
     prepodRow = 1
+
+
+
+    #Функция заполнения Индексов столбцов
+    for textCol in nameNeedColunm:
+        k = 0
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=200, max_row=8):
+                if textCol.lower() in str(column[0].value).lower():
+                    if textCol.lower() == 'экзамены':
+                        if textCol.lower() != str(column[0].value).lower():
+                            continue
+                    k += 1
+                    column[0].value = ' '
+                    reg = re.search(".+?\.(.+?)8>", str(column[0]))
+                    if reg and len(reg.group(1)) > 0:
+                        needText = reg.group(1)
+                    if k == 1:
+                        needColumnFirst.append(needText)
+                    elif k == 2:
+                        needColumnSecond.append(needText)
+
+                    else: needColumnThird.append(needText)
+#         if k != 3 :
+#             print('error xls')
+#             return 'error xls'
+
+
+    for textCol in nameprepodColumn:
+        k = 0
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=200, max_row=8):
+                if textCol.lower() == str(column[0].value).lower():
+                    k += 1
+                    column[0].value = ' '
+                    reg = re.search(".+?\.(.+?)8>", str(column[0]))
+                    if reg and len(reg.group(1)) > 0:
+                        needText = reg.group(1)
+                    needPrepodColumn.append(needText)
+
+
+
+
+    if len(needColumnFirst) != len(nameNeedColunm) or len(needColumnSecond) != len(nameNeedColunm) or len(needColumnThird) != len(nameNeedColunm):
+        print(len(needColumnFirst) , ' ' , len(nameNeedColunm) , ' ' , len(needColumnSecond) , ' '  , len(nameNeedColunm) , ' ' , len(needColumnThird) , ' ' , len(nameNeedColunm))
+        print('error xls file')
+        return("error xls file")
+
+
+
+
+
+
+
+
     #Находим строку с преподом
 
     for column in ws.iter_rows(min_col=2, min_row=1, max_col=2, max_row=1000, values_only=True):
         if str(namePrepod).lower() in str(column[0]).lower():
-            # return "norm"
             break
         prepodRow += 1
-    # return 'nenorm'
+
 
     secondPrepod = 1
     count = 0
@@ -90,23 +157,19 @@ def takeXls(nameDoc,namePrepod):
     for column in ws.iter_rows(min_col=2, min_row=(prepodRow+1), max_col=2, max_row=(prepodRow+30), values_only=True):
         reg = re.search("([А-ЯЁ].+?\s)[А-ЯЁ]\.[А-ЯЁ]\.", str(column[0]))
         if reg and len(reg.group(1)) > 0:
-            # return 1
             count = secondPrepod
             break
         reg = re.search("(ИТОГО):", str(column[0]))
         if reg and len(reg.group(1)) > 0:
-            # return 1
             count = secondPrepod
             break
 
-
         secondPrepod+=1
 
-    # print(count)
+    print(count)
 
     if count == 0:
         count = 14
-        # return 0
 
 
 
@@ -115,15 +178,15 @@ def takeXls(nameDoc,namePrepod):
 
     for takeStr in range(1,count):
         listFirst.append([])
-        if str(ws['B'+str(prepodRow+takeStr)].value) != 'None':
-            firstBigSell = str(ws['B'+str(prepodRow+takeStr)].value)
-            if str(ws['E'+str(prepodRow+takeStr)].value) != 'None':
-                firstBigSell += ' ' + str(ws['E'+str(prepodRow+takeStr)].value)
-                if str(ws['F'+str(prepodRow+takeStr)].value) != 'None':
-                    firstBigSell += ' ' + str(ws['F'+str(prepodRow+takeStr)].value)
+        if str(ws[str(needPrepodColumn[0])+str(prepodRow+takeStr)].value) != 'None':
+            firstBigSell = str(ws[str(needPrepodColumn[0])+str(prepodRow+takeStr)].value)
+            if str(ws[str(needPrepodColumn[3])+str(prepodRow+takeStr)].value) != 'None':
+                firstBigSell += ' ' + str(ws[str(needPrepodColumn[3])+str(prepodRow+takeStr)].value)
+                if str(ws[str(needPrepodColumn[6])+str(prepodRow+takeStr)].value) != 'None':
+                    firstBigSell += ' ' + str(ws[str(needPrepodColumn[6])+str(prepodRow+takeStr)].value)
             else:
-                if str(ws['F'+str(prepodRow+takeStr)].value) != 'None':
-                    firstBigSell += ' ' + str(ws['F'+str(prepodRow+takeStr)].value)
+                if str(ws[str(needPrepodColumn[6])+str(prepodRow+takeStr)].value) != 'None':
+                    firstBigSell += ' ' + str(ws[str(needPrepodColumn[6])+str(prepodRow+takeStr)].value)
             listFirst[takeStr-1].append(firstBigSell)
         else:
             listFirst[takeStr-1].append('0')
@@ -146,20 +209,18 @@ def takeXls(nameDoc,namePrepod):
     for takeStr in range(1,count):
         listSecond.append([])
 
-        #
-        # print(str(ws['BN'+str(prepodRow+takeStr)].value))
-        # print(str(prepodRow+takeStr))
 
 
-        if str(ws['BN'+str(prepodRow+takeStr)].value) != 'None':
-            firstBigSell = str(ws['BN'+str(prepodRow+takeStr)].value)
-            if str(ws['BQ'+str(prepodRow+takeStr)].value) != 'None':
-                firstBigSell += ' ' + str(ws['BQ'+str(prepodRow+takeStr)].value)
-                if str(ws['BR'+str(prepodRow+takeStr)].value) != 'None':
-                    firstBigSell += ' ' + str(ws['BR'+str(prepodRow+takeStr)].value)
+
+        if str(ws[str(needPrepodColumn[1])+str(prepodRow+takeStr)].value) != 'None':
+            firstBigSell = str(ws[str(needPrepodColumn[1])+str(prepodRow+takeStr)].value)
+            if str(ws[str(needPrepodColumn[4])+str(prepodRow+takeStr)].value) != 'None':
+                firstBigSell += ' ' + str(ws[str(needPrepodColumn[4])+str(prepodRow+takeStr)].value)
+                if str(ws[str(needPrepodColumn[7])+str(prepodRow+takeStr)].value) != 'None':
+                    firstBigSell += ' ' + str(ws[str(needPrepodColumn[7])+str(prepodRow+takeStr)].value)
             else:
-                if str(ws['BR'+str(prepodRow+takeStr)].value) != 'None':
-                    firstBigSell += ' ' + str(ws['BR'+str(prepodRow+takeStr)].value)
+                if str(ws[str(needPrepodColumn[7])+str(prepodRow+takeStr)].value) != 'None':
+                    firstBigSell += ' ' + str(ws[str(needPrepodColumn[7])+str(prepodRow+takeStr)].value)
             listSecond[takeStr-1].append(firstBigSell)
 
         else:
@@ -190,7 +251,9 @@ def takeXls(nameDoc,namePrepod):
     listResult.append(listFirst)
     listResult.append(listSecond)
 
-
+    # for i in range(len(listResult)):
+    #     for j in range(len(listResult[i])):
+    #         print(listResult[i][j])
     return(listResult)
 
 # Запись в документ Основной информации

@@ -17,10 +17,12 @@ import os
 def saveallnagr():
     obr=0
     all_profile=Profile.objects.all()
+    # all_profile=Profile.objects.filter(kafedra__name='kaf4370')
 
     for profile in all_profile:
-        if profile.role==1:
-            if profile.user.username=="admin" or profile.user.username=="user" or profile.kafedra.fullname=="инф. и мат.":
+        if profile.role==2:
+            # if (profile.user.username=="admin" or profile.user.username=="user" or profile.kafedra.fullname=="инф. и мат.":
+            if profile.kafedra.fullname!="инф. и мат.":
                 continue
             nagruzkadoc=get_object_or_404(Nagruzka,year=2019,kafedra=profile.kafedra)
             plan=get_object_or_404(Plan,prepod=profile,year=2019)

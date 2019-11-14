@@ -809,6 +809,8 @@ def index(request):
         profile=get_object_or_404(Profile,user=request.user)
         plans=Plan.objects.filter(prepod=profile)
         kafedri=Kafedra.objects.all()
+        if profile.role==2:
+            kafedri=Kafedra.objects.filter(name=profile.kafedra.name)
         nagruzkadocs=Nagruzka.objects.filter(kafedra=profile.kafedra)
         nagruzka=NagruzkaForm()
         return render(request, 'plan.html',{
@@ -862,12 +864,15 @@ def nagruzka(request,year,slug):
         nagruzkadoc=get_object_or_404(Nagruzka,year=year,kafedra=profile.kafedra)
         predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=False)
         predmetsdel.delete()
-        print(nagruzkadoc.document.path)
-        print(plan.name[0:-4])
-        print('')
+        # print(nagruzkadoc.document.path)
+        # print(plan.name[0:-4])
+        # print('')
         data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
-        print('')
-        print(data)
+        for i in range(len(data)):
+            for j in range(len(data[i])):
+                print(data[i][j])
+        # print('')
+        # print(data)
 
         fields=Predmet._meta.get_fields()
         for table in range(len(data)):
@@ -890,7 +895,7 @@ def nagruzka(request,year,slug):
                         if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
                             setattr(predmet,field.name, data[table][row][count])
                             break
-                        print("suka")
+
                         setattr(predmet,field.name, data[table][row][count])
 
                         if count==25:
@@ -903,6 +908,7 @@ def nagruzka(request,year,slug):
                     predmet.polugodie='1'
                     predmet.status=False
                     #tru если выполена false если план
+
                     # print(data)
                     predmet.save()
 
@@ -911,7 +917,7 @@ def nagruzka(request,year,slug):
                     count=0
                     predmet=Predmet()
                     # print(len(data[table]))
-                    print(data[table])
+                    # print(data[table])
                     # print( data[table][row][0])
                     if data[table][row][0]=="0":
 
@@ -932,13 +938,13 @@ def nagruzka(request,year,slug):
                         if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
                             setattr(predmet,field.name, data[table][row][count])
                             break
-                        print("suka2")
+
                         setattr(predmet,field.name, data[table][row][count])
-                        print(count)
+                        # print(count)
                         if count==25:
                             break
                         count+=1
-                        print(field.name+str(data[table][row][count]))
+                        # print(field.name+str(data[table][row][count]))
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
@@ -958,6 +964,8 @@ def kafedra_view(request,kafedra,year):
         profile=get_object_or_404(Profile,user=request.user)
         plans=Plan.objects.filter(prepod__kafedra__name=kafedra,year=year)
         kafedri=Kafedra.objects.all()
+        if profile.role==2:
+            kafedri=Kafedra.objects.filter(name=profile.kafedra.name)
         arr=[]
         # for kaf in kafedri:
         #     arr.append(kaf.fullname)
@@ -1824,6 +1832,8 @@ def detail_plan(request,slug,year):
         formset13=Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1,year=year,polugodie=1))
         formset14=Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1,year=year,polugodie=2))
         kafedri=Kafedra.objects.all()
+        if profile.role==2:
+            kafedri=Kafedra.objects.filter(name=profile.kafedra.name)
         try:
             docinf=DocInfo.objects.get(plan=plan)
             shapka=ShapkaForm(instance=docinf)
