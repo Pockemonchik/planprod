@@ -1,0 +1,80 @@
+.searchHolder {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: visible;
+            position: relative;
+        }
+        /*.autoFillBar {
+            background: #d0cee5;
+            width: 100%;
+            position: absolute;
+            top: 98px;
+            z-index: 9;
+            border-radius: 5px;
+            overflow: hidden;
+        }*/
+
+
+        
+
+        .autoFillBar .item {
+            display: block;
+            position: absolute;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: left;
+            color: #1e1d26;
+            transition: .2s;
+            cursor: pointer;
+            font-size: 18px;
+            background-color: #E4E8ED;
+        }
+        .autoFillBar .item:hover, .autoFillBar .item.active {
+            background: #d8effb;
+            transition: .2s;
+        }
+        .highlighted {
+            background: #ffe47d;
+        }
+
+
+        .ui-corner-all {
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+            border-radius: 0;
+        }
+        .ui-menu {
+            border: 1px solid lightgray;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            background-color: white;
+        }
+        .ui-menu .ui-menu-item a {
+            color: #4F4F4F;
+            display: block;
+        }
+
+        .ui-menu .ui-menu-item a:hover {
+            border: 1px solid lightgray;
+            background: #708090;
+            color: #FFFFFF;
+        }
+        .ui-menu .ui-menu-item:hover {
+            display: block;
+            text-decoration: none;
+            color: #3D3D3D;
+            cursor: pointer;
+            background-color: lightgray;
+            background-image: none;
+            border:0;
+        }
+        .ui-widget-content .ui-state-hover, .ui-widget-content .ui-state-focus {
+            border: 1px solid lightgray;
+            background-image: none;
+            background-color: lightgray;
+            font-weight: bold;
+            color: #3D3D3D;
+        }
+  

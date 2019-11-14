@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static "/css/login.css" %}" />
+</head>
+<body class="align">
+  <div class="header">
+    <div class="txt">
+      <img src="{% static "admin1/images/logo.png" %}">
+      <div class="row"> 
+        <div class="flex-item">МОСКОВСКИЙ УНИВЕРСИТЕТ МВД РОСИИИ</div>
+        <div class="flex-item">ИМЕНИ В.Я. КИКОТЯ</div>
+        <div class="flex-item">Электронный индивидиулальный план</div>
+      </div>
+    </div>
+    </div>
+{% block content %}
+  {% csrf_token %}
+      <form action="." method="post" class="form login">
+        {% csrf_token %}
+
+        <header class="login__header">
+          <h3 class="login__title">Авторизация<!-- <img src="{% static "admin1/images/1.png" %}""> --></h3>
+        </header>
+
+           
+        
+        <div class="login__body" >
+          {{ form }}
+
+        	<!-- <div class="form__field">
+          		<input type="text" placeholder="Login" required>
+        	</div>
+
+        	<div class="form__field">
+          		<input type="password" placeholder="Password" required>
+        	</div> -->
+
+        </div>
+
+        	<footer class="login__footer">
+		        <input type="submit" value="Login" class="knoblogin">
+
+		        <!-- <p><span class="icon icon--info">?</span><a href="#">Forgot Password</a></p>
+		        <p><span class="icon icon--info">?</span><a href="#">Register</a></p> -->
+      		</footer>
+    </form>
+{% endblock %}
+</body>
+</html>

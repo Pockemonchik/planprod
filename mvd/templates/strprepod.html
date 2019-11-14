@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{%load staticfiles%}
+{% block content %}
+<div class="content active">
+
+
+        <div class="container-fluid">
+          <div class="row">
+
+
+            {%for plan in plans%}
+              <div class="card rounded">
+                <div class="card-body card-body-alt" >
+                	<div class="image-block">
+                		<a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " >
+                      <img src="{% static "admin1/images/doc.png" %}">
+                    </a>
+                	</div>
+                	<div class="text-block">
+                		<p>{{plan.prepod.fullname}} {{plan.year}}</p>
+                	</div>
+                </div>
+              </div>
+
+              {%endfor%}
+
+
+          </div>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,570 @@
+{% extends "base.html" %}
+{%load staticfiles%}
+{% block content %}
+<head>
+  <link rel="stylesheet" href="{% static "/css/realtables.css" %}" />
+  <script type="text/javascript" src="{% static "/js/statich.js" %}"></script>
+  <script type="text/javascript" src="{% static "/js/shaper.js" %}"></script>
+</head>
+
+
+<div class="content active">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+
+  <p>Общая нарузка</p>
+  <div class="button-block">
+    <a href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"role="button"><button>Сформировать документ</button></a>
+  </div>
+
+        <div class="button-block">
+          <a href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" role="button"><button>Заполнить планируемую нагрузку</button></a>
+        </div>
+
+<div class="more" autocomplete="off">
+<form  action="{%url 'shapka'%}" method="post" class="shapka">
+  {% csrf_token %}
+  <div class="morein" >
+    {{shapka}}
+
+  <input type="hidden"name="year"  value="{{plan.year}}" >
+  <input type="hidden"name="profile"  value="{{profile1.user.username}}">
+    <input type="submit" value="Сохранить" class="sohr">
+  </div>
+</form>
+</div>
+
+
+      <div class="table-responsive">
+      <form action="{%url 'mainTableSave'%}" method="post">
+                {% csrf_token %}
+      <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+        <tr>
+          <th>Виды работ</th>
+          <th>1сем </th>
+          <th>2сем </th>
+        </tr>
+          <tr>
+            <th>Учебная</th>
+              <td>{{mainForm.ucheb_r_1_p}}</td>
+              <td>{{mainForm.ucheb_r_2_p}}</td>
+
+
+          </tr>
+          <tr>
+
+            <th>Учебно-методическая</th>
+            <td>{{mainForm.ucheb_med_r_1_p}}</td>
+            <td>{{mainForm.ucheb_med_r_2_p}}</td>
+
+
+          </tr>
+          <tr>
+
+            <th>Научно-исследовательская</th>
+            <td>{{mainForm.nir_1_p}}</td>
+            <td>{{mainForm.nir_2_p}}</td>
+
+
+          </tr>
+          <tr>
+
+            <th>Работа по морально-психологическому обеспечению</th>
+            <td>{{mainForm.vr_1_p}}</td>
+            <td>{{mainForm.vr_2_p}}</td>
+
+
+          </tr>
+          <tr>
+
+            <th>Работа с иностранными слушателями</th>
+            <td>{{mainForm.inr_1_p}}</td>
+            <td>{{mainForm.inr_2_p}}</td>
+
+
+
+          </tr>
+          <tr>
+
+            <th>Другие виды</th>
+            <td>{{mainForm.dr_1_p}}</td>
+            <td>{{mainForm.dr_2_p}}</td>
+
+          </tr>
+
+
+      </table>
+      </div>
+      <!-- <input type="submit" value="Сохранить таблицу" /> -->
+        </form>
+
+
+
+
+  <div class="table-responsive">
+
+    <p>Планируемая работа за первое полугодие</p>
+    <form action="{%url 'saveT1' %}" method="post">
+              {% csrf_token %}
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th></th>
+        <th>чтение лекций</th>
+  <th>проведение семинаров</th>
+  <th>проведение практических занятий в группе</th>
+  <th>проведение практических занятий в подгруппе</th>
+  <th>проведение учений, деловых игр, круглых столов</th>
+  <th>проведение консультаций перед экзаменами</th>
+  <th>проведение текущих консультаций</th>
+  <th>приём внеаудиторного чтения</th>
+  <th>руководство практикой</th>
+  <th>руководство ВКР</th>
+  <th>руководство курсовой работой</th>
+  <th>проверка аудиторной контрольной работы</th>
+  <th>проверка домашней контрольной работы, в т.ч. с использованием ДОТ </th>
+  <th>проверка практикума, реферата</th>
+  <th>проверка лабораторной работы</th>
+  <th>приём защит практик</th>
+  <th>приём зачетов устных</th>
+  <th>проверка письменного зачета</th>
+  <th>приём вступительных испытаний</th>
+  <th>приём экзаменов</th>
+  <th>приём ГИА, защит ВКР, итоговых испытаний</th>
+  <th>приём кандидатских экзаменов</th>
+  <th>руководство адъюнктами, консультирование докторанта</th>
+  <th>Общая учебная нагрузка</th>
+  <th>В т.ч. аудиторная нагрузка</th>
+      </tr>
+    {{ formset.management_form }}
+    {%for form in formset%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+    <!-- <input type="submit" value="Сохранить таблицу" /> -->
+      </form>
+  </div>
+
+
+<div class="table-responsive">
+  <form action="{%url 'saveT2'%}" method="post">
+            {% csrf_token %}
+      <p>Планируемая работа за второе полугодие</p>
+      <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+        <tr>
+          <th></th>
+          <th>чтение лекций</th>
+    <th>проведение семинаров</th>
+    <th>проведение практических занятий в группе</th>
+    <th>проведение практических занятий в подгруппе</th>
+    <th>проведение учений, деловых игр, круглых столов</th>
+    <th>проведение консультаций перед экзаменами</th>
+    <th>проведение текущих консультаций</th>
+    <th>приём внеаудиторного чтения</th>
+    <th>руководство практикой</th>
+    <th>руководство ВКР</th>
+    <th>руководство курсовой работой</th>
+    <th>проверка аудиторной контрольной работы</th>
+    <th>проверка домашней контрольной работы, в т.ч. с использованием ДОТ </th>
+    <th>проверка практикума, реферата</th>
+    <th>проверка лабораторной работы</th>
+    <th>приём защит практик</th>
+    <th>приём зачетов устных</th>
+    <th>проверка письменного зачета</th>
+    <th>приём вступительных испытаний</th>
+    <th>приём экзаменов</th>
+    <th>приём ГИА, защит ВКР, итоговых испытаний</th>
+    <th>приём кандидатских экзаменов</th>
+    <th>руководство адъюнктами, консультирование докторанта</th>
+    <th>Общая учебная нагрузка</th>
+    <th>В т.ч. аудиторная нагрузка</th>
+        </tr>
+      {{ formset2.management_form }}
+      {%for form in formset2%}
+          <tr>
+            {% for field in form %}
+            <td>{{ field }}</td>
+            {% endfor %}
+          </tr>
+      {%endfor%}
+      </table>
+      <!-- <input type="submit" value="Сохранить таблицу" /> -->
+    </form>
+  </div>
+
+
+
+<div class="table-responsive">
+  <form action="{%url 'saveT3'%}" method="post">
+          {% csrf_token %}
+    <p>Фактически выполнненая работа за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th></th>
+        <th>чтение лекций</th>
+  <th>проведение семинаров</th>
+  <th>проведение практических занятий в группе</th>
+  <th>проведение практических занятий в подгруппе</th>
+  <th>проведение учений, деловых игр, круглых столов</th>
+  <th>проведение консультаций перед экзаменами</th>
+  <th>проведение текущих консультаций</th>
+  <th>приём внеаудиторного чтения</th>
+  <th>руководство практикой</th>
+  <th>руководство ВКР</th>
+  <th>руководство курсовой работой</th>
+  <th>проверка аудиторной контрольной работы</th>
+  <th>проверка домашней контрольной работы, в т.ч. с использованием ДОТ </th>
+  <th>проверка практикума, реферата</th>
+  <th>проверка лабораторной работы</th>
+  <th>приём защит практик</th>
+  <th>приём зачетов устных</th>
+  <th>проверка письменного зачета</th>
+  <th>приём вступительных испытаний</th>
+  <th>приём экзаменов</th>
+  <th>приём ГИА, защит ВКР, итоговых испытаний</th>
+  <th>приём кандидатских экзаменов</th>
+  <th>руководство адъюнктами, консультирование докторанта</th>
+  <th>Общая учебная нагрузка</th>
+  <th>В т.ч. аудиторная нагрузка</th>
+      </tr>
+    {{ formset3.management_form }}
+    {%for form in formset3%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT4'%}" method="post">
+          {% csrf_token %}
+    <p>Фактически выполнненая работа за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th></th>
+        <th>чтение лекций</th>
+  <th>проведение семинаров</th>
+  <th>проведение практических занятий в группе</th>
+  <th>проведение практических занятий в подгруппе</th>
+  <th>проведение учений, деловых игр, круглых столов</th>
+  <th>проведение консультаций перед экзаменами</th>
+  <th>проведение текущих консультаций</th>
+  <th>приём внеаудиторного чтения</th>
+  <th>руководство практикой</th>
+  <th>руководство ВКР</th>
+  <th>руководство курсовой работой</th>
+  <th>проверка аудиторной контрольной работы</th>
+  <th>проверка домашней контрольной работы, в т.ч. с использованием ДОТ </th>
+  <th>проверка практикума, реферата</th>
+  <th>проверка лабораторной работы</th>
+  <th>приём защит практик</th>
+  <th>приём зачетов устных</th>
+  <th>проверка письменного зачета</th>
+  <th>приём вступительных испытаний</th>
+  <th>приём экзаменов</th>
+  <th>приём ГИА, защит ВКР, итоговых испытаний</th>
+  <th>приём кандидатских экзаменов</th>
+  <th>руководство адъюнктами, консультирование докторанта</th>
+  <th>Общая учебная нагрузка</th>
+  <th>В т.ч. аудиторная нагрузка</th>
+      </tr>
+    {{ formset4.management_form }}
+    {%for form in formset4%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+
+
+<div class="table-responsive">
+  <form action="{%url 'saveT5'%}" method="post">
+          {% csrf_token %}
+    <p>Учебно-методическая за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset5.management_form }}
+    {%for form in formset5%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT6'%}" method="post">
+          {% csrf_token %}
+    <p>Учебно-методическая за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset6.management_form }}
+    {%for form in formset6%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT7'%}" method="post">
+          {% csrf_token %}
+    <p>Научно-исследовательская за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset7.management_form }}
+    {%for form in formset7%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT8'%}" method="post">
+          {% csrf_token %}
+    <p>Научно-исследовательская за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset8.management_form }}
+    {%for form in formset8%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT9'%}" method="post">
+          {% csrf_token %}
+    <p>Работа по морально-психологическому обеспечению за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset9.management_form }}
+    {%for form in formset9%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT10'%}" method="post">
+          {% csrf_token %}
+    <p>Работа по морально-психологическому обеспечению за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset10.management_form }}
+    {%for form in formset10%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT13'%}" method="post">
+          {% csrf_token %}
+    <p>Работа с иностранными слушателями за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset13.management_form }}
+    {%for form in formset13%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT14'%}" method="post">
+          {% csrf_token %}
+    <p>Работа с иностранными слушателями за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset14.management_form }}
+    {%for form in formset14%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+
+
+<div class="table-responsive">
+  <form action="{%url 'saveT11'%}" method="post">
+          {% csrf_token %}
+    <p>Другие виды работ за первое полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset11.management_form }}
+    {%for form in formset11%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+
+<div class="table-responsive">
+  <form action="{%url 'saveT12' %}" method="post">
+          {% csrf_token %}
+    <p>Другие виды работ за второе полугодие</p>
+    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+      <tr>
+        <th>вид работы</th>
+
+
+        <th>срок</th>
+        <th>отметка</th>
+      </tr>
+    {{ formset12.management_form }}
+    {%for form in formset12%}
+        <tr>
+          {% for field in form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+        </tr>
+    {%endfor%}
+    </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+    <input type="submit" value="Сохранить таблицу" />
+  </form>
+</div>
+  <script>
+    $(".textpole").autogrow();
+  </script>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

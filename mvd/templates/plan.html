@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{%load staticfiles%}
+{% block content %}
+   <div class="content active">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col p-5">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <h1 class="display-4">Ваши индивидуальные планы</h1>
+              <!-- <p class="lead mb-5">What would you like to do?</p> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid" id="block-content">
+          <div class="row" id="rowid">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Документы</h3>
+                </div>
+                <div class="card-body card-body-alt" >
+                  <table class="table table-css">
+                    <tbody>
+                      {%for plan in plans%}
+                      <tr>
+                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
+                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+                      {%endfor%}
+                      {%if profile.role == 2%}
+                      {%for doc in nagruzkadocs%}
+                      <tr>
+                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}</td>
+                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+                      {%endfor%}
+                      {%endif%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+            	<div class="card rounded">
+                	<div class="card-header">
+                  		<h3>Главная информация</h3>
+                	</div>
+                	<div class="card-body info">
+                		<div class="image-block">
+                			<img src="{% static "admin1/images/gerb-mvd.png" %}">
+                		</div>
+                		<h3>Кафедра: {{profile.kafedra.fullname}} </h3>
+                		<h3>ФИО: {{profile.fullname}} </h3>
+                		<h3>Должность: {{profile.dolzhnost}} </h3>
+                		<h3>Стаж: 20 лет </h3>
+                		<h3>Ученая степень: {{profile.stepen}}  </h3>
+                    {%if profile.role == 2%}
+                  </div>
+                  <div class="card-body info" id="">
+                  <form action="{%url 'nagruzkaSave'%}" method="post" enctype="multipart/form-data" class="zagruzka">
+                    {% csrf_token %}
+                      <div class="blockd">
+                        {{nagruzka.as_p}}
+                        <p>
+                          <label></label>
+                          <label></label>
+                          <input type="submit" value="Загрузить" class="zagruzit">
+                        </p>
+                      </div>
+                  </form>
+                  {%endif%}
+                </div>
+              </div>
+            </div>
+            
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+{% endblock %}
