@@ -52,6 +52,7 @@ def nepustNagr():
             allpred=p.predmets.all()
             if not allpred.exists():
                 print(p.fullname)
+                print(p.kafedra.fullname)
                 count+=1
     print(count)
 

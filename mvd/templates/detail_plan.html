@@ -26,7 +26,21 @@
 <form  action="{%url 'shapka'%}" method="post" class="shapka">
   {% csrf_token %}
   <div class="morein" >
-    {{shapka}}
+
+    <h6>Должность лица,утверждающего индивидуальный план: </h6>
+    {{shapka.shapka}}
+    <h6>ФИО лица,утверждающего индивидуальный план: </h6>
+    {{shapka.fionach}}
+    <h6>Дата утверждения: </h6>
+    {{shapka.data}}
+    <h6>Год индивидуального плана: </h6>
+    {{shapka.na_kakoygod}}
+    <h6>ФИО преподавателя полностью: </h6>
+    {{shapka.fio}}
+    <h6>Должность, размер ставки: </h6>
+    {{shapka.dolznost}}
+    <h6>учёная степень, учёное звание,выслуга – полных лет: </h6>
+    {{shapka.kafedra}}
 
   <input type="hidden"name="year"  value="{{plan.year}}" >
   <input type="hidden"name="profile"  value="{{profile1.user.username}}">

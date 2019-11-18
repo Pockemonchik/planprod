@@ -6,6 +6,17 @@ class ShapkaForm(forms.ModelForm):
     class Meta:
         model=DocInfo
         exclude = ['plan']
+        widgets = {
+        'shapka':TextInput(attrs={'placeholder':
+        'Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции'}),
+        'fionach':TextInput(attrs={'placeholder':'И.И.Иванов'}),
+        'data':TextInput(attrs={'placeholder':'31 февраля 2019'}),
+        'na_kakoygod':TextInput(attrs={'placeholder':'250/251'}),
+        'fio':TextInput(attrs={'placeholder':'Петров Петр Петрович'}),
+        'dolznost':TextInput(attrs={'placeholder':'профессо,0,5 ст.'}),
+        'kafedra':TextInput(attrs={'placeholder':'кафедры административного права, д.э.н., доцент'}),
+
+        }
 
 class SuperSearch(forms.widgets.TextInput):
     class Media:
@@ -80,7 +91,7 @@ class Table2Form(forms.ModelForm):
         model=UMR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':TextInput(attrs={'id':'lang','class':'textpole'})
+        'vid':Textarea(attrs={'id':'lang','class':'textpole'})
         }
 
 class Table3Form(forms.ModelForm):
@@ -88,7 +99,7 @@ class Table3Form(forms.ModelForm):
         model=NIR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':TextInput(attrs={'id':'lang','class':'textpole'})
+        'vid':Textarea(attrs={'id':'lang','class':'textpole'})
         }
 
 #форма для других видов и вр
@@ -97,7 +108,7 @@ class Table4Form(forms.ModelForm):
         model=VR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':TextInput(attrs={'id':'lang','class':'textpole'})
+        'vid':Textarea(attrs={'id':'lang','class':'textpole'})
         }
 
 class Table5Form(forms.ModelForm):
@@ -105,7 +116,7 @@ class Table5Form(forms.ModelForm):
         model=DR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':TextInput(attrs={'id':'lang','class':'textpole'})
+        'vid':Textarea(attrs={'id':'lang','class':'textpole'})
         }
 
 class Table6Form(forms.ModelForm):
@@ -113,5 +124,5 @@ class Table6Form(forms.ModelForm):
         model=INR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':TextInput(attrs={'id':'lang','class':'textpole'})
+        'vid':Textarea(attrs={'id':'lang','class':'textpole'})
         }

@@ -30,7 +30,7 @@
 		  <div class="header-wrap">
 		    <nav class="navbar navbar-expand-lg justify-content-between fixed-top shadow-sm">
 		      <a class="navbar-brand" href="#"><img src="{% static "admin1/images/logo.png" %}" ></a>
-						{%if profile.role == 2%}
+						{%if profile.role == 2 or profile.role == 3 %}
 		      <button id="sidebar-toggle" class="btn btn-link d-flex align-items-center active">
 		        <div class="sidebar-bars mr-2">
 		          <span class="line-1"></span>

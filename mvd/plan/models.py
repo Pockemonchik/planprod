@@ -9,7 +9,7 @@ from django.urls import reverse
 
 
 class Kafedra(models.Model):
-     name=models.CharField(max_length=500)
+     name=models.CharField(max_length=501)
      fullname=models.CharField(max_length=250,blank=True)
      def __str__(self):
          return self.fullname
@@ -24,14 +24,14 @@ class Nagruzka(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete="cascade",primary_key=True)
     kafedra=models.ForeignKey(Kafedra, related_name='prepods',on_delete=models.CASCADE)
-    dolzhnost=models.CharField(max_length=500)
+    dolzhnost=models.CharField(max_length=500,blank=True)
     fullname=models.CharField(max_length=250,blank=True)
     stepen=models.CharField(max_length=250,blank=True)
     #право доступа, 1- обычный пользователь 2-привелигированный
     role = models.IntegerField(default=1)
     status=models.BooleanField(default=True)
     def __str__(self):
-        return self.user.username+" "+self.fullname
+        return self.fullname+" "+self.user.username+" "+self.user.email
 
 #  основная модель плана
 class Plan(models.Model):
@@ -196,11 +196,11 @@ class Predmet(models.Model):
 
 
 
-#учебно методическая рабта
+#учебно методическая рабoта
 class UMR(models.Model):
-    vid=models.TextField()
-    srok=models.CharField(max_length=500)
-    otmetka=models.CharField(max_length=500)
+    vid=models.CharField(max_length=500,blank=True)
+    srok=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True)
     prepodavatel=models.ForeignKey(Profile,related_name='umr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -214,9 +214,9 @@ class UMR(models.Model):
             str(self.otmetka))
  #научyно сследовательская работа
 class NIR(models.Model):
-    vid=models.TextField()
-    srok=models.CharField(max_length=500)
-    otmetka=models.CharField(max_length=500)
+    vid=models.CharField(max_length=500,blank=True)
+    srok=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True)
     prepodavatel=models.ForeignKey(Profile,related_name='nir',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -230,9 +230,9 @@ class NIR(models.Model):
             str(self.otmetka))
 # воспитаттльная работа
 class VR(models.Model):
-    vid=models.TextField()
-    srok=models.CharField(max_length=500)
-    otmetka=models.CharField(max_length=500)
+    vid=models.CharField(max_length=500,blank=True)
+    srok=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True)
     prepodavatel=models.ForeignKey(Profile,related_name='vr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -246,9 +246,9 @@ class VR(models.Model):
             str(self.srok),
             str(self.otmetka))
 class INR(models.Model):
-    vid=models.TextField()
-    srok=models.CharField(max_length=500)
-    otmetka=models.CharField(max_length=500)
+    vid=models.CharField(max_length=500,blank=True)
+    srok=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True)
     prepodavatel=models.ForeignKey(Profile,related_name='inr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -261,9 +261,9 @@ class INR(models.Model):
             str(self.otmetka))
 
 class DR(models.Model):
-    vid=models.TextField()
-    srok=models.CharField(max_length=500)
-    otmetka=models.CharField(max_length=500)
+    vid=models.CharField(max_length=500,blank=True)
+    srok=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True)
     prepodavatel=models.ForeignKey(Profile,related_name='dr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
