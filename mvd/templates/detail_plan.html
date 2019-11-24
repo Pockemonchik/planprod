@@ -216,7 +216,7 @@
   <form action="{%url 'saveT3'%}" method="post">
           {% csrf_token %}
     <p>Фактически выполнненая работа за первое полугодие</p>
-    <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+    <table  id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
         <th></th>
         <th>чтение лекций</th>
@@ -245,18 +245,38 @@
   <th>Общая учебная нагрузка</th>
   <th>В т.ч. аудиторная нагрузка</th>
       </tr>
-    {{ formset3.management_form }}
+          {{ formset3.management_form }}
+
     {%for form in formset3%}
         <tr>
+          <td class="deleteRow">Удалить</td>
           {% for field in form %}
           <td>{{ field }}</td>
           {% endfor %}
+
+
         </tr>
     {%endfor%}
+        <tr id="empty_form"  style="display:none;">
+
+
+          <td class="deleteRow">Удалить</td>
+          {% for field in formset3.empty_form %}
+          <td>{{ field }}</td>
+          {% endfor %}
+
+        </tr>
+
+
+      <tr>
+        <td>  <input type="button" value="Add More" class="add_more"></td>
+      </tr>
     </table>
+
       <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
 
     <input type="submit" value="Сохранить таблицу" />
+
   </form>
 </div>
 
@@ -296,6 +316,7 @@
     {{ formset4.management_form }}
     {%for form in formset4%}
         <tr>
+          <td class="deleteRow">Удалить</td>
           {% for field in form %}
           <td>{{ field }}</td>
           {% endfor %}
@@ -576,7 +597,39 @@
 </div>
   <script>
     $(".textpole").autogrow();
+    $('.add_more').click(function(ev) {
+      console.log(ev.target)
+        // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
+        var form_idx = ev.target.closest('tbody')
+          console.log($(form_idx).find('#id_form-TOTAL_FORMS').val())
+        var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
+        $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, count));
+
+        // $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+        console.log(count)
+
+    });
   </script>
+  <script type="text/javascript">
+  // var test=document.getElementById("form_set")
+
+    var test=document.getElementsByClassName('table table-bordered table-hover')
+    for (var i=0 ; i<test.length; i++) {
+      test[i].addEventListener('click', function(evt){
+        if(evt.target.closest('.deleteRow')) {
+          m=evt.target.closest('tr');
+          var i=m.getElementsByTagName('textarea')[0]
+          console.log(i)
+          i.innerHTML = ''
+          evt.target.closest('tr').style.display='none';
+
+        }
+      })}
+
+
+
+      </script>
     </div>
   </div>
 </div>

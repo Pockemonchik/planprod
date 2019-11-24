@@ -1184,6 +1184,7 @@ def documentSave(request,year,slug):
             #shapka
             docinf=DocInfo.objects.get(plan=plan)
             listInfo=docinf.all_values()
+            print(docinf.all_values())
 
             doc=writeInfoDoc(listInfo,data,indexRow)
             # doc=createDoc('testforsave',data)
@@ -1447,15 +1448,21 @@ def saveT2(request):
 def saveT3(request):
     if request.user.is_authenticated:
         if request.method=="POST":
+            print(request.POST)
+
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2)
+
+            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2,can_delete=True)
             formset3=Table1FormSet(request.POST,queryset=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=True))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset3.is_valid():
+                pdel=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=True)
+                for p in pdel:
+                    p.delete()
                 for form in formset3:
                     predmet=form.save(commit=False)
                     predmet.kafedra=profile.kafedra
@@ -1468,6 +1475,7 @@ def saveT3(request):
                             predmet.save()
             else:
                     print('blen')
+                    print(formset3.errors)
         return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
     else:
         return redirect('log')
@@ -1486,6 +1494,9 @@ def saveT4(request):
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                pdel=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=True)
+                for p in pdel:
+                    p.delete()
                 for form in formset4:
                     predmet=form.save(commit=False)
                     predmet.kafedra=profile.kafedra
@@ -1793,6 +1804,7 @@ def shapka(request):
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
             plan=get_object_or_404(Plan,prepod=profile,year=request.POST['year'])
             form=ShapkaForm(request.POST)
+
             if form.is_valid():
                 shpkdel=get_object_or_404(DocInfo,plan=plan)
                 shpkdel.delete()
