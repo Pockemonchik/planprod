@@ -261,9 +261,9 @@ def writeInfoDoc(listInfo, listCell,indexRow):
     document = Document("/home/andrey/Desktop/plan-master/mvd/plan/docDynamic.docx")
 
 
-    needStrings = [8, 10, 11, 22, 24, 26]
+    needStrings = [8, 9, 10, 20, 22, 23,31]
     # Для строчек, который разделяются на 3, то есть кафедры
-    threeStrings = [30,32,34]
+    threeStrings = [25,27,29]
     threeList = listInfo.pop(6)
     oneOfThreeList = [[],[],[]]
     numberSimbolAllStrings = 0
@@ -369,7 +369,7 @@ def createDoc2(nameDoc, listCell, numString1, numString2):
 def createDoc(listCell, indexRow):
 #     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
 
-    needTables = [3,4,5,6,8,9,10,11,12,13,14,15,16,17]
+    needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     document = Document("/home/andrey/Desktop/plan-master/mvd/tmp.docx")
     print(indexRow)
     count = -1
@@ -379,8 +379,8 @@ def createDoc(listCell, indexRow):
         for j in range(indexRow[count]):
             table.add_row()
             print(count)
-    needTables.append(7)
-    needTables.append(18)
+    needTables.append(5)
+    needTables.append(16)
     needTables.sort()
 
 
@@ -427,7 +427,10 @@ def takeTable(nameDoc):
     listAllTable = []
     listOneTable = []
     listRow = []
-
+    table = document.tables
+    if len(table) != 18:
+        print(nameDoc)
+        return ('dolbaeb')
 
     #Ð”Ð»Ñ Ð¿ÐµÑ€Ð²Ð¾Ð¹ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹
     '''
@@ -614,21 +617,28 @@ def takeTable(nameDoc):
 
 
 
-    #Для 11й 2й таблицы
+
+    #Для 5й 2й таблицы
     table = document.tables[11]
     countRow = 0
     for row in (table.rows):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
+                #Ищем пустые строки
                 if cell.text == '':
                     countLoose += 1
                 if countLoose > 2:
                     flag = True
+                #Ищем 2е полугодие, если нет пустых строк
+                if '2 полугодие' in cell.text.lower():
+                    flag = True
+                    break
             countLoose = 0
             if flag == True:
                 flag = False
                 break
+
             for cell in row.cells:
                 listRow.append(cell.text)
             listOneTable.append(listRow)
@@ -641,7 +651,7 @@ def takeTable(nameDoc):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
-                if '2 ПОЛУГОДИЕ' in cell.text:
+                if '2 полугодие' in cell.text.lower():
                     flag = True
                     break
             if flag == True:
@@ -678,17 +688,22 @@ def takeTable(nameDoc):
 
 
 
-    #Для 12й 2й таблицы
+    #Для 6й 2й таблицы
     table = document.tables[12]
     countRow = 0
     for row in (table.rows):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
+                #Ищем пустые строки
                 if cell.text == '':
                     countLoose += 1
                 if countLoose > 2:
                     flag = True
+                #Ищем 2е полугодие, если нет пустых строк
+                if '2 полугодие' in cell.text.lower():
+                    flag = True
+                    break
             countLoose = 0
             if flag == True:
                 flag = False
@@ -706,7 +721,7 @@ def takeTable(nameDoc):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
-                if '2 ПОЛУГОДИЕ' in cell.text:
+                if '2 полугодие' in cell.text.lower():
                     flag = True
                     break
             if flag == True:
@@ -744,17 +759,22 @@ def takeTable(nameDoc):
 
 
 
-    #Для 13й 2й таблицы
+    #Для 7й 2й таблицы
     table = document.tables[13]
     countRow = 0
     for row in (table.rows):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
+                #Ищем пустые строки
                 if cell.text == '':
                     countLoose += 1
                 if countLoose > 2:
                     flag = True
+                #Ищем 2е полугодие, если нет пустых строк
+                if '2 полугодие' in cell.text.lower():
+                    flag = True
+                    break
             countLoose = 0
             if flag == True:
                 flag = False
@@ -772,7 +792,7 @@ def takeTable(nameDoc):
         listRow = []
         if countRow > 1:
             for cell in row.cells:
-                if '2 ПОЛУГОДИЕ' in cell.text:
+                if '2 полугодие' in cell.text.lower():
                     flag = True
                     break
             if flag == True:
@@ -807,8 +827,6 @@ def takeTable(nameDoc):
         countRow+=1
     listAllTable.append(listOneTable)
     listOneTable = []
-
-
 
 
 

@@ -88,28 +88,85 @@ writing-mode: tb-rl;
   /*vertical-align: middle;*/
   width: 100%;
   height: 30em;
-  align-content: center;
-  background-color: ;
+  /* align-content: center;
+  background-color: ; */
   border:solid 1px #dee2e6;
- 
-
 }
 
-.morein{
+.shapka {
   display: flex;
-  flex-flow: column;
-  width: 92%;
-  margin-left: auto;
-  margin-right: auto;
+  flex-direction: column;
 }
 
-.morein input{
-  align-content: center;
+#id_dolznost {
+  width: 100%;
 }
+
+#id_fio{
+  width: 100%;
+  margin-left: 4em;
+}
+
+#id_shapka{
+  width: 100%;
+}
+.dolzhnost{
+  width: 20.2em;
+}
+.godinvid{
+  width: 17.3em;
+}
+.datautv{
+  margin-left: 0.5em;
+}
+.morein1{
+  display: flex;
+  flex-direction: row;
+  margin-left: 16.8em;
+}
+.morein1 input {
+  width: 100%;
+}
+
+.morein1 h6 {
+  margin-left: 0.5em;
+}
+
+.morein2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.morein2 h6 {
+  width: 20.4em;
+}
+
+.morein3 {
+  display: flex;
+  flex-direction: row;
+}
+
+.morein3 input {
+  width: 100%;
+}
+
+.morein3 h6 {
+  margin-right: 0.5em;
+}
+
+
+.pole {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+
+
 
 .textpole{
   height: 1em;
-  width: 20em;
 }
 
 textarea{
@@ -126,3 +183,9 @@ h4 {
     width: 3em;
   }
 
+.zagolovok p {
+  margin-top: 0.5em;
+  width: 100%;
+  font-size: 30px;
+  background-color: #93BCF6 ;
+}

@@ -11,10 +11,15 @@ class ShapkaForm(forms.ModelForm):
         'Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции'}),
         'fionach':TextInput(attrs={'placeholder':'И.И.Иванов'}),
         'data':TextInput(attrs={'placeholder':'31 февраля 2019'}),
-        'na_kakoygod':TextInput(attrs={'placeholder':'250/251'}),
-        'fio':TextInput(attrs={'placeholder':'Петров Петр Петрович'}),
-        'dolznost':TextInput(attrs={'placeholder':'профессо,0,5 ст.'}),
-        'kafedra':TextInput(attrs={'placeholder':'кафедры административного права, д.э.н., доцент'}),
+        'na_kakoygod':TextInput(attrs={'placeholder':'2019'}),
+        'na_kakoygod1':TextInput(attrs={'placeholder':'2020'}),
+        'fio':TextInput(attrs={'placeholder':'Петрова Петра Петровича'}),
+        'dolznost':TextInput(attrs={'placeholder':'начальник кафедры'}),
+        'kafedra':TextInput(attrs={'placeholder':'кафедры административного права'}),
+        'visluga':TextInput(attrs={'placeholder':'6 лет'}),
+        'uchzv':TextInput(attrs={'placeholder':'д.э.н.'}),
+        'uchst':TextInput(attrs={'placeholder':'доцент'}),
+        'stavka':TextInput(attrs={'placeholder':'0.5'}),
 
         }
 

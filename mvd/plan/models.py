@@ -75,23 +75,29 @@ class Plan(models.Model):
             str(self.inr_2_p))
 
 class DocInfo(models.Model):
-    shapka=models.CharField(max_length=100,blank=True)
-    fionach=models.CharField(max_length=100,blank=True)
-    data=models.CharField(max_length=100,blank=True)
-    na_kakoygod=models.CharField(max_length=100,blank=True)
-    fio=models.CharField(max_length=100,blank=True)
-    dolznost=models.CharField(max_length=100,blank=True)
-    kafedra=models.CharField(max_length=100,blank=True)
+    shapka=models.CharField(max_length=250,blank=True)
+    fionach=models.CharField(max_length=250,blank=True)
+    data=models.CharField(max_length=250,blank=True)
+    na_kakoygod=models.IntegerField(default=2019,blank=True)
+    na_kakoygod1=models.IntegerField(default=2020,blank=True)
+    fio=models.CharField(max_length=250,blank=True)
+    dolznost=models.CharField(max_length=250,blank=True)
+    stavka=models.FloatField(default=0,blank=True)
+    uchzv=models.CharField(max_length=250,blank=True)
+    uchst=models.CharField(max_length=250,blank=True)
+    visluga=models.IntegerField(default=0,blank=True)
+    kafedra=models.CharField(max_length=250,blank=True)
     plan=models.OneToOneField(Plan,related_name='shapka',on_delete="cascade",primary_key=True)
     def all_values(self):
         return([
         self.shapka,
         self.fionach,
         self.data,
-        self.na_kakoygod,
+        'На '+str(self.na_kakoygod)+' / '+str(self.na_kakoygod1)+' учебный год',
         self.fio,
-        self.dolznost,
+        self.dolznost+', '+str(self.stavka)+' ст.',
         self.kafedra,
+        self.uchst+', '+self.uchzv+', '+str(self.visluga)
         ])
     def __str__(self):
         return self.plan.name

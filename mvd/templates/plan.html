@@ -58,13 +58,10 @@
                 	</div>
                 	<div class="card-body info">
                 		<div class="image-block">
-                			<img src="{% static "admin1/images/gerb-mvd.png" %}">
-                		</div>
-                		<h3>Кафедра: {{profile.kafedra.fullname}} </h3>
-                		<h3>ФИО: {{profile.fullname}} </h3>
-                		<h3>Должность: {{profile.dolzhnost}} </h3>
-                		<h3>Стаж: 20 лет </h3>
-                		<h3>Ученая степень: {{profile.stepen}}  </h3>
+                      <img src="{% static "admin1/images/gerb-mvd.png" %}">
+                      <h3>ФИО: {{profile.fullname}} </h3>
+                      <p>/*** ЗДЕСЬ БУДЕТ СПРАВКА ***/</p>
+                    </div>
                     {%if profile.role == 2%}
                   </div>
                   <div class="card-body info" id="">
@@ -83,7 +80,7 @@
                 </div>
               </div>
             </div>
-            
+
       </div>
     </div>
   </div>

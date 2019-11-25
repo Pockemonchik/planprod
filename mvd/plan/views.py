@@ -1177,14 +1177,14 @@ def documentSave(request,year,slug):
             indexRow.append(dr.count())
             #главная таблица
             data+=plan.all_values()
-            print(data)
-            #ненужная хуйня, не зыбать убрать
 
 
             #shapka
             docinf=DocInfo.objects.get(plan=plan)
             listInfo=docinf.all_values()
-            print(docinf.all_values())
+            # print(indexRow)
+            # print(data)
+            #
 
             doc=writeInfoDoc(listInfo,data,indexRow)
             # doc=createDoc('testforsave',data)
@@ -1397,7 +1397,7 @@ def saveT1(request):
         plan=get_object_or_404(Plan,prepod=profile,year=year)
         if request.method=="POST":
             profile=get_object_or_404(Profile,user=request.user)
-            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2)
+            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5)
             formset=Table1FormSet(request.POST,queryset=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=False))
             # predmets=formset.save()
             #формсет для первого полугодия
@@ -1423,7 +1423,7 @@ def saveT2(request):
         profile=get_object_or_404(Profile,user=request.user)
         if request.method=="POST":
             profile=get_object_or_404(Profile,user=request.user)
-            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2)
+            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5)
             formset2=Table1FormSet(request.POST,queryset=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=False))
             # predmets=formset.save()
             #формсет для первого полугодия
@@ -1454,7 +1454,7 @@ def saveT3(request):
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
 
-            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2,can_delete=True)
+            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5,can_delete=True)
             formset3=Table1FormSet(request.POST,queryset=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=True))
             # predmets=formset.save()
             #формсет для первого полугодия
@@ -1488,7 +1488,7 @@ def saveT4(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2)
+            Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=True))
             # predmets=formset.save()
             #формсет для первого полугодия
@@ -1521,12 +1521,15 @@ def saveT5(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(UMR,form=Table2Form,extra=2)
+            Table1FormSet = modelformset_factory(UMR,form=Table2Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=UMR.objects.filter(prepodavatel=profile,polugodie=1))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=UMR.objects.filter(prepodavatel=profile,polugodie=1)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=1
@@ -1548,12 +1551,15 @@ def saveT6(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(UMR,form=Table2Form,extra=2)
+            Table1FormSet = modelformset_factory(UMR,form=Table2Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=UMR.objects.filter(prepodavatel=profile,polugodie=2))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=UMR.objects.filter(prepodavatel=profile,polugodie=2)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=2
@@ -1579,12 +1585,15 @@ def saveT7(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(NIR,form=Table3Form,extra=2)
+            Table1FormSet = modelformset_factory(NIR,form=Table3Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=NIR.objects.filter(prepodavatel=profile,polugodie=1))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=NIR.objects.filter(prepodavatel=profile,polugodie=1)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=1
@@ -1605,12 +1614,15 @@ def saveT8(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(NIR,form=Table3Form,extra=2)
+            Table1FormSet = modelformset_factory(NIR,form=Table3Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=NIR.objects.filter(prepodavatel=profile,polugodie=2))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=NIR.objects.filter(prepodavatel=profile,polugodie=2)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=2
@@ -1634,12 +1646,15 @@ def saveT9(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(VR,form=Table4Form,extra=2)
+            Table1FormSet = modelformset_factory(VR,form=Table4Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=VR.objects.filter(prepodavatel=profile,polugodie=1))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=VR.objects.filter(prepodavatel=profile,polugodie=1)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=1
@@ -1659,12 +1674,15 @@ def saveT10(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(VR,form=Table4Form,extra=2)
+            Table1FormSet = modelformset_factory(VR,form=Table4Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=VR.objects.filter(prepodavatel=profile,polugodie=2))
             # predmets=formset.save()
             #формсет для первого полугодия
 
             if formset4.is_valid():
+                udel=VR.objects.filter(prepodavatel=profile,polugodie=2)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=2
@@ -1688,12 +1706,15 @@ def saveT11(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(DR,form=Table5Form,extra=2)
+            Table1FormSet = modelformset_factory(DR,form=Table5Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=DR.objects.filter(prepodavatel=profile,polugodie=1))
             # predmets=formset.save()
             #формсет для первого полугодия
             print(formset4.errors)
             if formset4.is_valid():
+                udel=DR.objects.filter(prepodavatel=profile,polugodie=1)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=1
@@ -1714,13 +1735,16 @@ def saveT12(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(DR,form=Table5Form,extra=2)
+            Table1FormSet = modelformset_factory(DR,form=Table5Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=DR.objects.filter(prepodavatel=profile,polugodie=2))
             # predmets=formset.save()
             #формсет для первого полугодия
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
+                udel=DR.objects.filter(prepodavatel=profile,polugodie=2)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=2
@@ -1741,13 +1765,16 @@ def saveT13(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(INR,form=Table6Form,extra=2)
-            formset4=Table1FormSet(request.POST,queryset=INR.objects.filter(prepodavatel=profile,polugodie=2))
+            Table1FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
+            formset4=Table1FormSet(request.POST,queryset=INR.objects.filter(prepodavatel=profile,polugodie=1))
             # predmets=formset.save()
             #формсет для первого полугодия
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
+                udel=INR.objects.filter(prepodavatel=profile,polugodie=1)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=1
@@ -1768,13 +1795,16 @@ def saveT14(request):
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
-            Table1FormSet = modelformset_factory(INR,form=Table6Form,extra=2)
+            Table1FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
             formset4=Table1FormSet(request.POST,queryset=INR.objects.filter(prepodavatel=profile,polugodie=2))
             # predmets=formset.save()
             #формсет для первого полугодия
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
+                udel=INR.objects.filter(prepodavatel=profile,polugodie=2)
+                for u in udel:
+                    u.delete()
                 for form in formset4:
                     umr=form.save(commit=False)
                     umr.polugodie=2
@@ -1804,6 +1834,7 @@ def shapka(request):
                 profile=get_object_or_404(Profile,user__username=request.POST['profile'])
             plan=get_object_or_404(Plan,prepod=profile,year=request.POST['year'])
             form=ShapkaForm(request.POST)
+            print(request.POST)
 
             if form.is_valid():
                 shpkdel=get_object_or_404(DocInfo,plan=plan)
@@ -1821,12 +1852,12 @@ def detail_plan(request,slug,year):
     if request.user.is_authenticated:
         profile=get_object_or_404(Profile,user=request.user)
         profile1=get_object_or_404(Profile,user__username=slug)
-        Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=2)
-        Table2FormSet = modelformset_factory(UMR,form=Table2Form,extra=2)
-        Table3FormSet = modelformset_factory(NIR,form=Table3Form,extra=2)
-        Table4FormSet = modelformset_factory(VR,form=Table4Form,extra=2)
-        Table5FormSet = modelformset_factory(DR,form=Table5Form,extra=2)
-        Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=2)
+        Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5)
+        Table2FormSet = modelformset_factory(UMR,form=Table2Form,extra=5)
+        Table3FormSet = modelformset_factory(NIR,form=Table3Form,extra=5)
+        Table4FormSet = modelformset_factory(VR,form=Table4Form,extra=5)
+        Table5FormSet = modelformset_factory(DR,form=Table5Form,extra=5)
+        Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
         mainForm=MAinTableForm(instance=plan)
         formset=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
