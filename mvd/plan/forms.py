@@ -57,7 +57,7 @@ class Table1UploadForm(forms.ModelForm):
         'rucovodstvo_adunctami']
 
 class Table1Form(forms.ModelForm):
-    class Meta:
+    class Meta:  
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
@@ -85,8 +85,8 @@ class Table1Form(forms.ModelForm):
             'priem_GIA':TextInput(attrs={'class':'thshki'}),
             'priem_kandidtskih':TextInput(attrs={'class':'thshki'}),
             'rucovodstvo_adunctami':TextInput(attrs={'class':'thshki'}),
-            'ucheb_nagruzka':TextInput(attrs={'class':'thshki'}),
-            'auditor_nagruzka':TextInput(attrs={'class':'thshki'})
+            'ucheb_nagruzka':TextInput(attrs={'class':'thshki','name':'uchnagr'}),
+            'auditor_nagruzka':TextInput(attrs={'class':'thshki','name':'aunagr'})
         }
     class Media:
         js = ("js/shaper.js")

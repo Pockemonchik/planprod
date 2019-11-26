@@ -1468,14 +1468,41 @@ def saveT3(request):
                     predmet.kafedra=profile.kafedra
                     predmet.polugodie=1
                     predmet.status=True
-                    print(predmet.get_obshaya_nagruzka())
+                    # print(predmet.get_obshaya_nagruzka())
                     predmet.prepodavatel=profile
                     predmet.year=request.POST['year']
-                    if predmet.name!='':
+                    if predmet.name!='' and predmet.name!='Итого за 1 полугодие:':
                             predmet.save()
+                itog=Predmet()
+                predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=True)
+                fields=Predmet._meta.get_fields()
+                setattr(itog,'status',True)
+                setattr(itog,'polugodie',1)
+                setattr(itog,'kafedra',profile.kafedra)
+                setattr(itog,'year',request.POST['year'])
+                setattr(itog,'prepodavatel',profile)
+
+
+                for field in fields:
+                    buff=0
+                    if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
+                        continue
+
+                    if field.name=="name":
+                        setattr(itog,field.name,'Итого за 1 полугодие:')
+                        continue
+                    for p in predmets:
+                        buff+=getattr(p,field.name)
+                        # print(getattr(p,field.name))
+
+                    setattr(itog,field.name,buff)
+                    print(str(buff)+field.name)
+                itog.save()
+
             else:
                     print('blen')
-                    print(formset3.errors)
+
+
         return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
     else:
         return redirect('log')
@@ -1505,10 +1532,58 @@ def saveT4(request):
                     print(predmet.get_obshaya_nagruzka())
                     predmet.prepodavatel=profile
                     predmet.year=request.POST['year']
-                    if predmet.name!='':
-                            predmet.save()
+                    if predmet.name!='' and predmet.name!='Итого за 2 полугодие:' and predmet.name!='Итого за учебный год:':
+                        predmet.save()
+                itog=Predmet()
+                predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=True)
+                fields=Predmet._meta.get_fields()
+                setattr(itog,'status',True)
+                setattr(itog,'polugodie',2)
+                setattr(itog,'kafedra',profile.kafedra)
+                setattr(itog,'year',request.POST['year'])
+                setattr(itog,'prepodavatel',profile)
+
+
+                for field in fields:
+                    buff=0
+                    if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
+                        continue
+
+                    if field.name=="name":
+                        setattr(itog,field.name,'Итого за 2 полугодие:')
+                        print('Итого за 2 полугодие:')
+                        continue
+                    for p in predmets:
+                        buff+=getattr(p,field.name)
+                        # print(getattr(p,field.name))
+
+                    setattr(itog,field.name,buff)
+                    print(str(buff)+field.name)
+                itog.save()
+                itogall=Predmet()
+                itog1=Predmet.objects.get(name="Итого за 1 полугодие:",prepodavatel=profile,polugodie=1,status=True)
+                setattr(itogall,'status',True)
+                setattr(itogall,'polugodie',2)
+                setattr(itogall,'kafedra',profile.kafedra)
+                setattr(itogall,'year',request.POST['year'])
+                setattr(itogall,'prepodavatel',profile)
+                for field in fields:
+                    buff=0
+                    if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
+                        continue
+
+                    if field.name=="name":
+                        setattr(itogall,field.name,'Итого за учебный год:')
+                        continue
+                    setattr(itogall,field.name,(getattr(itog,field.name)+getattr(itog1,field.name)))
+                itogall.save()
+
+
+
             else:
+
                     print('blen')
+
         return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
     else:
         return redirect('log')

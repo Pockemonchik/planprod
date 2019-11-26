@@ -138,7 +138,29 @@ class Predmet(models.Model):
     polugodie=models.IntegerField(default=1,blank=True)
     status=models.BooleanField(default=False,blank=True)#tru если выполена false если план
     def get_obshaya_nagruzka(self):
-        return str(self.leccii)
+        return(self.leccii+
+        self.seminar+
+        self.practici_v_gruppe+
+        self.practici_v_podgruppe+
+        self.krugliy_stol+
+        self.konsultacii_pered_ekzamenom+
+        self.tekushie_konsultacii+
+        self.vneauditor_chtenie+
+        self.rucovodstvo_practikoy+
+        self.rucovodstvo_VKR+
+        self.rucovodstvo_kursovoy+
+        self.proverka_auditor_KR+
+        self.proverka_dom_KR+
+        self.proverka_practicuma+
+        self.proverka_lab+
+        self.priem_zashit_practic+
+        self.zacheti_ust+
+        self.zacheti_pism+
+        self.priem_vstupit+
+        self.ekzamenov+
+        self.priem_GIA+
+        self.priem_kandidtskih+
+        self.rucovodstvo_adunctami)
 
     def get_auditor_nagruzka(self):
         return self.name
@@ -172,33 +194,11 @@ class Predmet(models.Model):
             str(self.rucovodstvo_adunctami),
             str(self.ucheb_nagruzka),
             str(self.auditor_nagruzka))
-    def first_values(self):
-        return  (self.name,
-            str(self.leccii),
-            str(self.seminar),
-            str(self.krugliy_stol),
-            str(self.practici_v_podgruppe),
-            str(self.practici_v_gruppe),
-            str(self.konsultacii_pered_ekzamenom),
-            str(self.tekushie_konsultacii),
-            str(self.vneauditor_chtenie),
-            str(self.rucovodstvo_practikoy),
-            str(self.rucovodstvo_VKR),
-            str(self.rucovodstvo_kursovoy))
-    def second_values(self):
-        return(
-            str(self.proverka_auditor_KR),
-            str(self.proverka_dom_KR),
-            str(self.proverka_practicuma),
-            str(self.proverka_lab),
-            str(self.priem_zashit_practic),
-            str(self.zacheti),
-            str(self.priem_vstupit),
-            str(self.ekzamenov),
-            str(self.priem_GIA),
-            str(self.priem_kandidtskih),
-            str(self.rucovodstvo_adunctami))
 
+    def save(self, *args, **kwargs):
+        self.ucheb_nagruzka=self.get_obshaya_nagruzka()
+        # print(self.get_obshaya_nagruzka())
+        super(Predmet, self).save()
 
 
 

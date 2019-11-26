@@ -157,7 +157,8 @@
               {% csrf_token %}
     <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-        <th></th>
+        <th>Наименование дисциплины,
+факультет, курс, № группы</th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -207,7 +208,8 @@
 
       <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
         <tr>
-          <th></th>
+          <th>Наименование дисциплины,
+факультет, курс, № группы</th>
           <th>чтение лекций</th>
     <th>проведение семинаров</th>
     <th>проведение практических занятий в группе</th>
@@ -257,7 +259,9 @@
 
     <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-        <th></th>
+          <th></th>
+        <th>Наименование дисциплины,
+факультет, курс, № группы</th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -286,12 +290,15 @@
       </tr>
     {{ formset3.management_form }}
     {%for form in formset3%}
+
+
         <tr>
           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"</td>
           {% for field in form %}
           <td>{{ field }}</td>
           {% endfor %}
         </tr>
+
     {%endfor%}
     <tr id="empty_form"  style="display:none;">
 
@@ -315,7 +322,6 @@
 </div>
 
 
-
 <div class="zagolovok">
     <p>Фактически выполнненая учебная работа за второе полугодие</p>
 </div>
@@ -326,6 +332,8 @@
     <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
         <th></th>
+        <th>Наименование дисциплины,
+факультет, курс, № группы</th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -839,7 +847,12 @@
   });
 </script>
 <script type="text/javascript">
-// var test=document.getElementById("form_set")
+
+
+
+
+
+
 
   var test=document.getElementsByClassName('table table-bordered table-hover')
   for (var i=0 ; i<test.length; i++) {
