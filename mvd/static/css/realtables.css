@@ -87,7 +87,7 @@ writing-mode: tb-rl;
   position: relative;
   /*vertical-align: middle;*/
   width: 100%;
-  height: 30em;
+  height: 27em;
   /* align-content: center;
   background-color: ; */
   border:solid 1px #dee2e6;
@@ -95,75 +95,77 @@ writing-mode: tb-rl;
 
 .shapka {
   display: flex;
-  flex-direction: column;
-}
-
-#id_dolznost {
-  width: 100%;
-}
-
-#id_fio{
-  width: 100%;
-  margin-left: 4em;
-}
-
-#id_shapka{
-  width: 100%;
-}
-.dolzhnost{
-  width: 20.2em;
-}
-.godinvid{
-  width: 17.3em;
-}
-.datautv{
-  margin-left: 0.5em;
-}
-.morein1{
-  display: flex;
-  flex-direction: row;
-  margin-left: 16.8em;
-}
-.morein1 input {
-  width: 100%;
-}
-
-.morein1 h6 {
-  margin-left: 0.5em;
-}
-
-.morein2 {
-  display: flex;
-  flex-direction: column;
-}
-
-.morein2 h6 {
-  width: 20.4em;
-}
-
-.morein3 {
-  display: flex;
   flex-direction: row;
 }
 
-.morein3 input {
+.more1{
+  display: flex;
+  flex-direction: column;
+  /* width: 550px; */
+}
+
+.more1 h6 {
+  margin-bottom: 1em;
+}
+
+#palka {
+  margin-bottom: 1.7em !important;
+}
+
+#id_na_kakoygod {
+  width: 4em;
+}
+
+#id_na_kakoygod1 {
+  width: 4em;
+}
+
+#id_data {
+  margin-right: 0 !important;
+}
+
+#id_visluga {
+  margin-right: 0 !important;
+}
+
+.idh6  {
+  margin-top: 4em;
+  margin-bottom: 1em !important; 
+}
+
+.fioliz {
+  margin-bottom: 2.7em !important ;
+}
+.godinvid {
+  margin-bottom: 0 !important;
+}
+.more2{
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
-
-.morein3 h6 {
-  margin-right: 0.5em;
-}
-
 
 .pole {
   display: flex;
   flex-direction: row;
-  margin-bottom: 1em;
+  width: 100%;
+  margin-bottom: 0.7em;
+}
+
+.pole input {
   width: 100%;
 }
 
+.podpole {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
-
+.podpole input {
+  margin-right: 0.5em;
+  width: 100%;
+}
 
 .textpole{
   height: 1em;

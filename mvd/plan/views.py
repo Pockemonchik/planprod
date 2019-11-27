@@ -1561,22 +1561,41 @@ def saveT4(request):
                     print(str(buff)+field.name)
                 itog.save()
                 itogall=Predmet()
-                itog1=Predmet.objects.get(name="Итого за 1 полугодие:",prepodavatel=profile,polugodie=1,status=True)
-                setattr(itogall,'status',True)
-                setattr(itogall,'polugodie',2)
-                setattr(itogall,'kafedra',profile.kafedra)
-                setattr(itogall,'year',request.POST['year'])
-                setattr(itogall,'prepodavatel',profile)
-                for field in fields:
-                    buff=0
-                    if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
-                        continue
+                try:
+                    itog1=Predmet.objects.get(name="Итого за 1 полугодие:",prepodavatel=profile,polugodie=1,status=True)
+                    setattr(itogall,'status',True)
+                    setattr(itogall,'polugodie',2)
+                    setattr(itogall,'kafedra',profile.kafedra)
+                    setattr(itogall,'year',request.POST['year'])
+                    setattr(itogall,'prepodavatel',profile)
+                    for field in fields:
+                        buff=0
+                        if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
+                            continue
 
-                    if field.name=="name":
-                        setattr(itogall,field.name,'Итого за учебный год:')
-                        continue
-                    setattr(itogall,field.name,(getattr(itog,field.name)+getattr(itog1,field.name)))
-                itogall.save()
+                        if field.name=="name":
+                            setattr(itogall,field.name,'Итого за учебный год:')
+                            continue
+                        setattr(itogall,field.name,(getattr(itog,field.name)+getattr(itog1,field.name)))
+                    itogall.save()
+                except:
+                    setattr(itogall,'status',True)
+                    setattr(itogall,'polugodie',2)
+                    setattr(itogall,'kafedra',profile.kafedra)
+                    setattr(itogall,'year',request.POST['year'])
+                    setattr(itogall,'prepodavatel',profile)
+                    for field in fields:
+                        buff=0
+                        if field.name=="id" or field.name=="kafedra" or field.name=="polugodie" or field.name=="status" or field.name=="prepodavatel" or field.name=="year":
+                            continue
+
+                        if field.name=="name":
+                            setattr(itogall,field.name,'Итого за учебный год:')
+                            continue
+                        setattr(itogall,field.name,(getattr(itog,field.name)))
+                    itogall.save()
+
+
 
 
 
@@ -1899,6 +1918,12 @@ def deltable(request):
     if request.user.is_authenticated and request.method=='POST':
         print(request.POST)
     return JsonResponse("1",safe=False)
+def spravka(request):
+    if request.user.is_authenticated:
+
+        return render( request,'spravka.html')
+    else:
+        return redirect('log')
 
 #сохранение шапки
 def shapka(request):
@@ -1938,7 +1963,7 @@ def detail_plan(request,slug,year):
         formset=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
         formset2=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
         formset3=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=True))
-        formset4=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile,year=year,polugodie=2,status=True))
+        formset4=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=True))
         formset5=Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1,year=year,polugodie=1))
         formset6=Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1,year=year,polugodie=2))
         formset7=Table3FormSet(queryset=NIR.objects.filter(prepodavatel=profile1,year=year,polugodie=1))

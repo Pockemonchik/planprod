@@ -163,7 +163,19 @@ class Predmet(models.Model):
         self.rucovodstvo_adunctami)
 
     def get_auditor_nagruzka(self):
-        return self.name
+        return(self.leccii+
+        self.seminar+
+        self.practici_v_gruppe+
+        self.practici_v_podgruppe+
+        self.krugliy_stol+
+        self.konsultacii_pered_ekzamenom+
+        self.priem_zashit_practic+
+        self.zacheti_ust+
+        self.zacheti_pism+
+        self.priem_vstupit+
+        self.ekzamenov+
+        self.priem_GIA+
+        self.priem_kandidtskih)
     def __str__(self):
         return self.name
 
@@ -196,7 +208,10 @@ class Predmet(models.Model):
             str(self.auditor_nagruzka))
 
     def save(self, *args, **kwargs):
+        self.auditor_nagruzka=self.get_auditor_nagruzka()
+        print(self.auditor_nagruzka)
         self.ucheb_nagruzka=self.get_obshaya_nagruzka()
+
         # print(self.get_obshaya_nagruzka())
         super(Predmet, self).save()
 

@@ -255,6 +255,7 @@ header {
   text-align: center;
 }
 
+
 .button-block button {
   height: 2.7em;
   border: #1B2F55;
@@ -268,7 +269,8 @@ header {
 .sohr  {
   height: 2.7em;
   border: #1B2F55;
-  margin-top: 1em;
+  margin-top: 5em;
+  margin-left: 0.5em;
   background-color: #2F5191;
   color: #F6DC76;
   width: 12em;
@@ -305,5 +307,15 @@ header {
 }
 
 
-
+.spravka-button button {
+  height: 2.7em;
+  border: #1B2F55;
+  margin-left: 0.5em;
+  background-color: #2F5191;
+  width: 12em;
+  border-radius: 5px;
+  font-weight: bold;
+  padding-right: 1em;
+  color: #F6DC76;
+}
 

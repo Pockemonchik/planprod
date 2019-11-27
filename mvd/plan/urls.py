@@ -24,6 +24,7 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     url(r'^$', views.index,name='index'),
+    url(r'^spravka/$', views.spravka,name='spravka'),
     url(r'^deleteNgruzka/(?P<year>\d{4})/$', views.deleteNgruzka,name='deleteNgruzka'),
     url(r'^saveDB/$', views.saveDB,name='saveDB'),
     url(r'^nagruzka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.nagruzka,name='nagruzka'),
@@ -50,6 +51,7 @@ urlpatterns = [
 
     url(r'^nagruzkaSave/$', views.nagruzkaSave,name='nagruzkaSave'),
     url(r'^shapka/$', views.shapka,name='shapka'),
+
     url(r'^deltable/$', views.deltable,name='deltable'),
 
 

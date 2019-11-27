@@ -59,8 +59,8 @@
                 	<div class="card-body info">
                 		<div class="image-block">
                       <img src="{% static "admin1/images/gerb-mvd.png" %}">
-                      <h3>ФИО: {{profile.fullname}} </h3>
-                      <p>/*** ЗДЕСЬ БУДЕТ СПРАВКА ***/</p>
+                      <h4>ФИО: {{profile.fullname}} </h4>
+                      <a href="{% url 'spravka'%}" class="spravka-button"><button>Справка</button></a>
                     </div>
                     {%if profile.role == 2%}
                   </div>

@@ -21,62 +21,52 @@
 <div class="more" autocomplete="off">
 <form  action="{%url 'shapka'%}" method="post" class="shapka">
   {% csrf_token %}
+  <div class="more1">
+    <h6>ФИО преподавателя полностью в р/п: </h6>
+    <h6 class="dolzhnost">Должность:</h6>
+    <h6 class="idh6">Должность и звание лица утверждающего индивидуальный план: </h6>
+    <h6 class="fioliz">ФИО лица,утверждающего индивидуальный план:</h6>
+    <h6 class="godinvid">Год индивидуального плана: </h6>
+    <input type="submit" value="Сохранить" class="sohr">
+  </div>
+  <div class="more2">
+    <div class="pole">{{shapka.fio}}</div>
+    <div class="pole">{{shapka.dolznost}}</div>
     <div class="pole">
-      <h6>ФИО преподавателя полностью в р/п: </h6>
-      {{shapka.fio}}
-    </div>
-    <div class="pole">
-      <h6 class="dolzhnost">Должность:</h6>
-      {{shapka.dolznost}}
-    </div>
-    <div class="pole">
-      <h6 class="dolzhnost">Кафедры:</h6>
-      {{shapka.kafedra}}
-    </div>
-    <div class="morein1" >
-      <div class="pole">
+      <div class="podpole">
         <h6>ставка:</h6>
         {{shapka.stavka}}
       </div>
-      <div class="pole">
+      <div class="podpole">
         <h6>учёная степень: </h6>
         {{shapka.uchst}}
       </div>
-      <div class="pole">
+      <div class="podpole">
         <h6>учёное звание</h6>
         {{shapka.uchzv}}
       </div>
-      <div class="pole">
-        <h6>выслуга – полных лет</h6>
+      <div class="podpole">
+        <h6>выслуга п/л</h6>
         {{shapka.visluga}}
       </div>
     </div>
-    <div class="morein2">
-      <div class="pole">
-        <h6>Должность и звание лица утверждающего индивидуальный план: </h6>
-        {{shapka.shapka}}
-      </div>
-    </div>
-    <div class="morein3">
-      <div class="pole">
-        <h6>ФИО лица,утверждающего индивидуальный план:</h6>
+    <div class="pole">{{shapka.shapka}}</div>
+    <div class="pole" id="palka">
+      <div class="podpole">
         {{shapka.fionach}}
       </div>
-      <div class="pole">
+      <div class="podpole">
         <h6 class="datautv">Дата утверждения:</h6>
         {{shapka.data}}
       </div>
     </div>
-    <div class="pole">
-      <h6 class="godinvid">Год индивидуального плана: </h6>
-      {{shapka.na_kakoygod}}  /  {{shapka.na_kakoygod1}}
-    </div>
+    <div class="pole">{{shapka.na_kakoygod}}  /  {{shapka.na_kakoygod1}}</div>
+  </div>
+  </div>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
 
-          <input type="hidden"name="year"  value="{{plan.year}}" >
-          <input type="hidden"name="profile"  value="{{profile1.user.username}}">
-          <input type="submit" value="Сохранить" class="sohr">
         </form>
-        </div>
+
 
         <div class="zagolovok">
             <p>Общая нарузка</p>
@@ -157,8 +147,7 @@
               {% csrf_token %}
     <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-        <th>Наименование дисциплины,
-факультет, курс, № группы</th>
+        <th></th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -208,8 +197,7 @@
 
       <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
         <tr>
-          <th>Наименование дисциплины,
-факультет, курс, № группы</th>
+          <th></th>
           <th>чтение лекций</th>
     <th>проведение семинаров</th>
     <th>проведение практических занятий в группе</th>
@@ -259,9 +247,8 @@
 
     <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-          <th></th>
-        <th>Наименование дисциплины,
-факультет, курс, № группы</th>
+        <th></th>
+        <th></th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -290,15 +277,12 @@
       </tr>
     {{ formset3.management_form }}
     {%for form in formset3%}
-
-
         <tr>
           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"</td>
           {% for field in form %}
           <td>{{ field }}</td>
           {% endfor %}
         </tr>
-
     {%endfor%}
     <tr id="empty_form"  style="display:none;">
 
@@ -322,6 +306,7 @@
 </div>
 
 
+
 <div class="zagolovok">
     <p>Фактически выполнненая учебная работа за второе полугодие</p>
 </div>
@@ -332,8 +317,7 @@
     <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
         <th></th>
-        <th>Наименование дисциплины,
-факультет, курс, № группы</th>
+        <th></th>
         <th>чтение лекций</th>
   <th>проведение семинаров</th>
   <th>проведение практических занятий в группе</th>
@@ -847,12 +831,7 @@
   });
 </script>
 <script type="text/javascript">
-
-
-
-
-
-
+// var test=document.getElementById("form_set")
 
   var test=document.getElementsByClassName('table table-bordered table-hover')
   for (var i=0 ; i<test.length; i++) {

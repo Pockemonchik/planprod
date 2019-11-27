@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{%load staticfiles%}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static "/css/spravka.css" %}" />
+</head>
+
+<div class="content active">
+    <div class="spravka">
+        <h1>Справка</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 block">
+                <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>1. Для начала</h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1) Для того чтобы работать с нашей системой вы должны
+                            <b>аутентифицироваться </b>
+                        </p>
+                        <p>2) Вы должны помнить свой <b>логин</b> и <b>пароль</b> для успешного
+                            входа
+                        </p>
+                        <p>3) Никому не говорите свой <b>пароль</b> не под каким
+                             предлогом
+                        </p>
+                    </div>
+                </div>
+                <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>3. Работа с документами </h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1) Чтобы <b>изменить/составить</b>  свой документ нажмите на иконку
+                            документа в вашем каталоге и вы перейдете в меню заполнения
+                            документа
+                        </p>
+                        <p>2) В меню заполнения документа следует обратить внимание
+                            на верхний блок, на нем вы увидите шапку документа, которую
+                            нужно вам заполнить, а также основные кнопки <b>"сформировать документ"</b>  и
+                            <b>"заполнить планируемую нагрузку"</b>.
+                        </p>
+                        <p>3) На каждом блоке присутствует кнопка <b>"сохранить"</b> , вы должны ее будете
+                            нажимать, чтобы ваши изменения сохранились (не забывайте ее нажимать после того как внесли изменения <b>это очень важно</b>, иначе есть шанс потратить
+                             время в пустую)
+                        </p>
+                        <img src="{% static "admin1/images/sohr.png" %}">
+                    </div>
+                </div>
+                <!-- <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>5. четотам четотам </h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1) четотам четотам</p>
+                        <p>2) четотам четотам</p>
+                        <p>3) четотам четотам</p>
+                        <p>4) четотам четотам</p>
+                    </div>
+                </div> -->
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 block">
+                <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>2. Начало работы</h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1) После аутентификации вы можете увидеть 2 блока
+                            на первом из них будут отбражены ваши индивидуальные планы
+                            которые вы можете использовать, и учебные нагрузки кафедры <b>(только
+                                    начальник кафедры может видеть загружать новую учебную нагрузку)</b>
+                        </p>
+                        <p>2) На втором блоке находится форма загрузки
+                            учебной нагрузки из пункта (2.1), чтобы
+                            загрузить документ вам нужно нажать на кнопку <b>выбрать файл"</b>", а
+                            потом нажать на кнопку <b>"загрузить"</b>  и ваш файл успешного будет
+                            загружен на сайт </p>
+                        <p> 3)Для начальников кафедр при клике на кнопку вехнего меню "Список кафедр" доступны все
+                            документы преподавателей вашей кафедры
+                        </p>
+                    </div>
+                </div>
+                <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>4. Продолжаем с таблицами</h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1)Всю планируемую нагрузку можно заполнить нажав кнопку <b>"заполнить
+                            планируемую нагрузку"(3.2)</b> и изменять их не нужно, однако
+                            фактическую работу вам потребуется ввести самому, и в этом вам поможет адаптивный
+                            список подсказок для большинства полей ввода </p>
+                        <div class="card-body-block">
+                            <img src="{% static "admin1/images/podst.png" %}">
+                            <p>2)Кнопки <b>"плюсов"</b> и <b>"минусов"</b> ,
+                               позволяют вам добавлять строки,если их нехватает и удалять,
+                                если они вам не нужны
+                            </p>
+                            <img src="{% static "admin1/images/normplus.png" %}" class="dolbpic1">
+                            <img src="{% static "admin1/images/normminus.png" %}" class="dolbpic2">
+                        </div>
+                        <p> 3) После того как вы заполнили и сохранили все таблицы в меню заполнения,
+                            нажмите кнопку <b>"сформировать документ"(3.2)</b> и ваш документ успешно сформируется и скачается на ваш ПК в виде документа <b>docx</b> и будет уже вполне готов
+                            для распечатки.
+                        </p>
+                        <h2> Удачного пользования ! </h2>
+                    </div>
+                </div>
+                <!-- <div class="card_rounded">
+                    <div class="card-header">
+                        <h3>6. chetotam chetotam</h3>
+                    </div>
+                    <div class="card-body card-body-alt">
+                        <p>1) chetotam chetotam chetotam chetotam chetotam chetotam chetotam chetotam </p>
+                        <p>1) chetotam chetotam chetotam chetotam chetotam chetotam chetotam chetotam </p>
+                        <p>1) chetotam chetotam chetotam chetotam chetotam chetotam chetotam chetotam</p>
+                        <p>1) chetotam chetotam chetotam chetotam chetotam chetotam chetotam chetotam</p>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
