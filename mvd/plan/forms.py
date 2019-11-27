@@ -16,7 +16,7 @@ class ShapkaForm(forms.ModelForm):
         'fio':TextInput(attrs={'placeholder':'Петрова Петра Петровича'}),
         'dolznost':TextInput(attrs={'placeholder':'начальник кафедры'}),
         'kafedra':TextInput(attrs={'placeholder':'кафедры административного права'}),
-        'visluga':TextInput(attrs={'placeholder':'6 лет'}),
+        'visluga':TextInput(attrs={'placeholder':'6'}),
         'uchzv':TextInput(attrs={'placeholder':'д.э.н.'}),
         'uchst':TextInput(attrs={'placeholder':'доцент'}),
         'stavka':TextInput(attrs={'placeholder':'0.5'}),
@@ -57,7 +57,7 @@ class Table1UploadForm(forms.ModelForm):
         'rucovodstvo_adunctami']
 
 class Table1Form(forms.ModelForm):
-    class Meta:  
+    class Meta:
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {

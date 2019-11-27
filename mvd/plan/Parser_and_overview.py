@@ -273,18 +273,21 @@ def writeInfoDoc(listInfo, listCell,indexRow):
     countListInfo = 0
     for paragraphs in document.paragraphs:
         if countParagraphs in needStrings:
-
-            paragraphs.text = (listInfo[countListInfo])
-
+            if countListInfo != 6:
+                paragraphs.text = (listInfo[countListInfo])
+            else: paragraphs.text = '            '+(listInfo[countListInfo])+'          _'
             for run in paragraphs.runs:
                 font = run.font
-                font.size = Pt(16)
-
+                font.size = Pt(14)
+            if countListInfo == 6:
+                font = run.font
+                font.underline = True
+                font.size = Pt(14)
             countListInfo+=1
-            if countParagraphs == 2 or countParagraphs == 3:
-                for run in paragraphs.runs:
-                    font = run.font
-                    font.bold = 1
+            # if countParagraphs == 2 or countParagraphs == 3:
+            #     for run in paragraphs.runs:
+            #         font = run.font
+            #         font.bold = 1
 
 
 

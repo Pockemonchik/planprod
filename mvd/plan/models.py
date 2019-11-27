@@ -89,6 +89,48 @@ class DocInfo(models.Model):
     kafedra=models.CharField(max_length=250,blank=True)
     plan=models.OneToOneField(Plan,related_name='shapka',on_delete="cascade",primary_key=True)
     def all_values(self):
+        if self.stavka.is_integer():
+            self.stavka=int(self.stavka)
+        let=''
+        k = self.visluga % 10
+        if (self.visluga>9)and(self.visluga<20)or(self.visluga>110)or(k>4)or(k==0):
+            let=' лет.'
+        else:
+            if k==1: let=" год."
+            else: let=" года."
+        if self.uchst=='' and self.uchzv=='':
+            return([
+            self.shapka,
+            self.fionach,
+            self.data,
+            'На '+str(self.na_kakoygod)+' / '+str(self.na_kakoygod1)+' учебный год',
+            self.fio,
+            self.dolznost+', '+str(self.stavka)+' ст.',
+            self.kafedra,
+            str(self.visluga)+let
+            ])
+        if self.uchst=='':
+            return([
+            self.shapka,
+            self.fionach,
+            self.data,
+            'На '+str(self.na_kakoygod)+' / '+str(self.na_kakoygod1)+' учебный год',
+            self.fio,
+            self.dolznost+', '+str(self.stavka)+' ст.',
+            self.kafedra,
+            self.uchzv+', '+str(self.visluga)+let+let
+            ])
+        if self.uchzv=='':
+            return([
+            self.shapka,
+            self.fionach,
+            self.data,
+            'На '+str(self.na_kakoygod)+' / '+str(self.na_kakoygod1)+' учебный год',
+            self.fio,
+            self.dolznost+', '+str(self.stavka)+' ст.',
+            self.kafedra,
+            self.uchst+', '+str(self.visluga)+let
+            ])
         return([
         self.shapka,
         self.fionach,
@@ -97,7 +139,7 @@ class DocInfo(models.Model):
         self.fio,
         self.dolznost+', '+str(self.stavka)+' ст.',
         self.kafedra,
-        self.uchst+', '+self.uchzv+', '+str(self.visluga)
+        self.uchst+', '+self.uchzv+', '+str(self.visluga)+let
         ])
     def __str__(self):
         return self.plan.name
