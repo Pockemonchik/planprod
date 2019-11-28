@@ -44,35 +44,36 @@ class Plan(models.Model):
     PROGRESS=(
         ('Выполнена', 'Выполнена'),
         ('Выполнена', 'Выполнена частично'),
-        ('Выполнена', 'Не выполнена'))
+        ('Выполнена', 'Не выполнена'),
+        (' ', ' '))
 
-    ucheb_med_r_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    ucheb_med_r_2_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    nir_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    nir_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    nir_2_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    vr_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    vr_2_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    inr_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    inr_2_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    dr_1_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
-    dr_2_p=models.CharField(max_length=20,choices=PROGRESS,default="Выполнена")
+    ucheb_med_r_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    ucheb_med_r_2_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    nir_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    nir_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    nir_2_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    vr_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    vr_2_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    inr_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    inr_2_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    dr_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
+    dr_2_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
     def __str__(self):
         return self.name+" "+str(self.year)
     def all_values(self):
-        return (
-            str(self.ucheb_r_1_p),
-            str(self.ucheb_r_2_p),
-            str(self.ucheb_med_r_1_p),
-            str(self.ucheb_med_r_2_p),
-            str(self.nir_1_p),
-            str(self.nir_2_p),
-            str(self.vr_1_p),
-            str(self.vr_2_p),
-            str(self.dr_1_p),
-            str(self.dr_2_p),
-            str(self.inr_1_p),
-            str(self.inr_2_p))
+        return (" "*12)
+            # str(self.ucheb_r_1_p),
+            # str(self.ucheb_r_2_p),
+            # str(self.ucheb_med_r_1_p),
+            # str(self.ucheb_med_r_2_p),
+            # str(self.nir_1_p),
+            # str(self.nir_2_p),
+            # str(self.vr_1_p),
+            # str(self.vr_2_p),
+            # str(self.dr_1_p),
+            # str(self.dr_2_p),
+            # str(self.inr_1_p),
+            # str(self.inr_2_p))
 
 class DocInfo(models.Model):
     shapka=models.CharField(max_length=250,blank=True)

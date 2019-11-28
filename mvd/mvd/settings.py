@@ -25,7 +25,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.74']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.60']
 
 INTERNAL_IPS = [
     # ...

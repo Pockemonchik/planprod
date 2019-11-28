@@ -1959,7 +1959,7 @@ def detail_plan(request,slug,year):
         Table5FormSet = modelformset_factory(DR,form=Table5Form,extra=5)
         Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
-        mainForm=MAinTableForm(instance=plan)
+        mainForm=MAinTableForm()
         formset=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
         formset2=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
         formset3=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=True))
