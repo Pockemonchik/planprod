@@ -910,7 +910,7 @@ def nagruzka(request,year,slug):
                     #tru если выполена false если план
 
                     # print(data)
-                    predmet.save()
+                    predmet.save1()
 
             if table==1:
                 for row in range(len(data[table])):
@@ -952,7 +952,7 @@ def nagruzka(request,year,slug):
                     predmet.polugodie='2'
                     predmet.status=False#tru если выполена false если план
                     # print(predmet.all_values())
-                    predmet.save()
+                    predmet.save1()
 
 
 

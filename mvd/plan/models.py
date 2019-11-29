@@ -257,6 +257,10 @@ class Predmet(models.Model):
 
         # print(self.get_obshaya_nagruzka())
         super(Predmet, self).save()
+    def save1(self, *args, **kwargs):
+
+        # print(self.get_obshaya_nagruzka())
+        super(Predmet, self).save()
 
 
 

@@ -26,7 +26,7 @@ table{
       text-align: left;
       border-right: 1px solid #eee;
     }
-    
+
     & + td{
       background-color: #f9f9f9;
       @media (min-width: 992px) {
@@ -70,11 +70,11 @@ p {
 
 #rotate text {
   /*writing-mode: vertical-lr;*/
--moz-transform: rotate(180deg); 
--webkit-transform: rotate(180deg); 
--o-transform: rotate(45deg); 
-writing-mode: tb-rl; 
-/*width: 25px;*/ 
+-moz-transform: rotate(180deg);
+-webkit-transform: rotate(180deg);
+-o-transform: rotate(45deg);
+writing-mode: tb-rl;
+/*width: 25px;*/
 }
 
 .elastic li.hide {
@@ -130,7 +130,7 @@ writing-mode: tb-rl;
 
 .idh6  {
   margin-top: 4em;
-  margin-bottom: 1em !important; 
+  margin-bottom: 1em !important;
 }
 
 .fioliz {
@@ -168,7 +168,9 @@ writing-mode: tb-rl;
 }
 
 .textpole{
-  height: 1em;
+height: 1em;
+min-width: 15em;
+width: 100%;
 }
 
 textarea{
