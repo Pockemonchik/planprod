@@ -5,7 +5,11 @@ from django.urls import reverse
 # Create your models here.
  #кафедра
 #талица для записи инфы о преподе в документ
-
+def validate_decimals(value):
+    try:
+        return round(float(value), 2)
+    except:
+        raise ValidationError( _('%(value)s is not an integer or a float number'), params={'value': value}, )
 
 
 class Kafedra(models.Model):
@@ -83,7 +87,7 @@ class DocInfo(models.Model):
     na_kakoygod1=models.IntegerField(default=2020,blank=True)
     fio=models.CharField(max_length=250,blank=True)
     dolznost=models.CharField(max_length=250,blank=True)
-    stavka=models.FloatField(default=0,blank=True)
+    stavka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
     uchzv=models.CharField(max_length=250,blank=True)
     uchst=models.CharField(max_length=250,blank=True)
     visluga=models.IntegerField(default=0,blank=True)
@@ -149,31 +153,31 @@ class DocInfo(models.Model):
 class Predmet(models.Model):
     name=models.CharField(max_length=250,blank=True)
     ###поля в таблице
-    leccii=models.IntegerField(default=0,blank=True)
-    seminar=models.IntegerField(default=0,blank=True)
-    practici_v_gruppe=models.IntegerField(default=0,blank=True)
-    practici_v_podgruppe=models.IntegerField(default=0,blank=True)
-    krugliy_stol=models.IntegerField(default=0,blank=True)
-    konsultacii_pered_ekzamenom=models.IntegerField(default=0,blank=True)
-    tekushie_konsultacii=models.IntegerField(default=0,blank=True)
-    vneauditor_chtenie=models.IntegerField(default=0,blank=True)
-    rucovodstvo_practikoy=models.IntegerField(default=0,blank=True)
-    rucovodstvo_VKR=models.IntegerField(default=0,blank=True)
-    rucovodstvo_kursovoy=models.IntegerField(default=0,blank=True)
-    proverka_auditor_KR=models.IntegerField(default=0,blank=True)
-    proverka_dom_KR=models.IntegerField(default=0,blank=True)
-    proverka_practicuma=models.IntegerField(default=0,blank=True)
-    proverka_lab=models.IntegerField(default=0,blank=True)
-    priem_zashit_practic=models.IntegerField(default=0,blank=True)
-    zacheti_ust=models.IntegerField(default=0,blank=True)
-    zacheti_pism=models.IntegerField(default=0,blank=True)
-    priem_vstupit=models.IntegerField(default=0,blank=True)
-    ekzamenov=models.IntegerField(default=0,blank=True)
-    priem_GIA=models.IntegerField(default=0,blank=True)
-    priem_kandidtskih=models.IntegerField(default=0,blank=True)
-    rucovodstvo_adunctami=models.IntegerField(default=0,blank=True)
-    ucheb_nagruzka=models.IntegerField(default=0,blank=True)
-    auditor_nagruzka=models.IntegerField(default=0,blank=True)
+    leccii=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    seminar=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    practici_v_gruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    practici_v_podgruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    krugliy_stol=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    konsultacii_pered_ekzamenom=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    tekushie_konsultacii=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    vneauditor_chtenie=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_practikoy=models.FloatField(default=0,blank=True,validators=[validate_decimals]) 
+    rucovodstvo_VKR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_kursovoy=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_auditor_KR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_dom_KR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_practicuma=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_lab=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_zashit_practic=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    zacheti_ust=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    zacheti_pism=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_vstupit=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    ekzamenov=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_GIA=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_kandidtskih=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_adunctami=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    ucheb_nagruzka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    auditor_nagruzka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
 
     kafedra=models.ForeignKey(Kafedra, related_name='predmets',on_delete=models.CASCADE)
     prepodavatel=models.ForeignKey(Profile,related_name='predmets',on_delete=models.CASCADE)
@@ -268,7 +272,7 @@ class Predmet(models.Model):
 class UMR(models.Model):
     vid=models.CharField(max_length=500,blank=True)
     srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='umr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -284,7 +288,7 @@ class UMR(models.Model):
 class NIR(models.Model):
     vid=models.CharField(max_length=500,blank=True)
     srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='nir',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -300,7 +304,7 @@ class NIR(models.Model):
 class VR(models.Model):
     vid=models.CharField(max_length=500,blank=True)
     srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='vr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -316,7 +320,7 @@ class VR(models.Model):
 class INR(models.Model):
     vid=models.CharField(max_length=500,blank=True)
     srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='inr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -331,7 +335,7 @@ class INR(models.Model):
 class DR(models.Model):
     vid=models.CharField(max_length=500,blank=True)
     srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True)
+    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='dr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)

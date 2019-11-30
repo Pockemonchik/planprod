@@ -1448,7 +1448,7 @@ def saveT2(request):
 def saveT3(request):
     if request.user.is_authenticated:
         if request.method=="POST":
-            print(request.POST)
+            # print(request.POST)
 
             profile=get_object_or_404(Profile,user=request.user)
             if profile.role==3 or profile.role==2:

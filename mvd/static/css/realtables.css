@@ -168,9 +168,19 @@ writing-mode: tb-rl;
 }
 
 .textpole{
-height: 1em;
+height: 3em;
 min-width: 15em;
 width: 100%;
+}
+
+.otmetka{
+  height: 1em;
+  width: 25em;
+}
+
+.stolb {
+  width: 2.8em;
+  height: 100%;
 }
 
 textarea{
