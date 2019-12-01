@@ -13,12 +13,12 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12">
 
-  <div>
+  <div id="palka1">
     <a href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"role="button" class="button-block"><button>Сформировать документ</button></a>
     <a href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить планируемую нагрузку</button></a>
   </div>
 
-<div class="more" autocomplete="off">
+<div class="more" autocomplete="off" >
 <form  action="{%url 'shapka'%}" method="post" class="shapka">
   {% csrf_token %}
   <div class="more1">
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="pole">{{shapka.shapka}}</div>
-    <div class="pole" id="palka">
+    <div class="pole">
       <div class="podpole">
         {{shapka.fionach}}
       </div>
@@ -70,11 +70,11 @@
         </form>
 
 
-        <div class="zagolovok">
+        <div class="zagolovok" id="palka2">
             <p>Общая нарузка</p>
         </div>
 
-      <div class="table-responsive">
+      <div class="table-responsive" >
       <form action="{%url 'mainTableSave'%}" method="post">
                 {% csrf_token %}
       <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
@@ -138,11 +138,11 @@
         </form>
 
 
-  <div class="zagolovok">
+  <div class="zagolovok" id="palka3">
       <p>Планируемая учебная работа за первое полугодие</p>
   </div>
 
-  <div class="table-responsive">
+  <div class="table-responsive" >
 
 
     <form action="{%url 'saveT1' %}" method="post">
@@ -190,10 +190,10 @@
   </div>
 
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka4">
     <p>Планируемая учебная работа за второе полугодие</p>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" >
   <form action="{%url 'saveT2'%}" method="post">
             {% csrf_token %}
 
@@ -240,10 +240,10 @@
   </div>
 
 
-  <div class="zagolovok">
+  <div class="zagolovok" id="palka5">
       <p>Фактически выполнненая учебная работа за первое полугодие</p>
   </div>
-<div class="table-responsive">
+<div class="table-responsive" >
   <form action="{%url 'saveT3'%}" method="post">
           {% csrf_token %}
 
@@ -280,13 +280,12 @@
 {{ formset3.management_form }}
 {%for form in formset3%}
 {%if form.instance.name != 'Итого за 1 полугодие:'%}
-  <tr>
-    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"</td>
-    {% for field in form %}
-    <td>{{ field }}</td>
-    {% endfor %}
-  </tr>
-
+    <tr>
+      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"</td>
+      {% for field in form %}
+      <td>{{ field }}</td>
+      {% endfor %}
+    </tr>
   {%endif%}
 {%endfor%}
 <tr id="empty_form"  style="display:none;">
@@ -303,7 +302,7 @@
 
 {%for form in formset3%}
 {%if form.instance.name == 'Итого за 1 полугодие:'%}
-<table  class="table-striped table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+<table  class="table-striped table-bordered table-hover itog" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
 <tr>
   <td class="deleteRow"></td>
   {% for field in form %}
@@ -319,10 +318,10 @@
 </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka6">
     <p>Фактически выполнненая учебная работа за второе полугодие</p>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" >
   <form action="{%url 'saveT4'%}" method="post">
           {% csrf_token %}
 
@@ -388,7 +387,7 @@
 
     {%for form in formset4%}
     {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
-    <table  class="table-striped table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+    <table  class="table-striped table-bordered table-hover itog" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
     <tr>
       <td class="deleteRow"></td>
       {% for field in form %}
@@ -406,15 +405,16 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka7">
     <p>Методическая работа за первое полугодие</p>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" >
   <form action="{%url 'saveT5'%}" method="post">
           {% csrf_token %}
     <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-        <th></th><th>Вид работы</th>
+        <th></th>
+          <th>+ Иностр.</th><th>Вид работы</th>
 
 
 
@@ -451,16 +451,17 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka8">
     <p>Методическая работа за второе полугодие</p>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" id="palka7">
   <form action="{%url 'saveT6'%}" method="post">
           {% csrf_token %}
     <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
       <tr>
-        <th></th><th>Вид работы</th>
+        <th></th>
+          <th>+ Иностр.</th><th>Вид работы</th>
 
 
 
@@ -495,7 +496,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka9">
     <p>Научная и исследовательская работа за первое полугодие</p>
 </div>
 
@@ -539,7 +540,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka10">
     <p>Научная и исследовательская работа за второе полугодие</p>
 </div>
 
@@ -583,7 +584,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka11">
     <p>Воспитательная работа за первое полугодие</p>
 </div>
 
@@ -626,7 +627,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka12">
     <p>Воспитательная работа за второе полугодие</p>
 </div>
 
@@ -669,7 +670,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka13">
     <p>Работа с иностранными слушателями за первое полугодие</p>
 </div>
 
@@ -712,7 +713,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka14">
     <p>Работа с иностранными слушателями за второе полугодие</p>
 </div>
 
@@ -756,7 +757,7 @@
 </div>
 
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka15">
     <p>Иные виды работ за первое полугодие</p>
 </div>
 
@@ -799,7 +800,7 @@
   </form>
 </div>
 
-<div class="zagolovok">
+<div class="zagolovok" id="palka16">
     <p>Иные виды работ за второе полугодие</p>
 </div>
 
@@ -838,10 +839,35 @@
 
           </table>
           <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
-      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-    <input type="submit" value="Сохранить таблицу" class="sohr" />
+          <div class="dop">
+              <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+              <input type="submit" value="Сохранить таблицу" class="sohr" />
+              <div class="right-float" role="navigation">
+                <button class="mainmenubtn"> КАРТА </button>
+                <div class="dropdown-custom">
+                  <a href="#palka1">Шапка</a>
+                  <a href="#palka2">Общая нарузка</a>
+                  <a href="#palka3">Планируемая учебная работа за первое полугодие</a>
+                  <a href="#palka4">Планируемая учебная работа за второе полугодие</a>
+                  <a href="#palka5">Фактически выполнненая учебная работа за первое полугодие</a>
+                  <a href="#palka6">Фактически выполнненая учебная работа за второе полугодие</a>
+                  <a href="#palka7">Методическая работа за первое полугодие</a>
+                  <a href="#palka8">Методическая работа за второе полугодие</a>
+                  <a href="#palka9">Научная и исследовательская работа за первое полугодие</a>
+                  <a href="#palka10">Научная и исследовательская работа за второе полугодие</a>
+                  <a href="#palka11">Воспитательная работа за первое полугодие</a>
+                  <a href="#palka12">Воспитательная работа за второе полугодие</a>
+                  <a href="#palka13">Работа с иностранными слушателями за первое полугодие</a>
+                  <a href="#palka14">Работа с иностранными слушателями за второе полугодие</a>
+                  <a href="#palka15">Иные виды работ за первое полугодие</a>
+                  <a href="#palka16">Иные виды работ за второе полугодие</a>
+                </ul>
+              </div>
+          </div>
   </form>
+
 </div>
+
 <script>
 
   $(".textpole").autogrow();

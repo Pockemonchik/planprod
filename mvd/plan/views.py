@@ -1496,7 +1496,7 @@ def saveT3(request):
                         # print(getattr(p,field.name))
 
                     setattr(itog,field.name,buff)
-                    print(str(buff)+field.name)
+                    # print(str(buff)+field.name)
                 itog.save()
 
             else:
@@ -1952,6 +1952,7 @@ def detail_plan(request,slug,year):
     if request.user.is_authenticated:
         profile=get_object_or_404(Profile,user=request.user)
         profile1=get_object_or_404(Profile,user__username=slug)
+        Table0FormSet = modelformset_factory(Predmet,form=Table1Form,extra=0)
         Table1FormSet = modelformset_factory(Predmet,form=Table1Form,extra=5)
         Table2FormSet = modelformset_factory(UMR,form=Table2Form,extra=5)
         Table3FormSet = modelformset_factory(NIR,form=Table3Form,extra=5)
@@ -1960,8 +1961,8 @@ def detail_plan(request,slug,year):
         Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
         mainForm=MAinTableForm()
-        formset=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
-        formset2=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
+        formset=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
+        formset2=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
         formset3=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=True))
         formset4=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=True))
         formset5=Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1,year=year,polugodie=1))

@@ -203,3 +203,62 @@ h4 {
   font-size: 30px;
   background-color: #93BCF6 ;
 }
+
+.itog input {
+  width: 1.92em;
+}
+
+#id_form-3-name {
+  width: 10em !important; 
+}
+
+.dop {
+  display: flex;
+  flex-direction: row;
+}
+
+.right-float {
+  background-color: #1B2F55 ;
+  display: inline-block;
+  padding: 0.5em;
+  border: 1px solid #F6DC76 ;;
+  border-radius: 5px;
+  position:fixed;
+  z-index:2000;
+  top:1.7%;
+  right: 15%;
+}
+
+.dropdown-custom {
+  display: none;
+  min-width: 200px;
+  margin-top: 1em;
+}
+
+.dropdown-custom a {
+  text-decoration: none;
+  display: block;
+  color: #F6DC76;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  border-bottom: 1px solid #F6DC76;
+  
+}
+
+.right-float:hover .dropdown-custom {
+  display: block;
+}
+
+.mainmenubtn {
+  background-color: #1B2F55;
+  color: #F6DC76;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-custom a:hover {
+  background-color: #233D6E;
+  box-shadow: 1px 5px 10px -5px black;
+  transition: all 0.2s ease;
+}

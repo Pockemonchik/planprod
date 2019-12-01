@@ -99,10 +99,14 @@ DATABASES = {
     }
 }
 
+#python3 manage.py dumpdata > db.json
+#python3 manage.py dumpdata --exclude=contenttypes  datadump.json
+#python3 manage.py migrate --run-syncdb
+#python3 manage.py loaddata datadump.json
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django_db',
+#         'NAME': 'django1_db',
 #         'USER' : 'user_name',
 #         'PASSWORD' : 'password',
 #         'HOST' : '127.0.0.1',

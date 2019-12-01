@@ -1,4 +1,4 @@
-from django.test import TestCase
+# from django.test import TestCase
 
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -44,18 +44,30 @@ def nepustNagr():
     #             # print(p.kafedra.fullname+" "+plan.name)
     #
     #
-    # print(data)
-    profiles=Profile.objects.all()
-    count=0
-    for p in profiles:
-            plan=get_object_or_404(Plan,prepod=p,year=2019)
-            allpred=p.predmets.all()
-            if not allpred.exists():
-                print(p.fullname)
-                print(p.kafedra.fullname)
-                count+=1
-    print(count)
+# print(data)
+    #nepustNagr
 
+    # profiles=Profile.objects.all()
+    # count=0
+    # for p in profiles:
+    #         plan=get_object_or_404(Plan,prepod=p,year=2019)
+    #         allpred=p.predmets.all()
+    #         if not allpred.exists():
+    #             print(p.fullname)
+    #             print(p.kafedra.fullname)
+    #             count+=1
+    # print(count)
+    # f = open("users.txt", "w")
+    # pr=Profile.objects.all()
+    # for p in pr:
+    #     f.write(str(p))
+    #     f.write('\n')
+    # f.close()
+    inf=DocInfo.objects.all()
+    for i in inf:
+        # if i.plan.pk=='':
+        #     print(i.plan.name)
+        print(str(i.plan.pk)+" "+i.plan.name)
 
 
 nepustNagr()

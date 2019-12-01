@@ -90,6 +90,7 @@ class Table1Form(forms.ModelForm):
         }
     class Media:
         js = ("js/shaper.js")
+        
  #формы для нир умр
 class Table2Form(forms.ModelForm):
     class Meta:
