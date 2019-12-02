@@ -29,7 +29,7 @@ class Nagruzka(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete="cascade",primary_key=True)
     kafedra=models.ForeignKey(Kafedra, related_name='prepods',on_delete=models.CASCADE)
-    dolzhnost=models.CharField(max_length=500,blank=True)
+    dolzhnost=models.CharField(max_length=1000,blank=True)
     fullname=models.CharField(max_length=250,blank=True)
     stepen=models.CharField(max_length=250,blank=True)
     #право доступа, 1- обычный пользователь 2-привелигированный
@@ -348,9 +348,9 @@ class Predmet(models.Model):
 #учебно методическая рабoта
 class UMR(models.Model):
     dubl_to_in=models.BooleanField(default=False)
-    vid=models.CharField(max_length=500,blank=True)
-    srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
+    vid=models.CharField(max_length=1000,blank=True)
+    srok=models.CharField(max_length=1000,blank=True)
+    otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='umr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -377,9 +377,9 @@ class UMR(models.Model):
         super(UMR, self).save()
  #научyно сследовательская работа
 class NIR(models.Model):
-    vid=models.CharField(max_length=500,blank=True)
-    srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
+    vid=models.CharField(max_length=1000,blank=True)
+    srok=models.CharField(max_length=1000,blank=True)
+    otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='nir',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -393,9 +393,9 @@ class NIR(models.Model):
             str(self.otmetka))
 # воспитаттльная работа
 class VR(models.Model):
-    vid=models.CharField(max_length=500,blank=True)
-    srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
+    vid=models.CharField(max_length=1000,blank=True)
+    srok=models.CharField(max_length=1000,blank=True)
+    otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='vr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -409,9 +409,9 @@ class VR(models.Model):
             str(self.srok),
             str(self.otmetka))
 class INR(models.Model):
-    vid=models.CharField(max_length=500,blank=True)
-    srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
+    vid=models.CharField(max_length=1000,blank=True)
+    srok=models.CharField(max_length=1000,blank=True)
+    otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='inr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)
@@ -424,9 +424,9 @@ class INR(models.Model):
             str(self.otmetka))
 
 class DR(models.Model):
-    vid=models.CharField(max_length=500,blank=True)
-    srok=models.CharField(max_length=500,blank=True)
-    otmetka=models.CharField(max_length=500,blank=True,default='___________ Протокол №__ от __.__.20__')
+    vid=models.CharField(max_length=1000,blank=True)
+    srok=models.CharField(max_length=1000,blank=True)
+    otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='dr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)

@@ -2,6 +2,10 @@ from django import forms
 from plan.models import Predmet,NIR,VR,DR,UMR,Plan,INR,Nagruzka,DocInfo
 from django.forms import TextInput,Textarea
 
+
+
+
+
 class ShapkaForm(forms.ModelForm):
     class Meta:
         model=DocInfo
@@ -90,7 +94,7 @@ class Table1Form(forms.ModelForm):
         }
     class Media:
         js = ("js/shaper.js")
-        
+
  #формы для нир умр
 class Table2Form(forms.ModelForm):
     class Meta:
@@ -142,3 +146,5 @@ class Table6Form(forms.ModelForm):
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
+class docUploadForm(forms.Form):  
+    file = forms.FileField()

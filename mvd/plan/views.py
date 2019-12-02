@@ -1,7 +1,7 @@
-
+#
 from django.shortcuts import render, redirect, get_object_or_404
 from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
-from plan.forms import ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
+from plan.forms import docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
@@ -9,42 +9,36 @@ from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from .tasks import saveallnagr
+# from .tasks import saveallnagr
 
 from django.http import HttpResponse
 import random
 from docx import Document
 import os
-
-
-
-
-
 from io import StringIO,BytesIO
-def documentAnalize(request):
-    #dlya nachkaf
-    # kafedri=Kafedra.objects.all()
-    # count=0
-    # for kaf in kafedri:
-        # try:
-            dir="/home/andrey/Desktop/sorplans/nachkafi"
-            list=os.listdir(dir)
-            profiles=Profile.objects.filter(role=2)
-            for profile in profiles:
-                for i in range(len(list)):
-                    #запонить дату
-                    if profile.fullname.split(' ', 1)[0] in list[i]:
-                            print(profile.fullname)
-                            if profile.fullname=="Аблеев Сергей Рифатович" or profile.fullname=="Коннов Валерий Анатольевич" or profile.fullname=="Клименко Алексей Иванович" or profile.fullname=="Орлова Татьяна Владимировна":
-                                continue;
-                        # print(profile.fullname.split(' ', 1)[0])
-                        # if profile.fullname.split(' ', 1)[0]=="Хаминский":
-                            data=takeTable('/home/andrey//Desktop/sorplans/nachkafi/'+list[i])
-                            #выцепить по регулярке им файла
-                            # print (data)
+def error(request):
+    return render(request,'error.html')
 
-                            # fields=UMR._meta.get_fields()
-                            # fields2=NIR._meta.get_fields()
+
+
+def handle_uploaded_file(f):
+    with open('anal.docx', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+def documentAnalize(request):
+                    if request.user.is_authenticated:
+                        if request.method=="POST":
+                            file=request.FILES['file']
+
+                            profile=get_object_or_404(Profile,user=request.user)
+                            if profile.role==3 or profile.role==2:
+                                    profile=get_object_or_404(Profile,user__username=request.POST['profile'])
+                            print(profile.fullname)
+                            handle_uploaded_file(file)
+
+                            data=takeTable('anal.docx')
+                            if data == 'dolbaeb':
+                                return redirect('error')
                             for table in range(len(data)):
                                 if table==0:
                                     for row in range(len(data[table])):
@@ -202,6 +196,9 @@ def documentAnalize(request):
                                         umr.polugodie='2'
                                         umr.save()
                             print("vrode norm")
+                            return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+                        else:
+                            return redirect('log')
 
 
                         # count+=1
@@ -867,11 +864,15 @@ def nagruzka(request,year,slug):
         # print(nagruzkadoc.document.path)
         # print(plan.name[0:-4])
         # print('')
-        data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
-        for i in range(len(data)):
-            for j in range(len(data[i])):
-                print(data[i][j])
-        # print('')
+        try:
+            data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
+        except:
+            return redirect('error')
+
+        # for i in range(len(data)):
+        #     for j in range(len(data[i])):
+        #         print(data[i][j])
+        # # print('')
         # print(data)
 
         fields=Predmet._meta.get_fields()
@@ -1016,12 +1017,25 @@ def documentSave(request,year,slug):
             indexRow.append(predmets.count())
 
             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=True,year=year)
+            itog1=()
+            itog2=()
+            itogall=()
             for p in predmets:
-               arr=p.all_values()
-               for a in arr:
-                   if a=='0':
+
+                arr=p.all_values()
+                if arr[0]=='Итого за 1 полугодие:':
+                    itog1=arr
+                    continue
+                for a in arr:
+                    if a=='0':
                        data.append(" ")
-                   else:
+                    else:
+                       data.append(a)
+            if itog1:
+                for a in itog1:
+                    if a=='0':
+                       data.append(" ")
+                    else:
                        data.append(a)
 
             indexRow.append(predmets.count())
@@ -1031,13 +1045,31 @@ def documentSave(request,year,slug):
             ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=True,year=year)
             for p in predmets:
-               arr=p.all_values()
-               for a in arr:
+                arr=p.all_values()
+                if arr[0]=='Итого за 2 полугодие:':
+                    itog2=arr
+                    continue
+                if arr[0]=='Итого за учебный год:':
+                     itogall=arr
+                     continue
+                for a in arr:
                    if a=='0':
                        data.append(" ")
                    else:
                        data.append(a)
             indexRow.append(predmets.count())
+            if itog2:
+                for a in itog2:
+                    if a=='0':
+                       data.append(" ")
+                    else:
+                       data.append(a)
+            if itogall:
+                for a in itogall:
+                    if a=='0':
+                       data.append(" ")
+                    else:
+                       data.append(a)
             #по месяцам!!
             data+=[" "]*(375)
 
@@ -1180,7 +1212,10 @@ def documentSave(request,year,slug):
 
 
             #shapka
-            docinf=DocInfo.objects.get(plan=plan)
+            try:
+                docinf=DocInfo.objects.get(plan=plan)
+            except:
+                docinf=DocInfo(plan=plan)
             listInfo=docinf.all_values()
             # print(indexRow)
             # print(data)
@@ -1937,8 +1972,12 @@ def shapka(request):
             print(request.POST)
 
             if form.is_valid():
-                shpkdel=get_object_or_404(DocInfo,plan=plan)
-                shpkdel.delete()
+                try:
+                    shpkdel=get_object_or_404(DocInfo,plan=plan)
+                    shpkdel.delete()
+                except:
+                    print("ne")
+
                 shpk=form.save(commit=False)
                 shpk.plan=plan
                 shpk.save()
@@ -1961,6 +2000,7 @@ def detail_plan(request,slug,year):
         Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
         mainForm=MAinTableForm()
+        docForm=docUploadForm()
         formset=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
         formset2=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
         formset3=Table1FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=True))
@@ -2003,7 +2043,8 @@ def detail_plan(request,slug,year):
         'plan':plan,
         'profile':profile,
         'profile1':profile1,
-        'shapka':shapka
+        'shapka':shapka,
+        'docForm':docForm
 
 
         })
