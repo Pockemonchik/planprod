@@ -9,6 +9,7 @@ from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.conf import settings
 # from .tasks import saveallnagr
 
 from django.http import HttpResponse
@@ -16,8 +17,23 @@ import random
 from docx import Document
 import os
 from io import StringIO,BytesIO
-def error(request):
-    return render(request,'error.html')
+
+def exelobr(request):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsx.xlsx')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+def docxobr(request):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'exampleip.docx')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 
 
@@ -38,7 +54,7 @@ def documentAnalize(request):
 
                             data=takeTable('anal.docx')
                             if data == 'dolbaeb':
-                                return redirect('error')
+                                return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного doc файла, пожалуйста проверьте формат документа(см.справку)"})
                             for table in range(len(data)):
                                 if table==0:
                                     for row in range(len(data[table])):
@@ -867,7 +883,8 @@ def nagruzka(request,year,slug):
         try:
             data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
         except:
-            return redirect('error')
+            return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
+
 
         # for i in range(len(data)):
         #     for j in range(len(data[i])):

@@ -84,8 +84,8 @@ class DocInfo(models.Model):
     shapka=models.CharField(max_length=250,blank=True)
     fionach=models.CharField(max_length=250,blank=True)
     data=models.CharField(max_length=250,blank=True)
-    na_kakoygod=models.IntegerField(default=2019,blank=True)
-    na_kakoygod1=models.IntegerField(default=2020,blank=True)
+    na_kakoygod=models.IntegerField(default=2019,blank=True,null=True)
+    na_kakoygod1=models.IntegerField(default=2020,blank=True,null=True)
     fio=models.CharField(max_length=250,blank=True)
     dolznost=models.CharField(max_length=250,blank=True)
     stavka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
@@ -154,7 +154,7 @@ class DocInfo(models.Model):
 class Predmet(models.Model):
     name=models.CharField(max_length=250,blank=True)
     ###поля в таблице
-    leccii=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    leccii=models.FloatField(default=0,blank=True,validators=[validate_decimals],null=True)
     seminar=models.FloatField(default=0,blank=True,validators=[validate_decimals])
     practici_v_gruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])
     practici_v_podgruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])

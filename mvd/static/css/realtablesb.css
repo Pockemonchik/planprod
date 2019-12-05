@@ -1,0 +1,264 @@
+
+table{
+    width: 100%;
+  }
+
+  tr {
+    & + tr{
+      border-top: 1px solid #eee;
+    }
+  }
+
+  th {
+  }
+
+  td {
+    padding: 20px;
+    @media (min-width: 992px) {
+      text-align: center;
+    }
+  }
+
+
+  .td-title {
+    color: #999;
+    @media (min-width: 992px) {
+      text-align: left;
+      border-right: 1px solid #eee;
+    }
+
+    & + td{
+      background-color: #f9f9f9;
+      @media (min-width: 992px) {
+        background-color: transparent;
+      }
+    }
+  }
+
+  & + & {
+    table{
+      border-left: 1px solid #eee;
+    }
+
+    .td-title:first-child {
+      @media (min-width: 992px) {
+        display: none;
+      }
+    }
+  }
+
+}
+
+.Button {
+  display: block;
+  padding: 12px 0;
+  color: #fff;
+  background-color: #00b2bd;
+  text-decoration: none;
+  border-radius: 3px;
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  font-size: 20px;
+}
+
+.buttons input {
+  margin-bottom: 15px;
+}
+
+#rotate text {
+  /*writing-mode: vertical-lr;*/
+-moz-transform: rotate(180deg);
+-webkit-transform: rotate(180deg);
+-o-transform: rotate(45deg);
+writing-mode: tb-rl;
+/*width: 25px;*/
+}
+
+.elastic li.hide {
+  display: none;
+}
+
+.more{
+  margin-top: 2em;
+  margin-bottom: 2em;
+  position: relative;
+  /*vertical-align: middle;*/
+  width: 100%;
+  height: 27em;
+  /* align-content: center;
+  background-color: ; */
+  border:solid 1px #dee2e6;
+}
+
+.shapka {
+  display: flex;
+  flex-direction: row;
+}
+
+.more1{
+  display: flex;
+  flex-direction: column;
+  /* width: 550px; */
+}
+
+.more1 h6 {
+  margin-bottom: 1em;
+}
+
+#palka {
+  margin-bottom: 1.7em !important;
+}
+
+#id_na_kakoygod {
+  width: 4em;
+}
+
+#id_na_kakoygod1 {
+  width: 4em;
+}
+
+#id_data {
+  margin-right: 0 !important;
+}
+
+#id_visluga {
+  margin-right: 0 !important;
+}
+
+.idh6  {
+  margin-top: 4em;
+  margin-bottom: 1em !important;
+}
+
+.fioliz {
+  margin-bottom: 2.7em !important ;
+}
+.godinvid {
+  margin-bottom: 0 !important;
+}
+.more2{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.pole {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 0.7em;
+}
+
+.pole input {
+  width: 100%;
+}
+
+.podpole {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.podpole input {
+  margin-right: 0.5em;
+  width: 100%;
+}
+
+.textpole{
+height: 3em;
+min-width: 15em;
+width: 100%;
+}
+
+.otmetka{
+  height: 1em;
+  width: 25em;
+}
+
+.stolb {
+  width: 2.8em;
+  height: 100%;
+}
+
+textarea{
+  overflow: hidden;
+}
+
+h4 {
+  transform: rotate(270deg);
+  text-align:center;
+  margin-right: 5em;
+}
+
+.thshki {
+    width: 3em;
+  }
+
+.zagolovok p {
+  margin-top: 0.5em;
+  width: 100%;
+  font-size: 30px;
+  background-color: #93BCF6 ;
+}
+
+.itog input {
+  width: 1.92em;
+}
+
+#id_form-3-name {
+  width: 10em !important; 
+}
+
+.dop {
+  display: flex;
+  flex-direction: row;
+}
+
+.right-float {
+  background-color: #1B2F55 ;
+  display: inline-block;
+  padding: 0.5em;
+  border: 1px solid #F6DC76 ;;
+  border-radius: 5px;
+  position:fixed;
+  z-index:2000;
+  top:1.7%;
+  right: 15%;
+}
+
+.dropdown-custom {
+  display: none;
+  min-width: 200px;
+  margin-top: 1em;
+}
+
+.dropdown-custom a {
+  text-decoration: none;
+  display: block;
+  color: #F6DC76;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  border-bottom: 1px solid #F6DC76;
+  
+}
+
+.right-float:hover .dropdown-custom {
+  display: block;
+}
+
+.mainmenubtn {
+  background-color: #1B2F55;
+  color: #F6DC76;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-custom a:hover {
+  background-color: #233D6E;
+  box-shadow: 1px 5px 10px -5px black;
+  transition: all 0.2s ease;
+}

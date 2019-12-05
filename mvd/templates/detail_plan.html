@@ -18,12 +18,12 @@
     <a href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить планируемую нагрузку</button></a>
     <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
       {% csrf_token %}
-        <div class="blockd">
+        <div class="block-palka">
           {{docForm}}
           <input type="hidden"name="profile"  value="{{profile1.user.username}}">
           <input type="hidden"name="year"  value="{{plan.year}}">
 
-            <input type="submit" value="Загрузить" class="zagruzit">
+            <input type="submit" value="Загрузить данные из docx файла" >
         </div>
     </form>
 

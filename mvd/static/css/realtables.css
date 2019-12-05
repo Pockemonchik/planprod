@@ -108,8 +108,10 @@ writing-mode: tb-rl;
   margin-bottom: 1em;
 }
 
-#palka {
+#palka1 {
   margin-bottom: 1.7em !important;
+  display: flex;
+  flex-direction: row;
 }
 
 #id_na_kakoygod {
@@ -261,4 +263,28 @@ h4 {
   background-color: #233D6E;
   box-shadow: 1px 5px 10px -5px black;
   transition: all 0.2s ease;
+}
+
+.block-palka {
+  /* margin-top: 0.4em; */
+  padding: 0.25em;
+  background-color: #eeeeee;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.block-palka label {
+  margin-right: 0.5em;
+}
+
+.block-palka input {
+  border-radius: 5px;
+  padding: 3px;
+  
+}
+
+.zagruzit {
+  border: 2px solid #DDD;
+  font-weight: bold;
+  box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
