@@ -16,6 +16,7 @@
   <div id="palka1">
     <a href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"role="button" class="button-block"><button>Сформировать документ</button></a>
     <a href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить планируемую нагрузку</button></a>
+      <a href="{%url 'nagruzkafact' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить фактическую нагрузку</button></a>
     <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
       {% csrf_token %}
         <div class="block-palka">
@@ -95,7 +96,7 @@
           <th>2сем </th>
         </tr>
           <tr>
-            <th>учебная (преподавательская)</th>
+            <th>Учебная </th>
               <td>{{mainForm.ucheb_r_1_p}}</td>
               <td>{{mainForm.ucheb_r_2_p}}</td>
 
@@ -150,7 +151,7 @@
 
 
   <div class="zagolovok" id="palka3">
-      <p>Планируемая учебная (преподавательская) работа за первое полугодие</p>
+      <p>Планируемая учебная  работа за первое полугодие</p>
   </div>
 
   <div class="table-responsive" >
@@ -202,7 +203,7 @@
 
 
 <div class="zagolovok" id="palka4">
-    <p>Планируемая учебная (преподавательская) работа за второе полугодие</p>
+    <p>Планируемая учебная  работа за второе полугодие</p>
 </div>
 <div class="table-responsive" >
   <form action="{%url 'saveT2'%}" method="post">
@@ -252,7 +253,7 @@
 
 
   <div class="zagolovok" id="palka5">
-      <p>Фактически выполнненая учебная (преподавательская) работа за первое полугодие</p>
+      <p>Фактически выполненная учебная  работа за первое полугодие</p>
   </div>
 <div class="table-responsive" >
   <form action="{%url 'saveT3'%}" method="post">
@@ -330,7 +331,7 @@
 </div>
 
 <div class="zagolovok" id="palka6">
-    <p>Фактически выполнненая учебная (преподавательская) работа за второе полугодие</p>
+    <p>Фактически выполненная учебная  работа за второе полугодие</p>
 </div>
 <div class="table-responsive" >
   <form action="{%url 'saveT4'%}" method="post">
@@ -858,10 +859,10 @@
                 <div class="dropdown-custom">
                   <a href="#palka1">Шапка</a>
                   <a href="#palka2">Общая нарузка</a>
-                  <a href="#palka3">Планируемая учебная (преподавательская) работа за первое полугодие</a>
-                  <a href="#palka4">Планируемая учебная (преподавательская) работа за второе полугодие</a>
-                  <a href="#palka5">Фактически выполнненая учебная (преподавательская) работа за первое полугодие</a>
-                  <a href="#palka6">Фактически выполнненая учебная (преподавательская) работа за второе полугодие</a>
+                  <a href="#palka3">Планируемая учебная  работа за первое полугодие</a>
+                  <a href="#palka4">Планируемая учебная  работа за второе полугодие</a>
+                  <a href="#palka5">Фактически выполненная учебная  работа за первое полугодие</a>
+                  <a href="#palka6">Фактически выполненная учебная  работа за второе полугодие</a>
                   <a href="#palka7">Методическая работа за первое полугодие</a>
                   <a href="#palka8">Методическая работа за второе полугодие</a>
                   <a href="#palka9">Научная и исследовательская работа за первое полугодие</a>

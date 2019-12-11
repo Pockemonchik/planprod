@@ -38,7 +38,7 @@
                       {%for doc in nagruzkadocs%}
                       <tr>
                         <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}</td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
                         <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                           <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
@@ -68,12 +68,29 @@
                   <form action="{%url 'nagruzkaSave'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                     {% csrf_token %}
                       <div class="blockd">
-                        {{nagruzka.as_p}}
-                        <p>
-                          <label></label>
-                          <label></label>
-                          <input type="submit" value="Загрузить" class="zagruzit">
-                        </p>
+                        <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                          <tr>
+                            <th>Exel файл с нагрузкой</th>
+                            <th>Прогресс</th>
+                            <th>Год</th>
+                          </tr>
+                            <tr>
+                            <th>  {{nagruzka.document}} </th>
+                            <th>  {{nagruzka.status}} </th>
+                            <th>  {{nagruzka.year}} </th>
+                            </tr>
+
+                              <tr>
+                                <td>
+                                  <input type="submit" value="Загрузить" class="zagruzit">
+                                </td>
+
+                          </tr>
+
+
+                          </table>
+                            </div>
+
                       </div>
                   </form>
                   {%endif%}

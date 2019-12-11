@@ -13,6 +13,7 @@ import re
 import openpyxl
 import sys
 import os
+import subprocess
 # import comtypes.client
 # from PyPDF2 import PdfFileReader
 
@@ -111,9 +112,11 @@ def takeXls(nameDoc,namePrepod):
                         needColumnSecond.append(needText)
 
                     else: needColumnThird.append(needText)
-#         if k != 3 :
-#             print('error xls')
-#             return 'error xls'
+        if k != 3 :
+            print(k)
+            print(textCol)
+            print('error xls')
+            return textCol
 
 
     for textCol in nameprepodColumn:
@@ -426,15 +429,29 @@ def createDoc(listCell, indexRow):
 # Ð’ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¼Ñ‹ ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼Ñ‹Ð¹ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð²ÑÐµ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ Ð²Ð¾ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½Ñ‹Ñ… ÑÐ¿Ð¸ÑÐºÐ°Ñ…
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
 def takeTable(nameDoc):
-    document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    try:
+        document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    except:
+        print(nameDoc)
+        subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/home/andrey/Desktop/plan-master/mvd/"+nameDoc])
+        print("1")
+        document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+
     # document = nameDoc
     listAllTable = []
     listOneTable = []
     listRow = []
+    swichFlag = False
     table = document.tables
+    print(len(table))
     if len(table) != 18:
-        print(nameDoc)
-        return ('dolbaeb')
+        print('ne 18')
+        if len(table) != 19:
+            print('ne 1')
+            print(nameDoc)
+            return ('dolbaeb')
+        else:
+            switchFlag = True
 
     #Ð”Ð»Ñ Ð¿ÐµÑ€Ð²Ð¾Ð¹ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹
     '''
@@ -763,74 +780,119 @@ def takeTable(nameDoc):
 
 
 
-    #Для 7й 2й таблицы
-    table = document.tables[13]
-    countRow = 0
-    for row in (table.rows):
-        listRow = []
-        if countRow > 1:
-            for cell in row.cells:
-                #Ищем пустые строки
-                if cell.text == '':
-                    countLoose += 1
-                if countLoose > 2:
-                    flag = True
-                #Ищем 2е полугодие, если нет пустых строк
-                if '2 полугодие' in cell.text.lower():
-                    flag = True
+    if swichFlag == False:
+        #Для 7й 2й таблицы
+        table = document.tables[13]
+        countRow = 0
+        for row in (table.rows):
+            listRow = []
+            if countRow > 1:
+                for cell in row.cells:
+                    #Ищем пустые строки
+                    if cell.text == '':
+                        countLoose += 1
+                    if countLoose > 2:
+                        flag = True
+                    #Ищем 2е полугодие, если нет пустых строк
+                    if '2 полугодие' in cell.text.lower():
+                        flag = True
+                        break
+                countLoose = 0
+                if flag == True:
+                    flag = False
                     break
-            countLoose = 0
-            if flag == True:
-                flag = False
-                break
-            for cell in row.cells:
-                listRow.append(cell.text)
-            listOneTable.append(listRow)
-        countRow+=1
-    listAllTable.append(listOneTable)
-    listOneTable = []
+                for cell in row.cells:
+                    listRow.append(cell.text)
+                listOneTable.append(listRow)
+            countRow+=1
+        listAllTable.append(listOneTable)
+        listOneTable = []
 
 
-    countRow = 0
-    for row in (table.rows):
-        listRow = []
-        if countRow > 1:
-            for cell in row.cells:
-                if '2 полугодие' in cell.text.lower():
-                    flag = True
+        countRow = 0
+        for row in (table.rows):
+            listRow = []
+            if countRow > 1:
+                for cell in row.cells:
+                    if '2 полугодие' in cell.text.lower():
+                        flag = True
+                        break
+                if flag == True:
+                    flag = False
                     break
-            if flag == True:
-                flag = False
-                break
-        countRow+=1
+            countRow+=1
 
 
-    needCountRow = countRow
+        needCountRow = countRow
 
 
 
 
-    countRow=0
-    for row in (table.rows):
-        listRow = []
-        if countRow > needCountRow:
+        countRow=0
+        for row in (table.rows):
+            listRow = []
+            if countRow > needCountRow:
 
 
-            for cell in row.cells:
-                if cell.text == '':
-                    countLoose += 1
-                if countLoose > 2:
-                    flag = True
-            countLoose = 0
-            if flag == True:
-                flag = False
-                break
-            for cell in row.cells:
-                listRow.append(cell.text)
-            listOneTable.append(listRow)
-        countRow+=1
-    listAllTable.append(listOneTable)
-    listOneTable = []
+                for cell in row.cells:
+                    if cell.text == '':
+                        countLoose += 1
+                    if countLoose > 2:
+                        flag = True
+                countLoose = 0
+                if flag == True:
+                    flag = False
+                    break
+                for cell in row.cells:
+                    listRow.append(cell.text)
+                listOneTable.append(listRow)
+            countRow+=1
+        listAllTable.append(listOneTable)
+        listOneTable = []
+    else:
+        table = document.tables[13]
+        countRow = 0
+        for row in (table.rows):
+            listRow = []
+            if countRow > 0:
+                for cell in row.cells:
+                    if cell.text == '':
+                        countLoose += 1
+                    if countLoose > 2:
+                        flag = True
+                countLoose = 0
+                if flag == True:
+                    flag = False
+                    continue
+                for cell in row.cells:
+                    listRow.append(cell.text)
+                listOneTable.append(listRow)
+            countRow+=1
+        listAllTable.append(listOneTable)
+        listOneTable = []
+
+
+
+        table = document.tables[14]
+        countRow = 0
+        for row in (table.rows):
+            listRow = []
+            if countRow > 0:
+                for cell in row.cells:
+                    if cell.text == '':
+                        countLoose += 1
+                    if countLoose > 2:
+                        flag = True
+                countLoose = 0
+                if flag == True:
+                    flag = False
+                    continue
+                for cell in row.cells:
+                    listRow.append(cell.text)
+                listOneTable.append(listRow)
+            countRow+=1
+        listAllTable.append(listOneTable)
+        listOneTable = []
 
 
 

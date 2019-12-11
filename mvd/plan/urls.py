@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^exelobr/$', views.exelobr,name='exelobr'),
     url(r'^deleteNgruzka/(?P<year>\d{4})/$', views.deleteNgruzka,name='deleteNgruzka'),
     url(r'^saveDB/$', views.saveDB,name='saveDB'),
+    url(r'^nagruzkafact/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.nagruzkafact,name='nagruzkafact'),
     url(r'^nagruzka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.nagruzka,name='nagruzka'),
     url(r'^documentSave/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.documentSave,name='documentSave'),
     url(r'^plan/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.detail_plan,name='detail_plan'),

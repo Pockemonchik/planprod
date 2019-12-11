@@ -1,5 +1,56 @@
 {% extends "base.html" %}
 {%load staticfiles%}
 {% block content %}
-   errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrror
+<div class="content active">
+<div class="container-fluid">
+ <div class="row">
+   <div class="col p-5">
+     <div class="container-fluid">
+       <div class="row">
+         <div class="col">
+           <h1 class="display-4">Произошла ошибка!</h1>
+           <h3><strong>{{content}}</strong></h3>
+
+           <!-- <p class="lead mb-5">What would you like to do?</p> -->
+         </div>
+       </div>
+     </div>
+
+     <div class="container-fluid" id="block-content">
+       <div class="row" id="rowid">
+         <div class="col-lg-12 col-md-12 col-sm-12">
+           <div class="card rounded">
+             <div class="card-header">
+               <h3>Варианты возникновения проблемы: </h3>
+             </div>
+             <div class="card-body card-body-alt" >
+               <table class="table table-css">
+                 <tbody>
+
+
+                   <tr>
+
+                     <td style="border:0;vertical-align:middle;">1.Возможно документ не соответвует образцу (проверьте в соответствии с образцами в справке)</td>
+                      <td style="border:0;vertical-align:middle;">2.Oформление таблиц в docx файле должно точно совпадать с образцом! Особенно Работа по морально-психологическому обеспечению и последующие,1 и 2 полугодие дожны быть в одной таблице.</td>
+
+                      <td style="border:0;vertical-align:middle;">3.Возможно ваше имя не найдено в учебной нагрузке, проверьте загруженную нагрузку.</td>
+                      <td style="border:0;vertical-align:middle;">4.Возможно exel документ не загружен, проверьте загруженную нагрузку.</td>
+
+                        <a href="{% url 'spravka'%}" class="spravka-button"><button>Справка</button></a>
+
+                   </tr>
+
+                 </tbody>
+               </table>
+             </div>
+           </div>
+         </div>
+
+   </div>
+ </div>
+</div>
+
+</div>
+</div>
+</div>
 {% endblock %}

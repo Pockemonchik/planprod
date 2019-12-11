@@ -41,7 +41,7 @@ class MAinTableForm(forms.ModelForm):
 class NagruzkaForm(forms.ModelForm):
     class Meta:
         model=Nagruzka
-        fields = ['document','year']
+        fields = ['document','year','status']
 
 
 class Table1UploadForm(forms.ModelForm):
@@ -146,5 +146,5 @@ class Table6Form(forms.ModelForm):
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
-class docUploadForm(forms.Form):  
+class docUploadForm(forms.Form):
     file = forms.FileField()

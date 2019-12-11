@@ -20,11 +20,16 @@ class Kafedra(models.Model):
          return self.fullname
 #модель учебной нагррузки
 class Nagruzka(models.Model):
-     year=models.IntegerField(default=2019)
-     kafedra=models.ForeignKey(Kafedra, related_name='nagruzki',on_delete=models.CASCADE)
-     document=models.FileField(upload_to='files',default='settings.MEDIA_ROOT/plan.docx')
-     def __str__(self):
-         return "Нагрузка по кафедре "+str(self.kafedra.fullname)+" "+str(self.year)
+    year=models.IntegerField(default=2019)
+
+    PROGRESS=(
+         ('Планируемая', 'Планируемая'),
+         ('Фактическая', 'Фактическая'),)
+    status=models.CharField(max_length=20,choices=PROGRESS,default="Планируемая")
+    kafedra=models.ForeignKey(Kafedra, related_name='nagruzki',on_delete=models.CASCADE)
+    document=models.FileField(upload_to='files',default='settings.MEDIA_ROOT/plan.docx')
+    def __str__(self):
+         return "Нагрузка по кафедре "+str(self.kafedra.fullname)+" "+str(self.year)+" "+self.status
 #профили пользователей
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete="cascade",primary_key=True)
