@@ -24,6 +24,7 @@ SECRET_KEY = '77x3f$0b^0z@%jl7&k7lbdx)668n2@fagxm&wygx1ct=_pfr*x'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','192.168.0.60']
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'gunicorn'
     # 'debug_toolbar',
 ]
 
@@ -148,12 +150,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
 
 STATIC_URL = '/static/'
-STATIC_URL = '/static/'
-
+# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATICFILES_DIRS=[
 os.path.join(BASE_DIR,'static')
 ]

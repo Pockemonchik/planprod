@@ -257,7 +257,7 @@ header {
 
 
 .button-block button {
-  height: 2.7em;
+  min-height: 2.7em;
   border: #1B2F55;
   margin-right: 1em;
   border-radius: 5px;
@@ -269,7 +269,7 @@ header {
 .sohr  {
   height: 2.7em;
   border: #1B2F55;
-  margin-top: 5em;
+  margin-top: 3.4em;
   margin-left: 0.5em;
   background-color: #2F5191;
   color: #F6DC76;

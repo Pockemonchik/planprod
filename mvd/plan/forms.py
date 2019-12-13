@@ -65,7 +65,7 @@ class Table1Form(forms.ModelForm):
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
-            'name':Textarea(attrs={'class':'textpole'}),
+            'name':Textarea(attrs={'class':'textpole', 'spellcheck':'true'}),
             'leccii':TextInput(attrs={'class':'thshki'}),
             'seminar':TextInput(attrs={'class':'thshki'}),
             'practici_v_gruppe':TextInput(attrs={'class':'thshki'}),
@@ -101,7 +101,7 @@ class Table2Form(forms.ModelForm):
         model=UMR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'textpole'}),
+        'vid':Textarea(attrs={'id':'lang','class':'textpole', 'spellcheck':'true'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -111,7 +111,7 @@ class Table3Form(forms.ModelForm):
         model=NIR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'textpole'}),
+        'vid':Textarea(attrs={'id':'lang','class':'textpole', 'spellcheck':'true'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -122,7 +122,7 @@ class Table4Form(forms.ModelForm):
         model=VR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'textpole'}),
+        'vid':Textarea(attrs={'id':'lang','class':'textpole', 'spellcheck':'true'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -132,7 +132,7 @@ class Table5Form(forms.ModelForm):
         model=DR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'textpole'}),
+        'vid':Textarea(attrs={'id':'lang','class':'textpole', 'spellcheck':'true'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -142,7 +142,7 @@ class Table6Form(forms.ModelForm):
         model=INR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'textpole'}),
+        'vid':Textarea(attrs={'id':'lang','class':'textpole', 'spellcheck':'true'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }

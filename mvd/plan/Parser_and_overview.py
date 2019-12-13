@@ -429,14 +429,14 @@ def createDoc(listCell, indexRow):
 # Ð’ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¼Ñ‹ ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼Ñ‹Ð¹ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð²ÑÐµ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ Ð²Ð¾ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½Ñ‹Ñ… ÑÐ¿Ð¸ÑÐºÐ°Ñ…
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
 def takeTable(nameDoc):
-    try:
-        document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
-    except:
-        print(nameDoc)
-        subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/home/andrey/Desktop/plan-master/mvd/"+nameDoc])
-        print("1")
-        document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
-
+    # try:
+    #     document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    # except:
+    #     print(nameDoc)
+    #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/home/andrey/Desktop/plan-master/mvd/"+nameDoc])
+    #     print("1")
+    #     document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
     # document = nameDoc
     listAllTable = []
     listOneTable = []

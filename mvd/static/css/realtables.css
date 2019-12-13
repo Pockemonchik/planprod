@@ -91,6 +91,8 @@ writing-mode: tb-rl;
   /* align-content: center;
   background-color: ; */
   border:solid 1px #dee2e6;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .shapka {
@@ -287,4 +289,9 @@ h4 {
   border: 2px solid #DDD;
   font-weight: bold;
   box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.button-block {
+  display: flex;
+  flex-direction: column;
 }
