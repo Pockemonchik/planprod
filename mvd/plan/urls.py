@@ -24,6 +24,8 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     url(r'^$', views.index,name='index'),
+    url(r'^deluser/$', views.deluser,name='deluser'),
+    url(r'^adduser/$', views.adduser,name='adduser'),
     url(r'^spravka/$', views.spravka,name='spravka'),
     url(r'^docxobr/$', views.docxobr,name='docxobr'),
     url(r'^exelobr/$', views.exelobr,name='exelobr'),

@@ -2,7 +2,10 @@ from django import forms
 from plan.models import Predmet,NIR,VR,DR,UMR,Plan,INR,Nagruzka,DocInfo
 from django.forms import TextInput,Textarea
 
-
+class UserAddForm(forms.Form):
+    fio = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=30)
+    password = forms.CharField(max_length=30)
 
 
 

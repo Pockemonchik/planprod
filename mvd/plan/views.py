@@ -1,7 +1,8 @@
 #
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
-from plan.forms import docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
+from plan.forms import UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
@@ -18,6 +19,68 @@ import random
 from docx import Document
 import os
 from io import StringIO,BytesIO
+
+def deluser(request):
+    if request.user.is_authenticated:
+        profile=get_object_or_404(Profile,user=request.user)
+        if profile.role==2:
+            if request.method=="POST":
+                # try:
+                    print(request.POST['profile'])
+                    profiledel=Profile.objects.get(fullname=request.POST['profile'])
+                    plandel=Plan.objects.get(prepod=profiledel)
+                    userdel=profiledel.user
+                    profiledel.delete()
+                    plandel.delete()
+                    userdel.delete()
+                # except:
+                #     return render(request,'error.html',{'content':"Произошла ошибка при удалении пользователя"})
+
+
+
+
+            return redirect('index')
+    else:
+        return redirect('log')
+
+
+
+def adduser(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+
+            profile=get_object_or_404(Profile,user=request.user)
+            if profile.role==2:
+                form=UserAddForm(request.POST)
+                if form.is_valid():
+                    try:
+                        usernew =User.objects.create_user(form.cleaned_data.get('username'),'',form.cleaned_data.get('password'))
+
+
+                        profilenew=Profile()
+                        profilenew.user=usernew
+                        profilenew.fullname=form.cleaned_data.get('fio')
+                        profilenew.kafedra=profile.kafedra
+                        plan=Plan()
+                        plan.prepod=profilenew
+                        plan.name=' '.join(' '.join([form.cleaned_data.get('fio').split(' ')[0],form.cleaned_data.get('fio').split(' ')[1][0],form.cleaned_data.get('fio').split(' ')[1][0]]))
+                        print(plan.name)
+                        usernew.save()
+                        profilenew.save()
+                        plan.save()
+
+                    except:
+                        print("ne")
+                        return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
+            else:
+
+                print('blen')
+                return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
+        return redirect('index')
+    else:
+        return redirect('log')
+
+
 
 def exelobr(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsx.xlsx')
@@ -830,16 +893,21 @@ def index(request):
         profile=get_object_or_404(Profile,user=request.user)
         plans=Plan.objects.filter(prepod=profile)
         kafedri=Kafedra.objects.all()
+        sotr=''
         if profile.role==2:
             kafedri=Kafedra.objects.filter(name=profile.kafedra.name)
+            sotr=Profile.objects.filter(kafedra=profile.kafedra)
         nagruzkadocs=Nagruzka.objects.filter(kafedra=profile.kafedra)
         nagruzka=NagruzkaForm()
+        useraddform=UserAddForm()
         return render(request, 'plan.html',{
         'profile':profile,
         'kafedri':kafedri,
         'plans':plans,
         'nagruzka':nagruzka,
-        'nagruzkadocs':nagruzkadocs
+        'nagruzkadocs':nagruzkadocs,
+        'useraddform':useraddform,
+        'sotr':sotr
         })
     else:
         return redirect('log')

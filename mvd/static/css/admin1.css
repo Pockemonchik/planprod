@@ -227,7 +227,7 @@ header {
 /*.table.table-css{
   overflow: scroll;
 }*/
-.card-body.card-body-alt {
+.card-body.card-body-alt.dokumenti {
   display: block;
   max-height: 35em; 
   overflow: auto;
@@ -319,3 +319,82 @@ header {
   color: #F6DC76;
 }
 
+.prepodi_body{
+  max-height: 15em;
+  overflow: auto;
+}
+
+.reg {
+  margin-top: 1em;
+}
+
+.prepod_reg {
+  display: flex;
+  flex-direction: row;
+}
+
+.reg_inputy{
+  min-width: 65%;
+  display: flex;
+  flex-direction: column;
+}
+
+.reg_pole {
+  display: flex;
+  flex-direction: row wrap;
+  align-items: baseline;
+}
+
+.reg_pole p {
+  margin-right: 1em;
+  order: 1;
+  width: 4em;
+}
+
+.reg_pole input {
+  margin-left: auto;
+  order: 2;
+  width: 20em;
+}
+
+.reg_knopka {
+  display: flex;
+  margin-left: 1em;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(0,0,0,.125)  ;
+}
+
+
+
+.sotrdob-button button{
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+  margin-left: 1em;
+  border: #1B2F55;
+  background-color: #2F5191;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #F6DC76;
+  max-width: 10em;
+}
+
+
+@media screen and (max-width: 1190px){
+  .reg_knopka{
+    display: none;
+  }
+
+}
+
+
+.reg_knopka_col{
+  margin-bottom: 1em;
+}
+@media screen and (min-width: 1190px){
+  .reg_knopka_col{
+    display: none;
+  }
+}

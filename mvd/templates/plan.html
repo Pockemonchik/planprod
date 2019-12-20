@@ -21,7 +21,7 @@
                 <div class="card-header">
                   <h3>Документы</h3>
                 </div>
-                <div class="card-body card-body-alt" >
+                <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
                     <tbody>
                       {%for plan in plans%}
@@ -33,6 +33,7 @@
                         	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
+
                       {%endfor%}
                       {%if profile.role == 2%}
                       {%for doc in nagruzkadocs%}
@@ -51,14 +52,15 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+
+            <div class="col-lg-6 col-md-6 col-sm-12 glavinf">
             	<div class="card rounded">
                 	<div class="card-header">
                   		<h3>Главная информация</h3>
                 	</div>
                 	<div class="card-body info">
                 		<div class="image-block">
-                      <img src="{% static "admin1/images/gerb-mvd.png" %}">
+                      <!-- <img src="{% static "admin1/images/gerb-mvd.png" %}"> -->
                       <h4>ФИО: {{profile.fullname}} </h4>
                       <a href="{% url 'spravka'%}" class="spravka-button"><button>Справка</button></a>
                     </div>
@@ -68,7 +70,7 @@
                   <form action="{%url 'nagruzkaSave'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                     {% csrf_token %}
                       <div class="blockd">
-                        <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                        <table class="table table-responsive  table-hover table-css" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
                           <tr>
                             <th>Exel файл с нагрузкой</th>
                             <th>Прогресс</th>
@@ -78,6 +80,7 @@
                             <th>  {{nagruzka.document}} </th>
                             <th>  {{nagruzka.status}} </th>
                             <th>  {{nagruzka.year}} </th>
+
                             </tr>
 
                               <tr>
@@ -96,7 +99,80 @@
                   {%endif%}
                 </div>
               </div>
-            </div>
+                {%if profile.role == 2%}
+              <div class="col-lg-6 col-md-6 col-sm-12 prepodi">
+                <div class="card rounded">
+                  <div class="card-header">
+                    <h3>Сотрудники кафедры</h3>
+                  </div>
+                  <div class="card-body card-body-alt prepodi_body" >
+                    <table class="table table-css">
+                      <tbody>
+                        {%for s in sotr%}
+                        <tr>
+                          <form action="{% url 'deluser' %}" method="post">
+                            {% csrf_token %}
+
+
+                          <td style="font-weight: bold;"> {{s.fullname}} </td>
+
+                        <td  style="text-align: right;">
+                              <input type="hidden"name="profile"  value="{{s.fullname}}">
+                              <input  onclick="return destroy();" type=image src=/static/admin1/images/minus.png alt="Удалить"> </td>
+
+                        </form>
+                        </tr>
+                      {%endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 reg">
+                <div class="card rounded">
+                  <form class="" action="{% url 'adduser'%}" method="post">
+                      {% csrf_token %}
+                    <div class="card-header">
+                        <h3>Добавление сотрудника кафедры</h3>
+                    </div>
+
+                    <div class="card-body info prepod_reg" id="">
+                      <div class="reg_inputy">
+                        <div class="reg_pole">
+                          <p>ФИО:</p>
+                          {{useraddform.fio}}
+                        </div>
+                        <div class="reg_pole">
+                            <p>Логин:</p>
+                            {{useraddform.username}}
+                        </div>
+                        <div class="reg_pole">
+                            <p>Пароль:</p>
+                            {{useraddform.password}}
+                        </div>
+                      </div>
+
+                      <div class="reg_knopka">
+                          <input type="submit" value="Добавить" class="sohr">
+                        <!-- <a href="#" class="sotrdob-button"><button>Добавить</button></a> -->
+                      </div>
+
+                    </div>
+                    <div class="reg_knopka_col">
+                        <input type="submit" value="Сохранить" class="sohr">
+                      <!-- <a href="#" class="sotrdob-button"><button>Добавить</button></a> -->
+                    </div>
+                  </form>
+
+                </div>
+
+            <!-- </div> -->
+              </div>
+              {%endif%}
+
+
+
 
       </div>
     </div>
@@ -105,4 +181,12 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+function destroy()
+{
+    if (confirm("Bы уверены, что хотите удалить пользователя и все его данные?"))
+    return true;
+    else return false;
+ }
+</script>
 {% endblock %}
