@@ -146,7 +146,10 @@
 
       </table>
       </div>
-      <!-- <input type="submit" value="Сохранить таблицу" /> -->
+        <input type="submit" value="Почитать и сохранить " class="sohr" />
+        <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+
+
         </form>
 
 
@@ -416,6 +419,80 @@
       <input type="submit" value="Сохранить таблицу" class="sohr"/>
   </form>
 </div>
+
+
+
+
+
+<div class="zagolovok" id="palka17">
+    <p>Ежемесячный учет выполнения учебной нагрузки</p>
+</div>
+<div class="table-responsive" >
+  <form action="{%url 'saveMesyac'%}" method="post">
+            {% csrf_token %}
+
+      <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+        <tr>
+          <th><img  src="{% static "admin1/images/1.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+    <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+        </tr>
+      {{ mesyac.management_form }}
+      {%for form in mesyac%}
+          <tr>
+            {% for field in form %}
+            <td>{{ field }}</td>
+            {% endfor %}
+          </tr>
+      {%endfor%}
+      </table>
+      <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+      <input type="submit" value="Сохранить таблицу" class="sohr"/>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="zagolovok" id="palka7">
     <p>Методическая работа за первое полугодие</p>
@@ -863,6 +940,7 @@
                   <a href="#palka4">Планируемая учебная  работа за второе полугодие</a>
                   <a href="#palka5">Фактически выполненная учебная  работа за первое полугодие</a>
                   <a href="#palka6">Фактически выполненная учебная  работа за второе полугодие</a>
+                  <a href="#palka17">Ежемесячный учет выполнения учебной нагрузк</a>
                   <a href="#palka7">Методическая работа за первое полугодие</a>
                   <a href="#palka8">Методическая работа за второе полугодие</a>
                   <a href="#palka9">Научная и исследовательская работа за первое полугодие</a>

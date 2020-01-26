@@ -62,10 +62,19 @@
                 		<div class="image-block">
                       <!-- <img src="{% static "admin1/images/gerb-mvd.png" %}"> -->
                       <h4>ФИО: {{profile.fullname}} </h4>
+
+
                       <a href="{% url 'spravka'%}" class="spravka-button"><button>Справка</button></a>
                     </div>
-                    {%if profile.role == 2%}
+
                   </div>
+                  <div class="card-body info" id="">
+                  <h2>Обьявления:</h2>
+                  {%for a in articles%}
+          <p>{{a.body}}</p>
+                  {%endfor%}
+                  <div>
+                    {%if profile.role == 2%}
                   <div class="card-body info" id="">
                   <form action="{%url 'nagruzkaSave'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                     {% csrf_token %}

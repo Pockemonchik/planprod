@@ -24,11 +24,13 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     url(r'^$', views.index,name='index'),
+    url(r'^saveMesyac/$', views.saveMesyac,name='saveMesyac'),
     url(r'^deluser/$', views.deluser,name='deluser'),
     url(r'^adduser/$', views.adduser,name='adduser'),
     url(r'^spravka/$', views.spravka,name='spravka'),
     url(r'^docxobr/$', views.docxobr,name='docxobr'),
     url(r'^exelobr/$', views.exelobr,name='exelobr'),
+    url(r'^exelobrfact/$', views.exelobrfact,name='exelobrfact'),
     url(r'^deleteNgruzka/(?P<year>\d{4})/$', views.deleteNgruzka,name='deleteNgruzka'),
     url(r'^saveDB/$', views.saveDB,name='saveDB'),
     url(r'^nagruzkafact/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.nagruzkafact,name='nagruzkafact'),

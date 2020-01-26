@@ -1,8 +1,8 @@
 #
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
-from plan.forms import UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
+from plan.models import Article,Mesyac,Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
+from plan.forms import MesyacForm,UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
@@ -54,7 +54,7 @@ def adduser(request):
                 form=UserAddForm(request.POST)
                 if form.is_valid():
                     try:
-                        usernew =User.objects.create_user(form.cleaned_data.get('username'),'',form.cleaned_data.get('password'))
+                        usernew =User.objects.create_user(form.cleaned_data.get('username'),form.cleaned_data.get('password'),form.cleaned_data.get('password'))
 
 
                         profilenew=Profile()
@@ -63,7 +63,7 @@ def adduser(request):
                         profilenew.kafedra=profile.kafedra
                         plan=Plan()
                         plan.prepod=profilenew
-                        plan.name=' '.join(' '.join([form.cleaned_data.get('fio').split(' ')[0],form.cleaned_data.get('fio').split(' ')[1][0],form.cleaned_data.get('fio').split(' ')[1][0]]))
+                        plan.name=''.join([form.cleaned_data.get('fio').split(' ')[0],' ',form.cleaned_data.get('fio').split(' ')[1][0],'.',form.cleaned_data.get('fio').split(' ')[1][0]])
                         print(plan.name)
                         usernew.save()
                         profilenew.save()
@@ -84,6 +84,14 @@ def adduser(request):
 
 def exelobr(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsx.xlsx')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+def exelobrfact(request):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsxfact.xlsx')
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
@@ -900,6 +908,7 @@ def index(request):
         nagruzkadocs=Nagruzka.objects.filter(kafedra=profile.kafedra)
         nagruzka=NagruzkaForm()
         useraddform=UserAddForm()
+        articles=Article.objects.all()
         return render(request, 'plan.html',{
         'profile':profile,
         'kafedri':kafedri,
@@ -907,7 +916,8 @@ def index(request):
         'nagruzka':nagruzka,
         'nagruzkadocs':nagruzkadocs,
         'useraddform':useraddform,
-        'sotr':sotr
+        'sotr':sotr,
+        'articles':articles
         })
     else:
         return redirect('log')
@@ -953,12 +963,21 @@ def nagruzka(request,year,slug):
         nagruzkadoc=get_object_or_404(Nagruzka.objects.filter(year=year,kafedra=profile.kafedra).exclude(status='Фактическая'))
         predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=False)
         predmetsdel.delete()
-        # print(nagruzkadoc.document.path)
-        # print(plan.name[0:-4])
-        # print('')
+
+
         try:
-            data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
-        except:
+            plans=Plan.objects.filter(prepod__kafedra=profile.kafedra)
+            count=0
+            for p in plans:
+                if p.name[0:-4]==plan.name[0:-4]:
+                    count+=1
+                # print(p)
+                # print(p)
+            if count==2:
+                data=takeXls(nagruzkadoc.document.path,plan.name,True)
+            else:
+                data=takeXls(nagruzkadoc.document.path,plan.name[0:-4],True)
+        except :
             return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
 
@@ -1068,12 +1087,21 @@ def nagruzkafact(request,year,slug):
 
         predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=True)
         predmetsdel.delete()
-        # print(nagruzkadoc.document.path)
-        # print(plan.name[0:-4])
-        # print('')
+        print(nagruzkadoc.document.path)
+        print(plan.name[0:-4])
+        print('')
         try:
-            data=takeXls(nagruzkadoc.document.path,plan.name[0:-4])
-
+            plans=Plan.objects.filter(prepod__kafedra=profile.kafedra)
+            count=0
+            for p in plans:
+                if p.name[0:-4]==plan.name[0:-4]:
+                    count+=1
+                # print(p)
+                # print(p)
+            if count==2:
+                data=takeXls(nagruzkadoc.document.path,plan.name,False)
+            else:
+                data=takeXls(nagruzkadoc.document.path,plan.name[0:-4],False)
         except:
             return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове "+ data})
         if type(data) != list:
@@ -1087,7 +1115,7 @@ def nagruzkafact(request,year,slug):
         #     for j in range(len(data[i])):
         #         print(data[i][j])
         # # print('')
-        print(data)
+        # print(data)
 
         fields=Predmet._meta.get_fields()
         for table in range(len(data)):
@@ -1166,7 +1194,7 @@ def nagruzkafact(request,year,slug):
                     predmet.year="2019"
                     predmet.polugodie='2'
                     predmet.status=True#tru если выполена false если план
-                    # print(predmet.all_values())
+                    print(predmet.all_values())
                     predmet.save1()
 
 
@@ -1285,8 +1313,17 @@ def documentSave(request,year,slug):
                     else:
                        data.append(a)
             #по месяцам!!
-            data+=[" "]*(375)
-
+            # data+=[" "]*(375)
+            ##normalno po mesyacam
+            #u admina dolzhna bit tablisa zapolnena
+            mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+            for m in mesyac:
+                arr=m.all_values()
+                for a in arr:
+                   if a=='0':
+                       data.append(" ")
+                   else:
+                       data.append(a)
 
 
 
@@ -1623,19 +1660,58 @@ def mainTableSave(request):
     if request.user.is_authenticated:
         if request.method=="POST":
             profile=get_object_or_404(Profile,user=request.user)
-            plan=get_object_or_404(Plan,prepod=profile)
+            if profile.role==3 or profile.role==2:
+                profile=get_object_or_404(Profile,user__username=request.POST['profile'])
+            plan=get_object_or_404(Plan,prepod=profile,year=request.POST['year'])
         #заполняем
+            # try:
+            #
+            #     form=MAinTableForm(request.POST,instance=plan)
+            #     print(form.errors)
+            #     if form.is_valid():
+            #         newplan=form.save(commit=False)
+            #         predmets=Predmet.objects.filter(prepodavatel=profile)
+            #         for p in predmets:
+            #             if p.name=="Итого за 1 полугодие:":
+            #                 newplan.ucheb_med_r_1_p=p.ucheb_nagruzka
+            #             if p.name=="Итого за 2 полугодие:":
+            #                 newplan.ucheb_med_r_2_p=p.ucheb_nagruzka
+            #         newplan.year=request.POST['year']
+            #         newplan.name=plan.name
+            #         newplan.save()
+            #
+            #     else:
+            #         print('blen')
+            # except:
+            #     return render(request,'error.html',{'content':""})
 
-            predmets=Predmet.objects.filter(prepodavatel=profile)
-
-            form=MAinTableForm(request.POST,instance=plan)
+            form=MAinTableForm(request.POST)
             print(form.errors)
             if form.is_valid():
-                form.save()
+
+                    newplan=form.save(commit=False)
+                    predmets=Predmet.objects.filter(prepodavatel=profile,status=True)
+                    for p in predmets:
+                        if p.name=="Итого за 1 полугодие:":
+                            newplan.ucheb_med_r_1_p=p.ucheb_nagruzka
+                            print(newplan.ucheb_med_r_1_p)
+                        if p.name=="Итого за 2 полугодие:":
+                            newplan.ucheb_med_r_2_p=p.ucheb_nagruzka
+                            print(newplan.ucheb_med_r_2_p)
+                    newplan.year=request.POST['year']
+                    newplan.name=plan.name
+                    newplan.prepod=profile
+                    print(newplan.name)
+
+                    newplan.save()
+                    plan.delete()
+
 
             else:
-                print('blen')
-            return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+                    print('blen')
+
+
+        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
     else:
         return redirect('log')
 #сохранение первой  таблицы
@@ -2201,6 +2277,37 @@ def shapka(request):
     else:
         return redirect('log')
 
+def saveMesyac(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            profile=get_object_or_404(Profile,user=request.user)
+            if profile.role==3 or profile.role==2:
+                profile=get_object_or_404(Profile,user__username=request.POST['profile'])
+            plan=get_object_or_404(Plan,prepod=profile,year=request.POST['year'])
+            MesyacFormSet = modelformset_factory(Mesyac,form=MesyacForm)
+            formset4=MesyacFormSet(request.POST,queryset=Mesyac.objects.filter(prepodavatel=profile,polugodie=1))
+            if formset4.is_valid():
+                try:
+                    mesyacdel=Mesyac.objects.filter(prepodavatel=profile,polugodie=1)
+                    for m in mesyacdel:
+                        m.delete()
+
+                except:
+                    print("ne")
+
+                for form in formset4:
+                    umr=form.save(commit=False)
+                    umr.prepodavatel=profile
+                    umr.kafedra=profile.kafedra
+                    umr.year=request.POST['year']
+                    umr.save()
+            else:
+                    print('blen')
+        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+    else:
+        return redirect('log')
+
+
 def detail_plan(request,slug,year):
     if request.user.is_authenticated:
         profile=get_object_or_404(Profile,user=request.user)
@@ -2212,8 +2319,19 @@ def detail_plan(request,slug,year):
         Table4FormSet = modelformset_factory(VR,form=Table4Form,extra=5)
         Table5FormSet = modelformset_factory(DR,form=Table5Form,extra=5)
         Table6FormSet = modelformset_factory(INR,form=Table6Form,extra=5)
+        MesyacFormSet= modelformset_factory(Mesyac,form=MesyacForm)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
-        mainForm=MAinTableForm()
+        try:
+            querymes=Mesyac.objects.filter(prepodavatel=profile1,year=2019,polugodie=1,status=False)
+
+            if not querymes:
+                mesyacprofile=get_object_or_404(Profile,user__username='admin')
+                mesyac=MesyacFormSet(queryset=Mesyac.objects.filter(prepodavatel=mesyacprofile,year=2019,polugodie=1,status=False))
+            else:
+                mesyac=MesyacFormSet(queryset=Mesyac.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
+        except:
+            mesyac=MesyacFormSet()
+        mainForm=MAinTableForm(instance=plan)
         docForm=docUploadForm()
         formset=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False))
         formset2=Table0FormSet(queryset=Predmet.objects.filter(prepodavatel=profile1,year=year,polugodie=2,status=False))
@@ -2258,7 +2376,8 @@ def detail_plan(request,slug,year):
         'profile':profile,
         'profile1':profile1,
         'shapka':shapka,
-        'docForm':docForm
+        'docForm':docForm,
+        'mesyac':mesyac
 
 
         })

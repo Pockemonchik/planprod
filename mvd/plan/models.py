@@ -6,6 +6,13 @@ from django.urls import reverse
 # Create your models here.
  #кафедра
 #талица для записи инфы о преподе в документ
+class Article(models.Model):
+
+    body=models.TextField()
+
+    def __str__(self):
+        return self.body
+
 def validate_decimals(value):
     try:
         return round(float(value), 2)
@@ -444,3 +451,202 @@ class DR(models.Model):
 
             str(self.srok),
             str(self.otmetka))
+
+
+
+
+
+class Mesyac(models.Model):
+    name=models.CharField(max_length=250,blank=True)
+    ###поля в таблице
+    leccii=models.FloatField(default=0,blank=True,validators=[validate_decimals],null=True)
+    seminar=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    practici_v_gruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    practici_v_podgruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    krugliy_stol=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    konsultacii_pered_ekzamenom=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    tekushie_konsultacii=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    vneauditor_chtenie=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_practikoy=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_VKR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_kursovoy=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_auditor_KR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_dom_KR=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_practicuma=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    proverka_lab=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_zashit_practic=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    zacheti_ust=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    zacheti_pism=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_vstupit=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    ekzamenov=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_GIA=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    priem_kandidtskih=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    rucovodstvo_adunctami=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    ucheb_nagruzka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    auditor_nagruzka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+
+    kafedra=models.ForeignKey(Kafedra, related_name='mes',on_delete=models.CASCADE)
+    prepodavatel=models.ForeignKey(Profile,related_name='mes',on_delete=models.CASCADE)
+    year=models.IntegerField(default=2019,blank=True)
+    polugodie=models.IntegerField(default=1,blank=True)
+    status=models.BooleanField(default=False,blank=True)#tru если выполена false если план
+
+    def __str__(self):
+        return self.name
+    def get_arr_all(self):
+        return(([self.leccii,
+        self.seminar,
+        self.practici_v_gruppe,
+        self.practici_v_podgruppe,
+        self.krugliy_stol,
+        self.konsultacii_pered_ekzamenom,
+        self.tekushie_konsultacii,
+        self.vneauditor_chtenie,
+        self.rucovodstvo_practikoy,
+        self.rucovodstvo_VKR,
+        self.rucovodstvo_kursovoy,
+        self.proverka_auditor_KR,
+        self.proverka_dom_KR,
+        self.proverka_practicuma,
+        self.proverka_lab,
+        self.priem_zashit_practic,
+        self.zacheti_ust,
+        self.zacheti_pism,
+        self.priem_vstupit,
+        self.ekzamenov,
+        self.priem_GIA,
+        self.priem_kandidtskih,
+        self.rucovodstvo_adunctami]))
+    def get_obshaya_nagruzka(self):
+        return(self.leccii+
+        self.seminar+
+        self.practici_v_gruppe+
+        self.practici_v_podgruppe+
+        self.krugliy_stol+
+        self.konsultacii_pered_ekzamenom+
+        self.tekushie_konsultacii+
+        self.vneauditor_chtenie+
+        self.rucovodstvo_practikoy+
+        self.rucovodstvo_VKR+
+        self.rucovodstvo_kursovoy+
+        self.proverka_auditor_KR+
+        self.proverka_dom_KR+
+        self.proverka_practicuma+
+        self.proverka_lab+
+        self.priem_zashit_practic+
+        self.zacheti_ust+
+        self.zacheti_pism+
+        self.priem_vstupit+
+        self.ekzamenov+
+        self.priem_GIA+
+        self.priem_kandidtskih+
+        self.rucovodstvo_adunctami)
+
+    def get_auditor_nagruzka(self):
+        return(self.leccii+
+        self.seminar+
+        self.practici_v_gruppe+
+        self.practici_v_podgruppe+
+        self.krugliy_stol+
+        self.konsultacii_pered_ekzamenom+
+        self.priem_zashit_practic+
+        self.zacheti_ust+
+        self.zacheti_pism+
+        self.priem_vstupit+
+        self.ekzamenov+
+        self.priem_GIA+
+        self.priem_kandidtskih)
+    def __str__(self):
+        return self.name
+
+    def all_values(self):
+        return  (
+            str(self.leccii),
+            str(self.seminar),
+            str(self.practici_v_gruppe),
+            str(self.practici_v_podgruppe),
+            str(self.krugliy_stol),
+            str(self.konsultacii_pered_ekzamenom),
+            str(self.tekushie_konsultacii),
+            str(self.vneauditor_chtenie),
+            str(self.rucovodstvo_practikoy),
+            str(self.rucovodstvo_VKR),
+            str(self.rucovodstvo_kursovoy),
+            str(self.proverka_auditor_KR),
+            str(self.proverka_dom_KR),
+            str(self.proverka_practicuma),
+            str(self.proverka_lab),
+            str(self.priem_zashit_practic),
+            str(self.zacheti_ust),
+            str(self.zacheti_pism),
+            str(self.priem_vstupit),
+            str(self.ekzamenov),
+            str(self.priem_GIA),
+            str(self.priem_kandidtskih),
+            str(self.rucovodstvo_adunctami),
+            str(self.ucheb_nagruzka),
+            str(self.auditor_nagruzka))
+
+    def save(self, *args, **kwargs):
+
+        self.leccii=validate_decimals(self.leccii)
+        self.seminar=validate_decimals(self.seminar)
+        self.practici_v_gruppe=validate_decimals(self.practici_v_gruppe)
+        self.practici_v_podgruppe=validate_decimals(self.practici_v_podgruppe)
+        self.krugliy_stol=validate_decimals(self.krugliy_stol)
+        self.konsultacii_pered_ekzamenom=validate_decimals(self.konsultacii_pered_ekzamenom)
+        self.tekushie_konsultacii=validate_decimals(self.tekushie_konsultacii)
+        self.vneauditor_chtenie=validate_decimals(self.vneauditor_chtenie)
+        self.rucovodstvo_practikoy=validate_decimals(self.rucovodstvo_practikoy)
+        self.rucovodstvo_VKR=validate_decimals(self.rucovodstvo_VKR)
+        self.rucovodstvo_kursovoy=validate_decimals(self.rucovodstvo_kursovoy)
+        self.proverka_auditor_KR=validate_decimals(self.proverka_auditor_KR)
+        self.proverka_dom_KR=validate_decimals(self.proverka_dom_KR)
+        self.proverka_practicuma=validate_decimals(self.proverka_practicuma)
+        self.proverka_lab=validate_decimals(self.proverka_lab)
+        self.priem_zashit_practic=validate_decimals(self.priem_zashit_practic)
+        self.zacheti_ust=validate_decimals(self.zacheti_ust)
+        self.zacheti_pism=validate_decimals(self.zacheti_pism)
+        self.priem_vstupit=validate_decimals(self.priem_vstupit)
+        self.ekzamenov=validate_decimals(self.ekzamenov)
+        self.priem_GIA=validate_decimals(self.priem_GIA)
+        self.priem_kandidtskih=validate_decimals(self.priem_kandidtskih)
+        self.rucovodstvo_adunctami=validate_decimals(self.rucovodstvo_adunctami)
+        self.auditor_nagruzka=validate_decimals(self.get_auditor_nagruzka())
+        # print(self.auditor_nagruzka)
+        self.ucheb_nagruzka=validate_decimals(self.get_obshaya_nagruzka())
+
+        # print(self.get_obshaya_nagruzka())
+        super(Mesyac, self).save()
+    def save1(self, *args, **kwargs):
+        self.leccii=validate_decimals(self.leccii)
+        self.seminar=validate_decimals(self.seminar)
+        self.practici_v_gruppe=validate_decimals(self.practici_v_gruppe)
+        self.practici_v_podgruppe=validate_decimals(self.practici_v_podgruppe)
+        self.krugliy_stol=validate_decimals(self.krugliy_stol)
+        self.konsultacii_pered_ekzamenom=validate_decimals(self.konsultacii_pered_ekzamenom)
+        self.tekushie_konsultacii=validate_decimals(self.tekushie_konsultacii)
+        self.vneauditor_chtenie=validate_decimals(self.vneauditor_chtenie)
+        self.rucovodstvo_practikoy=validate_decimals(self.rucovodstvo_practikoy)
+        self.rucovodstvo_VKR=validate_decimals(self.rucovodstvo_VKR)
+        self.rucovodstvo_kursovoy=validate_decimals(self.rucovodstvo_kursovoy)
+        self.proverka_auditor_KR=validate_decimals(self.proverka_auditor_KR)
+        self.proverka_dom_KR=validate_decimals(self.proverka_dom_KR)
+        self.proverka_practicuma=validate_decimals(self.proverka_practicuma)
+        self.proverka_lab=validate_decimals(self.proverka_lab)
+        self.priem_zashit_practic=validate_decimals(self.priem_zashit_practic)
+        self.zacheti_ust=validate_decimals(self.zacheti_ust)
+        self.zacheti_pism=validate_decimals(self.zacheti_pism)
+        self.priem_vstupit=validate_decimals(self.priem_vstupit)
+        self.ekzamenov=validate_decimals(self.ekzamenov)
+        self.priem_GIA=validate_decimals(self.priem_GIA)
+        self.priem_kandidtskih=validate_decimals(self.priem_kandidtskih)
+        self.rucovodstvo_adunctami=validate_decimals(self.rucovodstvo_adunctami)
+        self.auditor_nagruzka=validate_decimals(self.auditor_nagruzka)
+        # print(self.auditor_nagruzka)
+        self.ucheb_nagruzka=validate_decimals(self.ucheb_nagruzka)
+
+
+
+        # print(self.get_obshaya_nagruzka())
+        super(Mesyac, self).save()
