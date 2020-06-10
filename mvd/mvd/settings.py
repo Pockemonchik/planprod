@@ -26,7 +26,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.60']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.18']
 
 INTERNAL_IPS = [
     # ...
@@ -38,6 +38,7 @@ INTERNAL_IPS = [
 INSTALLED_APPS = [
     'accounts',
     'plan',
+    'rating',
     'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
