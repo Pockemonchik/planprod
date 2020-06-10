@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />
     <script type="text/javascript" src="{% static "/js/graph.js" %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    
+    <script src="{% static "/js/vue.js" %}"></script>
 </head>
 <body>
     <div class="content active">
@@ -21,16 +21,14 @@
                 </div>
                 <div class="flex-block">
                     <div class="sotr-block">
-                        <select class="sotr-select">
-                            <option>Административного права</option>
-                            <option>Административного права</option>
-                            <option>Административного права</option>
+                      <div id="app">
+                        <select class="sotr-select" v-model="kaf">
+                          <option v-for="(foo, i) in foobar" :value="i">{i}</option>
                         </select>
-                        <select class="sotr-select">
-                            <option>Иванов И.И, доцент</option>
-                            <option>Иванов Г.И, доцент</option>
-                            <option>Иванов Д.И, доцент</option>
+                        <select class="sotr-select" v-model="man">
+                          <option v-for="(value, key) in foobar[kaf]" :value=value>{value}</option>
                         </select>
+                      </div>
                         <div class="table-responsive table-width">
                             <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
                                 <tr>
@@ -269,6 +267,22 @@
           </div>
         </div>
     </div>
+    <script id='INLINE_PEN_JS_ID'>
+      var app = new Vue({
+        delimiters:['{','}'],
+        el: '#app',
+        data: {
+          foobar: {
+            'ПД':['ПД1','ПД2'],
+            'ИБ': ['ИБ1','ИБ2'],
+            'ООП': ['ООП1','ООП2']
+          },
+          kaf: "",
+          man: "",
+        }
+      });
+      
+    </script>
 </body>
 </html>
 {% endblock %}
