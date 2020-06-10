@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{%load staticfiles%}
+{%load static %}
 {% block content %}
    <div class="content active">
   <div class="container-fluid">
@@ -69,10 +69,6 @@
 
                   </div>
                   <div class="card-body info" id="">
-                  <h2>Обьявления:</h2>
-                  {%for a in articles%}
-          <p>{{a.body}}</p>
-                  {%endfor%}
                   <div>
                     {%if profile.role == 2%}
                   <div class="card-body info" id="">

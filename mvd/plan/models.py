@@ -39,7 +39,7 @@ class Nagruzka(models.Model):
          return "Нагрузка по кафедре "+str(self.kafedra.fullname)+" "+str(self.year)+" "+self.status
 #профили пользователей
 class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile',on_delete="cascade",primary_key=True)
+    user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE,primary_key=True)
     kafedra=models.ForeignKey(Kafedra, related_name='prepods',on_delete=models.CASCADE)
     dolzhnost=models.CharField(max_length=1000,blank=True)
     fullname=models.CharField(max_length=250,blank=True)

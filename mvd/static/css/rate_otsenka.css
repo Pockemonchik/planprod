@@ -1,0 +1,69 @@
+.centre-buttons{
+    justify-content: center;
+    
+}
+
+.button-mr{
+    margin-right: 40px;
+}
+
+.button-dots{
+    width: 80px;
+}
+
+.more-rate{
+    display: flex;
+    flex-direction: row;
+}
+
+.pole-width{
+    width: 200px;
+}
+
+.more1-width{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.more1-width h6 {
+    /* margin-bottom: 10px; */
+}
+
+.table-width{
+    width: 60%;
+}
+
+.input-width{
+    width: 100%;
+}
+
+.left-float {
+    position:fixed;
+    z-index:2000;
+    top:1.7%;
+    right: 43%;
+}
+
+.left-float h2 {
+    color:#F6DC76;
+}
+
+#table-4{
+    display: none;
+}
+
+#table-3{
+    display: none;
+}
+
+#table-2{
+    display: none;
+}
+
+#table-1{
+    display: none;
+}
+
+
+

@@ -1,0 +1,39 @@
+.btn2{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+
+}
+
+.button-right{
+    order: 2;
+    margin-left: auto;
+}
+
+.flex-block{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.sotr-block{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.sotr-select{
+    margin-bottom: 20px;
+    width: 60%;
+}
+
+.graph-block{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}

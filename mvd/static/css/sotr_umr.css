@@ -1,0 +1,52 @@
+.btn-center{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.button-right{
+    margin-left: auto; 
+}
+
+.flex-block{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.sotr-block{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.sotr-select{
+    margin-bottom: 20px;
+    width: 60%;
+}
+
+.graph-block{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+#graphic1{
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+#graphic2{
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+#graphic3{
+    border: 1px solid #dee2e6;
+    text-align: center;
+}

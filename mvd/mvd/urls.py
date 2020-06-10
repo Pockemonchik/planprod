@@ -20,11 +20,16 @@ from django.conf import settings
 # Import static if not imported
 from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
+from mvd import views
+
 # import debug_toolbar
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^', include('plan.urls')),
+    url(r'^rate_otsenka', views.rate_otsenka),
+    url(r'^nach_kaf', views.nach_kaf),
+    url(r'^sotr_umr', views.sotr_umr)
     # url('__debug__/', include(debug_toolbar.urls)),
 
 ]
