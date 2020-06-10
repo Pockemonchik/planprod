@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'accounts',
     'plan',
     'rating',
+    'rest_framework',
     'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,14 +47,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gunicorn'
+    'gunicorn',
+    'corsheaders'
     # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
-
+CORS_ORIGIN_ALLOW_ALL = True
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
