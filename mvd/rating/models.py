@@ -5,7 +5,12 @@ from django.conf.urls import url
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from plan.models import Profile
-
+class Rating(models.Model):
+    profile = models.ForeignKey(Profile, related_name='rating', on_delete=models.CASCADE, null=True)
+    urr=models.IntegerField(default=0)
+    ormr = models.IntegerField(default=0)
+    pcr = models.IntegerField(default=0)
+    mrr = models.IntegerField(default=0)
 class URR(models.Model):
     profile = models.ForeignKey(Profile, related_name='urr', on_delete=models.CASCADE, null=True)
     obsh=models.IntegerField(default=0)
@@ -16,6 +21,8 @@ class URR(models.Model):
     ppsdr = models.IntegerField(default=0)
     vneaudotor=models.IntegerField(default=0)
 
+    def getsumm(self):
+        return self.obsh + self.sootn + self.zansprakt + self.sriv + self.opozdanie
 
 class ORMR(models.Model):
    profile=models.ForeignKey(Profile, related_name='ormr', on_delete=models.CASCADE, null=True)
@@ -70,6 +77,9 @@ class PCR(models.Model):
 
     def __str__(self):
         return self.profile.user.username
+    def getsumm(self):
+        return self.otkr+self.kontrud+self.kontrneud+self.sriv+self.opozdanie
+
 
 class MRR(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -79,6 +89,8 @@ class MRR(models.Model):
     def __str__(self):
         return self.profile.user.username
 
+    def getsumm(self):
+        return self.razr1 + self.razr2 + self.razr3
 
 
 
