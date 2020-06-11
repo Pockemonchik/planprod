@@ -1,69 +1,54 @@
-.centre-buttons{
-    justify-content: center;
-    
+.root {
+    height: 100%;
 }
 
-.button-mr{
-    margin-right: 40px;
+.lay-out {
+    height: 100% ;
 }
 
-.button-dots{
-    width: 80px;
+.logo {
+    width: 120px;
+    height: 31px;
+    margin: 16px 28px 16px 0;
+    float: left;
+  }
+
+.logo img {
+    width: 27px;
+    height: 31px;
+}  
+
+.site-layout-background {
+    background: #fff;
 }
 
-.more-rate{
-    display: flex;
-    flex-direction: row;
+.content-block {
+  background-color: #fff;
+  padding-top: 20px !important;
 }
 
-.pole-width{
-    width: 200px;
+.table-half{
+  width: 47%;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 
-.more1-width{
-    display: flex;
-    flex-direction: column;
-    width: 400px;
+.ant-pagination{
+  display: none;
 }
 
-.more1-width h6 {
-    /* margin-bottom: 10px; */
+.ant-tabs-tabpane-active {
+  display: flex;
+  flex-direction: row ;
 }
 
-.table-width{
-    width: 60%;
+.editable-row .ant-form-explain {
+  position: absolute;
+  font-size: 12px;
+  margin-top: -4px;
 }
 
-.input-width{
-    width: 100%;
+.ant-table-wrapper {
+  width: 100%;
+  margin-bottom: 20px;
 }
-
-.left-float {
-    position:fixed;
-    z-index:2000;
-    top:1.7%;
-    right: 43%;
-}
-
-.left-float h2 {
-    color:#F6DC76;
-}
-
-#table-4{
-    display: none;
-}
-
-#table-3{
-    display: none;
-}
-
-#table-2{
-    display: none;
-}
-
-#table-1{
-    display: none;
-}
-
-
-

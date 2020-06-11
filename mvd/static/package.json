@@ -20,7 +20,12 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "antd": "^4.3.3",
+    "file-loader": "^6.0.0",
+    "image-webpack-loader": "^6.0.0",
+    "less-loader": "^6.1.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "style-loader": "^1.2.1"
   }
 }
