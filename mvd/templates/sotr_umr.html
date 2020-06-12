@@ -3,14 +3,25 @@
 {% block content %}
 <html>
 <head>
-    <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />
+    <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />fonts.googleapis.css
+    <link rel="stylesheet" href="{% static "/css/fonts.googleapis.css" %}" />
+    <!-- <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" /> -->
+    <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+
     <script type="text/javascript" src="{% static "/js/graph.js" %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{% static "/js/vue.js" %}"></script>
     <script src="{% static "/js/axios.js" %}"></script>
+
+
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    
 </head>
 <body>
-    <div class="content active">
+    <div class="content active"  id="app" data-app>
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -20,298 +31,237 @@
                     <a role="button" class="button-block button-right"><button>Просмотр по должностным категориям <br> по кафедре</button></a>
                     <a role="button" class="button-block button-right"><button>Просмотр межкафедрального <br> рейтинга</button></a>
                 </div>
+                
                 <div class="flex-block">
-                    <div class="sotr-block" id="app">
-                        <select class="sotr-select" v-model="kaf" @change="onChangeKaf($event)">
-                          <option v-for="(foo) in resultKaf" :value="foo.fullname">{foo.fullname}</option>
-                        </select>
-                        <select class="sotr-select" v-model="man" @change="onChangeMan($event)">
-                          <option v-for="(value) in resultMan" :value=value.fullname>{value.fullname}</option>
-                        </select>
+                    <div class="sotr-block">
+                        <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)"></v-select>
+                        <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man"></v-select>
+                        <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year"></v-select>
                         <div class="table-responsive table-width">
-                            <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                                <tr>
-                                  <th>Учебная работа </th>
-                                    <td><input class="input-width" v-model="urr"></td>
-                                </tr>
-                                <tr>
-                                  <th>Организационно-методическая работа</th>
-                                  <td><input class="input-width"v-model="ormr"></td>
-                                </tr>
-                                <tr>
-                                  <th>Подготовка учебно методических материалов</th>
-                                  <td><input class="input-width" v-model="mrr"></td>
-                                </tr>
-                                <tr>
-                                    <th>Педагогический контроль</th>
-                                    <td><input class="input-width" v-model="pcr"></td>
-                                  </tr>
-                            </table>
-                        </div>
-                        <div class="table-responsive table-width">
-                            <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                                <tr>
-                                  <th>Сумма рейтинговых баллов </th>
-                                    <td><input class="input-width"></td>
-                                </tr>
-                                <tr>
-                                  <th>Место на кафедре</th>
-                                  <td><input class="input-width"></td>
-                                </tr>
-                                <tr>
-                                  <th>Место в университете по должностной категории</th>
-                                  <td><input class="input-width"></td>
-                                </tr>
-                                <tr>
-                                    <th>Место в университете по всему ППС</th>
-                                    <td><input class="input-width"></td>
-                                  </tr>
-                            </table>
+                          <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
+                          <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
+                          <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts2" item-key="name" class="elevation-1"></v-data-table>
+                          
                         </div>
                     </div>
                     <div class="graph-block">
-
-                        <div id="graphic1">
-                            <p>общий рейтинг</p>
-                        </div>
-                        <div id="graphic2">
-                            <p>по должностыным категориям</p>
-                        </div>
-                        <div id="graphic3">
-                            <p>межкафедральный рейтинг</p>
-                        </div>
+                      <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                     </div>
-                    <script>
-                        var options = {
-                          series: [{
-                          name: 'PRODUCT A',
-                          data: [44, 55, 41, 67, 22, 43]
-                        }, {
-                          name: 'PRODUCT B',
-                          data: [13, 23, 20, 8, 13, 27]
-                        }, {
-                          name: 'PRODUCT C',
-                          data: [11, 17, 15, 15, 21, 14]
-                        }, {
-                          name: 'PRODUCT D',
-                          data: [21, 7, 25, 13, 22, 8]
-                        }],
-                          chart: {
-                          type: 'bar',
-                          height: 500,
-                          width:400,
-                          stacked: true,
-                          toolbar: {
-                            show: true
-                          },
-                          zoom: {
-                            enabled: true
-                          }
-                        },
-                        responsive: [{
-                          breakpoint: 480,
-                          options: {
-                            legend: {
-                              position: 'bottom',
-                              offsetX: -10,
-                              offsetY: 0
-                            }
-                          }
-                        }],
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                          },
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-                            '01/05/2011 GMT', '01/06/2011 GMT'
-                          ],
-                        },
-                        legend: {
-                          position: 'right',
-                          offsetY: 40
-                        },
-                        fill: {
-                          opacity: 1
-                        }
-                        };
-                
-                        var chart = new ApexCharts(document.querySelector("#graphic1"), options);
-                        chart.render();
-                    </script>
-                    <script>
-                        var options = {
-                          series: [{
-                          name: 'PRODUCT A',
-                          data: [44, 55, 41, 67, 22, 43]
-                        }, {
-                          name: 'PRODUCT B',
-                          data: [13, 23, 20, 8, 13, 27]
-                        }, {
-                          name: 'PRODUCT C',
-                          data: [11, 17, 15, 15, 21, 14]
-                        }, {
-                          name: 'PRODUCT D',
-                          data: [21, 7, 25, 13, 22, 8]
-                        }],
-                          chart: {
-                          type: 'bar',
-                          height: 500,
-                          width:400,
-                          stacked: true,
-                          toolbar: {
-                            show: true
-                          },
-                          zoom: {
-                            enabled: true
-                          }
-                        },
-                        responsive: [{
-                          breakpoint: 480,
-                          options: {
-                            legend: {
-                              position: 'bottom',
-                              offsetX: -10,
-                              offsetY: 0
-                            }
-                          }
-                        }],
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                          },
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-                            '01/05/2011 GMT', '01/06/2011 GMT'
-                          ],
-                        },
-                        legend: {
-                          position: 'right',
-                          offsetY: 40
-                        },
-                        fill: {
-                          opacity: 1
-                        }
-                        };
-                
-                        var chart = new ApexCharts(document.querySelector("#graphic2"), options);
-                        chart.render();
-                    </script>
-                    <script>
-                        var options = {
-                          series: [{
-                          name: 'PRODUCT A',
-                          data: [44, 55, 41, 67, 22, 43]
-                        }, {
-                          name: 'PRODUCT B',
-                          data: [13, 23, 20, 8, 13, 27]
-                        }, {
-                          name: 'PRODUCT C',
-                          data: [11, 17, 15, 15, 21, 14]
-                        }, {
-                          name: 'PRODUCT D',
-                          data: [21, 7, 25, 13, 22, 8]
-                        }],
-                          chart: {
-                          type: 'bar',
-                          height: 500,
-                          width:400,
-                          stacked: true,
-                          toolbar: {
-                            show: true
-                          },
-                          zoom: {
-                            enabled: true
-                          }
-                        },
-                        responsive: [{
-                          breakpoint: 480,
-                          options: {
-                            legend: {
-                              position: 'bottom',
-                              offsetX: -10,
-                              offsetY: 0
-                            }
-                          }
-                        }],
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                          },
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-                            '01/05/2011 GMT', '01/06/2011 GMT'
-                          ],
-                        },
-                        legend: {
-                          position: 'right',
-                          offsetY: 40
-                        },
-                        fill: {
-                          opacity: 1
-                        }
-                        };
-                
-                        var chart = new ApexCharts(document.querySelector("#graphic3"), options);
-                        chart.render();
-                    </script>
                 </div>
             </div>
           </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script>
+
     <script id='INLINE_PEN_JS_ID'>
       const urlkaf = "http://192.168.0.18:8000/rating/kafedras"
       const urlman = "http://192.168.0.18:8000/rating/profiles"
+      const urlyear ="http://192.168.0.18:8000/rating/years"
       const urlpar = "http://192.168.0.18:8000/rating/profilerating"
+      const urlpar1 = "http://192.168.0.18:8000/rating/profileplace"
+      const urlparkaf = "http://192.168.0.18:8000/rating/graphkafedra"
+
+      Vue.component('apexchart', VueApexCharts)
+
+
       var app = new Vue({
         delimiters:['{','}'],
         el: '#app',
+        vuetify: new Vuetify(),
         data: {
           kaf: "",
           man: "",
-          resultKaf: "",
-          resultMan: "",
-          resultParams: "",
-          urr: "",
-          ormr: "",
-          mrr: "",
-          pkr: ""
+          year: "",
+          resultKaf: [],
+          resultMan: [],
+          resultYear: [],
+          resultParamsTable1: [],
+          resultParamsTable2: [],
+
+
+          options: {
+                        chart: {
+                          type: 'bar',
+                          height: '100%',
+                          width:'100%',
+                          stacked: true,
+                          toolbar: {
+                            show: true
+                          },
+                          zoom: {
+                            enabled: true
+                          }
+                        },
+                        responsive: [{
+                          options: {
+                            legend: {
+                              position: 'bottom',
+                              offsetX: -10,
+                              offsetY: 0
+                            }
+                          }
+                        }],
+                        plotOptions: {
+                          bar: {
+                            horizontal: false,
+                          },
+                        },
+                        xaxis: {
+                          tickPlacement: 'on',
+                          categories: [],
+                          labels: {
+                            show: true,
+                            rotate: -90,
+                            rotateAlways: true,
+                            minHeight: 150,
+                            maxHeight: 300,   
+                            }
+                        },
+                        legend: {
+                          horizontalAlign: 'left', 
+                          width: 500,
+                          position: 'top',
+                        },
+                        fill: {
+                          opacity: 1
+                        }
+                        },
+          series: [{
+                          name: 'Учебная работа',
+                          data: []
+                        }, {
+                          name: 'Организационно методическая работа',
+                          data: []
+                        }, {
+                          name: 'Подготовка учебно-методических материалов',
+                          data: []
+                        }, {
+                          name: 'Педагогический контроль',
+                          data: []
+                        }],
+
+
+          desserts: [
+            {
+              name: 'Учебная работа',
+              val: 159,
+            },
+            {
+              name: 'Организационно методическая работа',
+              val: 237,
+            },
+            {
+              name: 'Подготовка учебно-методических материалов',
+              val: 262,
+            },
+            {
+              name: 'Педагогический контроль',
+              val: 305,
+            },
+          ],
+
+          desserts2: [
+            {
+              name: 'Сумма рейтинговых баллов',
+              val: 15,
+            },
+            {
+              name: 'Место на кафедре',
+              val: 23,
+            },
+            {
+              name: 'Место в университете по должностной категории',
+              val: 26,
+            },
+            {
+              name: 'Место в университете по всему ППС',
+              val: 30,
+            },
+          ],
+
+          headers: [
+            {
+              text: '',
+              align: 'start',
+              sortable: false,
+              value: 'name',
+            },
+            { text: '', value: 'val' },
+          ],
         },
         methods: {
+          updateTheme(e) {
+            console.log(1)
+            this.options = {
+              xaxis: {
+                categories: e
+              }
+            }
+          },
+
+          updateSeries(e) {
+            console.log(1)
+            this.series = e
+          },
+
           onChangeKaf(event){
-          axios.get(urlman, {params: {kafedra:this.kaf}}).then(response => {
-            this.resultMan = response.data;
-            this.urr=""
-            this.ormr=""
-            this.mrr=""
-            this.pcr=""
-          })
+            this.kaf=event
+            this.man=""
+            axios.get(urlman, {params: {kafedra:event}}).then(response => {
+              this.resultMan=[]
+              this.resultYear=[]
+              var fio = []
+              response.data.forEach(element => {
+                this.resultMan.push(element.fullname)
+              });
+              this.resultMan.forEach(element => {
+                var t = element.split (' ');
+                fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
+              });
+              this.updateTheme(fio)
+              
+
+            })
           },
           onChangeMan(event){
-            this.urr=""
-            this.ormr=""
-            this.mrr=""
-            this.pcr=""
-            axios.get(urlpar, {params: {profile:this.man}}).then(response => {
-              this.resultParams = response.data;
-              console.log(this.resultParams)
-              this.urr=this.resultParams[0].urr
-              this.ormr=this.resultParams[0].ormr
-              this.mrr=this.resultParams[0].mrr
-              this.pcr=this.resultParams[0].pcr
+            this.resultYear=[]
+            this.man=event
+            axios.get(urlyear, {params: {profile:event}}).then(response => {
+              response.data.forEach(element => {
+                this.resultYear.push(element.year)
+                this.year = ""
+              });
           })
-          }
+          },
+          onChangeYear(event){
+            axios.get(urlpar, {params: {profile:this.man,year:event}}).then(response => {
+              this.desserts[0].val=response.data[0].mrr
+              this.desserts[1].val=response.data[0].ormr
+              this.desserts[2].val=response.data[0].pcr
+              this.desserts[3].val=response.data[0].urr
+            })
+            axios.get(urlpar1, {params: {profile:this.man,year:event}}).then(response => {
+              this.desserts2[0].val=response.data[0].summ
+              this.desserts2[1].val=response.data[0].kafedraplace
+              this.desserts2[2].val=response.data[0].dolzhnostplace
+              this.desserts2[3].val=response.data[0].unikplace
+            })
+            axios.get(urlparkaf, {params: {kafedra:this.kaf,year:event}}).then(response => {
+              this.updateSeries(response.data)
+            })
+          },
         },
+        
         mounted() {
           axios.get(urlkaf).then(response => {
-            this.resultKaf = response.data;
+            // this.resultKaf = response.data;
+            response.data.forEach(element => {
+              this.resultKaf.push(element.fullname)
+            });
           })
         },
       });

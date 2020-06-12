@@ -22,6 +22,7 @@
     margin-top: 30px;
     padding: 10px;
     border: 1px solid #dee2e6;
+    min-width: 400px;
 }
 
 .sotr-select{
@@ -39,14 +40,6 @@
 }
 
 #graphic1{
-    border: 1px solid #dee2e6;
-    text-align: center;
-}
-#graphic2{
-    border: 1px solid #dee2e6;
-    text-align: center;
-}
-#graphic3{
     border: 1px solid #dee2e6;
     text-align: center;
 }
