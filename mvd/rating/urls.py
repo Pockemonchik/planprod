@@ -15,7 +15,12 @@ urlpatterns = [
     url('kafedras', views.KafedraAllView.as_view()),
     url('profiles', views.ProfileAllView.as_view()),
     url('profilerating', views.ProfileRatingView.as_view()),
-
+    url('profileplace', views.ProfilePlaceView.as_view()),
+    url('saveURR', views.SaveURRView.as_view()),
+    url('saveORMR', views.SaveORMRView.as_view()),
+    url('savePCR', views.SavePCRView.as_view()),
+    url('saveMRR', views.SaveMRRView.as_view()),
+    url('years', views.YearView.as_view()),
 
 ]
 if settings.DEBUG:
