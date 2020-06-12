@@ -1,256 +1,384 @@
-{% extends "base.html" %}
 {%load static%}
-{% block content %}
+<!DOCTYPE html>
+<html>
 <head>
-    <link rel="stylesheet" href="{% static "/css/realtables.css" %}" />
-    <link rel="stylesheet" href="{% static "/css/rate_otsenka.css" %}" />
-    <script type="text/javascript" src="{% static "/js/statich.js" %}"></script>
-    <script type="text/javascript" src="{% static "/js/shaper.js" %}"></script>
+  <link rel="stylesheet" href="{% static "/css/rate_otsenka.css" %}" />
+  <link rel="stylesheet" href="{% static "/css/bootstrap.css" %}" />
+  <link rel="stylesheet" href="{% static "/css/bootstrap.min.css" %}" />
+  <link rel="stylesheet" href="{% static "/css/bootstrap.css.map" %}" />
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <script type="text/javascript" src="{% static "/js/bootstrap.min.js" %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static "/js/bootstrap.js" %}"></script>
 </head>
 <body>
-    <div class="content active">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div id="palka1" class="centre-buttons">
-                    <a role="button" class="button-block button-mr"><button>Подготовить документ </button></a>
-                    <a role="button" class="button-block button-mr"><button>Иные кнопки управления</button></a>
-                    <a role="button" class="button-block button-dots"><button>...</button></a>
-                </div>
-                <div class="more-rate">
-                    <div class=" more1-width">
-                        <h6>Количество отработанных месяцев</h6> 
-                    </div>
-                    <div class="more2">
-                        <div class="pole pole-width"><input></div>
-                    </div>
-                </div>
-                <div class="zagolovok" id="palka2">
-                    <p>Суммарные показатели рейтинговой оценки</p>
-                </div>
-                <!-- <div class="more-rate">
-                    <div class=" more1-width">
-                        <h6>Количество отработанных месяцев</h6>
-                        <h6>Количество отработанных месяцев</h6>
-                        <h6>Количество отработанных месяцев</h6>
-                        <h6>Количество отработанных месяцев</h6>
-                    </div>
-                    <div class="more2">
-                        <div class="pole pole-width"><input></div>
-                        <div class="pole pole-width"><input></div>
-                        <div class="pole pole-width"><input></div>
-                        <div class="pole pole-width"><input></div>
-                    </div>
-                </div> -->
-                <div class="more-rate">
-                    <div class="table-responsive table-width" >
-                        <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                            <tr>
-                              <th>Учебная работа </th>
-                                <td><input class="input-width"></td>
-                            </tr>
-                            <tr>
-                              <th>Организационно-методическая работа</th>
-                              <td><input class="input-width"></td>
-                            </tr>
-                            <tr>
-                              <th>Подготовка учебно методических материалов</th>
-                              <td><input class="input-width"></td>
-                            </tr>
-                            <tr>
-                                <th>Педагогический контроль</th>
-                                <td><input class="input-width"></td>
-                              </tr>
-                        </table>
-                    </div>
-                    <div class="more-rate ml-5">
-                        <div class=" more1-width">
-                            <h6>Сумма рейтинговых баллов</h6> 
-                        </div>
-                        <div class="more2">
-                            <div class="pole pole-width"><input></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="zagolovok" id="palka2" onclick="vision1()">
-                    <p>Учебная работа</p>
-                </div>
-                <div class="table-responsive" id="table-1" >
-                    <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                      <tr>
-                        <th>Показатель</th>
-                        <th>Значение</th>
-                        <th>Баллы</th>
-                      </tr>
-                        <tr>
-                            <td>Объем учебной нагрузки</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Соотношение учебной аудитоной нагрузки к общей учебной нагрузке более 70%</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Проведение занятий с сотрудниками практических подразделений</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Поcчитать и сохранить " class="sohr" />
-                </div>
-                
-                <div class="zagolovok" id="palka2" onclick="vision2()">
-                    <p>Организационно методическая работа</p>
-                </div>
-                <div class="table-responsive" id="table-2" >
-                    <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                      <tr>
-                        <th>Показатель</th>
-                        <th>Значение</th>
-                        <th>Подтверждающие данные</th>
-                        <th>Баллы</th>
-                      </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Поcчитать и сохранить " class="sohr" />
-                </div>
-                
-                <div class="zagolovok" id="palka2" onclick="vision3()">
-                    <p>Подготовка учебно-методич еских материалов</p>
-                </div>
-                <div class="table-responsive" id="table-3" >
-                    <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                      <tr>
-                        <th>Показатель</th>
-                        <th>Соавторство</th>
-                        <th>ДГСК</th>
-                        <th>Баллы</th>
-                      </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Поcчитать и сохранить " class="sohr" />
-                </div>
-                
-                <div class="zagolovok" id="palka2" onclick="vision4()">
-                    <p>Педагогический контроль</p>
-                </div>
-                <div class="table-responsive" id="table-4">
-                    <table class="table table-bordered table-hover " data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                      <tr>
-                        <th>Показатель</th>
-                        <th>Значение</th>
-                        <th>Подтверждающие данные</th>
-                        <th>Баллы</th>
-                      </tr>
-                        <tr>
-                            <td>Проведение открытых показательных занятий</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Результаты контрольных посещений занятий при общей удовлетворительной оценке занятия</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Результаты контрольных посещений занятий при общей отрицательной оценке занятия</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Срыв занятия</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                        <tr>
-                            <td>Не своевременное прибытие на занятие без уважительных причин</td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                            <td><input class="input-width"></td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Поcчитать и сохранить " class="sohr" />
-                </div>
-            </div>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm toolbar">
+    <img class="toolbar-img" src="{% static "admin1/images/logo.png" %}" >
+    <h5 class="my-0 mr-md-auto font-weight-normal">Рейтинговая оценка</h5>
+    <a class="btn btn-outline-warning" href="#">Главная</a>
+  </div>
+  
+  <div class="px-3 py-3 pt-md-2 breadcrumb-block">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb link-bar">
+        <li class="breadcrumb-item"><a href="#">Главная</a></li>
+        <li class="breadcrumb-item"><a href="#">Рейтинги</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Рейтинговая оценка</li>
+      </ol>
+    </nav>
+  </div>
+  
+  <div class="container main-block ">
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 shadow-sm main-block">
+        <div class="card-header">
+          <!-- <h4 class="my-0 font-weight-normal">Free</h4> -->
         </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action" id="list-home-list"  href="#list-home" role="tab" aria-controls="home" onclick="clickActive1()"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list"  href="#list-profile" role="tab" aria-controls="profile" onclick="clickActive2()"><i class="fa fa-pie-chart" aria-hidden="true"></i>Иные кнопки управления</a>
+                <a class="list-group-item list-group-item-action" id="list-messages-list"  href="#list-messages" role="tab" aria-controls="messages" onclick="clickActive3()"><i class="fa fa-tasks" aria-hidden="true"></i>Настройки</a>
+                <a class="list-group-item list-group-item-action" id="list-settings-list" href="#list-settings" role="tab" aria-controls="settings" onclick="clickActive4()"><i class="fa fa-plus" aria-hidden="true"></i>...</a>
+              </div>
+            </div>
+            <div class="col nav-block">
+              <nav class="main-nav">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Суммарные показатели рейтинговой оценки</a>
+                  <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >Учебная работа</a>
+                  <a class="nav-item nav-link"  id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false">Организационно-методическая работа</a>
+                  <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false">Подготовка учебно-методических материалов</a>
+                  <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Педагогический контроль</a>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
+                  <div class="flex-row">
+                  <div class="flex-block" id="table-first">
+                    <div id="table" class="table-editable">
+                      <table class="table table-bordered table-responsive-md table-striped text-center">
+                        <thead>
+                          <tr>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="pt-3-half" contenteditable="true">Учебная работа</td>
+                            <td class="pt-3-half" contenteditable="true">256</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half" contenteditable="true">Организационно-методическая</td>
+                            <td class="pt-3-half" contenteditable="true">456</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half" contenteditable="true">Подготовка учебно-методических материалов</td>
+                            <td class="pt-3-half" contenteditable="true">233</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half" contenteditable="true">Педагогический контроль</td>
+                            <td class="pt-3-half" contenteditable="true">122</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="flex-block">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Педагогический контроль</span>
+                      </div>
+                      <input type="text" aria-label="First name" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="tab-pane fade" id="nav2" role="tabpanel">
+                  <div id="table" class="table-editable">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Показатель</th>
+                          <th class="text-center">Значение</th>
+                          <th class="text-center">Баллы</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Общий объем учебной нагрузки</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                          <td class="pt-3-half" contenteditable="true">Deepends</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Соотношение учебной аудиторной нагрузки к общей учетной нагрузке более 70%</td>
+                          <td class="pt-3-half" contenteditable="true">45</td>
+                          <td class="pt-3-half" contenteditable="true">Insectus</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">26</td>
+                          <td class="pt-3-half" contenteditable="true">Isotronic</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr class="hide">
+                          <td class="pt-3-half" contenteditable="true">Elisa Gallagher</td>
+                          <td class="pt-3-half" contenteditable="true">31</td>
+                          <td class="pt-3-half" contenteditable="true">Portica</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="btn-right">
+                    <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="nav3" role="tabpanel">
+                  <div id="table" class="table-editable">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Показатель</th>
+                          <th class="text-center">Значение</th>
+                          <th class="text-center">Подтверждающие данные</th>
+                          <th class="text-center">Баллы</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Общий объем учебной нагрузки</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                          <td class="pt-3-half" contenteditable="true">Deepends</td>
+                          <td class="pt-3-half" contenteditable="true">50</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Соотношение учебной аудиторной нагрузки к общей учетной нагрузке более 70%</td>
+                          <td class="pt-3-half" contenteditable="true">45</td>
+                          <td class="pt-3-half" contenteditable="true">Insectus</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">26</td>
+                          <td class="pt-3-half" contenteditable="true">Isotronic</td>
+                          <td class="pt-3-half" contenteditable="true">60</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr class="hide">
+                          <td class="pt-3-half" contenteditable="true">Elisa Gallagher</td>
+                          <td class="pt-3-half" contenteditable="true">31</td>
+                          <td class="pt-3-half" contenteditable="true">Portica</td>
+                          <td class="pt-3-half" contenteditable="true">70</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="btn-right">
+                    <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="nav4" role="tabpanel">
+                  <div id="table" class="table-editable">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Показатель</th>
+                          <th class="text-center">Соавторство</th>
+                          <th class="text-center">ДГСК</th>
+                          <th class="text-center">Баллы</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Переработка Тематического плана дисциплины</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                          <td class="pt-3-half" contenteditable="true"><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                          <td class="pt-3-half" contenteditable="true">50</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Переработка графика последовательности прохождения дисциплины</td>
+                          <td class="pt-3-half" contenteditable="true">45</td>
+                          <td class="pt-3-half" contenteditable="true"><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="btn-right">
+                    <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="nav5" role="tabpanel">
+                  <div id="table" class="table-editable">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Показатель</th>
+                          <th class="text-center">Значение</th>
+                          <th class="text-center">Подтверждающие данные</th>
+                          <th class="text-center">Баллы</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение открытых, показательных занятий</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                          <td class="pt-3-half" contenteditable="true">Deepends</td>
+                          <td class="pt-3-half" contenteditable="true">50</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Результаты контрольных посещений занятий при общей удовлетворительной оценке занятий</td>
+                          <td class="pt-3-half" contenteditable="true">45</td>
+                          <td class="pt-3-half" contenteditable="true">Insectus</td>
+                          <td class="pt-3-half" contenteditable="true">30</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Результаты контрольных посещений занятий при общей отрицательной оценке занятия</td>
+                          <td class="pt-3-half" contenteditable="true">26</td>
+                          <td class="pt-3-half" contenteditable="true">Isotronic</td>
+                          <td class="pt-3-half" contenteditable="true">60</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <!-- This is our clonable table line -->
+                        <tr class="hide">
+                          <td class="pt-3-half" contenteditable="true">Срыв занятия</td>
+                          <td class="pt-3-half" contenteditable="true">31</td>
+                          <td class="pt-3-half" contenteditable="true">Portica</td>
+                          <td class="pt-3-half" contenteditable="true">70</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr class="hide">
+                          <td class="pt-3-half" contenteditable="true">Не своевременное прибытие на занятие без уважительных причин</td>
+                          <td class="pt-3-half" contenteditable="true">31</td>
+                          <td class="pt-3-half" contenteditable="true">Portica</td>
+                          <td class="pt-3-half" contenteditable="true">70</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="btn-right">
+                    <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
     </div>
-    </div>
-    <div class="left-float">
-        <h2>Рейтинговая оценка</h2>
-    </div>
-    <script>
-       function vision4(){
-           let e = document.getElementById("table-4");
-           if (e.style.display == "none"){
-               e.style.display = "block";
-           } else {
-               e.style.display = "none";
-           }
-       } 
-       function vision3(){
-           let e = document.getElementById("table-3");
-           if (e.style.display == "none"){
-               e.style.display = "block";
-           } else {
-               e.style.display = "none";
-           }
-       }
-       function vision2(){
-           let e = document.getElementById("table-2");
-           if (e.style.display == "none"){
-               e.style.display = "block";
-           } else {
-               e.style.display = "none";
-           }
-       }
-       function vision1(){
-           let e = document.getElementById("table-1");
-           if (e.style.display == "none"){
-               e.style.display = "block";
-           } else {
-               e.style.display = "none";
-           }
-       }
-    </script>
+  </div>
+  <script>
+    function clickActive1(){
+      document.getElementById('list-home-list').classList.add('active');
+      document.getElementById('list-profile-list').classList.remove('active');
+      document.getElementById('list-messages-list').classList.remove('active');
+      document.getElementById('list-settings-list').classList.remove('active');
+    }
+    function clickActive2(){
+      document.getElementById('list-home-list').classList.remove('active');
+      document.getElementById('list-profile-list').classList.add('active');
+      document.getElementById('list-messages-list').classList.remove('active');
+      document.getElementById('list-settings-list').classList.remove('active');
+    }
+    function clickActive3(){
+      document.getElementById('list-home-list').classList.remove('active');
+      document.getElementById('list-profile-list').classList.remove('active');
+      document.getElementById('list-messages-list').classList.add('active');
+      document.getElementById('list-settings-list').classList.remove('active');
+    }
+    function clickActive4(){
+      document.getElementById('list-home-list').classList.remove('active');
+      document.getElementById('list-profile-list').classList.remove('active');
+      document.getElementById('list-messages-list').classList.remove('active');
+      document.getElementById('list-settings-list').classList.add('active');
+    }
+  </script>
 </body>
-{% endblock %}
