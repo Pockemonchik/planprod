@@ -20,7 +20,7 @@
 .card-main {
     margin-left: 20px !important;
     margin-right: 20px !important;
-    max-width: 1400px;
+    /* max-width: 1400px; */
     min-width: 600px;
 }
 
@@ -33,10 +33,9 @@
     margin-right: 15px;
 }
 
-.main-block {
+/* .main-block {
     max-width: 1500px !important;
-    /* height: 600px; */
-}
+} */
 
 .main-nav {
     font-size: 12px;
