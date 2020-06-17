@@ -398,3 +398,34 @@ header {
     display: none;
   }
 }
+
+
+.content-input{
+  justify-content: center;
+  margin: 0px !important;
+}
+
+.block-input{
+  border: solid 1px rgba(0,0,0,.125);
+  border-radius: 5px;
+  margin-top: 20px;
+  max-width: 875px;
+  display: flex;
+  flex-direction: column;
+}
+
+.block-content{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-row input {
+  margin-right: 10px;
+}

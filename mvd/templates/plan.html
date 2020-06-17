@@ -51,6 +51,79 @@
                   </table>
                 </div>
               </div>
+              <div class="row content-input">
+                <div class="block-input">
+                  <div class="block-content">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="firstName">Фио преподавателя</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Петров Петр Петрович" value="" required>
+                        <div class="invalid-feedback">
+                          Valid first name is required.
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="lastName">Должность</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="начальник кафедры" value="" required>
+                        <div class="invalid-feedback">
+                          Valid last name is required.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="email">Кафедра</label>
+                      <input class="form-control" id="email" placeholder="Кафедра">
+                    </div>
+            
+                    <div class="mb-3 row">
+                      <div class="col">
+                        <label for="address">Ставка</label>
+                        <input type="text" class="form-control" id="address" placeholder="" required>
+                      </div>
+                      <div class="col">
+                        <label for="address">Ученая степень</label>
+                        <input type="text" class="form-control" id="address" placeholder="д.э.н." required>
+                      </div>
+                      <div class="col">
+                        <label for="address">Ученое звание</label>
+                        <input type="text" class="form-control" id="address" placeholder="доцент" required>
+                      </div>
+                      <div class="col">
+                        <label for="address">Выслуга полных лет</label>
+                        <input type="text" class="form-control" id="address" placeholder="" required>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
+                      <input type="text" class="form-control" id="address2" placeholder="Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции">
+                    </div>
+                    <div class="mb-3">
+                      <label for="address2">Фио лица, утферждающего индивидуальный план</label>
+                      <input type="text" class="form-control" id="address2" placeholder="И.И.Иванов">
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col">
+                        <label for="address">ФИО лица,утверждающего индивидуальный план:</label>
+                        <input type="text" class="form-control" id="address" placeholder="И.И.Иванов" required>
+                      </div>
+                      <div class="col">
+                        <label for="address">Дата утверждения:</label>
+                        <input type="text" class="form-control" id="address" placeholder="31 февраля 2019" required>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <label for="address">Дата</label>
+                        <div class="flex-row">
+                          <input type="text" class="form-control" id="address"  required>
+                          <input type="text" class="form-control" id="address"  required>
+                        </div>
+                      </div>
+                      <div class="col"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 glavinf">
@@ -85,17 +158,12 @@
                             <th>  {{nagruzka.document}} </th>
                             <th>  {{nagruzka.status}} </th>
                             <th>  {{nagruzka.year}} </th>
-
                             </tr>
-
                               <tr>
                                 <td>
                                   <input type="submit" value="Загрузить" class="zagruzit">
                                 </td>
-
                           </tr>
-
-
                           </table>
                             </div>
 
@@ -175,14 +243,11 @@
             <!-- </div> -->
               </div>
               {%endif%}
-
-
-
-
       </div>
     </div>
   </div>
-
+  
+</div>
 </div>
 </div>
 </div>

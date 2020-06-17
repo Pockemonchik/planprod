@@ -6,56 +6,56 @@
     <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />fonts.googleapis.css
     <link rel="stylesheet" href="{% static "/css/fonts.googleapis.css" %}" />
     <!-- <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" /> -->
+    <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" />
     <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
 
     <script type="text/javascript" src="{% static "/js/graph.js" %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="{% static "/js/apexcharts.js" %}"></script>
+    <script src="{% static "/js/vue-apexcharts.js" %}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script> -->
     <script src="{% static "/js/vue.js" %}"></script>
     <script src="{% static "/js/axios.js" %}"></script>
+    <script src="{% static "/js/vuetify.js" %}"></script>
 
 
     <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> -->
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet"> -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     
 </head>
 <body>
-    <div class="content active"  id="app" data-app>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="btn-center">
-                    <a role="button" class="button-block "><button>Просмотр индивидуального  рейтинга <br> сотрудника кафедры</button></a>
-                    <a role="button" class="button-block button-right"><button>Просмотр общего рейтинга <br> по кафедре</button></a>
-                    <a role="button" class="button-block button-right"><button>Просмотр по должностным категориям <br> по кафедре</button></a>
-                    <a role="button" class="button-block button-right"><button>Просмотр межкафедрального <br> рейтинга</button></a>
+  <div class="content active"  id="app" data-app>
+    <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
+    <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
+    <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="flex-block">
+                <div class="sotr-block">
+                    <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)"></v-select>
+                    <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man"></v-select>
+                    <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year"></v-select>
+                    <div class="table-responsive table-width">
+                      <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
+                      <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
+                      <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts2" item-key="name" class="elevation-1"></v-data-table>
+                      
+                    </div>
                 </div>
-                
-                <div class="flex-block">
-                    <div class="sotr-block">
-                        <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)"></v-select>
-                        <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man"></v-select>
-                        <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year"></v-select>
-                        <div class="table-responsive table-width">
-                          <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
-                          <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
-                          <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts2" item-key="name" class="elevation-1"></v-data-table>
-                          
-                        </div>
-                    </div>
-                    <div class="graph-block">
-                      <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
-                    </div>
+                <div class="graph-block">
+                  <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                 </div>
             </div>
-          </div>
         </div>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+</div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script> -->
 
     <script id='INLINE_PEN_JS_ID'>
       const urlkaf = "http://192.168.0.18:8000/rating/kafedras"
@@ -64,6 +64,8 @@
       const urlpar = "http://192.168.0.18:8000/rating/profilerating"
       const urlpar1 = "http://192.168.0.18:8000/rating/profileplace"
       const urlparkaf = "http://192.168.0.18:8000/rating/graphkafedra"
+      const urlgraph = "http://192.168.0.18:8000/rating/graph"
+      const urlgraphMan = "http://192.168.0.18:8000/rating/profilesfilter"
 
       Vue.component('apexchart', VueApexCharts)
 
@@ -76,11 +78,23 @@
           kaf: "",
           man: "",
           year: "",
+          dolzhnost: ["Все должности", "профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
           resultKaf: [],
+          resultKafGraph:[],
           resultMan: [],
           resultYear: [],
           resultParamsTable1: [],
           resultParamsTable2: [],
+
+          yearGraph:"",
+          dolGraph:"",
+          kafGraph:"",
+
+
+          rules: [
+            value => !!value || ' ',
+            value => (value && value.length == 4) || '4 цифры'
+          ],
 
 
           options: {
@@ -195,7 +209,6 @@
         },
         methods: {
           updateTheme(e) {
-            console.log(1)
             this.options = {
               xaxis: {
                 categories: e
@@ -204,7 +217,6 @@
           },
 
           updateSeries(e) {
-            console.log(1)
             this.series = e
           },
 
@@ -214,17 +226,9 @@
             axios.get(urlman, {params: {kafedra:event}}).then(response => {
               this.resultMan=[]
               this.resultYear=[]
-              var fio = []
               response.data.forEach(element => {
                 this.resultMan.push(element.fullname)
               });
-              this.resultMan.forEach(element => {
-                var t = element.split (' ');
-                fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
-              });
-              this.updateTheme(fio)
-              
-
             })
           },
           onChangeMan(event){
@@ -235,14 +239,14 @@
                 this.resultYear.push(element.year)
                 this.year = ""
               });
-          })
+            })
           },
           onChangeYear(event){
             axios.get(urlpar, {params: {profile:this.man,year:event}}).then(response => {
-              this.desserts[0].val=response.data[0].mrr
+              this.desserts[0].val=response.data[0].urr
               this.desserts[1].val=response.data[0].ormr
-              this.desserts[2].val=response.data[0].pcr
-              this.desserts[3].val=response.data[0].urr
+              this.desserts[2].val=response.data[0].mrr
+              this.desserts[3].val=response.data[0].pcr
             })
             axios.get(urlpar1, {params: {profile:this.man,year:event}}).then(response => {
               this.desserts2[0].val=response.data[0].summ
@@ -250,17 +254,37 @@
               this.desserts2[2].val=response.data[0].dolzhnostplace
               this.desserts2[3].val=response.data[0].unikplace
             })
-            axios.get(urlparkaf, {params: {kafedra:this.kaf,year:event}}).then(response => {
-              this.updateSeries(response.data)
-            })
+          },
+          onChangeGraph(event){
+            if (this.yearGraph!="" && this.dolGraph!="" && this.kafGraph!=""){
+              axios.get(urlgraph, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+                this.updateSeries(response.data)
+              })
+              axios.get(urlgraphMan, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+                var fullFio=[]
+                var fio=[]
+                console.log(response.data)
+                response.data.forEach(element => {
+                  fullFio.push(element.fullname)
+                });
+                fullFio.forEach(element => {
+                  var t = element.split (' ');
+                  fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
+                });
+                console.log(fio)
+                this.updateTheme(fio)
+              })
+            }
           },
         },
         
         mounted() {
           axios.get(urlkaf).then(response => {
             // this.resultKaf = response.data;
+            this.resultKafGraph.push("Все кафедры")
             response.data.forEach(element => {
               this.resultKaf.push(element.fullname)
+              this.resultKafGraph.push(element.fullname)
             });
           })
         },
