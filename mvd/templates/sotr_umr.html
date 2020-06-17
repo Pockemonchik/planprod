@@ -22,9 +22,9 @@
 </head>
 <body>
   <div class="content active"  id="app" data-app>
-    <v-select :items="resultKaf" label="Кафедра" outlined @change="onChangeKaf($event)"></v-select>
-    <v-select :items="resultKaf" label="должность" outlined @change="onChangeKaf($event)"></v-select>
-    <v-select :items="resultKaf" label="Год" outlined @change="onChangeKaf($event)"></v-select>
+    <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
+    <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
+    <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -60,6 +60,8 @@
       const urlpar = "http://192.168.0.18:8000/rating/profilerating"
       const urlpar1 = "http://192.168.0.18:8000/rating/profileplace"
       const urlparkaf = "http://192.168.0.18:8000/rating/graphkafedra"
+      const urlgraph = "http://192.168.0.18:8000/rating/graph"
+      const urlgraphMan = "http://192.168.0.18:8000/rating/profilesfilter"
 
       Vue.component('apexchart', VueApexCharts)
 
@@ -72,11 +74,23 @@
           kaf: "",
           man: "",
           year: "",
+          dolzhnost: ["Все должности", "профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
           resultKaf: [],
+          resultKafGraph:[],
           resultMan: [],
           resultYear: [],
           resultParamsTable1: [],
           resultParamsTable2: [],
+
+          yearGraph:"",
+          dolGraph:"",
+          kafGraph:"",
+
+
+          rules: [
+            value => !!value || ' ',
+            value => (value && value.length == 4) || '4 цифры'
+          ],
 
 
           options: {
@@ -191,7 +205,6 @@
         },
         methods: {
           updateTheme(e) {
-            console.log(1)
             this.options = {
               xaxis: {
                 categories: e
@@ -200,7 +213,6 @@
           },
 
           updateSeries(e) {
-            console.log(1)
             this.series = e
           },
 
@@ -210,17 +222,9 @@
             axios.get(urlman, {params: {kafedra:event}}).then(response => {
               this.resultMan=[]
               this.resultYear=[]
-              var fio = []
               response.data.forEach(element => {
                 this.resultMan.push(element.fullname)
               });
-              this.resultMan.forEach(element => {
-                var t = element.split (' ');
-                fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
-              });
-              this.updateTheme(fio)
-              
-
             })
           },
           onChangeMan(event){
@@ -231,14 +235,14 @@
                 this.resultYear.push(element.year)
                 this.year = ""
               });
-          })
+            })
           },
           onChangeYear(event){
             axios.get(urlpar, {params: {profile:this.man,year:event}}).then(response => {
-              this.desserts[0].val=response.data[0].mrr
+              this.desserts[0].val=response.data[0].urr
               this.desserts[1].val=response.data[0].ormr
-              this.desserts[2].val=response.data[0].pcr
-              this.desserts[3].val=response.data[0].urr
+              this.desserts[2].val=response.data[0].mrr
+              this.desserts[3].val=response.data[0].pcr
             })
             axios.get(urlpar1, {params: {profile:this.man,year:event}}).then(response => {
               this.desserts2[0].val=response.data[0].summ
@@ -246,17 +250,37 @@
               this.desserts2[2].val=response.data[0].dolzhnostplace
               this.desserts2[3].val=response.data[0].unikplace
             })
-            axios.get(urlparkaf, {params: {kafedra:this.kaf,year:event}}).then(response => {
-              this.updateSeries(response.data)
-            })
+          },
+          onChangeGraph(event){
+            if (this.yearGraph!="" && this.dolGraph!="" && this.kafGraph!=""){
+              axios.get(urlgraph, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+                this.updateSeries(response.data)
+              })
+              axios.get(urlgraphMan, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+                var fullFio=[]
+                var fio=[]
+                console.log(response.data)
+                response.data.forEach(element => {
+                  fullFio.push(element.fullname)
+                });
+                fullFio.forEach(element => {
+                  var t = element.split (' ');
+                  fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
+                });
+                console.log(fio)
+                this.updateTheme(fio)
+              })
+            }
           },
         },
         
         mounted() {
           axios.get(urlkaf).then(response => {
             // this.resultKaf = response.data;
+            this.resultKafGraph.push("Все кафедры")
             response.data.forEach(element => {
               this.resultKaf.push(element.fullname)
+              this.resultKafGraph.push(element.fullname)
             });
           })
         },

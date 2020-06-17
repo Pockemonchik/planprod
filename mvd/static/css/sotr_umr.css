@@ -16,6 +16,10 @@
     flex-direction: row;
 }
 
+.error--text{
+    color: #ff5252 !important;
+}
+
 .sotr-block{
     display: flex;
     flex-direction: column;
