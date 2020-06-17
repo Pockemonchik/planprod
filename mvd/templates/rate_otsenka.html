@@ -102,66 +102,9 @@
                 </div>
                 <div class="tab-pane fade" id="nav2" role="tabpanel">
                   <div id="table" class="table-editable">
-                    <table class="table table-bordered table-responsive-md table-striped text-center">
-                      <thead>
-                        <tr>
-                          <th class="text-center">Показатель</th>
-                          <th class="text-center">Значение</th>
-                          <th class="text-center">Баллы</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="pt-3-half" contenteditable="true">Общий объем учебной нагрузки</td>
-                          <td class="pt-3-half" contenteditable="true">30</td>
-                          <td class="pt-3-half" contenteditable="true">Deepends</td>
-                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
-                                  aria-hidden="true"></i></a></span>
-                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
-                                  aria-hidden="true"></i></a></span>
-                          </td>
-                        </tr>
-                        <!-- This is our clonable table line -->
-                        <tr>
-                          <td class="pt-3-half" contenteditable="true">Соотношение учебной аудиторной нагрузки к общей учетной нагрузке более 70%</td>
-                          <td class="pt-3-half" contenteditable="true">45</td>
-                          <td class="pt-3-half" contenteditable="true">Insectus</td>
-                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
-                                  aria-hidden="true"></i></a></span>
-                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
-                                  aria-hidden="true"></i></a></span>
-                          </td>
-                        </tr>
-                        <!-- This is our clonable table line -->
-                        <tr>
-                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
-                          <td class="pt-3-half" contenteditable="true">26</td>
-                          <td class="pt-3-half" contenteditable="true">Isotronic</td>
-                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
-                                  aria-hidden="true"></i></a></span>
-                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
-                                  aria-hidden="true"></i></a></span>
-                          </td>
-                        </tr>
-                        <!-- This is our clonable table line -->
-                        <tr class="hide">
-                          <td class="pt-3-half" contenteditable="true">Elisa Gallagher</td>
-                          <td class="pt-3-half" contenteditable="true">31</td>
-                          <td class="pt-3-half" contenteditable="true">Portica</td>
-                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
-                                  aria-hidden="true"></i></a></span>
-                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
-                                  aria-hidden="true"></i></a></span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="btn-right">
-                    <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="nav3" role="tabpanel">
+                  <form action="{% url 'saveURR' %}" method="post">
+                    {% csrf_token %}
+                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{rating.year}}">
                   <div id="table" class="table-editable">
                     <table class="table table-bordered table-responsive-md table-striped text-center">
                       <thead>
@@ -175,9 +118,9 @@
                       <tbody>
                         <tr>
                           <td class="pt-3-half" contenteditable="true">Общий объем учебной нагрузки</td>
-                          <td class="pt-3-half" contenteditable="true">30</td>
-                          <td class="pt-3-half" contenteditable="true">Deepends</td>
-                          <td class="pt-3-half" contenteditable="true">50</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.obsh}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.obshpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.obshbal}}</td>
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                   aria-hidden="true"></i></a></span>
                             <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -187,9 +130,9 @@
                         <!-- This is our clonable table line -->
                         <tr>
                           <td class="pt-3-half" contenteditable="true">Соотношение учебной аудиторной нагрузки к общей учетной нагрузке более 70%</td>
-                          <td class="pt-3-half" contenteditable="true">45</td>
-                          <td class="pt-3-half" contenteditable="true">Insectus</td>
-                          <td class="pt-3-half" contenteditable="true">30</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.sootn}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.sootnpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.sootnbal}}</td>
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                   aria-hidden="true"></i></a></span>
                             <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -199,9 +142,90 @@
                         <!-- This is our clonable table line -->
                         <tr>
                           <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
-                          <td class="pt-3-half" contenteditable="true">26</td>
-                          <td class="pt-3-half" contenteditable="true">Isotronic</td>
-                          <td class="pt-3-half" contenteditable="true">60</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.zansprakt}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.zanspraktpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.zanspraktbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение выездных занятий с обучающимися в практических подразделениях</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.viezdsprakt}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.viezdspraktpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.viezdspraktbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Поведение занятий с ППC в рамках профессиональной, служебной, физической подготовки (огневая, физическая подготовка)</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsfp}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsfppodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsfpbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                         <tr>
+                          <td class="pt-3-half" contenteditable="true">Поведение занятий с ППC в рамках единого дня государственно-правового информирования, морально-психологической подготовки с сотрудниками Университета, и пр.; проведение инструктивно-методических занятий с ППС кафедр(ы) Университета в рамках работы в ЦСО</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsdr}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsdrpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.ppsdrbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                         <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение во вне учебное время внеаудиторных мероприятий по дисциплинам кафедры - викторин, интеллектуальных игр, экскурсий по тематике преподаваемых дисциплин и т.п.</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.vneaudotor}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.vneaudotorpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{urrform.vneaudotorbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="btn-right">
+                    <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                  </div>
+                  </form>
+
+                  </div>
+
+                </div>
+                <div class="tab-pane fade" id="nav3" role="tabpanel">
+
+                <form action="#" method="post">
+                <div id="table" class="table-editable">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Показатель</th>
+                          <th class="text-center">Значение</th>
+                          <th class="text-center">Подтверждающие данные</th>
+                          <th class="text-center">Баллы</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Руководство секцией методического совет</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ruksec}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ruksecpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ruksecbal}}</td>
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                   aria-hidden="true"></i></a></span>
                             <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -209,23 +233,392 @@
                           </td>
                         </tr>
                         <!-- This is our clonable table line -->
-                        <tr class="hide">
-                          <td class="pt-3-half" contenteditable="true">Elisa Gallagher</td>
-                          <td class="pt-3-half" contenteditable="true">31</td>
-                          <td class="pt-3-half" contenteditable="true">Portica</td>
-                          <td class="pt-3-half" contenteditable="true">70</td>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Руководство предметно-методической секцией кафедры</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukpredmsek}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukpredmsekpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukpredmsek}}</td>
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                   aria-hidden="true"></i></a></span>
                             <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
                                   aria-hidden="true"></i></a></span>
                           </td>
                         </tr>
+                        <!-- This is our clonable table line -->
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotaruk}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotarukpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotarukbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotachlen}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotachlenpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rabotachlenbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafnach}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafnachpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafnachbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                         <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafzam}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafzampodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.rukkafzambal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                         <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodmir}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodmirpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodmirbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodrus}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodruspodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodrusbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodreg}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodregpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodregbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodunik}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodunikpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.bestprepodunikbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodmir}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodmirpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodmirbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodrus}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodruspodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodrusbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodreg}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodregpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodregbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodunik}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodunikpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.uchastiebestprepodunikbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ekspert}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ekspertpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.ekspertbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk1bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk2}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk2podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk2bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk3}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk3podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.metodkonk3bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.profmaster}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.profmasterpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.profmasterbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornmir}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornmirpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornmirbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornrus}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornruspodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornrusbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornreg}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornregpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornregbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornunik}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornunikpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.podgsbornunikbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.vulkan}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.vulkanpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.vulkanbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.plenar}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.plenarpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.plenarbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.obrprogramma}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.obrprogrammapodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.obrprogrammabal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.proverkaf}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.proverkafpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.proverkafbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inpectunik}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inpectunikpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inpectunikbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki1}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki1podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki1bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki6}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki6podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki6bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki11}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki11podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki11bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki16}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki16podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki16bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki26}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki26podtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.resocenki26bal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="pt-3-half" contenteditable="true">Проведение занятий с сотруниками практических подразделений</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inovac}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inovacpodtv}}</td>
+                          <td class="pt-3-half" contenteditable="true">{{ormrform.inovacbal}}</td>
+                            <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                  aria-hidden="true"></i></a></span>
+                            <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                  aria-hidden="true"></i></a></span>
+                          </td>
+                        </tr>
+
                       </tbody>
                     </table>
                   </div>
                   <div class="btn-right">
                     <button type="button" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
                   </div>
+
+
+                  </form>
                 </div>
                 <div class="tab-pane fade" id="nav4" role="tabpanel">
                   <div id="table" class="table-editable">

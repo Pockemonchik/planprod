@@ -43,6 +43,7 @@ class SaveMRRSerializer(serializers.ModelSerializer):
 
 
 
+
 class Place(object):
     def __init__(self,summ, kafedraplace, dolzhnostplace, unikplace):
         self.summ = summ

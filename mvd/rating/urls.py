@@ -9,18 +9,20 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
 
 urlpatterns = [
-    url(r'^rate_otsenka', views.rate_otsenka),
+    url(r'^rate_otsenka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.rate_otsenka),
+    url('profilesfilter', views.ProfileFilterView.as_view()),
     url(r'^nach_kaf', views.nach_kaf),
     url(r'^sotr_umr', views.sotr_umr),
     url('kafedras', views.KafedraAllView.as_view()),
     url('profiles', views.ProfileAllView.as_view()),
     url('profilerating', views.ProfileRatingView.as_view()),
     url('profileplace', views.ProfilePlaceView.as_view()),
-    url('saveURR', views.SaveURRView.as_view()),
+    url('saveURR', views.SaveURRView.as_view(),name='saveURR'),
     url('saveORMR', views.SaveORMRView.as_view()),
     url('savePCR', views.SavePCRView.as_view()),
     url('saveMRR', views.SaveMRRView.as_view()),
     url('years', views.YearView.as_view()),
+    url('graph', views.GraphView.as_view()),
 
 ]
 if settings.DEBUG:
