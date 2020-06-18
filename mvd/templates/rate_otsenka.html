@@ -37,23 +37,18 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-2">
-              <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action" id="list-home-list"  href="#list-home" role="tab" aria-controls="home" onclick="clickActive1()"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
-                <a class="list-group-item list-group-item-action" id="list-profile-list"  href="#list-profile" role="tab" aria-controls="profile" onclick="clickActive2()"><i class="fa fa-pie-chart" aria-hidden="true"></i>Иные кнопки управления</a>
-                <a class="list-group-item list-group-item-action" id="list-messages-list"  href="#list-messages" role="tab" aria-controls="messages" onclick="clickActive3()"><i class="fa fa-tasks" aria-hidden="true"></i>Настройки</a>
-                <a class="list-group-item list-group-item-action" id="list-settings-list" href="#list-settings" role="tab" aria-controls="settings" onclick="clickActive4()"><i class="fa fa-plus" aria-hidden="true"></i>...</a>
-              </div>
-            </div>
             <div class="col nav-block">
               <nav class="main-nav">
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Суммарные показатели рейтинговой оценки</a>
-                  <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >Учебная работа</a>
-                  <a class="nav-item nav-link"  id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false">Организационно-методическая работа</a>
-                  <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false">Подготовка учебно-методических материалов</a>
-                  <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Педагогический контроль</a>
-                </div>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Суммарные показатели рейтинговой оценки</a>
+                    <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >Учебная работа</a>
+                    <a class="nav-item nav-link"  id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false">Организационно-методическая работа</a>
+                    <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false">Подготовка учебно-методических материалов</a>
+                    <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Педагогический контроль</a>
+                    <div class="list-group" id="list-tab" role="tablist">
+                      <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
+                    </div>
+                  </div>
               </nav>
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
@@ -92,11 +87,36 @@
                     </div>
                   </div>
                   <div class="flex-block">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Педагогический контроль</span>
-                      </div>
-                      <input type="text" aria-label="First name" class="form-control">
+                    <div id="table" class="table-editable">
+                      <table class="table table-bordered table-responsive-md table-striped text-center">
+                        <thead>
+                          <tr>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="pt-3-half">Сумма баллов</td>
+                            <td class="pt-3-half">256</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half">Количество месяцев</td>
+                            <td class="pt-3-half">456</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half">Место на кафедре</td>
+                            <td class="pt-3-half">233</td>
+                          </tr>
+                          <!-- This is our clonable table line -->
+                          <tr>
+                            <td class="pt-3-half">Место в университете</td>
+                            <td class="pt-3-half">122</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
