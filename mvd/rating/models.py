@@ -55,7 +55,7 @@ class URR(models.Model):
     year = models.IntegerField(default=2020)
 
     def getsumm(self):
-        return self.obsh + self.sootn + self.zansprakt + self.sriv + self.opozdanie
+        return self.obshbal + self.sootnbal + self.zanspraktbal + self.srivbal + self.opozdaniebal
 
     def __str__(self):
         return self.profile.user.username
@@ -189,23 +189,38 @@ class PCR(models.Model):
     sriv = models.IntegerField(default=0)
     opozdanie = models.IntegerField(default=0)
     year = models.IntegerField(default=2020)
+
+    otkrpodtv = models.CharField(max_length=250, blank=True)
+    kontrudpodtv =models.CharField(max_length=250, blank=True)
+    kontrneudpodtv = models.CharField(max_length=250, blank=True)
+    srivpodtv = models.CharField(max_length=250, blank=True)
+    opozdaniepodtv = models.CharField(max_length=250, blank=True)
+
+
+    otkrbal = models.IntegerField(default=0)
+    kontrudbal = models.IntegerField(default=0)
+    kontrneudbal = models.IntegerField(default=0)
+    srivbal = models.IntegerField(default=0)
+    opozdaniebal = models.IntegerField(default=0)
+
     def __str__(self):
         return self.profile.user.username
     def getsumm(self):
-        return self.otkr+self.kontrud+self.kontrneud+self.sriv+self.opozdanie
+        return self.otkrbal+self.kontrudbal+self.kontrneudbal+self.srivbal+self.opozdaniebal
 
 
 class MRR(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    razr1 = models.IntegerField(default=0)
-    razr2 = models.IntegerField(default=0)
-    razr3 = models.IntegerField(default=0)
+    name=models.CharField(max_length=250, blank=True)
+    soavtr=models.IntegerField(default=0)
+    dgsk=models.BooleanField(default=False)
+    bal=models.IntegerField(default=0)
     year = models.IntegerField(default=2020)
     def __str__(self):
         return self.profile.user.username
 
     def getsumm(self):
-        return self.razr1 + self.razr2 + self.razr3
+        return self.razr1bal + self.razr2bal + self.razr3bal
 
 
 

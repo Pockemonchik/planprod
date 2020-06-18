@@ -18,9 +18,9 @@ urlpatterns = [
     url('profilerating', views.ProfileRatingView.as_view()),
     url('profileplace', views.ProfilePlaceView.as_view()),
     url('saveURR', views.SaveURRView.as_view(),name='saveURR'),
-    url('saveORMR', views.SaveORMRView.as_view()),
-    url('savePCR', views.SavePCRView.as_view()),
-    url('saveMRR', views.SaveMRRView.as_view()),
+    url('saveORMR', views.SaveORMRView.as_view(),name='saveORMR'),
+    url('savePCR', views.SavePCRView.as_view(),name='savePCR'),
+    url('saveMRR', views.SaveMRRView.as_view(),name='saveMRR'),
     url('years', views.YearView.as_view()),
     url('graph', views.GraphView.as_view()),
 

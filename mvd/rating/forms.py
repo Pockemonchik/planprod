@@ -152,3 +152,37 @@ class ORMRForm(forms.ModelForm):
                 'inovacpodtv': TextInput(attrs={"class":"form-control"}),
 
         }
+class PCRForm(forms.ModelForm):
+    class Meta:
+        model=PCR
+        exclude = ['year','profile']
+        widgets = {
+            'otkr': NumberInput(attrs={"class":"form-control"}),
+            'kontrud': NumberInput(attrs={"class": "form-control"}),
+            'kontrneud': NumberInput(attrs={"class": "form-control"}),
+            'sriv': NumberInput(attrs={"class": "form-control"}),
+            'opozdanie': NumberInput(attrs={"class": "form-control"}),
+
+            'otkrbal': NumberInput(attrs={"class": "form-control"}),
+            'kontrudbal': NumberInput(attrs={"class": "form-control"}),
+            'kontrneudbal': NumberInput(attrs={"class": "form-control"}),
+            'srivbal': NumberInput(attrs={"class": "form-control"}),
+            'opozdaniebal': NumberInput(attrs={"class": "form-control"}),
+
+            'otkrpodtv': TextInput(attrs={"class":"form-control"}),
+            'kontrudpodtv': TextInput(attrs={"class": "form-control"}),
+            'kontrneudpodtv': TextInput(attrs={"class": "form-control"}),
+            'srivpodtv': TextInput(attrs={"class": "form-control"}),
+            'opozdaniepodtv': TextInput(attrs={"class": "form-control"}),
+
+
+        }
+class MRRForm(forms.ModelForm):
+    class Meta:
+        model=MRR
+        exclude = ['year','profile']
+        widgets = {
+            'soavtr': NumberInput(attrs={"class":"form-control"}),
+            'bal': NumberInput(attrs={"class": "form-control"}),
+            'name': TextInput(attrs={"class": "form-control"}),
+        }
