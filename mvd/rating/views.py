@@ -28,7 +28,7 @@ def rate_otsenka(request,slug,year):
     except:
         urr=None
     try:
-        ormr = get_object_or_404(URR, profile=profile1, year=year)
+        ormr = get_object_or_404(ORMR, profile=profile1, year=year)
     except:
         ormr = None
     try:
