@@ -13,1530 +13,1077 @@
 <body>
    <div class="content active">
       <div class="container-fluid middle-block">
-            <div class="input-block">
-              <div class="block-content">
-                <div class="mb-3">
+         <div class="input-block">
+            <div class="block-content">
+               <div class="mb-3">
                   <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
                   <input type="text" class="form-control" id="address2" placeholder="Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции">
-                </div>
-                <div class="mb-3">
+               </div>
+               <div class="mb-3">
                   <label for="address2">Фио лица, утферждающего индивидуальный план</label>
                   <input type="text" class="form-control" id="address2" placeholder="И.И.Иванов">
-                </div>
-                <div class="row mb-3">
+               </div>
+               <div class="row mb-3">
                   <div class="col">
-                    <label for="address">ФИО лица,утверждающего индивидуальный план:</label>
-                    <input type="text" class="form-control" id="address" placeholder="И.И.Иванов" required>
+                     <label for="address">ФИО лица,утверждающего индивидуальный план:</label>
+                     <input type="text" class="form-control" id="address" placeholder="И.И.Иванов" required>
                   </div>
                   <div class="col">
-                    <label for="address">Дата утверждения:</label>
-                    <input type="text" class="form-control" id="address" placeholder="31 февраля 2019" required>
+                     <label for="address">Дата утверждения:</label>
+                     <input type="text" class="form-control" id="address" placeholder="31 февраля 2019" required>
                   </div>
-                </div>
-                <div class="row">
+               </div>
+               <div class="row">
                   <div class="col">
-                    <label for="address">Дата</label>
-                    <div class="flex-row">
-                      <input type="text" class="form-control" id="address"  required>
-                      <input type="text" class="form-control" id="address"  required>
-                    </div>
+                     <label for="address">Дата</label>
+                     <div class="flex-row">
+                        <input type="text" class="form-control" id="address"  required>
+                        <input type="text" class="form-control" id="address"  required>
+                     </div>
                   </div>
                   <div class="col"></div>
-                </div>
-              </div>
+               </div>
             </div>
-            <div class="col block-button">
-              <div class="block-button-1">
-                <div class="list-group" id="list-tab" role="tablist">
+         </div>
+         <div class="col block-button">
+            <div class="block-button-1">
+               <div class="list-group" id="list-tab" role="tablist">
                   <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Cформировать Индивидуальный план</a>
                   <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Заполнить планируемую нагрузку</a>
                   <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Заполнить фактическую нагрузку</a>
-                </div>
-              </div>
-              <div class="block-button-2">
-                <div class="list-group" id="list-tab" role="tablist">
+               </div>
+            </div>
+            <div class="block-button-2">
+               <div class="list-group" id="list-tab" role="tablist">
                   <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Cформировать рейтинг</a>
-                </div>
-              </div>
-              <div class="block-button-3">
-                <div class="list-group" id="list-tab" role="tablist">
+               </div>
+            </div>
+            <div class="block-button-3">
+               <div class="list-group" id="list-tab" role="tablist">
                   <a class="list-group-item list-group-item-action header-upload" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Загрузить данные из doc файла</a>
-                </div>
-                <div class="input-group mb-3">
+               </div>
+               <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
+                     <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
                   </div>
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01">Файл</label>
+                     <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                     <label class="custom-file-label" for="inputGroupFile01">Файл</label>
                   </div>
-                </div>
-              </div>
+               </div>
             </div>
+         </div>
       </div>
       <div class="main-block ">
-        <div class="card-deck mb-3 mt-3 text-center">
-          <div class="card mb-4 shadow-sm main-block">
-            <div class="card-header">
-              <!-- <h4 class="my-0 font-weight-normal">Free</h4> -->
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col nav-block">
-                  <nav class="main-nav">
-                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Общ нагрузка</a>
-                        <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >План уч. работа</a>
-                        <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false" >Факт. вып. работа</a>
-                        <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false" >Ежемесяный Учет вып. уч. нагрузок</a>
-                        <a class="nav-item nav-link"  id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Метод. работа</a>
-                        <a class="nav-item nav-link" id="tab6" data-toggle="tab" href="#nav6" role="tab"  aria-selected="false">НИР</a>
-                        <a class="nav-item nav-link" id="tab7" data-toggle="tab" href="#nav7" role="tab"  aria-selected="false">Морально-психологическая работа</a>
-                        <a class="nav-item nav-link" id="tab8" data-toggle="tab" href="#nav8" role="tab"  aria-selected="false">Работа с иностр. слуш.</a>
-                        <a class="nav-item nav-link" id="tab9" data-toggle="tab" href="#nav9" role="tab"  aria-selected="false">Иные виды работ</a>
-                      </div>
-                  </nav>
-                  <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
-                      <h3>Общая нагрузка</h3>
-                      <div class="flex-block" id="table-first">
-                        <!-- <hr class="mt-2"> -->
-                        <div id="table" class="table-editable">
-                          <table class="table table-bordered table-responsive-md table-striped text-center">
-                            <thead>
-                              <tr>
-                                <th class="text-center">Виды работ</th>
-                                <th class="text-center">1 сем</th>
-                                <th class="text-center">2 сем</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="pt-3-half">Учебная</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <!-- This is our clonable table line -->
-                              <tr>
-                                <td class="pt-3-half">Методическая</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <!-- This is our clonable table line -->
-                              <tr>
-                                <td class="pt-3-half">Научная и исследовательская</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <!-- This is our clonable table line -->
-                              <tr>
-                                <td class="pt-3-half">Работа по морально-психологическому обеспечению</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <tr>
-                                <td class="pt-3-half">Работа с иностранными слушателями</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <tr>
-                                <td class="pt-3-half">Иные виды работ</td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="btn-right">
-                          <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav2" role="tabpanel">
-                      <h3>Планируемая учебная работа за первое полугодие</h3>
-                      <hr class="mt-2">
-                      <div id="table" class="table-editable">
-                        <table class="table table-bordered table-responsive-md table-striped text-center">
-                          <thead>
-                            <tr>
-                              <th class="text-center rotate"><div class="rotate">Наименование дисциплины, факультет курс,номер группы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Чтение лекций</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение семинаров</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение практических занятий в группе</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение практических занятий в подгруппе</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение учений, деловых игр, круглых столов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение консультаций перед экзаменами</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение текущих консультаций</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием внеаудиторного чтени</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство практикой</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство ВКР</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство курсовой работой</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка аудиторной контрольной работы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка практикума, реферата</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка лабораторной работы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием защит практик</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием зачетов устных</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка письменного зачета</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием вступительных испытаний</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием экзаменов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием кандидатских экзаменов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство адьюнктами, консультирование докторанта</div></th>
-                              <th class="text-center rotate"><div class="rotate">Общая учебная нагрузка</div></th>
-                              <th class="text-center rotate"><div class="rotate">В т.ч. аудиторная нагрузка</div></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <!-- This is our clonable table line -->
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="btn-right">
-                        <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                      </div>
-                      <h3>Планируемая учебная работа за второе полугодие</h3>
-                      <hr class="mt-2">
-                      <div id="table" class="table-editable">
-                        <table class="table table-bordered table-responsive-md table-striped text-center">
-                          <thead>
-                            <tr>
-                              <th class="text-center rotate2"><div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Чтение лекций</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение семинаров</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в группе</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в подгруппе</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение учений, деловых игр, круглых столов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение консультаций перед экзаменами</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение текущих консультаций</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием внеаудиторного чтени</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство практикой</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство ВКР</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство курсовой работой</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка аудиторной контрольной работы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка практикума, реферата</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка лабораторной работы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием защит практик</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием зачетов устных</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка письменного зачета</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием вступительных испытаний</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием экзаменов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием кандидатских экзаменов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство адьюнктами, консультирование докторанта</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Общая учебная нагрузка</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">В т.ч. аудиторная нагрузка</div></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <!-- This is our clonable table line -->
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="btn-right">
-                        <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                      </div>
-                      </div>
-                      <div class="tab-pane fade" id="nav3" role="tabpanel">
-                        <h3>Фактически выполненная работа за первое полугодие</h3>
-                      <hr class="mt-2">
-                      <div id="table" class="table-editable">
-                        <table class="table table-bordered table-responsive-md table-striped text-center">
-                          <thead>
-                            <tr>
-                              <th class="text-center rotate"><div class="rotate">Наименование дисциплины, факультет курс,номер группы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Чтение лекций</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение семинаров</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение практических занятий в группе</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение практических занятий в подгруппе</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение учений, деловых игр, круглых столов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение консультаций перед экзаменами</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проведение текущих консультаций</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием внеаудиторного чтени</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство практикой</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство ВКР</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство курсовой работой</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка аудиторной контрольной работы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка практикума, реферата</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка лабораторной работы</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием защит практик</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием зачетов устных</div></th>
-                              <th class="text-center rotate"><div class="rotate">Проверка письменного зачета</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием вступительных испытаний</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием экзаменов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div></th>
-                              <th class="text-center rotate"><div class="rotate">Прием кандидатских экзаменов</div></th>
-                              <th class="text-center rotate"><div class="rotate">Руководство адьюнктами, консультирование докторанта</div></th>
-                              <th class="text-center rotate"><div class="rotate">Общая учебная нагрузка</div></th>
-                              <th class="text-center rotate"><div class="rotate">В т.ч. аудиторная нагрузка</div></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <!-- This is our clonable table line -->
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="btn-right">
-                        <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                      </div>
-                      <h3>Фактическая выполненная работа за второе полугодие</h3>
-                      <hr class="mt-2">
-                      <div id="table" class="table-editable">
-                        <table class="table table-bordered table-responsive-md table-striped text-center">
-                          <thead>
-                            <tr>
-                              <th class="text-center rotate2"><div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Чтение лекций</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение семинаров</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в группе</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в подгруппе</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение учений, деловых игр, круглых столов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение консультаций перед экзаменами</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проведение текущих консультаций</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием внеаудиторного чтени</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство практикой</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство ВКР</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство курсовой работой</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка аудиторной контрольной работы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка практикума, реферата</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка лабораторной работы</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием защит практик</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием зачетов устных</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Проверка письменного зачета</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием вступительных испытаний</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием экзаменов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Прием кандидатских экзаменов</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Руководство адьюнктами, консультирование докторанта</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">Общая учебная нагрузка</div></th>
-                              <th class="text-center rotate2"><div class="rotate2">В т.ч. аудиторная нагрузка</div></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <!-- This is our clonable table line -->
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                            <tr>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                              <td class="pt-3-half"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="btn-right">
-                        <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                      </div>
-                      </div>
-                      <div class="tab-pane fade" id="nav4" role="tabpanel">
-                        <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
-                        <hr class="mt-2">
-                        <div id="table" class="table-editable">
-                          <table class="table table-bordered table-responsive-md table-striped text-center">
-                            <thead>
-                              <tr>
-                                <th class="text-center rotate2"><div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Чтение лекций</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение семинаров</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в группе</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение практических занятий в подгруппе</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение учений, деловых игр, круглых столов</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение консультаций перед экзаменами</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проведение текущих консультаций</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием внеаудиторного чтени</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Руководство практикой</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Руководство ВКР</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Руководство курсовой работой</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проверка аудиторной контрольной работы</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проверка практикума, реферата</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проверка лабораторной работы</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием защит практик</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием зачетов устных</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Проверка письменного зачета</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием вступительных испытаний</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием экзаменов</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Прием кандидатских экзаменов</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Руководство адьюнктами, консультирование докторанта</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">Общая учебная нагрузка</div></th>
-                                <th class="text-center rotate2"><div class="rotate2">В т.ч. аудиторная нагрузка</div></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <tr>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <!-- This is our clonable table line -->
-                              <tr>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                              <tr>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                                <td class="pt-3-half"></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="btn-right">
-                          <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                        </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav5" role="tabpanel" >
-                          <h3>Методическая работа за первое полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center first-col">Иностранцы</th>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                    <th class="text-center first-col">Включить в рейтинг</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                            <h3>Методическая работа за второе полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center first-col">Иностранцы</th>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                    <th class="text-center first-col">Включить в рейтинг</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav6" role="tabpanel" >
-                          <h3>Научно исследовательская работа за первое полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                            <h3>Научно исследовательская работа за второе полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav7" role="tabpanel" >
-                          <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                            <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav8" role="tabpanel" >
-                          <h3>Работа с иностранными слушателями за первое полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                            <h3>Работа с иностранными слушателями за второе полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav9" role="tabpanel" >
-                          <h3>Иные виды работ за первое полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                            <h3>Иные виды работ за второе полугодие</h3>
-                            <div id="table" class="table-editable">
-                              <table class="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Вид работы</th>
-                                    <th class="text-center">Срок выполнения</th>
-                                    <th class="text-center">Отметка о выполнении</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <!-- This is our clonable table line -->
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                    <td class="pt-3-half"></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="btn-right">
-                              <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-</body>
-   <script>
-      $(".textpole").autogrow();
-      $(".otmetka").autogrow();
-      $('.add_more').click(function(ev) {
-          // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
-          var form_idx = ev.target.closest('form')
-          var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
-          // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
-          var empty_form=$(form_idx).find('#empty_form')
-          var newrow=$(empty_form).html().replace(/__prefix__/g, count);
-      
-          $('<tr>').appendTo($(form_idx).find('tbody'))
-          var table=$(form_idx).children('#form_set');
-      
-          $(newrow).clone().appendTo($(table).find('tbody'))
-      
-          $('</tr>').appendTo($(form_idx).find('tbody'))
-          $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
-      
-      
-      
-      });
-      // $('.sohr').click(function(ev) {
-      //   console.log(ev.target)
-      //     var form_idx = ev.target.closest('form')
-      //     $(form_idx).submit(function (e) {
-      //         $('form_idx').find ('input, textearea, select').each(function() {
-      //           console.log($(this).val());
-      //
-      //         })
-      //       });
-      //     });
-      
-      
-      
-      
-      
-   </script>
-   <script type="text/javascript">
-      // var test=document.getElementById("form_set")
-      
-        var test=document.getElementsByClassName('table table-bordered table-hover')
-        for (var i=0 ; i<test.length; i++) {
-          test[i].addEventListener('click', function(evt){
-            if(evt.target.closest('.deleteRow')) {
-              m=evt.target.closest('tr');
-              var i=m.getElementsByTagName('textarea')[0]
-              console.log($(i).val())
-              var t=""
-              $(i).val(t)
-              console.log($(i).val())
-              evt.target.closest('tr').style.display='none';
-      
-            }
-          })}
-      
-      
-      
-      
-          
-   </script>
+         <div class="card-deck mb-3 mt-3 text-center">
+            <div class="card mb-4 shadow-sm main-block">
+               <div class="card-header">
+                  <!-- <h4 class="my-0 font-weight-normal">Free</h4> -->
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col nav-block">
+                        <nav class="main-nav">
+                           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                              <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Общ нагрузка</a>
+                              <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >План уч. работа</a>
+                              <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false" >Факт. вып. работа</a>
+                              <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false" >Ежемесяный Учет вып. уч. нагрузок</a>
+                              <a class="nav-item nav-link"  id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Метод. работа</a>
+                              <a class="nav-item nav-link" id="tab6" data-toggle="tab" href="#nav6" role="tab"  aria-selected="false">НИР</a>
+                              <a class="nav-item nav-link" id="tab7" data-toggle="tab" href="#nav7" role="tab"  aria-selected="false">Морально-психологическая работа</a>
+                              <a class="nav-item nav-link" id="tab8" data-toggle="tab" href="#nav8" role="tab"  aria-selected="false">Работа с иностр. слуш.</a>
+                              <a class="nav-item nav-link" id="tab9" data-toggle="tab" href="#nav9" role="tab"  aria-selected="false">Иные виды работ</a>
+                           </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                           <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
+                              <h3>Общая нагрузка</h3>
+                              <div class="flex-block" id="table-first">
+                                 <!-- <hr class="mt-2"> -->
+                                 <div id="table" class="table-editable">
+                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">Виды работ</th>
+                                             <th class="text-center">1 сем</th>
+                                             <th class="text-center">2 сем</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td class="pt-3-half">Учебная</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                          <!-- This is our clonable table line -->
+                                          <tr>
+                                             <td class="pt-3-half">Методическая</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                          <!-- This is our clonable table line -->
+                                          <tr>
+                                             <td class="pt-3-half">Научная и исследовательская</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                          <!-- This is our clonable table line -->
+                                          <tr>
+                                             <td class="pt-3-half">Работа по морально-психологическому обеспечению</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                          <tr>
+                                             <td class="pt-3-half">Работа с иностранными слушателями</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                          <tr>
+                                             <td class="pt-3-half">Иные виды работ</td>
+                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half"></td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="tab-pane fade" id="nav2" role="tabpanel">
+                              <h3>Планируемая учебная работа за первое полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT1' %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
 
+                                   <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Чтение лекций</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение семинаров</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение практических занятий в группе</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение текущих консультаций</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием внеаудиторного чтени</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство практикой</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство ВКР</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство курсовой работой</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка практикума, реферата</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка лабораторной работы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием защит практик</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием зачетов устных</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка письменного зачета</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием вступительных испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием кандидатских экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Общая учебная нагрузка</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                            {{ formset.management_form }}
+                                           {%for form in formset%}
+                                           <tr>
+                                              {% for field in form %}
+                                              <td>{{ field }}</td>
+                                              {% endfor %}
+                                           </tr>
+                                           {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                               </form>
+                              <h3>Планируемая учебная работа за второе полугодие</h3>
+                              <hr class="mt-2">
+                               <form action="{%url 'saveT2' %}" method="post">
+                                 {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Чтение лекций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение семинаров</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в группе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в подгруппе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение учений, деловых игр, круглых столов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение консультаций перед экзаменами</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение текущих консультаций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием внеаудиторного чтени</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство практикой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство ВКР</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство курсовой работой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка аудиторной контрольной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка практикума, реферата</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка лабораторной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием защит практик</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием зачетов устных</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка письменного зачета</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием вступительных испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием кандидатских экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство адьюнктами, консультирование докторанта</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Общая учебная нагрузка</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">В т.ч. аудиторная нагрузка</div>
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+
+                                     </tr>
+                                     {{ formset.management_form }}
+                                     {%for form in formset%}
+                                     <tr>
+                                        {% for field in form %}
+                                        <td>{{ field }}</td>
+                                        {% endfor %}
+                                     </tr>
+                                     {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                                    </form>
+                           </div>
+
+                           <div class="tab-pane fade" id="nav3" role="tabpanel">
+                              <h3>Фактически выполненная работа за первое полугодие</h3>
+                              <hr class="mt-2">
+                             <form action="{%url 'saveT3' %}" method="post">
+                              {% csrf_token %}
+                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Чтение лекций</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение семинаров</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение практических занятий в группе</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проведение текущих консультаций</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием внеаудиторного чтени</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство практикой</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство ВКР</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство курсовой работой</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка практикума, реферата</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка лабораторной работы</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием защит практик</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием зачетов устных</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Проверка письменного зачета</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием вступительных испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Прием кандидатских экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">Общая учебная нагрузка</div>
+                                          </th>
+                                          <th class="text-center rotate">
+                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+
+                                      {{ formset3.management_form }}
+                                                       {%for form in formset3%}
+                                                       <tr>
+                                                          {% for field in form %}
+                                                          <td>{{ field }}</td>
+                                                          {% endfor %}
+                                                       </tr>
+                                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                             </form>
+                              <h3>Фактическая выполненная работа за второе полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT4' %}" method="post">
+                              {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Чтение лекций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение семинаров</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в группе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в подгруппе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение учений, деловых игр, круглых столов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение консультаций перед экзаменами</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение текущих консультаций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием внеаудиторного чтени</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство практикой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство ВКР</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство курсовой работой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка аудиторной контрольной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка практикума, реферата</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка лабораторной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием защит практик</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием зачетов устных</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка письменного зачета</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием вступительных испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием кандидатских экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство адьюнктами, консультирование докторанта</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Общая учебная нагрузка</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">В т.ч. аудиторная нагрузка</div>
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                     </tr>
+                                           {{ formset4.management_form }}
+                                           {%for form in formset4%}
+                                           <tr>
+                                              {% for field in form %}
+                                              <td>{{ field }}</td>
+                                              {% endfor %}
+                                           </tr>
+                                           {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+
+                              </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav4" role="tabpanel">
+                              <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveMesyac'%}" method="post">
+                                {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Наименование дисциплины, факультет курс,номер группы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Чтение лекций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение семинаров</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в группе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение практических занятий в подгруппе</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение учений, деловых игр, круглых столов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение консультаций перед экзаменами</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проведение текущих консультаций</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием внеаудиторного чтени</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство практикой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство ВКР</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство курсовой работой</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка аудиторной контрольной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка практикума, реферата</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка лабораторной работы</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием защит практик</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием зачетов устных</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Проверка письменного зачета</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием вступительных испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Прием кандидатских экзаменов</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Руководство адьюнктами, консультирование докторанта</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">Общая учебная нагрузка</div>
+                                          </th>
+                                          <th class="text-center rotate2">
+                                             <div class="rotate2">В т.ч. аудиторная нагрузка</div>
+                                          </th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                     {{ mesyac.management_form }}
+                                       {%for form in mesyac%}
+                                       <tr>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav5" role="tabpanel" >
+                              <h3>Методическая работа за первое полугодие</h3>
+                             <form action="{%url 'saveT5'%}" method="post">
+                             {% csrf_token %}
+                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center first-col"></th>
+                                          <th class="text-center first-col">Иностранцы</th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                          <th class="text-center first-col">Включить в рейтинг</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset5.management_form }}
+                                       {%for form in formset5%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                             </form>
+                              <h3>Методическая работа за второе полугодие</h3>
+                            <form action="{%url 'saveT6'%}" method="post">
+                             {% csrf_token %}
+                                <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center first-col"></th>
+                                          <th class="text-center first-col">Иностранцы</th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                          <th class="text-center first-col">Включить в рейтинг</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset6.management_form }}
+                                       {%for form in formset6%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                             </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav6" role="tabpanel" >
+                              <h3>Научно исследовательская работа за первое полугодие</h3>
+                              <form action="{%url 'saveT7'%}" method="post">
+                              {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                      {{ formset7.management_form }}
+                                       {%for form in formset7%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                              </form>
+                              <h3>Научно исследовательская работа за второе полугодие</h3>
+                               <form action="{%url 'saveT8'%}" method="post">
+                              {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                      {{ formset8.management_form }}
+                                       {%for form in formset8%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav7" role="tabpanel" >
+                              <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
+                               <form action="{%url 'saveT9'%}" method="post">
+                               {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset9.management_form }}
+                                   {%for form in formset9%}
+                                   <tr>
+                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      {% for field in form %}
+                                      <td>{{ field }}</td>
+                                      {% endfor %}
+                                   </tr>
+                                   {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                               </form>
+                              <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
+                               <form action="{%url 'saveT10'%}" method="post">
+                               {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset10.management_form }}
+                                   {%for form in formset10%}
+                                   <tr>
+                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      {% for field in form %}
+                                      <td>{{ field }}</td>
+                                      {% endfor %}
+                                   </tr>
+                                   {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                               </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav8" role="tabpanel" >
+                              <h3>Работа с иностранными слушателями за первое полугодие</h3>
+                               <form action="{%url 'saveT13'%}" method="post">
+                                {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                   {{ formset13.management_form }}
+                                   {%for form in formset13%}
+                                   <tr>
+                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      {% for field in form %}
+                                      <td>{{ field }}</td>
+                                      {% endfor %}
+                                   </tr>
+                                   {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                               </form>
+                              <h3>Работа с иностранными слушателями за второе полугодие</h3>
+                              <form action="{%url 'saveT14'%}" method="post">
+                                {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                   {{ formset14.management_form }}
+                                   {%for form in formset14%}
+                                   <tr>
+                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      {% for field in form %}
+                                      <td>{{ field }}</td>
+                                      {% endfor %}
+                                   </tr>
+                                   {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                               </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav9" role="tabpanel" >
+                              <h3>Иные виды работ за первое полугодие</h3>
+                              <form action="{%url 'saveT11'%}" method="post">
+                          {% csrf_token %}
+                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                      {{ formset11.management_form }}
+                                       {%for form in formset11%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                              </form>
+                              <h3>Иные виды работ за второе полугодие</h3>
+                               <form action="{%url 'saveT12'%}" method="post">
+                          {% csrf_token %}
+                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                         <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                      {{ formset12.management_form }}
+                                       {%for form in formset12%}
+                                       <tr>
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</body>
+<script>
+   $(".textpole").autogrow();
+   $(".otmetka").autogrow();
+   $('.add_more').click(function(ev) {
+       // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
+       var form_idx = ev.target.closest('form')
+       var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
+       // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
+       var empty_form=$(form_idx).find('#empty_form')
+       var newrow=$(empty_form).html().replace(/__prefix__/g, count);
+
+       $('<tr>').appendTo($(form_idx).find('tbody'))
+       var table=$(form_idx).children('#form_set');
+
+       $(newrow).clone().appendTo($(table).find('tbody'))
+
+       $('</tr>').appendTo($(form_idx).find('tbody'))
+       $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+
+
+
+   });
+   // $('.sohr').click(function(ev) {
+   //   console.log(ev.target)
+   //     var form_idx = ev.target.closest('form')
+   //     $(form_idx).submit(function (e) {
+   //         $('form_idx').find ('input, textearea, select').each(function() {
+   //           console.log($(this).val());
+   //
+   //         })
+   //       });
+   //     });
+
+
+
+
+
+</script>
+<script type="text/javascript">
+   // var test=document.getElementById("form_set")
+
+     var test=document.getElementsByClassName('table table-bordered table-hover')
+     for (var i=0 ; i<test.length; i++) {
+       test[i].addEventListener('click', function(evt){
+         if(evt.target.closest('.deleteRow')) {
+           m=evt.target.closest('tr');
+           var i=m.getElementsByTagName('textarea')[0]
+           console.log($(i).val())
+           var t=""
+           $(i).val(t)
+           console.log($(i).val())
+           evt.target.closest('tr').style.display='none';
+
+         }
+       })}
+
+
+
+
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 <script id='INLINE_PEN_JS_ID'>
    new Vue({
