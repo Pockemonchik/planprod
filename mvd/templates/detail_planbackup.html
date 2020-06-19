@@ -1,0 +1,900 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<head>
+   <link rel="stylesheet" href="{% static "/css/realtables.css" %}" />
+   <script type="text/javascript" src="{% static "/js/statich.js" %}"></script>
+   <script type="text/javascript" src="{% static "/js/shaper.js" %}"></script>
+   <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />fonts.googleapis.css
+   <link rel="stylesheet" href="{% static "/css/fonts.googleapis.css" %}" />
+   <!-- <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" /> -->
+   <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+   <script src="{% static "/js/vue.js" %}"></script>
+   <script src="{% static "/js/axios.js" %}"></script>
+   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+</head>
+<div class="content active">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-sm-12">
+            <div id="palka1">
+               <a href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"role="button" class="button-block"><button>Сформировать документ</button></a>
+               <a href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить планируемую нагрузку</button></a>
+               <a href="{%url 'nagruzkafact' plan.prepod.user.username plan.year%}" role="button" class="button-block"><button>Заполнить фактическую нагрузку</button></a>
+               <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
+                  {% csrf_token %}
+                  <div class="block-palka">
+                     {{docForm}}
+                     <input type="hidden"name="profile"  value="{{profile1.user.username}}">
+                     <input type="hidden"name="year"  value="{{plan.year}}">
+                     <input type="submit" value="Загрузить данные из docx файла" >
+                  </div>
+               </form>
+            </div>
+            <div class="more" autocomplete="off" id="app" data-app>
+               <form  action="{%url 'shapka'%}" method="post" class="shapka" id="qwewq">
+                  {% csrf_token %}
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <div class="more1">
+                     <h6>ФИО преподавателя полностью в р/п: </h6>
+                     <h6 class="dolzhnost">Должность:</h6>
+                     <h6 class="dolzhnost">Кафедра:</h6>
+                     <h6 class="idh6">Должность и звание лица, утверждающего индивидуальный план: </h6>
+                     <h6 class="fioliz">ФИО лица,утверждающего индивидуальный план:</h6>
+                     <h6 class="godinvid">Год индивидуального плана: </h6>
+                     <!-- <input type="submit" value="Сохранить" class="sohr"> -->
+                     <v-btn @click="save" class="sohr">Сохранить</v-btn>
+                     <v-snackbar
+                        v-model="snackbar"
+                        :timeout="timeout"
+                      >
+                        { text }
+                  
+                        <template v-slot:action="{ attrs }">
+                          <v-btn
+                            color="blue"
+                            text
+                            v-bind="attrs"
+                            @click="snackbar = false"
+                          >
+                            Close
+                          </v-btn>
+                        </template>
+                      </v-snackbar>
+                  </div>
+                  <div class="more2">
+                     <div class="pole">{{shapka.fio}}</div>
+                     <div class="pole">{{shapka.dolznost}}</div>
+                     <div class="pole">{{shapka.kafedra}}</div>
+                     <div class="pole">
+                        <div class="podpole">
+                           <h6>ставка:</h6>
+                           {{shapka.stavka}}
+                        </div>
+                        <div class="podpole">
+                           <h6>учёная степень: </h6>
+                           {{shapka.uchst}}
+                        </div>
+                        <div class="podpole">
+                           <h6>учёное звание</h6>
+                           {{shapka.uchzv}}
+                        </div>
+                        <div class="podpole">
+                           <h6>выслуга п/л</h6>
+                           {{shapka.visluga}}
+                        </div>
+                     </div>
+                     <div class="pole">{{shapka.shapka}}</div>
+                     <div class="pole">
+                        <div class="podpole">
+                           {{shapka.fionach}}
+                        </div>
+                        <div class="podpole">
+                           <h6 class="datautv">Дата утверждения:</h6>
+                           {{shapka.data}}
+                        </div>
+                     </div>
+                     <div class="pole">{{shapka.na_kakoygod}}  /  {{shapka.na_kakoygod1}}</div>
+                  </div>
+            </div>
+            </form>
+            <div class="zagolovok" id="palka2">
+               <p>Общая нагрузка</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'mainTableSave'%}" method="post">
+                  {% csrf_token %}
+                  <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th>Виды работ</th>
+                        <th>1сем </th>
+                        <th>2сем </th>
+                     </tr>
+                     <tr>
+                        <th>Учебная </th>
+                        <td>{{mainForm.ucheb_r_1_p}}</td>
+                        <td>{{mainForm.ucheb_r_2_p}}</td>
+                     </tr>
+                     <tr>
+                        <th>Методическая</th>
+                        <td>{{mainForm.ucheb_med_r_1_p}}</td>
+                        <td>{{mainForm.ucheb_med_r_2_p}}</td>
+                     </tr>
+                     <tr>
+                        <th>Научная и исследовательская</th>
+                        <td>{{mainForm.nir_1_p}}</td>
+                        <td>{{mainForm.nir_2_p}}</td>
+                     </tr>
+                     <tr>
+                        <th>Работа по морально-психологическому обеспечению</th>
+                        <td>{{mainForm.vr_1_p}}</td>
+                        <td>{{mainForm.vr_2_p}}</td>
+                     </tr>
+                     <tr>
+                        <th>Работа с иностранными слушателями</th>
+                        <td>{{mainForm.inr_1_p}}</td>
+                        <td>{{mainForm.inr_2_p}}</td>
+                     </tr>
+                     <tr>
+                        <th>Иные виды работ</th>
+                        <td>{{mainForm.dr_1_p}}</td>
+                        <td>{{mainForm.dr_2_p}}</td>
+                     </tr>
+                  </table>
+            </div>
+            <input type="submit" value="Поcчитать и сохранить " class="sohr" />
+            <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+            </form>
+            <div class="zagolovok" id="palka3">
+               <p>Планируемая учебная  работа за первое полугодие</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveT1' %}" method="post">
+                  {% csrf_token %}
+                  <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th><img  src="{% static "admin1/images/1.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+                     </tr>
+                     {{ formset.management_form }}
+                     {%for form in formset%}
+                     <tr>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                  </table>
+                  <!-- <input type="submit" value="Сохранить таблицу" /> -->
+               </form>
+            </div>
+            <div class="zagolovok" id="palka4">
+               <p>Планируемая учебная  работа за второе полугодие</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveT2'%}" method="post">
+                  {% csrf_token %}
+                  <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th><img  src="{% static "admin1/images/1.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+                     </tr>
+                     {{ formset2.management_form }}
+                     {%for form in formset2%}
+                     <tr>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                  </table>
+                  <!-- <input type="submit" value="Сохранить таблицу" /> -->
+               </form>
+            </div>
+            <div class="zagolovok" id="palka5">
+               <p>Фактически выполненная учебная  работа за первое полугодие</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveT3'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th><img  src="{% static "admin1/images/1.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+                     </tr>
+                     {{ formset3.management_form }}
+                     {%for form in formset3%}
+                     {%if form.instance.name != 'Итого за 1 полугодие:'%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"</td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endif%}
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset3.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  {%for form in formset3%}
+                  {%if form.instance.name == 'Итого за 1 полугодие:'%}
+                  <table  class="table-striped table-bordered table-hover itog" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                     <tr>
+                        <td class="deleteRow"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  {%endif%}
+                  {% endfor %}
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr">
+               </form>
+            </div>
+            <div class="zagolovok" id="palka6">
+               <p>Фактически выполненная учебная  работа за второе полугодие</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveT4'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th><img  src="{% static "admin1/images/1.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+                     </tr>
+                     {{ formset4.management_form }}
+                     {%for form in formset4%}
+                     {%if form.instance.name != 'Итого за 2 полугодие:' %}
+                     {%if form.instance.name != 'Итого за учебный год:' %}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endif%}
+                     {%endif%}
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset4.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  {%for form in formset4%}
+                  {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
+                  <table  class="table-striped table-bordered table-hover itog" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                     <tr>
+                        <td class="deleteRow"></td>
+                        {% for field in form %}
+                        <td >{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  {%endif%}
+                  {% endfor %}
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr"/>
+               </form>
+            </div>
+            <div class="zagolovok" id="palka17">
+               <p>Ежемесячный учет выполнения учебной нагрузки</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveMesyac'%}" method="post">
+                  {% csrf_token %}
+                  <table class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th><img  src="{% static "admin1/images/1.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/2.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/3.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/4.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/5.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/6.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/7.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/8.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/9.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/10.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/12.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/13.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/14.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/15.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/16.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/17.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/18.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/19.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/20.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/21.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/22.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/23.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/24.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/25.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/26.png" %}"></th>
+                        <th><img class="stolb" src="{% static "admin1/images/27.png" %}"></th>
+                     </tr>
+                     {{ mesyac.management_form }}
+                     {%for form in mesyac%}
+                     <tr>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                  </table>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr"/>
+               </form>
+            </div>
+            <div class="zagolovok" id="palka7">
+               <p>Методическая работа за первое полугодие</p>
+            </div>
+            <div class="table-responsive" >
+               <form action="{%url 'saveT5'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>+ Иностр.</th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset5.management_form }}
+                     {%for form in formset5%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset5.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka8">
+               <p>Методическая работа за второе полугодие</p>
+            </div>
+            <div class="table-responsive" id="palka7">
+               <form action="{%url 'saveT6'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>+ Иностр.</th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset6.management_form }}
+                     {%for form in formset6%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset6.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka9">
+               <p>Научная и исследовательская работа за первое полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT7'%}" method="post">
+                  {% csrf_token %}
+                  <table  id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset7.management_form }}
+                     {%for form in formset7%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset7.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka10">
+               <p>Научная и исследовательская работа за второе полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT8'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset8.management_form }}
+                     {%for form in formset8%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset8.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka11">
+               <p>Работа по морально-психологическому обеспечению за первое полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT9'%}" method="post">
+                  {% csrf_token %}
+                  <table  id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset9.management_form }}
+                     {%for form in formset9%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset9.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka12">
+               <p>Работа по морально-психологическому обеспечению за второе полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT10'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset10.management_form }}
+                     {%for form in formset10%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset10.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka13">
+               <p>Работа с иностранными слушателями за первое полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT13'%}" method="post">
+                  {% csrf_token %}
+                  <table  id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset13.management_form }}
+                     {%for form in formset13%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset13.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka14">
+               <p>Работа с иностранными слушателями за второе полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT14'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset14.management_form }}
+                     {%for form in formset14%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset14.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr" />
+               </form>
+            </div>
+            <div class="zagolovok" id="palka15">
+               <p>Иные виды работ за первое полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT11'%}" method="post">
+                  {% csrf_token %}
+                  <table id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset11.management_form }}
+                     {%for form in formset11%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset11.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="submit" value="Сохранить таблицу" class="sohr"/>
+               </form>
+            </div>
+            <div class="zagolovok" id="palka16">
+               <p>Иные виды работ за второе полугодие</p>
+            </div>
+            <div class="table-responsive">
+               <form action="{%url 'saveT12' %}" method="post">
+                  {% csrf_token %}
+                  <table  id="form_set" class="table table-bordered table-hover" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
+                     <tr>
+                        <th></th>
+                        <th>Вид работы</th>
+                        <th>Cрок выполнения</th>
+                        <th>Oтметка о выполнении</th>
+                     </tr>
+                     {{ formset12.management_form }}
+                     {%for form in formset12%}
+                     <tr>
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                     {%endfor%}
+                     <tr id="empty_form"  style="display:none;">
+                        <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                        {% for field in formset12.empty_form %}
+                        <td>{{ field }}</td>
+                        {% endfor %}
+                     </tr>
+                  </table>
+                  <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                  <div class="dop">
+                     <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                     <input type="submit" value="Сохранить таблицу" class="sohr" />
+                     <div class="right-float" role="navigation">
+                        <button class="mainmenubtn"> Перейти к таблице ▼</button>
+                        <div class="dropdown-custom">
+                           <a href="#palka1">Шапка</a>
+                           <a href="#palka2">Общая нарузка</a>
+                           <a href="#palka3">Планируемая учебная  работа за первое полугодие</a>
+                           <a href="#palka4">Планируемая учебная  работа за второе полугодие</a>
+                           <a href="#palka5">Фактически выполненная учебная  работа за первое полугодие</a>
+                           <a href="#palka6">Фактически выполненная учебная  работа за второе полугодие</a>
+                           <a href="#palka17">Ежемесячный учет выполнения учебной нагрузк</a>
+                           <a href="#palka7">Методическая работа за первое полугодие</a>
+                           <a href="#palka8">Методическая работа за второе полугодие</a>
+                           <a href="#palka9">Научная и исследовательская работа за первое полугодие</a>
+                           <a href="#palka10">Научная и исследовательская работа за второе полугодие</a>
+                           <a href="#palka11">Работа по морально-психологическому обеспечению за первое полугодие</a>
+                           <a href="#palka12">Работа по морально-психологическому обеспечению за второе полугодие</a>
+                           <a href="#palka13">Работа с иностранными слушателями за первое полугодие</a>
+                           <a href="#palka14">Работа с иностранными слушателями за второе полугодие</a>
+                           <a href="#palka15">Иные виды работ за первое полугодие</a>
+                           <a href="#palka16">Иные виды работ за второе полугодие</a>
+                           </ul>
+                        </div>
+                     </div>
+               </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      $(".textpole").autogrow();
+      $(".otmetka").autogrow();
+      $('.add_more').click(function(ev) {
+          // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
+          var form_idx = ev.target.closest('form')
+          var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
+          // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
+          var empty_form=$(form_idx).find('#empty_form')
+          var newrow=$(empty_form).html().replace(/__prefix__/g, count);
+      
+          $('<tr>').appendTo($(form_idx).find('tbody'))
+          var table=$(form_idx).children('#form_set');
+      
+          $(newrow).clone().appendTo($(table).find('tbody'))
+      
+          $('</tr>').appendTo($(form_idx).find('tbody'))
+          $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+      
+      
+      
+      });
+      // $('.sohr').click(function(ev) {
+      //   console.log(ev.target)
+      //     var form_idx = ev.target.closest('form')
+      //     $(form_idx).submit(function (e) {
+      //         $('form_idx').find ('input, textearea, select').each(function() {
+      //           console.log($(this).val());
+      //
+      //         })
+      //       });
+      //     });
+      
+      
+      
+      
+      
+   </script>
+   <script type="text/javascript">
+      // var test=document.getElementById("form_set")
+      
+        var test=document.getElementsByClassName('table table-bordered table-hover')
+        for (var i=0 ; i<test.length; i++) {
+          test[i].addEventListener('click', function(evt){
+            if(evt.target.closest('.deleteRow')) {
+              m=evt.target.closest('tr');
+              var i=m.getElementsByTagName('textarea')[0]
+              console.log($(i).val())
+              var t=""
+              $(i).val(t)
+              console.log($(i).val())
+              evt.target.closest('tr').style.display='none';
+      
+            }
+          })}
+      
+      
+      
+      
+          
+   </script>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script id='INLINE_PEN_JS_ID'>
+   new Vue({
+   el: '#app',
+   delimiters:['{','}'],
+   vuetify: new Vuetify(),
+   data:{
+    snackbar: false,
+    text: 'My timeout is set to 2000.',
+    timeout: 2000,
+   },
+   methods:{
+     save() {
+       form = document.getElementById('qwewq');
+       var formData = new FormData(form);
+       axios.post('/shapka/', formData).then((response) => {
+   
+       })
+       .then(response => { 
+          this.text="Успешно сохранено"
+          this.snackbar=true
+       })
+       .catch((errors) => {
+          this.text="Ошибка"
+          this.snackbar=true
+          console.log(errors)
+       })
+       
+     }
+   }
+   })
+</script>
+{% endblock %}
