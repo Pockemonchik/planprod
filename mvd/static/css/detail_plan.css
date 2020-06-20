@@ -11,6 +11,21 @@
     height:250px;
 }
 
+.butshad{
+    box-shadow:
+    rgba(0,0,0,.8) 0 0px 0px 0px !important;
+    background: #ebebeb !important;
+}
+
+.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)>.v-input__control>.v-input__slot fieldset {
+    color: rgba(0,0,0,.15) !important;
+}
+
+.v-text-field--outlined.v-input--is-focused fieldset{
+    border: 2px solid;
+    border-color:#007bff !important;
+}
+
 .input-block{
     border: solid 1px rgba(0,0,0,.125);
     border-radius: 5px;

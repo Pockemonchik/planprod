@@ -3,15 +3,17 @@
 {% block content %}
 <head>
    <link rel="stylesheet" href="{% static "/css/detail_plan.css" %}" />
+   <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
    <script type="text/javascript" src="{% static "/js/statich.js" %}"></script>
    <script type="text/javascript" src="{% static "/js/shaper.js" %}"></script>
    <link rel="stylesheet" href="{% static "/css/fonts.googleapis.css" %}" />
    <script src="{% static "/js/vue.js" %}"></script>
    <script src="{% static "/js/axios.js" %}"></script>
+   <script src="{% static "/js/vuetify.js" %}"></script>
    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
 </head>
 <body>
-   <div class="content active">
+   <div class="content active" id="app">
       <div class="container-fluid middle-block">
 
 
@@ -42,7 +44,8 @@
                    <div class="col">
                       <label for="address"></label>
                         <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                           <button type="button" id="shap" class="btn btn-outline-primary btn-save" @click="saveShap($event)" :disabled="dis">{buttontext}</button>
+                           <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                          </div>
                    </div>
                   <div class="col">
@@ -83,21 +86,21 @@
                </div>
             </div>
             <div class="block-button-3">
-               <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action header-upload btn btn-primary btn-lg" id="list-home-list"   aria-controls="home">Загрузить данные из doc файла</a>
-               </div>
+               
                 <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                <div class="input-group mb-3">
 
                   {% csrf_token %}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
-                  </div>
-                  <div class="custom-file">
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <!-- <div class="custom-file">
                       <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                      <label class="custom-file-label" for="inputGroupFile01">Файл</label>
 
-                  </div>
+                  </div> -->
+                  <v-file-input name="file" accept=".docx" label="Загрузить занные из .docx файла" class="otl" dense outlined ></v-file-input>
+                  <v-btn type="submit" color="pink" fab small class="butshad">
+                     <v-icon>mdi-cloud-upload</v-icon>
+                   </v-btn>
                </div>
                 </form>
 
@@ -501,7 +504,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                              </form>
                               <h3>Фактическая выполненная работа за второе полугодие</h3>
@@ -607,7 +611,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
                               </div>
                               </form>
@@ -715,7 +720,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                               </form>
                            </div>
@@ -750,7 +756,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                              </form>
                               <h3>Методическая работа за второе полугодие</h3>
@@ -783,7 +790,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                              </form>
                            </div>
@@ -816,7 +824,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                               </form>
                               <h3>Научно исследовательская работа за второе полугодие</h3>
@@ -847,7 +856,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                               </form>
                            </div>
@@ -880,7 +890,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                                </form>
                               <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
@@ -911,7 +922,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                                </form>
                            </div>
@@ -944,7 +956,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                                </form>
                               <h3>Работа с иностранными слушателями за второе полугодие</h3>
@@ -975,7 +988,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                                </form>
                            </div>
@@ -1008,7 +1022,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                               </form>
                               <h3>Иные виды работ за второе полугодие</h3>
@@ -1039,7 +1054,8 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
                               </form>
                            </div>
@@ -1050,6 +1066,23 @@
             </div>
          </div>
       </div>
+      <v-snackbar
+         v-model="snackbar"
+         :timeout="timeout"
+         >
+         { text }
+   
+         <template v-slot:action="{ attrs }">
+            <v-btn
+               color="blue"
+               text
+               v-bind="attrs"
+               @click="snackbar = false"
+            >
+               Закрыть
+            </v-btn>
+         </template>
+      </v-snackbar>
    </div>
 </body>
 <script>
@@ -1113,34 +1146,59 @@
 
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 <script id='INLINE_PEN_JS_ID'>
    new Vue({
    el: '#app',
    delimiters:['{','}'],
    vuetify: new Vuetify(),
    data:{
+    dis:false,
     snackbar: false,
+    buttontext:"Сохранить таблицу",
     text: 'My timeout is set to 2000.',
     timeout: 2000,
    },
    methods:{
-     save() {
-       form = document.getElementById('qwewq');
+     save(event) {
+       this.dis=true
+       this.buttontext="Загрузка таблицы..."
+       form = event.path[2];
        var formData = new FormData(form);
-       axios.post('/shapka/', formData).then((response) => {
-   
-       })
-       .then(response => { 
-          this.text="Успешно сохранено"
-          this.snackbar=true
+       var pathpost = event.path[2].action
+       axios.post(pathpost, formData).then((response) => {
+       this.dis=false
+       this.buttontext="Сохранить таблицу"
+       this.text=response.data
+       this.snackbar=true
        })
        .catch((errors) => {
-          this.text="Ошибка"
+          this.dis=false
+          this.buttontext="Сохранить таблицу"
+          this.text="Ошибка соединения"
           this.snackbar=true
           console.log(errors)
        })
        
+     },
+     saveShap(event){
+      this.dis=true
+       this.buttontext="Загрузка таблицы..."
+       form = event.path[4];
+       var formData = new FormData(form);
+       var pathpost = event.path[4].action
+       axios.post(pathpost, formData).then((response) => {
+       this.dis=false
+       this.buttontext="Сохранить таблицу"
+       this.text=response.data
+       this.snackbar=true
+       })
+       .catch((errors) => {
+          this.dis=false
+          this.buttontext="Сохранить таблицу"
+          this.text="Ошибка соединения"
+          this.snackbar=true
+          console.log(errors)
+       })
      }
    }
    })
