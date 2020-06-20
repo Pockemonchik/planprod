@@ -139,6 +139,10 @@ header {
   overflow-y: auto;
 
 }
+
+.dropdown-menu{
+  left: -30px !important;
+}
 #sidebar .navbar-nav .dropdown-menu {
   position: static !important;
   transform: none !important;

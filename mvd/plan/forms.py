@@ -140,7 +140,7 @@ class Table2Form(forms.ModelForm):
         model=UMR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true'}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true' ,'rows':'2'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -150,7 +150,7 @@ class Table3Form(forms.ModelForm):
         model=NIR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true'}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -161,7 +161,7 @@ class Table4Form(forms.ModelForm):
         model=VR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true'}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -171,7 +171,7 @@ class Table5Form(forms.ModelForm):
         model=DR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true'}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
@@ -181,7 +181,7 @@ class Table6Form(forms.ModelForm):
         model=INR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true'}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
         'otmetka':Textarea(attrs={'class':'otmetka'}),
         'srok':TextInput(attrs={'id':'mes'})
         }
