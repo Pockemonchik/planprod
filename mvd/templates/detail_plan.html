@@ -44,7 +44,8 @@
                    <div class="col">
                       <label for="address"></label>
                         <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                           <button type="button" id="shap" class="btn btn-outline-primary btn-save" @click="saveShap($event)" :disabled="dis">{buttontext}</button>
+                           <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                          </div>
                    </div>
                   <div class="col">
@@ -1178,6 +1179,26 @@
           console.log(errors)
        })
        
+     },
+     saveShap(event){
+      this.dis=true
+       this.buttontext="Загрузка таблицы..."
+       form = event.path[4];
+       var formData = new FormData(form);
+       var pathpost = event.path[4].action
+       axios.post(pathpost, formData).then((response) => {
+       this.dis=false
+       this.buttontext="Сохранить таблицу"
+       this.text=response.data
+       this.snackbar=true
+       })
+       .catch((errors) => {
+          this.dis=false
+          this.buttontext="Сохранить таблицу"
+          this.text="Ошибка соединения"
+          this.snackbar=true
+          console.log(errors)
+       })
      }
    }
    })
