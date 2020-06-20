@@ -74,7 +74,7 @@ class MesyacForm(forms.ModelForm):
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
-            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','readonly':'readonly'}),
+            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','readonly':'readonly','rows':'2',}),
             'leccii':NumberInput(attrs={'class':'form-control'}),
             'seminar':NumberInput(attrs={'class':'form-control'}),
             'practici_v_gruppe':NumberInput(attrs={'class':'form-control'}),
@@ -145,8 +145,8 @@ class Table2Form(forms.ModelForm):
         model=UMR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true' ,'rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'form-control',}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
+        'otmetka':TextInput(attrs={'class':'form-control',}),
         'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
