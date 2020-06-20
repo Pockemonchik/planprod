@@ -50,6 +50,19 @@ class Profile(models.Model):
     def __str__(self):
         return self.kafedra.fullname+" "+self.fullname+" "+self.user.username+" "+self.user.email+" "
 
+class ProfileInfo(models.Model):
+    fio=models.CharField(max_length=250,blank=True)
+    dolznost=models.CharField(max_length=250,blank=True)
+    stavka=models.FloatField(default=0,blank=True,validators=[validate_decimals])
+    uchzv=models.CharField(max_length=250,blank=True)
+    uchst=models.CharField(max_length=250,blank=True)
+    visluga=models.IntegerField(default=0,blank=True)
+    kafedra=models.CharField(max_length=250,blank=True)
+    profile=models.OneToOneField(Profile,related_name='info',on_delete=models.CASCADE,primary_key=True)
+
+    def __str__(self):
+        return self.plan.name
+
 #  основная модель плана
 class Plan(models.Model):
     name=models.CharField(max_length=250,default='plan')

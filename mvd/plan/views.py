@@ -1,6 +1,7 @@
 #
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
+from rating.models import Rating
 from plan.models import Article,Mesyac,Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
 from plan.forms import MesyacForm,UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
 from django.forms.formsets import formset_factory
@@ -2271,6 +2272,18 @@ def shapka(request):
                 shpk=form.save(commit=False)
                 shpk.plan=plan
                 shpk.save()
+                kolvomes=request.POST['kolvomes']
+                try:
+                    rating =Rating.objects.get(year=request.POST['year'],profile=profile)
+                    rating.kolvomes=kolvomes
+                    rating.save()
+                except:
+                    rating = Rating()
+                    rating.profile=profile
+                    rating.kolvomes = kolvomes
+                    rating.year = request.POST['year']
+                    rating.save()
+
             else:
                     print('blen')
         return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])

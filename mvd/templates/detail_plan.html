@@ -13,64 +13,94 @@
 <body>
    <div class="content active">
       <div class="container-fluid middle-block">
-         <div class="input-block">
+
+
+            <div class="input-block">
+
             <div class="block-content">
+                <form  action="{%url 'shapka'%}" method="post" class="shapka" id="qwewq">
+                  {% csrf_token %}
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+
                <div class="mb-3">
                   <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
-                  <input type="text" class="form-control" id="address2" placeholder="Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции">
+                 {{shapka.shapka}}
                </div>
                <div class="mb-3">
                   <label for="address2">Фио лица, утферждающего индивидуальный план</label>
-                  <input type="text" class="form-control" id="address2" placeholder="И.И.Иванов">
+                {{shapka.fionach}}
                </div>
                <div class="row mb-3">
-                  <div class="col">
-                     <label for="address">ФИО лица,утверждающего индивидуальный план:</label>
-                     <input type="text" class="form-control" id="address" placeholder="И.И.Иванов" required>
-                  </div>
+
                   <div class="col">
                      <label for="address">Дата утверждения:</label>
-                     <input type="text" class="form-control" id="address" placeholder="31 февраля 2019" required>
+                     {{shapka.data}}
                   </div>
                </div>
                <div class="row">
+
+                   <div class="col">
+                      <label for="address"></label>
+                        <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                         </div>
+                   </div>
+                  <div class="col">
+                     <label for="address">Количество отработанных месяцев</label>
+                     <div class="flex-row">
+
+                        <input type="number" name="kolvomes" value="0" class="form-control" >
+
+                     </div>
+                  </div>
                   <div class="col">
                      <label for="address">Дата</label>
                      <div class="flex-row">
-                        <input type="text" class="form-control" id="address"  required>
-                        <input type="text" class="form-control" id="address"  required>
+                        {{shapka.na_kakoygod}}
+                        {{shapka.na_kakoygod1}}
                      </div>
                   </div>
-                  <div class="col"></div>
+
                </div>
+
+               </form>
             </div>
+
          </div>
+
+
          <div class="col block-button">
             <div class="block-button-1">
                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Cформировать Индивидуальный план</a>
-                  <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Заполнить планируемую нагрузку</a>
-                  <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Заполнить фактическую нагрузку</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg " id="list-home-list" href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"  aria-controls="home">Cформировать Индивидуальный план</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-profile-list"  href="{%url 'nagruzka' plan.prepod.user.username plan.year%}"  aria-controls="profile">Заполнить планируемую нагрузку</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-messages-list"  href="{%url 'nagruzkafact' plan.prepod.user.username plan.year%}"  aria-controls="messages">Заполнить фактическую нагрузку</a>
                </div>
             </div>
             <div class="block-button-2">
                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Cформировать рейтинг</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-home-list"  href="#list-home" role="tab" aria-controls="home">Cформировать рейтинг</a>
                </div>
             </div>
             <div class="block-button-3">
                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action header-upload" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Загрузить данные из doc файла</a>
+                  <a class="list-group-item list-group-item-action header-upload btn btn-primary btn-lg" id="list-home-list"   aria-controls="home">Загрузить данные из doc файла</a>
                </div>
+                <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                <div class="input-group mb-3">
+
+                  {% csrf_token %}
                   <div class="input-group-prepend">
-                     <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
+                    <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>
                   </div>
                   <div class="custom-file">
-                     <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                      <label class="custom-file-label" for="inputGroupFile01">Файл</label>
+
                   </div>
                </div>
+                </form>
+
             </div>
          </div>
       </div>

@@ -20,6 +20,7 @@
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Документы</h3>
+                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -51,6 +52,78 @@
                   </table>
                 </div>
               </div>
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Ваши рейтинги</h3>
+                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                </div>
+                <div class="card-body card-body-alt dokumenti" >
+                  <table class="table table-css">
+                    <tbody>
+                      {%for plan in plans%}
+                      <tr>
+                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
+                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+                      {%endfor%}
+                      {%if profile.role == 2%}
+                      {%for doc in nagruzkadocs%}
+                      <tr>
+                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
+                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+                      {%endfor%}
+                      {%endif%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Документы кафедры</h3>
+                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                </div>
+                <div class="card-body card-body-alt dokumenti" >
+                  <table class="table table-css">
+                    <tbody>
+                      {%for plan in plans%}
+                      <tr>
+                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
+                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+
+                      {%endfor%}
+                      {%if profile.role == 2%}
+                      {%for doc in nagruzkadocs%}
+                      <tr>
+                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
+                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
+                        <td style="border:0;text-align:right;vertical-align:middle;">
+                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        </td>
+                      </tr>
+                      {%endfor%}
+                      {%endif%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
               <div class="row content-input">
                 <div class="block-input">
                   <div class="block-content">
@@ -74,7 +147,6 @@
                       <label for="email">Кафедра</label>
                       <input class="form-control" id="email" placeholder="Кафедра">
                     </div>
-            
                     <div class="mb-3 row">
                       <div class="col">
                         <label for="address">Ставка</label>
@@ -93,156 +165,52 @@
                         <input type="text" class="form-control" id="address" placeholder="" required>
                       </div>
                     </div>
-                    <div class="mb-3">
-                      <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
-                      <input type="text" class="form-control" id="address2" placeholder="Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции">
-                    </div>
-                    <div class="mb-3">
-                      <label for="address2">Фио лица, утферждающего индивидуальный план</label>
-                      <input type="text" class="form-control" id="address2" placeholder="И.И.Иванов">
-                    </div>
-                    <div class="row mb-3">
-                      <div class="col">
-                        <label for="address">ФИО лица,утверждающего индивидуальный план:</label>
-                        <input type="text" class="form-control" id="address" placeholder="И.И.Иванов" required>
-                      </div>
-                      <div class="col">
-                        <label for="address">Дата утверждения:</label>
-                        <input type="text" class="form-control" id="address" placeholder="31 февраля 2019" required>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label for="address">Дата</label>
-                        <div class="flex-row">
-                          <input type="text" class="form-control" id="address"  required>
-                          <input type="text" class="form-control" id="address"  required>
-                        </div>
-                      </div>
-                      <div class="col"></div>
-                    </div>
                   </div>
+                </div>
+              </div>
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Список сотрудников кафедры</h3>
+                  <button type="button" class="btn btn-outline-primary dok-button">Добавить сотрудника</button>
+                </div>
+                <div class="card-body card-body-alt dokumenti">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                       <th scope="col">Handle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>dfdfmdo</td>
+                        <td>dfdfmdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>fdffat</td>
+                        <td>dfdfmdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>dftwitter</td>
+                        <td>dfdfmdo</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 glavinf">
-            	<div class="card rounded">
-                	<div class="card-header">
-                  		<h3>Главная информация</h3>
-                	</div>
-                	<div class="card-body info">
-                		<div class="image-block">
-                      <!-- <img src="{% static "admin1/images/gerb-mvd.png" %}"> -->
-                      <h4>ФИО: {{profile.fullname}} </h4>
-
-
-                      <a href="{% url 'spravka'%}" class="spravka-button"><button>Справка</button></a>
-                    </div>
-
-                  </div>
-                  <div class="card-body info" id="">
-                  <div>
-                    {%if profile.role == 2%}
-                  <div class="card-body info" id="">
-                  <form action="{%url 'nagruzkaSave'%}" method="post" enctype="multipart/form-data" class="zagruzka">
-                    {% csrf_token %}
-                      <div class="blockd">
-                        <table class="table table-responsive  table-hover table-css" data-tablesaw-mode="columntoggle" data-tablesaw-minimap>
-                          <tr>
-                            <th>Exel файл с нагрузкой</th>
-                            <th>Прогресс</th>
-                            <th>Год</th>
-                          </tr>
-                            <tr>
-                            <th>  {{nagruzka.document}} </th>
-                            <th>  {{nagruzka.status}} </th>
-                            <th>  {{nagruzka.year}} </th>
-                            </tr>
-                              <tr>
-                                <td>
-                                  <input type="submit" value="Загрузить" class="zagruzit">
-                                </td>
-                          </tr>
-                          </table>
-                            </div>
-
-                      </div>
-                  </form>
-                  {%endif%}
-                </div>
-              </div>
-                {%if profile.role == 2%}
-              <div class="col-lg-6 col-md-6 col-sm-12 prepodi">
-                <div class="card rounded">
-                  <div class="card-header">
-                    <h3>Сотрудники кафедры</h3>
-                  </div>
-                  <div class="card-body card-body-alt prepodi_body" >
-                    <table class="table table-css">
-                      <tbody>
-                        {%for s in sotr%}
-                        <tr>
-                          <form action="{% url 'deluser' %}" method="post">
-                            {% csrf_token %}
-
-
-                          <td style="font-weight: bold;"> {{s.fullname}} </td>
-
-                        <td  style="text-align: right;">
-                              <input type="hidden"name="profile"  value="{{s.fullname}}">
-                              <input  onclick="return destroy();" type=image src=/static/admin1/images/minus.png alt="Удалить"> </td>
-
-                        </form>
-                        </tr>
-                      {%endfor%}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-md-6 col-sm-12 reg">
-                <div class="card rounded">
-                  <form class="" action="{% url 'adduser'%}" method="post">
-                      {% csrf_token %}
-                    <div class="card-header">
-                        <h3>Добавление сотрудника кафедры</h3>
-                    </div>
-
-                    <div class="card-body info prepod_reg" id="">
-                      <div class="reg_inputy">
-                        <div class="reg_pole">
-                          <p>ФИО:</p>
-                          {{useraddform.fio}}
-                        </div>
-                        <div class="reg_pole">
-                            <p>Логин:</p>
-                            {{useraddform.username}}
-                        </div>
-                        <div class="reg_pole">
-                            <p>Пароль:</p>
-                            {{useraddform.password}}
-                        </div>
-                      </div>
-
-                      <div class="reg_knopka">
-                          <input type="submit" value="Добавить" class="sohr">
-                        <!-- <a href="#" class="sotrdob-button"><button>Добавить</button></a> -->
-                      </div>
-
-                    </div>
-                    <div class="reg_knopka_col">
-                        <input type="submit" value="Сохранить" class="sohr">
-                      <!-- <a href="#" class="sotrdob-button"><button>Добавить</button></a> -->
-                    </div>
-                  </form>
-
-                </div>
-
-            <!-- </div> -->
-              </div>
-              {%endif%}
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 from django import forms
 from plan.models import Predmet,NIR,VR,DR,UMR,Plan,INR,Nagruzka,DocInfo
-from django.forms import TextInput,Textarea
+from django.forms import TextInput,Textarea,NumberInput,FileInput
 
 class UserAddForm(forms.Form):
     fio = forms.CharField(max_length=100)
@@ -15,11 +15,16 @@ class ShapkaForm(forms.ModelForm):
         exclude = ['plan']
         widgets = {
         'shapka':TextInput(attrs={'placeholder':
-        'Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции'}),
-        'fionach':TextInput(attrs={'placeholder':'И.И.Иванов'}),
-        'data':TextInput(attrs={'placeholder':'31 февраля 2019'}),
-        'na_kakoygod':TextInput(attrs={'placeholder':'2019'}),
-        'na_kakoygod1':TextInput(attrs={'placeholder':'2020'}),
+        'Начальник кафедры административного права МосУ МВД России имени В.Я. Кикотя полковник полиции','class':'form-control',
+        'id':'address2'}),
+        'fionach':TextInput(attrs={'placeholder':'И.И.Иванов','class':'form-control',
+        'id':'address2'}),
+        'data':TextInput(attrs={'placeholder':'31 февраля 2019','class':'form-control',
+        'id':'address'}),
+        'na_kakoygod':TextInput(attrs={'placeholder':'2019','class':'form-control',
+        'id':'address'}),
+        'na_kakoygod1':TextInput(attrs={'placeholder':'2020','class':'form-control',
+        'id':'address'}),
         'fio':TextInput(attrs={'placeholder':'Петрова Петра Петровича'}),
         'dolznost':TextInput(attrs={'placeholder':'начальник кафедры'}),
         'kafedra':TextInput(attrs={'placeholder':'кафедры административного права'}),
@@ -70,31 +75,31 @@ class MesyacForm(forms.ModelForm):
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
             'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','readonly':'readonly'}),
-            'leccii':TextInput(attrs={'class':'form-control'}),
-            'seminar':TextInput(attrs={'class':'form-control'}),
-            'practici_v_gruppe':TextInput(attrs={'class':'form-control'}),
-            'practici_v_podgruppe':TextInput(attrs={'class':'form-control'}),
-            'krugliy_stol':TextInput(attrs={'class':'form-control'}),
-            'konsultacii_pered_ekzamenom':TextInput(attrs={'class':'form-control'}),
-            'tekushie_konsultacii':TextInput(attrs={'class':'form-control'}),
-            'vneauditor_chtenie':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_practikoy':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_VKR':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_kursovoy':TextInput(attrs={'class':'form-control'}),
-            'proverka_auditor_KR':TextInput(attrs={'class':'form-control'}),
-            'proverka_dom_KR':TextInput(attrs={'class':'form-control'}),
-            'proverka_practicuma':TextInput(attrs={'class':'form-control'}),
-            'proverka_lab':TextInput(attrs={'class':'form-control'}),
-            'priem_zashit_practic':TextInput(attrs={'class':'form-control'}),
-            'zacheti_ust':TextInput(attrs={'class':'form-control'}),
-            'zacheti_pism':TextInput(attrs={'class':'form-control'}),
-            'priem_vstupit':TextInput(attrs={'class':'form-control'}),
-            'ekzamenov':TextInput(attrs={'class':'form-control'}),
-            'priem_GIA':TextInput(attrs={'class':'form-control'}),
-            'priem_kandidtskih':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_adunctami':TextInput(attrs={'class':'form-control'}),
-            'ucheb_nagruzka':TextInput(attrs={'class':'thshki','name':'uchnagr'}),
-            'auditor_nagruzka':TextInput(attrs={'class':'thshki','name':'aunagr'})
+            'leccii':NumberInput(attrs={'class':'form-control'}),
+            'seminar':NumberInput(attrs={'class':'form-control'}),
+            'practici_v_gruppe':NumberInput(attrs={'class':'form-control'}),
+            'practici_v_podgruppe':NumberInput(attrs={'class':'form-control'}),
+            'krugliy_stol':NumberInput(attrs={'class':'form-control'}),
+            'konsultacii_pered_ekzamenom':NumberInput(attrs={'class':'form-control'}),
+            'tekushie_konsultacii':NumberInput(attrs={'class':'form-control'}),
+            'vneauditor_chtenie':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_practikoy':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_VKR':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_kursovoy':NumberInput(attrs={'class':'form-control'}),
+            'proverka_auditor_KR':NumberInput(attrs={'class':'form-control'}),
+            'proverka_dom_KR':NumberInput(attrs={'class':'form-control'}),
+            'proverka_practicuma':NumberInput(attrs={'class':'form-control'}),
+            'proverka_lab':NumberInput(attrs={'class':'form-control'}),
+            'priem_zashit_practic':NumberInput(attrs={'class':'form-control'}),
+            'zacheti_ust':NumberInput(attrs={'class':'form-control'}),
+            'zacheti_pism':NumberInput(attrs={'class':'form-control'}),
+            'priem_vstupit':NumberInput(attrs={'class':'form-control'}),
+            'ekzamenov':NumberInput(attrs={'class':'form-control'}),
+            'priem_GIA':NumberInput(attrs={'class':'form-control'}),
+            'priem_kandidtskih':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_adunctami':NumberInput(attrs={'class':'form-control'}),
+            'ucheb_nagruzka':NumberInput(attrs={'class':'form-control','name':'uchnagr'}),
+            'auditor_nagruzka':NumberInput(attrs={'class':'form-control','name':'aunagr'})
         }
     class Media:
         js = ("js/shaper.js")
@@ -104,32 +109,32 @@ class Table1Form(forms.ModelForm):
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
-            'name':TextInput(attrs={'class':'form-control', 'spellcheck':'true'}),
-            'leccii':TextInput(attrs={'class':'form-control'}),
-            'seminar':TextInput(attrs={'class':'form-control'}),
-            'practici_v_gruppe':TextInput(attrs={'class':'form-control'}),
-            'practici_v_podgruppe':TextInput(attrs={'class':'form-control'}),
-            'krugliy_stol':TextInput(attrs={'class':'form-control'}),
-            'konsultacii_pered_ekzamenom':TextInput(attrs={'class':'form-control'}),
-            'tekushie_konsultacii':TextInput(attrs={'class':'form-control'}),
-            'vneauditor_chtenie':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_practikoy':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_VKR':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_kursovoy':TextInput(attrs={'class':'form-control'}),
-            'proverka_auditor_KR':TextInput(attrs={'class':'form-control'}),
-            'proverka_dom_KR':TextInput(attrs={'class':'form-control'}),
-            'proverka_practicuma':TextInput(attrs={'class':'form-control'}),
-            'proverka_lab':TextInput(attrs={'class':'form-control'}),
-            'priem_zashit_practic':TextInput(attrs={'class':'form-control'}),
-            'zacheti_ust':TextInput(attrs={'class':'form-control'}),
-            'zacheti_pism':TextInput(attrs={'class':'form-control'}),
-            'priem_vstupit':TextInput(attrs={'class':'form-control'}),
-            'ekzamenov':TextInput(attrs={'class':'form-control'}),
-            'priem_GIA':TextInput(attrs={'class':'form-control'}),
-            'priem_kandidtskih':TextInput(attrs={'class':'form-control'}),
-            'rucovodstvo_adunctami':TextInput(attrs={'class':'form-control'}),
-            'ucheb_nagruzka':TextInput(attrs={'class':'form-control','name':'uchnagr'}),
-            'auditor_nagruzka':TextInput(attrs={'class':'form-control','name':'aunagr'})
+            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','rows':'2',}),
+            'leccii':NumberInput(attrs={'class':'form-control'}),
+            'seminar':NumberInput(attrs={'class':'form-control'}),
+            'practici_v_gruppe':NumberInput(attrs={'class':'form-control'}),
+            'practici_v_podgruppe':NumberInput(attrs={'class':'form-control'}),
+            'krugliy_stol':NumberInput(attrs={'class':'form-control'}),
+            'konsultacii_pered_ekzamenom':NumberInput(attrs={'class':'form-control'}),
+            'tekushie_konsultacii':NumberInput(attrs={'class':'form-control'}),
+            'vneauditor_chtenie':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_practikoy':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_VKR':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_kursovoy':NumberInput(attrs={'class':'form-control'}),
+            'proverka_auditor_KR':NumberInput(attrs={'class':'form-control'}),
+            'proverka_dom_KR':NumberInput(attrs={'class':'form-control'}),
+            'proverka_practicuma':NumberInput(attrs={'class':'form-control'}),
+            'proverka_lab':NumberInput(attrs={'class':'form-control'}),
+            'priem_zashit_practic':NumberInput(attrs={'class':'form-control'}),
+            'zacheti_ust':NumberInput(attrs={'class':'form-control'}),
+            'zacheti_pism':NumberInput(attrs={'class':'form-control'}),
+            'priem_vstupit':NumberInput(attrs={'class':'form-control'}),
+            'ekzamenov':NumberInput(attrs={'class':'form-control'}),
+            'priem_GIA':NumberInput(attrs={'class':'form-control'}),
+            'priem_kandidtskih':NumberInput(attrs={'class':'form-control'}),
+            'rucovodstvo_adunctami':NumberInput(attrs={'class':'form-control'}),
+            'ucheb_nagruzka':NumberInput(attrs={'class':'form-control','name':'uchnagr'}),
+            'auditor_nagruzka':NumberInput(attrs={'class':'form-control','name':'aunagr'})
         }
     class Media:
         js = ("js/shaper.js")
@@ -141,8 +146,8 @@ class Table2Form(forms.ModelForm):
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
         'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true' ,'rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'otmetka'}),
-        'srok':TextInput(attrs={'id':'mes'})
+        'otmetka':Textarea(attrs={'class':'form-control',}),
+        'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
 class Table3Form(forms.ModelForm):
@@ -151,8 +156,8 @@ class Table3Form(forms.ModelForm):
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
         'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'otmetka'}),
-        'srok':TextInput(attrs={'id':'mes'})
+        'otmetka':TextInput(attrs={'class':'form-control',}),
+        'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
 #форма для других видов и вр
@@ -162,8 +167,8 @@ class Table4Form(forms.ModelForm):
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
         'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'otmetka'}),
-        'srok':TextInput(attrs={'id':'mes'})
+        'otmetka':TextInput(attrs={'class':'form-control',}),
+        'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
 class Table5Form(forms.ModelForm):
@@ -172,8 +177,8 @@ class Table5Form(forms.ModelForm):
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
         'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'otmetka'}),
-        'srok':TextInput(attrs={'id':'mes'})
+        'otmetka':TextInput(attrs={'class':'form-control',}),
+        'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
 class Table6Form(forms.ModelForm):
@@ -182,8 +187,11 @@ class Table6Form(forms.ModelForm):
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
         'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'otmetka'}),
-        'srok':TextInput(attrs={'id':'mes'})
+        'otmetka':TextInput(attrs={'class':'form-control',}),
+        'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 class docUploadForm(forms.Form):
     file = forms.FileField()
+    widgets = {
+        'file': FileInput(attrs={'class': 'custom-file-input','id':'inputGroupFile01'}),
+    }

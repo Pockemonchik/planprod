@@ -3,6 +3,7 @@ body {
   background-color: #fefefe;
 }
 .rounded {
+  margin-bottom: 20px;
   border-radius: 10px !important;
 }
 header {
@@ -412,10 +413,10 @@ header {
 .block-input{
   border: solid 1px rgba(0,0,0,.125);
   border-radius: 5px;
-  margin-top: 20px;
   max-width: 875px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .block-content{
@@ -433,3 +434,17 @@ header {
 .flex-row input {
   margin-right: 10px;
 }
+
+.dok-button{
+  order: 2;
+  margin-left: auto;
+}
+
+.card-header{
+  display: flex;
+  flex-flow: row;
+}
+
+/* .res{
+
+} */

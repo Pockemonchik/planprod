@@ -18,6 +18,7 @@ class Rating(models.Model):
     dolzhnostplace = models.IntegerField(default=0)
     unikplace = models.IntegerField(default=0)
 
+    kolvomes = models.IntegerField(default=0)
     year = models.IntegerField(default=2020)
 
     def getsumm(self):
