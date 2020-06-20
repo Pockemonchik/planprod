@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
 
 urlpatterns = [
-    url(r'^rate_otsenka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.rate_otsenka),
+    url(r'^rate_otsenka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.rate_otsenka,name='rate_otsenka'),
     url('profilesfilter', views.ProfileFilterView.as_view()),
     url(r'^nach_kaf', views.nach_kaf),
     url(r'^sotr_umr', views.sotr_umr),

@@ -24,6 +24,7 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     url(r'^$', views.index,name='index'),
+    url(r'^profileinfo/$', views.profileinfo,name='profileinfo'),
     url(r'^saveMesyac/$', views.saveMesyac,name='saveMesyac'),
     url(r'^deluser/$', views.deluser,name='deluser'),
     url(r'^adduser/$', views.adduser,name='adduser'),
@@ -58,6 +59,7 @@ urlpatterns = [
 
     url(r'^nagruzkaSave/$', views.nagruzkaSave,name='nagruzkaSave'),
     url(r'^shapka/$', views.shapka,name='shapka'),
+
 
     url(r'^deltable/$', views.deltable,name='deltable'),
 

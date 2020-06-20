@@ -5,14 +5,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col p-5">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col">
-              <h1 class="display-4">Ваши индивидуальные планы</h1>
-              <!-- <p class="lead mb-5">What would you like to do?</p> -->
-            </div>
-          </div>
-        </div>
+
 
         <div class="container-fluid" id="block-content">
           <div class="row" id="rowid">
@@ -28,7 +21,7 @@
                       {%for plan in plans%}
                       <tr>
                         <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.fullname}}</td>
                         <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                         	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
@@ -36,18 +29,7 @@
                       </tr>
 
                       {%endfor%}
-                      {%if profile.role == 2%}
-                      {%for doc in nagruzkadocs%}
-                      <tr>
-                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
-                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
-                        <td style="border:0;text-align:right;vertical-align:middle;">
-                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
-                        </td>
-                      </tr>
-                      {%endfor%}
-                      {%endif%}
+
                     </tbody>
                   </table>
                 </div>
@@ -55,33 +37,22 @@
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Ваши рейтинги</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                  <button type="button" class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
                     <tbody>
-                      {%for plan in plans%}
+                      {%for r in ratings%}
                       <tr>
-                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
-                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
+                        <td style="border:0;width:35px;"><a href="{%url 'rate_otsenka' r.profile.user.username r.year %} " ><img src="{% static "admin1/images/graph.svg" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{r.profile.fullname}}</td>
+                        <td style="border:0;vertical-align:middle;">{{r.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                         	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
-                      {%if profile.role == 2%}
-                      {%for doc in nagruzkadocs%}
-                      <tr>
-                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
-                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
-                        <td style="border:0;text-align:right;vertical-align:middle;">
-                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
-                        </td>
-                      </tr>
-                      {%endfor%}
-                      {%endif%}
+
                     </tbody>
                   </table>
                 </div>
@@ -94,18 +65,7 @@
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
                     <tbody>
-                      {%for plan in plans%}
-                      <tr>
-                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.user.username}}</td>
-                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
-                        <td style="border:0;text-align:right;vertical-align:middle;">
-                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
-                        </td>
-                      </tr>
-
-                      {%endfor%}
-                      {%if profile.role == 2%}
+                       {%if profile.role == 2%}
                       {%for doc in nagruzkadocs%}
                       <tr>
                         <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
@@ -125,19 +85,28 @@
 
             <div class="col-lg-6 col-md-6 col-sm-12 ">
               <div class="row content-input">
-                <div class="block-input">
+                <div class="card rounded">
+                   <form  action="{%url 'profileinfo'%}" method="post" class="shapka" id="qwewq">
+                  {% csrf_token %}
+                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                <div class="card-header">
+                  <h3>Информация об аккаунте</h3>
+                  <button type="submit" class="btn btn-outline-primary dok-button">Сохранить изменения</button>
+                </div>
+
+
                   <div class="block-content">
                     <div class="row">
                       <div class="col-md-6 mb-3">
                         <label for="firstName">Фио преподавателя</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Петров Петр Петрович" value="" required>
+                          {{infoform.fio}}
                         <div class="invalid-feedback">
                           Valid first name is required.
                         </div>
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="lastName">Должность</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="начальник кафедры" value="" required>
+                      {{infoform.dolznost}}
                         <div class="invalid-feedback">
                           Valid last name is required.
                         </div>
@@ -145,28 +114,30 @@
                     </div>
                     <div class="mb-3">
                       <label for="email">Кафедра</label>
-                      <input class="form-control" id="email" placeholder="Кафедра">
+                      {{infoform.kafedra}}
                     </div>
                     <div class="mb-3 row">
                       <div class="col">
                         <label for="address">Ставка</label>
-                        <input type="text" class="form-control" id="address" placeholder="" required>
+                        {{infoform.stavka}}
                       </div>
                       <div class="col">
                         <label for="address">Ученая степень</label>
-                        <input type="text" class="form-control" id="address" placeholder="д.э.н." required>
+                       {{infoform.uchst}}
                       </div>
                       <div class="col">
                         <label for="address">Ученое звание</label>
-                        <input type="text" class="form-control" id="address" placeholder="доцент" required>
+                      {{infoform.uchzv}}
                       </div>
                       <div class="col">
                         <label for="address">Выслуга полных лет</label>
-                        <input type="text" class="form-control" id="address" placeholder="" required>
+                       {{infoform.visluga}}
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
+                  </div>
+
               </div>
               <div class="card rounded">
                 <div class="card-header">

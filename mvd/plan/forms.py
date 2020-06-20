@@ -1,5 +1,5 @@
 from django import forms
-from plan.models import Predmet,NIR,VR,DR,UMR,Plan,INR,Nagruzka,DocInfo
+from plan.models import Predmet,NIR,VR,DR,UMR,Plan,INR,Nagruzka,DocInfo,ProfileInfo
 from django.forms import TextInput,Textarea,NumberInput,FileInput
 
 class UserAddForm(forms.Form):
@@ -74,7 +74,7 @@ class MesyacForm(forms.ModelForm):
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
-            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','readonly':'readonly'}),
+            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','readonly':'readonly','rows':'2',}),
             'leccii':NumberInput(attrs={'class':'form-control'}),
             'seminar':NumberInput(attrs={'class':'form-control'}),
             'practici_v_gruppe':NumberInput(attrs={'class':'form-control'}),
@@ -145,8 +145,8 @@ class Table2Form(forms.ModelForm):
         model=UMR
         exclude = ['prepodavatel','year','polugodie']
         widgets = {
-        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true' ,'rows':'2'}),
-        'otmetka':Textarea(attrs={'class':'form-control',}),
+        'vid':Textarea(attrs={'id':'lang','class':'form-control', 'spellcheck':'true','rows':'2'}),
+        'otmetka':TextInput(attrs={'class':'form-control',}),
         'srok':TextInput(attrs={'class':'form-control','id':'mes'})
         }
 
@@ -195,3 +195,19 @@ class docUploadForm(forms.Form):
     widgets = {
         'file': FileInput(attrs={'class': 'custom-file-input','id':'inputGroupFile01'}),
     }
+
+class ProfileInfoForm(forms.ModelForm):
+    class Meta:
+        model=ProfileInfo
+        exclude = ['profile',]
+        widgets = {
+
+
+            'fio': TextInput(attrs={'class': 'form-control','placeholder': 'Петрова Петра Петровича'}),
+            'dolznost': TextInput(attrs={'class': 'form-control','placeholder': 'начальник кафедры'}),
+            'kafedra': TextInput(attrs={'class': 'form-control','placeholder': 'кафедры административного права'}),
+            'visluga': NumberInput(attrs={'class': 'form-control','placeholder': '6'}),
+            'uchzv': TextInput(attrs={'class': 'form-control','placeholder': 'доцент'}),
+            'uchst': TextInput(attrs={'class': 'form-control','placeholder': 'д.э.н.'}),
+            'stavka': NumberInput(attrs={'class': 'form-control','placeholder': '0.5'}),
+        }

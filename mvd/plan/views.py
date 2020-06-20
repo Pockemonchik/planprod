@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from rating.models import Rating
-from plan.models import Article,Mesyac,Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
-from plan.forms import MesyacForm,UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
+from plan.models import Article,Mesyac,Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo,ProfileInfo
+from plan.forms import MesyacForm,UserAddForm,docUploadForm,ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm,ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
@@ -20,6 +20,33 @@ import random
 from docx import Document
 import os
 from io import StringIO,BytesIO
+
+
+def profileinfo(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            profile = get_object_or_404(Profile, user=request.user)
+
+
+            form = ProfileInfoForm(request.POST)
+            print(request.POST)
+
+            if form.is_valid():
+                try:
+                    infodel = get_object_or_404(PofileInfo, plan=plan)
+                    infodel.delete()
+                except:
+                    print("ne")
+
+                infodel = form.save(commit=False)
+                infodel.profile = profile
+                infodel.save()
+
+            else:
+                HttpResponse("Ошибка при сохранении данных")
+        return HttpResponse("Успешно сохранено")
+    else:
+        return redirect('log')
 
 def deluser(request):
     if request.user.is_authenticated:
@@ -909,7 +936,12 @@ def index(request):
         nagruzkadocs=Nagruzka.objects.filter(kafedra=profile.kafedra)
         nagruzka=NagruzkaForm()
         useraddform=UserAddForm()
-        articles=Article.objects.all()
+        ratings=Rating.objects.filter(profile=profile)
+        try:
+            info=ProfileInfo.objects.get(profile=profile)
+            infoform = ProfileInfoForm(instance=info)
+        except:
+            infoform=ProfileInfoForm()
         return render(request, 'plan.html',{
         'profile':profile,
         'kafedri':kafedri,
@@ -918,7 +950,8 @@ def index(request):
         'nagruzkadocs':nagruzkadocs,
         'useraddform':useraddform,
         'sotr':sotr,
-        'articles':articles
+        'ratings':ratings,
+        'infoform': infoform
         })
     else:
         return redirect('log')
