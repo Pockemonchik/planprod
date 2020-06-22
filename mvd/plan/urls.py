@@ -24,8 +24,10 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     url(r'^$', views.index,name='index'),
+    url(r'^createrating/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.createrating, name='createrating'),
     url(r'^profileinfo/$', views.profileinfo,name='profileinfo'),
     url(r'^saveMesyac/$', views.saveMesyac,name='saveMesyac'),
+
     url(r'^deluser/$', views.deluser,name='deluser'),
     url(r'^adduser/$', views.adduser,name='adduser'),
     url(r'^spravka/$', views.spravka,name='spravka'),

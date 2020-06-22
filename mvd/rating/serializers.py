@@ -16,7 +16,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('urr','ormr','pcr','mrr')
+        fields = ('urr','ormr','pcr','mrr','kafedraplace','dolzhnostplace','unikplace','kolvomes')
 
 
 
@@ -45,7 +45,7 @@ class SaveMRRSerializer(serializers.ModelSerializer):
 
 
 class Place(object):
-    def __init__(self,summ, kafedraplace, dolzhnostplace, unikplace):
+    def __init__(self, summ,kafedraplace, dolzhnostplace, unikplace):
         self.summ = summ
         self.kafedraplace = kafedraplace
         self.dolzhnostplace = dolzhnostplace

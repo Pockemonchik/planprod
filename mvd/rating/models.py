@@ -56,7 +56,7 @@ class URR(models.Model):
     year = models.IntegerField(default=2020)
 
     def getsumm(self):
-        return self.obshbal + self.sootnbal + self.zanspraktbal + self.srivbal + self.opozdaniebal
+        return self.obshbal + self.sootnbal + self.zanspraktbal + self.viezdspraktbal + self.ppsfpbal+self.ppsdrbal+self.vneaudotorbal
 
     def __str__(self):
         return self.profile.user.username
@@ -179,7 +179,43 @@ class ORMR(models.Model):
 
    def __str__(self):
        return self.profile.user.username
-
+   def getsumm(self):
+        return (self.ruksecbal+
+                self.rukpredmsekbal+
+                self.rabotarukbal+
+                self.rabotachlenbal+
+                self.rukkafnachbal+
+                self.rukkafzambal+
+                self.bestprepodmirbal+
+                self.bestprepodrusbal+
+                self.bestprepodregbal+
+                self.bestprepodunikbal+
+                self.uchastiebestprepodmirbal+
+                self.uchastiebestprepodrusbal+
+                self.uchastiebestprepodregbal+
+                self.uchastiebestprepodunikbal+
+                self.ekspertbal+
+                self.metodkonk1bal+
+                self.metodkonk1bal+
+                self.metodkonk2bal+
+                self.metodkonk3bal+
+                self.metodkonk4bal+
+                self.profmasterbal+
+                self.podgsbornmirbal+
+                self.podgsbornrusbal+
+                self.podgsbornregbal+
+                self.podgsbornunikbal+
+                self.vulkanbal+
+                self.plenarbal+
+                self.obrprogrammabal+
+                self.proverkafbal+
+                self.inpectunikbal+
+                self.resocenki1bal+
+                self.resocenki6bal+
+                self.resocenki11bal+
+                self.resocenki16bal+
+                self.resocenki26bal+
+                self.inovacbal)
 
 
 class PCR(models.Model):

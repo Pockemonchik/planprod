@@ -376,6 +376,7 @@ class UMR(models.Model):
     vid=models.CharField(max_length=1000,blank=True)
     srok=models.CharField(max_length=1000,blank=True)
     otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
+    include_rating = models.BooleanField(default=False)
     prepodavatel=models.ForeignKey(Profile,related_name='umr',on_delete=models.CASCADE)
     year=models.IntegerField(default=2019)
     polugodie=models.IntegerField(default=1)

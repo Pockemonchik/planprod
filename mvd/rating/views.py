@@ -8,7 +8,7 @@ from django.views.generic import View
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 #from snippets.serializers import SnippetSerializer
-from plan.models import Profile,Kafedra
+from plan.models import Profile,Kafedra,ProfileInfo
 from rating.models import URR, ORMR, PCR, MRR,Rating
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
@@ -35,6 +35,8 @@ def rate_otsenka(request,slug,year):
         pcr = get_object_or_404(PCR, profile=profile1, year=year)
     except:
         pcr = None
+
+
     urrform=URRForm(instance=urr)
     ormrform=ORMRForm(instance=ormr)
     pcrform=PCRForm(instance=pcr)
@@ -49,6 +51,11 @@ def rate_otsenka(request,slug,year):
         'profile': profile,
         'profile1': profile1,
         'rating':rating,
+
+        'urr': urr,
+        'ormr': ormr,
+        'pcr': pcr,
+
 
 
 
@@ -200,12 +207,12 @@ class ProfilePlaceView(APIView):
         profilefullnname = request.query_params.get('profile')
         profile=get_object_or_404(Profile,fullname=profilefullnname)
         year= request.query_params.get('year')
-        profilerating=get_object_or_404(Rating,profile=profile,year=year)
+        try:
+            profilerating=Rating.objects.get(profile=profile,year=year)
+        except:
+            return HttpResponse("Ре")
 
-        #allrating = Rating.objects.all()
-        # kafedraplace=allrating.filter(profile__kafedra=profile.kafedra,year=year,summ__gte=profilerating.summ).count()
-        # dolzhnostplace=allrating.filter(profile__dolzhnost=profile.dolzhnost,year=year).exclude(summ__gte=profilerating.summ).count()
-        # unikplace=allrating.filter(year=year).exclude(summ__gte=profilerating.summ).count()
+
         place = Place(profilerating.summ,profilerating.kafedraplace,profilerating.dolzhnostplace,profilerating.unikplace)
         serializer_context = {
             'request': request,
@@ -236,7 +243,10 @@ class SaveURRView(View):
 
                     urr = form.save(commit=False)
                     urr.profile = profile
+                    urr.year=year
                     urr.save()
+                    setplace(year,profile)
+
                 else:
                     print('blen')
                     return HttpResponse("Ошибка при сохранении таблицы")
@@ -266,7 +276,9 @@ class SaveORMRView(View):
 
                     urr = form.save(commit=False)
                     urr.profile = profile
+                    urr.year=year
                     urr.save()
+                    setplace(year,profile)
                 else:
                     print(form.errors)
                     return HttpResponse("Ошибка при сохранении таблицы")
@@ -297,7 +309,9 @@ class SavePCRView(View):
 
                     urr = form.save(commit=False)
                     urr.profile = profile
+                    urr.year=year
                     urr.save()
+                    setplace(year,profile)
                 else:
                     print(form.errors)
                     return HttpResponse("Ошибка при сохранении таблицы")
@@ -329,6 +343,7 @@ class SaveMRRView(View):
                         mrr.profile = profile
                         mrr.year = request.POST['year']
                         mrr.save()
+                        setplace(year,profile)
 
                 else:
                     print(formset.errors)
@@ -337,4 +352,41 @@ class SaveMRRView(View):
         else:
             return redirect('log')
 
-
+#pereschet ratinga i summ
+def setplace(year,profile):
+    allrating = Rating.objects.all()
+    profilerating = Rating.objects.get(profile=profile, year=year)
+    profilerating.kafedraplace = allrating.filter(profile__kafedra=profile.kafedra, year=year,
+                                                  summ__gte=profilerating.summ).count()
+    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,summ__gte=profilerating.summ).count()
+    profilerating.unikplace = allrating.filter(year=year,summ__gte=profilerating.summ).count()
+    try:
+        urrsumm = (URR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        urrsumm = 0
+    try:
+        ormrsumm = (ORMR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        ormrsumm = 0
+    try:
+        pcrsumm = (PCR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        pcrsumm = 0
+    mrrsumm = 0
+    mrrs = MRR.objects.filter(profile=profile, year=year)
+    for m in mrrs:
+        mrrsumm += m.bal
+    profilerating.summ = urrsumm+ormrsumm+pcrsumm+mrrsumm
+    profilerating.urr=urrsumm
+    profilerating.ormr=ormrsumm
+    profilerating.pcr=pcrsumm
+    profilerating.mrr=mrrsumm
+    profilerating.save()
+    print(profilerating.urr)
+    print(profilerating.ormr)
+    print(profilerating.pcr)
+    print(profilerating.mrr)
+    print(profilerating.kafedraplace)
+    print(profilerating.unikplace)
+    print(profilerating.dolzhnostplace)
+    print(allrating.filter(year=year,summ__gte=profilerating.summ))
