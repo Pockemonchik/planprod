@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {%load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+<link rel="stylesheet" href="{% static "/css/plan.css" %}" />
+<link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" />
+
+
+<script src="{% static "/js/vue.js" %}"></script>
+<script src="{% static "/js/axios.js" %}"></script>
+<script src="{% static "/js/vuetify.js" %}"></script>
    <div class="content active">
-  <div class="container-fluid">
+  <div class="container-fluid" id="app" data-app>
     <div class="row">
       <div class="col p-5">
 
@@ -12,8 +20,41 @@
             <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="card rounded">
                 <div class="card-header">
-                  <h3>Документы</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                  <h3>Индивидуальные планы</h3>
+                  <!-- <button type="button" class="btn btn-outline-primary dok-button">Добавить ИП</button> -->
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-width="100"
+                    offset-x
+                    left
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить ИП</button>
+                    </template>
+              
+                    <v-card>
+                      <v-list>
+                        <v-list-item>
+              
+                          <v-list-item-action>
+                            <v-text-field
+                              solo
+                              label="Введите год"
+                              v-model="yearIP"
+                              clearable
+                            ></v-text-field>
+                          </v-list-item-action>
+                        </v-list-item>
+                      </v-list>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+              
+                        <v-btn text @click="menu = false">закрыть</v-btn>
+                        <v-btn color="#007bff" text @click="addIP">сохранить</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -27,8 +68,17 @@
                         	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
-
                       {%endfor%}
+                      <template v-for="item in items">
+                        <tr>
+                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/doc.png" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
+                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;text-align:right;vertical-align:middle;">
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                          </td>
+                        </tr>
+                      </template>
 
                     </tbody>
                   </table>
@@ -36,8 +86,40 @@
               </div>
               <div class="card rounded">
                 <div class="card-header">
-                  <h3>Ваши рейтинги</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
+                  <h3>Рейтинги</h3>
+                    <v-menu
+                      v-model="menuRate"
+                      :close-on-content-click="false"
+                      :nudge-width="100"
+                      offset-x
+                      left
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
+                      </template>
+                
+                      <v-card>
+                        <v-list>
+                          <v-list-item>
+                
+                            <v-list-item-action>
+                              <v-text-field
+                                solo
+                                label="Введите год"
+                                v-model="yearRate"
+                                clearable
+                              ></v-text-field>
+                            </v-list-item-action>
+                          </v-list-item>
+                        </v-list>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                
+                          <v-btn text @click="menu = false">закрыть</v-btn>
+                          <v-btn color="#007bff" text @click="addRate">сохранить</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-menu>
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -52,6 +134,16 @@
                         </td>
                       </tr>
                       {%endfor%}
+                      <template v-for="item in itemsRate">
+                        <tr>
+                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/graph.svg" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
+                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;text-align:right;vertical-align:middle;">
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                          </td>
+                        </tr>
+                      </template>
 
                     </tbody>
                   </table>
@@ -60,7 +152,46 @@
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Документы кафедры</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                  <v-menu
+                    v-model="menuDoc"
+                    :close-on-content-click="false"
+                    :nudge-width="100"
+                    offset-x
+                    left
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                    </template>
+
+                    <v-card>
+                      <v-list>
+                        <v-list-item>
+              
+                            <v-text-field
+                          label="Введите год"
+                          clearable
+                          v-model="yearDoc"
+                            ></v-text-field>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-select
+                            :items="planfact"
+                            label="Вид нагрузки"
+                            v-model="plfa"
+                          ></v-select>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-file-input accept=".xlsx" label="Файл .xlsx" prepend-icon=""></v-file-input>
+                        </v-list-item>
+                      </v-list>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="menuDoc = false">Закрыть</v-btn>
+                        <v-btn color="#007bff" text @click="addDoc">Сохранить</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
+
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -69,7 +200,7 @@
                       {%for doc in nagruzkadocs%}
                       <tr>
                         <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
-                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc.kafedra.fullname}}{{doc.status}}</td>
+                        <td style="border:0;vertical-align:middle;" valign="middle">{{doc}}</td>
                         <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                           <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
@@ -77,6 +208,16 @@
                       </tr>
                       {%endfor%}
                       {%endif%}
+                      <template v-for="item in itemsDoc">
+                        <tr>
+                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/docexel.png" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;vertical-align:middle;" valign="middle">{{kafedra.fullname}} {{status}}</td>
+                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;text-align:right;vertical-align:middle;">
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                          </td>
+                        </tr>
+                      </template>
                     </tbody>
                   </table>
                 </div>
@@ -91,7 +232,8 @@
                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                 <div class="card-header">
                   <h3>Информация об аккаунте</h3>
-                  <button type="submit" class="btn btn-outline-primary dok-button">Сохранить изменения</button>
+                  <button type="button" class="btn btn-outline-primary dok-button" @click="save($event)" :disabled="dis">{buttontext}</button>
+                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                 </div>
 
 
@@ -140,46 +282,7 @@
 
               </div>
               <div class="card rounded">
-                <div class="card-header">
-                  <h3>Список сотрудников кафедры</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button">Добавить сотрудника</button>
-                </div>
-                <div class="card-body card-body-alt dokumenti">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                       <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>dfdfmdo</td>
-                        <td>dfdfmdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>fdffat</td>
-                        <td>dfdfmdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>dftwitter</td>
-                        <td>dfdfmdo</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <supertable></supertable>
               </div>
             </div>
       </div>
@@ -187,15 +290,255 @@
   </div>
   
 </div>
+<v-snackbar
+         v-model="snackbar"
+         :timeout="timeout"
+         >
+         { text }
+   
+         <template v-slot:action="{ attrs }">
+            <v-btn
+               color="blue"
+               text
+               v-bind="attrs"
+               @click="snackbar = false"
+            >
+               Закрыть
+            </v-btn>
+         </template>
+      </v-snackbar>
 </div>
 </div>
 </div>
-<script type="text/javascript">
-function destroy()
-{
-    if (confirm("Bы уверены, что хотите удалить пользователя и все его данные?"))
-    return true;
-    else return false;
- }
+<script id='INLINE_PEN_JS_ID'>
+Vue.component('supertable',{
+  data: () => ({
+    dialog: false,
+    headers: [
+      {
+        text: 'ФИО',
+        align: 'start',
+        value: 'name',
+      },
+      { text: 'Действия', value: 'actions', sortable: false },
+    ],
+    desserts: [],
+    editedIndex: -1,
+    editedItem: {
+      name: '',
+      login: '',
+      password: '',
+    },
+    defaultItem: {
+      name: '',
+      login: '',
+      password: '',
+    },
+  }),
+
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
+
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+  },
+
+  created () {
+    this.initialize()
+  },
+
+  methods: {
+    initialize () {
+      this.desserts = [
+        {
+          name: 'Ленин Владимир Ильич',
+        },
+        {
+          name: 'Ice cream sandwich',
+        },
+        {
+          name: 'Eclair',
+        },
+        {
+          name: 'Cupcake',
+        },
+        {
+          name: 'Gingerbread',
+        },
+        {
+          name: 'Jelly bean',
+        },
+      ]
+    },
+    
+    itr(item , row){
+      console.log(item)
+      console.log(row)
+    },
+
+    editItem (item) {
+      console.log(item)
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      const index = this.desserts.indexOf(item)
+      confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
+    },
+
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+      } else {
+        this.desserts.push(this.editedItem)
+      }
+      this.close()
+    },
+  },
+  template: `
+  <v-data-table
+      :headers="headers"
+      :items="desserts"
+      sort-by="name"
+      class="elevation-1"
+      @click:row="itr"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="rgba(0,0,0,.03)">
+          <v-toolbar-title>Список сотрудников кафедры</v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          ></v-divider>
+          <v-spacer></v-spacer>
+          <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on, attrs }">
+              <button type="button"
+                v-bind="attrs"
+                v-on="on"
+                class="btn btn-outline-primary dok-button"
+              >Добавить сотрудника</button>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Добавить сотрудника</span>
+              </v-card-title>
+  
+              <v-card-text>
+                <v-container>
+                      <v-text-field v-model="editedItem.name" label="ФИО"></v-text-field>
+                   <v-text-field v-model="editedItem.login" label="Логин"></v-text-field>
+                  <v-text-field v-model="editedItem.password" label="Пароль"></v-text-field>
+                </v-container>
+              </v-card-text>
+  
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Закрыть</v-btn>
+                <v-btn color="#007bff" text @click="save">Сохранить</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">Reset</v-btn>
+      </template>
+    </v-data-table>
+  `
+})
+
+
+
+  new Vue({
+    el: '#app',
+    delimiters:['{','}'],
+    vuetify: new Vuetify(),
+    data:{
+      plfa:"",
+      planfact:["Планируемая","Фактическая"],
+      yearIP:"",
+      yearRate:"",
+      yearDoc:"",
+      menu: false,
+      menuRate: false,
+      menuDoc:false,
+      items:[],
+      itemsRate:[],
+      itemsDoc:[],
+      dis:false,
+      snackbar: false,
+      buttontext:"Сохранить изменения",
+      text: 'My timeout is set to 2000.',
+      timeout: 2000,
+    },
+    methods:{
+      save(event) {
+        console.log(event)
+        this.dis=true
+        this.buttontext="Загрузка таблицы..."
+        form = event.path[2];
+        var formData = new FormData(form);
+        var pathpost = event.path[2].action
+        axios.post(pathpost, formData).then((response) => {
+        this.dis=false
+        this.buttontext="Сохранить изменения"
+        this.text=response.data
+        this.snackbar=true
+        })
+        .catch((errors) => {
+          this.dis=false
+          this.buttontext="Сохранить изменения"
+          this.text="Ошибка соединения"
+          this.snackbar=true
+          console.log(errors)
+        })
+      },
+      addIP(){
+        this.items.push(this.yearIP)
+        this.menu = false
+      },
+      addRate(){
+        this.itemsRate.push(this.yearRate)
+        this.menuRate = false
+      },
+      addDoc(){
+        this.itemsDoc.push(this.yearDoc)
+        this.menuDoc = false
+      },
+    }
+  })
+
 </script>
 {% endblock %}
