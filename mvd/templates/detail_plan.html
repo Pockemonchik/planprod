@@ -94,6 +94,7 @@
                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                   <!-- <div class="custom-file">
                       <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+
                      <label class="custom-file-label" for="inputGroupFile01">Файл</label>
 
                   </div> -->
@@ -749,6 +750,7 @@
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
+
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
