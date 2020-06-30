@@ -77,9 +77,9 @@
                       {%endfor%}
                       <template v-for="item in items">
                         <tr>
-                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/doc.png" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;width:35px;"><a v-bind:href="item.href" ><img src="/static/admin1/images/doc.png" width="35px" height="35px"  alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
-                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
                           </td>
@@ -542,11 +542,12 @@ Vue.component('supertable',{
         var formData = new FormData(event.path[3]);
         axios.post(addIPurl, formData).then((response) => {
         this.dis=false
-        this.text=response.data
+        this.text=response.data[0].text
         console.log(response.data)
         this.snackbar=true
         if (this.text == "План успешно создан"){
-          this.items.push(this.yearIP)
+          this.items.push({"year":this.yearIP,"href":response.data[0].href})
+          console.log(this.items)
         }
         })
         .catch((errors) => {

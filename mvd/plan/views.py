@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.conf import settings
 from django.db.models import Q
+from rest_framework.response import Response
 # from .tasks import saveallnagr
 
 from django.http import HttpResponse
@@ -21,10 +22,12 @@ import random
 from docx import Document
 import os
 from io import StringIO,BytesIO
-
+from rest_framework.decorators import api_view
+@api_view(['POST'])
 def createplan(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
+        year = request.POST['year']
         if request.method=="POST":
             try:
                 Plan.objects.get(prepod=profile,year=request.POST['year'])
@@ -39,8 +42,8 @@ def createplan(request):
 
 
     return Response([{
-    text:"План успешно создан",
-    href:"plan/"+profile.user.username+"/"+year+"/",
+    "text":"План успешно создан",
+    "href":"plan/"+profile.user.username+"/"+year+"/",
     }])
 
 def createratinghome(request):
