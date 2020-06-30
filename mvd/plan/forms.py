@@ -109,7 +109,7 @@ class Table1Form(forms.ModelForm):
         model=Predmet
         exclude = ['kafedra','prepodavatel','year','polugodie','status']
         widgets = {
-            'name':Textarea(attrs={'class':'form-control', 'spellcheck':'true','rows':'2',}),
+            'name':Textarea(attrs={'class':'form-control with-important', 'spellcheck':'true','rows':'2',}),
             'leccii':NumberInput(attrs={'class':'form-control'}),
             'seminar':NumberInput(attrs={'class':'form-control'}),
             'practici_v_gruppe':NumberInput(attrs={'class':'form-control'}),
