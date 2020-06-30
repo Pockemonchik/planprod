@@ -31,7 +31,14 @@ def createplan(request):
         if request.method=="POST":
             try:
                 Plan.objects.get(prepod=profile,year=request.POST['year'])
-                return HttpResponse("Такой план уже существует")
+                return Response([{
+
+                            "text":"Такой план уже существует"
+                            
+
+                            }])
+
+            
             except:
                 newplan=Plan()
                 newplan.user=request.user
@@ -53,83 +60,100 @@ def createratinghome(request):
         profile = get_object_or_404(Profile, user=request.user)
         year=request.POST['year']
         if request.method=="POST":
-            if Rating.objects.get(profile=profile,year=year):
-                return HttpResponse("Такой рейтинг уже существует")
-            else:
-                newrating = Rating()
-                print(newrating)
-                newrating.profile = profile
-                newrating.year = year
-                itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+            try:
+                Rating.objects.get(profile=profile,year=year)
+                return Response([{
+
+                            "text":"Такой рейтинг уже существует",
+                            
+
+                            }])
+            except:
                 try:
-                    newurr = URR.objects.get(profile=profile, year=year)
-                except:
-                    newurr = URR()
-                newurr.profile = profile
-                newurr.year = year
-                newurr.obsh = itog.get_obshaya_nagruzka()
-                newurr.obshbal = itog.get_obshaya_nagruzka()
-                sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
-                newurr.sootn = sootn
-                if sootn >70:
-                    newurr.sootnbal = sootn - 70
-                else:
-                    newurr.sootnbal = 0
-                print(newurr.sootn)
+                    newrating = Rating()
+                    print(newrating)
+                    newrating.profile = profile
+                    newrating.year = year
+                    itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+                    try:
+                        newurr = URR.objects.get(profile=profile, year=year)
+                    except:
+                        newurr = URR()
+                    newurr.profile = profile
+                    newurr.year = year
+                    newurr.obsh = itog.get_obshaya_nagruzka()
+                    newurr.obshbal = itog.get_obshaya_nagruzka()
+                    sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
+                    newurr.sootn = sootn
+                    if sootn >70:
+                        newurr.sootnbal = sootn - 70
+                    else:
+                        newurr.sootnbal = 0
+                    print(newurr.sootn)
 
-                print(newurr.sootnbal)
-                newurr.save()
-                umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
-                summmrr = 0
-                for u in umrs:
-                    if ("основной профессиональной образовательной" in u.vid or
-                            "римерной основной профессиональной образовательной" in u.vid or
-                            "оздание структуры и содержания электронного учебного курса" in u.vid or
-                            "нтеграция тестовых заданий в программную оболочку" in u.vid):
-                        newmrr = MRR()
-                        newmrr.profile = profile
-                        newmrr.name = u.vid
-                        print(newmrr.name)
-                        newmrr.bal = 20
-                        newmrr.year = year
-                        summmrr += 20
-                        newmrr.save()
-                    if ("римерной рабочей программы учебной дисциплины" in u.vid or
-                            "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
-                            "ополнительной профессиональной программы" in u.vid or
-                            "ондовой лекции" in u.vid or
-                            "атериалов для проведения конкурса профессионального мастерств" in u.vid or
-                            "ценария для учебного фильма" in u.vid or
-                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
-                            "ондовой лекции" in u.vid):
-                        newmrr = MRR()
-                        newmrr.profile = profile
-                        newmrr.name = u.vid
-                        print(newmrr.name)
-                        newmrr.bal = 10
-                        newmrr.year = year
-                        summmrr += 10
-                        newmrr.save()
-                    if ("рабочей программы учебной дисциплины" in u.vid or
-                            "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
-                            "атурных объектов на контрольные экспертизы" in u.vid or
-                            "естов для проведения мероприятий по указанию МВД России" in u.vid or
-                            "рактикума по дисциплине" in u.vid or
-                            "атериалов для вступительных испытаний" in u.vid or
-                            "атериалов для проведения кандидатского экзамен" in u.vid or
-                            "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
-                            "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
-                        newmrr = MRR()
-                        newmrr.profile = profile
-                        newmrr.name = u.vid
-                        print(newmrr.name)
-                        newmrr.bal = 5
-                        newmrr.year = year
-                        summmrr += 5
-                        newmrr.save()
+                    print(newurr.sootnbal)
+                    newurr.save()
+                    umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+                    summmrr = 0
+                    for u in umrs:
+                        if ("основной профессиональной образовательной" in u.vid or
+                                "римерной основной профессиональной образовательной" in u.vid or
+                                "оздание структуры и содержания электронного учебного курса" in u.vid or
+                                "нтеграция тестовых заданий в программную оболочку" in u.vid):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 20
+                            newmrr.year = year
+                            summmrr += 20
+                            newmrr.save()
+                        if ("римерной рабочей программы учебной дисциплины" in u.vid or
+                                "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                                "ополнительной профессиональной программы" in u.vid or
+                                "ондовой лекции" in u.vid or
+                                "атериалов для проведения конкурса профессионального мастерств" in u.vid or
+                                "ценария для учебного фильма" in u.vid or
+                                "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
+                                "ондовой лекции" in u.vid):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 10
+                            newmrr.year = year
+                            summmrr += 10
+                            newmrr.save()
+                        if ("рабочей программы учебной дисциплины" in u.vid or
+                                "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                                "атурных объектов на контрольные экспертизы" in u.vid or
+                                "естов для проведения мероприятий по указанию МВД России" in u.vid or
+                                "рактикума по дисциплине" in u.vid or
+                                "атериалов для вступительных испытаний" in u.vid or
+                                "атериалов для проведения кандидатского экзамен" in u.vid or
+                                "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
+                                "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 5
+                            newmrr.year = year
+                            summmrr += 5
+                            newmrr.save()
 
-                    newrating.summ = newurr.getsumm() + summmrr
-                    newrating.save()
+                        newrating.summ = newurr.getsumm() + summmrr
+                        newrating.save()
+                        print("zaebis")
+                except Exception as e: 
+                    print(e)
+                    return Response([{
+
+                            "text":"Ошибка при созданиии рейтинга, сначала аполните ИП на этот год",
+                            
+
+                            }])
+
 
     return Response([{
 
@@ -668,7 +692,7 @@ def index(request):
         })
     else:
         return redirect('log')
-
+@api_view(['POST'])
 def nagruzkaSave(request):
     if request.user.is_authenticated:
         if request.method=="POST":
@@ -681,16 +705,30 @@ def nagruzkaSave(request):
                     my_object.delete()
                     nagruzka.kafedra=profile.kafedra
                     nagruzka.save()
-                    return HttpResponse("Нагрузка успешно заменена")
+                    return Response([{
+
+                    "text":"Нагрузка успешно заменена",
+                    "kafname":"Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
+
+                    }])
                 except Nagruzka.DoesNotExist:
 
                     nagruzka=form.save(commit=False)
                     nagruzka.kafedra=profile.kafedra
                     nagruzka.save()
-                    return HttpResponse("Нагрузка успешно добавлена")
+                    return Response([{
+
+                    "text":"Нагрузка успешно добавлена",
+                    "kafname":"Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
+
+                    }])
             else:
                 print('blen')
-                return HttpResponse("Произошла ошибка при сохранении нагрузки")
+                return Response([{
+
+                "text":"Произошла ошибка при сохранении нагрузки",
+
+                }])
 
     else:
         return redirect('log')

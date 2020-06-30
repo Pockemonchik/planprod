@@ -105,11 +105,14 @@
                       </template>
                 
                       <v-card>
+                        <form>
+                          {%csrf_token%}
                         <v-list>
                           <v-list-item>
                 
                             <v-list-item-action>
                               <v-text-field
+                                name="year"
                                 solo
                                 label="Введите год"
                                 v-model="yearRate"
@@ -124,6 +127,7 @@
                           <v-btn text @click="menu = false">закрыть</v-btn>
                           <v-btn color="#007bff" text @click="addRate">сохранить</v-btn>
                         </v-card-actions>
+                      </form>
                       </v-card>
                     </v-menu>
                 </div>
@@ -142,9 +146,9 @@
                       {%endfor%}
                       <template v-for="item in itemsRate">
                         <tr>
-                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/graph.svg" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;width:35px;"><a v-bind:href="item.href" ><img src="/static/admin1/images/graph.svg" width="35px" height="35px"  alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
-                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
                           </td>
@@ -170,24 +174,28 @@
                     </template>
 
                     <v-card>
+                      <form>
+                        {%csrf_token%}
                       <v-list>
                         <v-list-item>
               
                             <v-text-field
-                          label="Введите год"
-                          clearable
-                          v-model="yearDoc"
+                              name="year"
+                              label="Введите год"
+                              clearable
+                              v-model="yearDoc"
                             ></v-text-field>
                         </v-list-item>
                         <v-list-item>
                           <v-select
+                            name="status"
                             :items="planfact"
                             label="Вид нагрузки"
                             v-model="plfa"
                           ></v-select>
                         </v-list-item>
                         <v-list-item>
-                          <v-file-input accept=".xlsx" label="Файл .xlsx" prepend-icon=""></v-file-input>
+                          <v-file-input name="document" accept=".xlsx" label="Файл .xlsx" prepend-icon=""></v-file-input>
                         </v-list-item>
                       </v-list>
                       <v-card-actions>
@@ -195,6 +203,7 @@
                         <v-btn text @click="menuDoc = false">Закрыть</v-btn>
                         <v-btn color="#007bff" text @click="addDoc">Сохранить</v-btn>
                       </v-card-actions>
+                    </form>
                     </v-card>
                   </v-menu>
 
@@ -216,9 +225,9 @@
                       {%endif%}
                       <template v-for="item in itemsDoc">
                         <tr>
-                          <td style="border:0;width:35px;"><a href="/plan/admin/2019/" ><img src="/static/admin1/images/docexel.png" width="35px" height="35px"  alt=""></a></td>
-                          <td style="border:0;vertical-align:middle;" valign="middle">{{kafedra.fullname}} {{status}}</td>
-                          <td style="border:0;vertical-align:middle;">{item}</td>
+                          <td style="border:0;width:35px;"><img src="/static/admin1/images/docexel.png" width="35px" height="35px"  alt=""></td>
+                          <td style="border:0;vertical-align:middle;" valign="middle">{item.kafname}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
                           </td>
@@ -487,8 +496,8 @@ Vue.component('supertable',{
 
 
   const addIPurl = "http://127.0.0.1:8000/createplan/"
-  const urlman = "http://127.0.0.1:8000/rating/profiles"
-  const urlyear ="http://127.0.0.1:8000/rating/years"
+  const addRateurl = "http://127.0.0.1:8000/createratinghome/"
+  const addDocurl ="http://127.0.0.1:8000/nagruzkaSave/"
   const urlpar = "http://127.0.0.1:8000/rating/profilerating"
   const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
 
@@ -537,17 +546,14 @@ Vue.component('supertable',{
         })
       },
       addIP(event){
-        console.log(event)
         this.menu = false
         var formData = new FormData(event.path[3]);
         axios.post(addIPurl, formData).then((response) => {
         this.dis=false
         this.text=response.data[0].text
-        console.log(response.data)
         this.snackbar=true
         if (this.text == "План успешно создан"){
           this.items.push({"year":this.yearIP,"href":response.data[0].href})
-          console.log(this.items)
         }
         })
         .catch((errors) => {
@@ -560,12 +566,40 @@ Vue.component('supertable',{
         
       },
       addRate(){
-        this.itemsRate.push(this.yearRate)
         this.menuRate = false
+        var formData = new FormData(event.path[3]);
+        axios.post(addRateurl, formData).then((response) => {
+        this.dis=false
+        this.text=response.data[0].text
+        this.snackbar=true
+        if (this.text == "Рейтинг успешно сформирован"){
+          this.itemsRate.push({"year":this.yearRate,"href":response.data[0].href})
+        }
+        })
+        .catch((errors) => {
+            this.dis=false
+            this.text="Ошибка соединения"
+            this.snackbar=true
+            console.log(errors)
+        })
       },
       addDoc(){
-        this.itemsDoc.push(this.yearDoc)
         this.menuDoc = false
+        var formData = new FormData(event.path[3]);
+        axios.post(addDocurl, formData).then((response) => {
+        this.dis=false
+        this.text=response.data[0].text
+        this.snackbar=true
+        if (this.text == "Нагрузка успешно добавлена"){
+          this.itemsDoc.push({"year":this.yearDoc,"kafname":response.data[0].kafname})
+        }
+        })
+        .catch((errors) => {
+            this.dis=false
+            this.text="Ошибка соединения"
+            this.snackbar=true
+            console.log(errors)
+        })
       },
     }
   })

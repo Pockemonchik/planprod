@@ -36,7 +36,7 @@ class Nagruzka(models.Model):
     kafedra=models.ForeignKey(Kafedra, related_name='nagruzki',on_delete=models.CASCADE)
     document=models.FileField(upload_to='files',default='settings.MEDIA_ROOT/plan.docx')
     def __str__(self):
-         return "Нагрузка по кафедре "+str(self.kafedra.fullname)+" "+str(self.year)+" "+self.status
+         return "Нагрузка по кафедре "+str(self.kafedra.fullname)+" "+self.status
 #профили пользователей
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE,primary_key=True)

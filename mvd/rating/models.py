@@ -24,8 +24,8 @@ class Rating(models.Model):
     def getsumm(self):
         return self.urr + self.ormr + self.pcr + self.mrr
 
-    def __str__(self):
-        return self.profile.fullname+" рейтинг за "+str(self.year)+" год"
+    # def __str__(self):
+    #     return self.profile.fullname+" рейтинг за "+str(self.year)+" год"
 
 
 class URR(models.Model):
