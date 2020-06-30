@@ -43,8 +43,13 @@ def createplan(request):
 
     return Response([{
 <<<<<<< HEAD
+<<<<<<< HEAD
     text:"План успешно создан",
     href:"plan/"+profile.user.username+"/"+year+"/"
+=======
+    "text":"План успешно создан",
+    "href":"plan/"+profile.user.username+"/"+year+"/",
+>>>>>>> 4a3e0c4b95265668c22322330262501196c1c6b0
 =======
     "text":"План успешно создан",
     "href":"plan/"+profile.user.username+"/"+year+"/",
