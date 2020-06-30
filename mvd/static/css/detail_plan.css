@@ -159,3 +159,17 @@
 .otmetka {
     height: 30px !important;  
 }
+
+
+[type=number] {
+    width: 90px !important;
+}
+
+.kolvomes{
+    width: 100% !important;
+}
+
+.with-important{
+    width: 200px !important;
+}
+
