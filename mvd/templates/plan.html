@@ -22,6 +22,7 @@
                 <div class="card-header">
                   <h3>Индивидуальные планы</h3>
                   <!-- <button type="button" class="btn btn-outline-primary dok-button">Добавить ИП</button> -->
+                  
                   <v-menu
                     v-model="menu"
                     :close-on-content-click="false"
@@ -34,6 +35,8 @@
                     </template>
               
                     <v-card>
+                      <form>
+                        {%csrf_token%}
                       <v-list>
                         <v-list-item>
               
@@ -43,6 +46,7 @@
                               label="Введите год"
                               v-model="yearIP"
                               clearable
+                              name="year"
                             ></v-text-field>
                           </v-list-item-action>
                         </v-list-item>
@@ -51,10 +55,12 @@
                         <v-spacer></v-spacer>
               
                         <v-btn text @click="menu = false">закрыть</v-btn>
-                        <v-btn color="#007bff" text @click="addIP">сохранить</v-btn>
+                        <v-btn color="#007bff" text @click="addIP($event)">сохранить</v-btn>
                       </v-card-actions>
+                    </form>
                     </v-card>
                   </v-menu>
+                
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -480,6 +486,11 @@ Vue.component('supertable',{
 })
 
 
+  const addIPurl = "http://127.0.0.1:8000/createplan/"
+  const urlman = "http://127.0.0.1:8000/rating/profiles"
+  const urlyear ="http://127.0.0.1:8000/rating/years"
+  const urlpar = "http://127.0.0.1:8000/rating/profilerating"
+  const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
 
   new Vue({
     el: '#app',
@@ -525,9 +536,27 @@ Vue.component('supertable',{
           console.log(errors)
         })
       },
-      addIP(){
-        this.items.push(this.yearIP)
+      addIP(event){
+        console.log(event)
         this.menu = false
+        var formData = new FormData(event.path[3]);
+        axios.post(addIPurl, formData).then((response) => {
+        this.dis=false
+        this.text=response.data
+        console.log(response.data)
+        this.snackbar=true
+        if (this.text == "План успешно создан"){
+          this.items.push(this.yearIP)
+        }
+        })
+        .catch((errors) => {
+            this.dis=false
+            this.text="Ошибка соединения"
+            this.snackbar=true
+            console.log(errors)
+        })
+        
+        
       },
       addRate(){
         this.itemsRate.push(this.yearRate)

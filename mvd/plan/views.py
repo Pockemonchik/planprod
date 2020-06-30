@@ -26,11 +26,13 @@ def createplan(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         if request.method=="POST":
-            if Plan.objects.get(prepod=profile,year=request.POST['year']):
+            try:
+                Plan.objects.get(prepod=profile,year=request.POST['year'])
                 return HttpResponse("Такой план уже существует")
-            else:
+            except:
                 newplan=Plan()
                 newplan.user=request.user
+                newplan.prepod=profile
                 newplan.year=request.POST['year']
                 newplan.name="План "+profile.fullname
                 newplan.save()
