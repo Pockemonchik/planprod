@@ -40,7 +40,7 @@ def createplan(request):
 
     return Response([{
     text:"План успешно создан",
-    href:"plan/"+profile.user.username+"/"+year+"/",
+    href:"plan/"+profile.user.username+"/"+year+"/"
     }])
 
 def createratinghome(request):
