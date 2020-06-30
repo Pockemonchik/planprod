@@ -22,6 +22,136 @@ from docx import Document
 import os
 from io import StringIO,BytesIO
 
+def createplan(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        if request.method=="POST":
+            if Plan.objects.get(prepod=profile,year=request.POST['year']):
+                return HttpResponse("Такой план уже существует")
+            else:
+                newplan=Plan()
+                newplan.user=request.user
+                newplan.year=request.POST['year']
+                newplan.name="План "+profile.fullname
+                newplan.save()
+
+
+    return HttpResponse("План успешно создан")
+
+def createratinghome(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        year=request.POST['year']
+        if request.method=="POST":
+            if Rating.objects.get(profile=profile,year=year):
+                return HttpResponse("Такой рейтинг уже существует")
+            else:
+                newrating = Rating()
+                print(newrating)
+                newrating.profile = profile
+                newrating.year = year
+                itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+                try:
+                    newurr = URR.objects.get(profile=profile, year=year)
+                except:
+                    newurr = URR()
+                newurr.profile = profile
+                newurr.year = year
+                newurr.obsh = itog.get_obshaya_nagruzka()
+                newurr.obshbal = itog.get_obshaya_nagruzka()
+                sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
+                newurr.sootn = sootn
+                if sootn >70:
+                    newurr.sootnbal = sootn - 70
+                else:
+                    newurr.sootnbal = 0
+                print(newurr.sootn)
+
+                print(newurr.sootnbal)
+                newurr.save()
+                umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+                summmrr = 0
+                for u in umrs:
+                    if ("основной профессиональной образовательной" in u.vid or
+                            "римерной основной профессиональной образовательной" in u.vid or
+                            "оздание структуры и содержания электронного учебного курса" in u.vid or
+                            "нтеграция тестовых заданий в программную оболочку" in u.vid):
+                        newmrr = MRR()
+                        newmrr.profile = profile
+                        newmrr.name = u.vid
+                        print(newmrr.name)
+                        newmrr.bal = 20
+                        newmrr.year = year
+                        summmrr += 20
+                        newmrr.save()
+                    if ("римерной рабочей программы учебной дисциплины" in u.vid or
+                            "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                            "ополнительной профессиональной программы" in u.vid or
+                            "ондовой лекции" in u.vid or
+                            "атериалов для проведения конкурса профессионального мастерств" in u.vid or
+                            "ценария для учебного фильма" in u.vid or
+                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
+                            "ондовой лекции" in u.vid):
+                        newmrr = MRR()
+                        newmrr.profile = profile
+                        newmrr.name = u.vid
+                        print(newmrr.name)
+                        newmrr.bal = 10
+                        newmrr.year = year
+                        summmrr += 10
+                        newmrr.save()
+                    if ("рабочей программы учебной дисциплины" in u.vid or
+                            "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                            "атурных объектов на контрольные экспертизы" in u.vid or
+                            "естов для проведения мероприятий по указанию МВД России" in u.vid or
+                            "рактикума по дисциплине" in u.vid or
+                            "атериалов для вступительных испытаний" in u.vid or
+                            "атериалов для проведения кандидатского экзамен" in u.vid or
+                            "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
+                            "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                        newmrr = MRR()
+                        newmrr.profile = profile
+                        newmrr.name = u.vid
+                        print(newmrr.name)
+                        newmrr.bal = 5
+                        newmrr.year = year
+                        summmrr += 5
+                        newmrr.save()
+
+                    newrating.summ = newurr.getsumm() + summmrr
+                    newrating.save()
+
+
+    return HttpResponse("Рейтинг успешно сформирован")
+
+def changepass(request):
+    if request.user.is_authenticated:
+        profile=get_object_or_404(Profile,user=request.user)
+        if profile.role==2 or profile.role==3:
+            if request.method=="POST":
+                # try:
+                    print(request.POST['profile'])
+                    profilechange=Profile.objects.get(fullname=request.POST['profile'])
+                    user=profilechange.user
+                    usernew =User.objects.create_user(form.cleaned_data.get('username'),form.cleaned_data.get('password'),form.cleaned_data.get('password'))
+                    usernew.save()
+                    profilechange.user=usernew
+                    profilechange.save()
+
+                #except:
+                        #return HttpResponse("ошибка при смене учетных данных")
+
+
+
+
+            return HttpResponse("Учетные данные успешно изменены")
+    else:
+        return redirect('log')
+
+
+
+
+
 def createrating(request,year,slug):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user__username=slug)
@@ -212,23 +342,26 @@ def profileinfo(request):
 def deluser(request):
     if request.user.is_authenticated:
         profile=get_object_or_404(Profile,user=request.user)
-        if profile.role==2:
+        if profile.role==2 or profile.role==3:
             if request.method=="POST":
                 # try:
                     print(request.POST['profile'])
                     profiledel=Profile.objects.get(fullname=request.POST['profile'])
-                    plandel=Plan.objects.get(prepod=profiledel)
-                    userdel=profiledel.user
-                    profiledel.delete()
-                    plandel.delete()
-                    userdel.delete()
+                    profiledel.kafedra=NULL
+                    profiledel.save()
+
+                    #plandel=Plan.objects.get(prepod=profiledel)
+                    # userdel=profiledel.user
+                    # profiledel.delete()
+                    # plandel.delete()
+                    # userdel.delete()
                 # except:
                 #     return render(request,'error.html',{'content':"Произошла ошибка при удалении пользователя"})
 
 
 
 
-            return redirect('index')
+            return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
     else:
         return redirect('log')
 
@@ -239,7 +372,7 @@ def adduser(request):
         if request.method=="POST":
 
             profile=get_object_or_404(Profile,user=request.user)
-            if profile.role==2:
+            if profile.role==2 or profile.role==3:
                 form=UserAddForm(request.POST)
                 if form.is_valid():
                     try:
@@ -260,12 +393,12 @@ def adduser(request):
 
                     except:
                         print("ne")
-                        return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
+                        return HttpResponse("Произошла ошибка при добавлении пользователя")
             else:
 
                 print('blen')
                 return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
-        return redirect('index')
+        return HttpResponse("Сотрудник успешно добавлен")
     else:
         return redirect('log')
 
@@ -279,6 +412,7 @@ def exelobr(request):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
 def exelobrfact(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsxfact.xlsx')
     if os.path.exists(file_path):
@@ -287,6 +421,7 @@ def exelobrfact(request):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
 def docxobr(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'exampleip.docx')
     if os.path.exists(file_path):
@@ -296,12 +431,11 @@ def docxobr(request):
             return response
     raise Http404
 
-
-
 def handle_uploaded_file(f):
     with open('anal.docx', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
 def documentAnalize(request):
                     if request.user.is_authenticated:
                         if request.method=="POST":
@@ -484,606 +618,9 @@ def documentAnalize(request):
                         else:
                             return redirect('log')
 
-
-                        # count+=1
-
-
-
-    # dlya doc faylov vseh
-    # kafedri=Kafedra.objects.all()
-    # count=0
-    # for kaf in kafedri:
-    #     # try:
-    #         dir="/home/andrey/Desktop/sorplans/"+kaf.fullname
-    #         list=os.listdir(dir)
-    #         profiles=Profile.objects.filter(kafedra=kaf)
-    #         for profile in profiles:
-    #             for i in range(len(list)):
-    #                 #запонить дату
-    #                 if profile.fullname.split(' ', 1)[0] in list[i]:
-    #                     # print(profile.fullname.split(' ', 1)[0])
-    #                     if profile.fullname.split(' ', 1)[0]=="Хаминский":
-    #                         data=takeTable('/home/andrey//Desktop/sorplans/прав человека и междун.права/Индивидуальный план Хаминский 2019-2020.docx')
-    #                         # print (data)
-    #
-    #                         fields=UMR._meta.get_fields()
-    #                         for table in range(len(data)):
-    #                             if table==0:
-    #                                 for row in range(len(data[table])):
-    #                                     print(data[table])
-    #
-    #                                     count=0
-    #                                     umr=UMR()
-    #                                     umr.vid=data[table][row][1]
-    #                                     umr.srok=data[table][row][2]
-    #                                     umr.otmetka=data[table][row][3]
-    #                                     umr.prepodavatel=profile
-    #
-    #
-    #                                     umr.year="2019"
-    #                                     umr.polugodie='1'
-    #                                     # umr.save()
-    #                                     print("sohraninen")
-    #                             if table==2:
-    #                                 for row in range(len(data[table])):
-    #                                     print(data[table])
-    #
-    #                                     count=0
-    #                                     umr=UMR()
-    #                                     for field in fields:
-    #                                         count+=1
-    #                                         umr.vid=data[table][row][1]
-    #                                         umr.srok=data[table][row][2]
-    #                                         umr.otmetka=data[table][row][3]
-    #                                         umr.prepodavatel=profile
-    #                                         umr.year="2019"
-    #                                         umr.polugodie='2'
-    #                                         # umr.save()
-    #
-    #                         print("vrode norm")
-    #
-    #
-    #                     count+=1
-
-        # except:
-        #     print("1")
-
-    #analize doc file
-    # data=[]
-    # #
-    # profile=get_object_or_404(Profile,_сделать выборку по имени из базы в цикле_)
-    # for in in range(len(rucovodstvo_adunctami[0])):
-    #     for #
-    #
-    #         fields=Umr._meta.get_fields()
-    #         for table in range(len(data)):
-    #             if table==0:
-    #                 for row in range(len(data[table])):
-    #                     count=0
-    #                     umr=Umr()
-    #                     for field in fields:
-    #                         count+=1
-    #                     umr.prepodavatel=profile
-    #                     umr.year="2019"
-    #                     umr.polugodie='1'
-    #                     umr.save()
-    #
-    #
-    # print(count)
-
-
-
-
-
-
-
-
-
-    # return redirect('index')
-
-
 def saveDB(request):
     saveallnagr()
     return redirect('index')
-
-    #zapoln doc nagrq all
-    # obr=0
-    # all_profile=Profile.objects.all()
-    #
-    # for profile in all_profile:
-    #     if profile.role==1:
-    #         if profile.user.username=="admin" or profile.user.username=="user" or profile.user.username=="user145":
-    #             continue
-    #         nagruzkadoc=get_object_or_404(Nagruzka,year=2019,kafedra=profile.kafedra)
-    #         plan=get_object_or_404(Plan,prepod=profile,year=2019)
-    #         predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=False)
-    #         predmetsdel.delete()
-    #         # print(nagruzkadoc.document.path)
-    #         # print(plan.name)
-    #         try:
-    #
-    #             data=takeXls(nagruzkadoc.document.path,plan.name)
-    #             fields=Predmet._meta.get_fields()
-    #             for table in range(len(data)):
-    #                 if table==0:
-    #                     for row in range(len(data[table])):
-    #                         count=0
-    #                         predmet=Predmet()
-    #                         # print(data)
-    #                         # print(len(data[table]))
-    #                         # print(data[table])
-    #
-    #                         if data[table][row][0]=="0":
-    #                             continue
-    #                         for field in fields:
-    #                             if field.name=="id":
-    #                                 continue
-    #                             if row==(len(data[table])-1) and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за 1 полугодие:")
-    #                                 continue
-    #                             if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             # print("suka")
-    #                             setattr(predmet,field.name, data[table][row][count])
-    #
-    #                             if count==25:
-    #                                 break
-    #                             count+=1
-    #                         predmet.kafedra=profile.kafedra
-    #                         # print(predmet.__dict__)
-    #                         predmet.prepodavatel=profile
-    #                         predmet.year="2019"
-    #                         predmet.polugodie='1'
-    #                         predmet.status=False
-    #                         #tru если выполена false если план
-    #                         # print(data)
-    #                         predmet.save()
-    #
-    #                 if table==1:
-    #                     for row in range(len(data[table])):
-    #                         count=0
-    #                         predmet=Predmet()
-    #                         # print(len(data[table]))
-    #                         # print(data[table])
-    #                         # print( data[table][row][0])
-    #                         if data[table][row][0]=="0":
-    #
-    #                             continue
-    #                         for field in fields:
-    #                             if field.name=="id":
-    #                                 continue
-    #                             if row==(len(data[table])-2) and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за 2 полугодие:")
-    #                                 continue
-    #                             if row==(len(data[table])-1) and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за учебный год:")
-    #                                 continue
-    #
-    #                             if row==(len(data[table])-2) and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             # print("suka2")
-    #                             setattr(predmet,field.name, data[table][row][count])
-    #                             # print(count)
-    #                             if count==25:
-    #                                 break
-    #                             count+=1
-    #
-    #                         predmet.kafedra=profile.kafedra
-    #                         # print(predmet.__dict__)
-    #                         predmet.prepodavatel=profile
-    #                         predmet.year="2019"
-    #                         predmet.polugodie='2'
-    #                         predmet.status=False#tru если выполена false если план
-    #                         # print(predmet.all_values())
-    #                         predmet.save()
-    #
-    #
-    #             print("успешно обработан план "+profile.fullname)
-    #             obr+=1
-    #             print(obr)
-    #         except:
-    #             print("неудалось в профиле "+ profile.fullname)
-    #             continue
-    #
-    #
-
-
-
-#zapoln nagr doc all
-
-    # all_profile=Profile.objects.all()
-    # for profile in all_profile:
-    #             #print(1)
-    #             #print(profile.fullname)
-    #             data=[]
-    #             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=False,year=2019)
-    #             for p in predmets:
-    #                arr=p.all_values()
-    #                for a in arr:
-    #                    if a=='0':
-    #                        data.append(" ")
-    #                    else:
-    #                        data.append(a)
-    #             b1=int(len(data)/26)
-    #             # data+=[" "]*(363-(predmets.count()*26))
-    #
-    #             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=False,year=2019)
-    #             for p in predmets:
-    #                arr=p.all_values()
-    #                for a in arr:
-    #                    if a=='0':
-    #                        data.append(" ")
-    #                    else:
-    #                        data.append(a)
-    #             # data+=[" "]*(362-(predmets.count()*26))
-    #             b2=int((len(data)/26)-b1)
-    #             # print(data)
-    #             # print(str(b1)+" "+str(b2))
-    #             print( profile.fullname,' ', data, ' ', b1, ' ', b2)
-    #             name=profile.kafedra.fullname+profile.fullname
-    #             createDoc2(name,data,b1,b2)
-
-
-    #zapoln doc nagrq nach
-
-    # all_profile=Profile.objects.filter(role=2)
-    # for profile in all_profile:
-    #             #print(1)
-    #             #print(profile.fullname)
-    #             data=[]
-    #             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=1,status=False,year=2019)
-    #             for p in predmets:
-    #                arr=p.all_values()
-    #                for a in arr:
-    #                    if a=='0':
-    #                        data.append(" ")
-    #                    else:
-    #                        data.append(a)
-    #             b1=int(len(data)/26)
-    #             # data+=[" "]*(363-(predmets.count()*26))
-    #
-    #             predmets=Predmet.objects.filter(prepodavatel=profile,polugodie=2,status=False,year=2019)
-    #             for p in predmets:
-    #                arr=p.all_values()
-    #                for a in arr:
-    #                    if a=='0':
-    #                        data.append(" ")
-    #                    else:
-    #                        data.append(a)
-    #             # data+=[" "]*(362-(predmets.count()*26))
-    #             b2=int((len(data)/26)-b1)
-    #             # print(data)
-    #             # print(str(b1)+" "+str(b2))
-    #             print( profile.fullname,' ', data, ' ', b1, ' ', b2)
-    #             createDoc2(profile.fullname,data,b1,b2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # #gruzka DLYA NACHKAF
-  #   if request.user.is_authenticated:
-  #       all_profile=Profile.objects.all()
-  #
-  #       for profile in all_profile:
-  #           if profile.role==2:
-  #               if profile.user.username=="admin" or profile.user.username=="user" or profile.user.username=="user145":
-  #                   continue
-  #               nagruzkadoc=get_object_or_404(Nagruzka,year=2019,kafedra=profile.kafedra)
-  #               plan=get_object_or_404(Plan,prepod=profile,year=2019)
-  #               predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=False)
-  #               predmetsdel.delete()
-  #               print(nagruzkadoc.document.path)
-  #               print(plan.name)
-  #               try:
-  #
-  #                   data=takeXls(nagruzkadoc.document.path,plan.name)
-  #                   fields=Predmet._meta.get_fields()
-  #                   for table in range(len(data)):
-  #                       if table==0:
-  #                           for row in range(len(data[table])):
-  #                               count=0
-  #                               predmet=Predmet()
-  #                               # print(data)
-  #                               # print(len(data[table]))
-  #                               # print(data[table])
-  #
-  #                               if data[table][row][0]=="0":
-  #                                   continue
-  #                               for field in fields:
-  #                                   if field.name=="id":
-  #                                       continue
-  #                                   if row==(len(data[table])-1) and field.name=="name":
-  #                                       setattr(predmet,field.name, "Итого за 1 полугодие:")
-  #                                       continue
-  #                                   if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
-  #                                       setattr(predmet,field.name, data[table][row][count])
-  #                                       break
-  #                                   # print("suka")
-  #                                   setattr(predmet,field.name, data[table][row][count])
-  #
-  #                                   if count==25:
-  #                                       break
-  #                                   count+=1
-  #                               predmet.kafedra=profile.kafedra
-  #                               # print(predmet.__dict__)
-  #                               predmet.prepodavatel=profile
-  #                               predmet.year="2019"
-  #                               predmet.polugodie='1'
-  #                               predmet.status=False
-  #                               #tru если выполена false если план
-  #                               # print(data)
-  #                               predmet.save()
-  #
-  #                       if table==1:
-  #                           for row in range(len(data[table])):
-  #                               count=0
-  #                               predmet=Predmet()
-  #                               # print(len(data[table]))
-  #                               print(data[table])
-  #                               # print( data[table][row][0])
-  #                               if data[table][row][0]=="0":
-  #
-  #                                   continue
-  #                               for field in fields:
-  #                                   if field.name=="id":
-  #                                       continue
-  #                                   if row==(len(data[table])-2) and field.name=="name":
-  #                                       setattr(predmet,field.name, "Итого за 2 полугодие:")
-  #                                       continue
-  #                                   if row==(len(data[table])-1) and field.name=="name":
-  #                                       setattr(predmet,field.name, "Итого за учебный год:")
-  #                                       continue
-  #
-  #                                   if row==(len(data[table])-2) and field.name=="auditor_nagruzka":
-  #                                       setattr(predmet,field.name, data[table][row][count])
-  #                                       break
-  #                                   if row==(len(data[table])-1) and field.name=="auditor_nagruzka":
-  #                                       setattr(predmet,field.name, data[table][row][count])
-  #                                       break
-  #                                   # print("suka2")
-  #                                   setattr(predmet,field.name, data[table][row][count])
-  #                                   # print(count)
-  #                                   if count==25:
-  #                                       break
-  #                                   count+=1
-  #
-  #                               predmet.kafedra=profile.kafedra
-  #                               # print(predmet.__dict__)
-  #                               predmet.prepodavatel=profile
-  #                               predmet.year="2019"
-  #                               predmet.polugodie='2'
-  #                               predmet.status=False#tru если выполена false если план
-  #                               # print(predmet.all_values())
-  #                               predmet.save()
-  #
-  #
-  #                   print("успешно обработан план "+profile.fullname)
-  #               except:
-  #                   print("неудалось в профиле "+ profile.fullname)
-  #                   continue
-  #
-  #
-  #
-  #
-  #
-  #       return redirect('detail_plan',slug=profile.user.username,year=2019)
-  #   else:
-  #       return redirect('log')
-  #
-
-#nagruzka for all
-    # if request.user.is_authenticated:
-    #     all_profile=Profile.objects.all()
-    #
-    #     for profile in all_profile:
-    #         if profile.user.username=="admin" or profile.user.username=="user":
-    #             continue
-    #         nagruzkadoc=get_object_or_404(Nagruzka,year=2019,kafedra=profile.kafedra)
-    #         plan=get_object_or_404(Plan,prepod=profile,year=2019)
-    #         predmetsdel=Predmet.objects.filter(prepodavatel=profile,status=False)
-    #         predmetsdel.delete()
-    #         print(nagruzkadoc.document.path)
-    #         print(plan.name)
-    #         try:
-    #
-    #             data=takeXls(nagruzkadoc.document.path,plan.name)
-    #
-    #             fields=Predmet._meta.get_fields()
-    #             for table in range(len(data)):
-    #                 if table==0:
-    #                     for row in range(len(data[table])):
-    #                         count=0
-    #                         predmet=Predmet()
-    #                         if data[table][row][0]=="0" and row!=13:
-    #                             continue
-    #                         for field in fields:
-    #                             if field.name=="id":
-    #                                 continue
-    #                             if row==13 and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за 1 полугодие:")
-    #                                 continue
-    #                             if row==13 and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             setattr(predmet,field.name, data[table][row][count])
-    #
-    #                             if count==25:
-    #                                 break
-    #                             count+=1
-    #                         predmet.kafedra=profile.kafedra
-    #                         # print(predmet.__dict__)
-    #                         predmet.prepodavatel=profile
-    #                         predmet.year="2019"
-    #                         predmet.polugodie='1'
-    #                         predmet.status=False
-    #                         #tru если выполена false если план
-    #                         # print(data)
-    #                         predmet.save()
-    #
-    #                 if table==1:
-    #                     for row in range(len(data[table])):
-    #                         count=0
-    #                         predmet=Predmet()
-    #                         if data[table][row][0]=="0" and row!=12 and row!=13:
-    #                             continue
-    #                         for field in fields:
-    #                             if field.name=="id":
-    #                                 continue
-    #                             if row==12 and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за 2 полугодие:")
-    #                                 continue
-    #                             if row==13 and field.name=="name":
-    #                                 setattr(predmet,field.name, "Итого за учебный год:")
-    #                                 continue
-    #
-    #                             if row==12 and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             if row==13 and field.name=="auditor_nagruzka":
-    #                                 setattr(predmet,field.name, data[table][row][count])
-    #                                 break
-    #                             setattr(predmet,field.name, data[table][row][count])
-    #
-    #                             if count==25:
-    #                                 break
-    #                             count+=1
-    #                         predmet.kafedra=profile.kafedra
-    #                         # print(predmet.__dict__)
-    #                         predmet.prepodavatel=profile
-    #                         predmet.year="2019"
-    #                         predmet.polugodie='2'
-    #                         predmet.status=False#tru если выполена false если план
-    #                         # print(predmet.all_values())
-    #                         predmet.save()
-    #             print("успешно обработан план"+profile.fullname)
-    #         except:
-    #             print("неудалось в профиле "+ profile.fullname)
-    #             continue
-    #
-    #
-    #
-    #
-    #
-    #     return redirect('detail_plan',slug=profile.user.username,year=2019)
-    # else:
-    #     return redirect('log')
-
-
-
-
-
-
-
-
-    # profiles=Profile.objects.all()
-    # plans=Plan.objects.all()
-    # for plan in plans:
-    #     fullName = plan.name
-    #     name=""
-    #
-    #     lenName = len(fullName)
-    #     x = 0
-    #     while x < lenName:
-    #         if fullName[x] == ' ':
-    #             x+=1
-    #             break
-    #         x+=1
-    #     f=x
-    #     while x < lenName:
-    #         if fullName[x] == ' ':
-    #             name = fullName[f:x+1]
-    #             name += fullName[x+1] + '.'
-    #             break
-    #         x+=1
-    #     x+=1
-    #     while x < lenName:
-    #         if fullName[x] == ' ':
-    #             name += fullName[x+1] + '.'
-    #             break
-    #         x+=1
-    #     print(name)
-    #     plan.name=name
-    #     plan.save()
-    # for plan in plans:
-    #     docinf=DocInfo()
-    #     docinf.plan=plan
-    #     docinf.save()
-    # for profile in profiles:
-    #     if profile.dolzhnost=="нач.кафедры":
-    #         profile.role=2
-    #         print(profile.fullname)
-    #         profile.save()
-    # a=xlsPrepod('/home/andrey/Desktop/shtatka.xlsx')
-    #создание планов для всех
-    # profiles=Profile.objects.all()
-    # print(profiles.count())
-    # for profile in profiles:
-    #     plan=Plan()
-    #     plan.name="План "+profile.fullname
-    #     plan.prepod=profile
-    #     plan.year=2019
-    #     plan.save()
-    #сохраняем кафедры
-    # for i in range(len(a)):
-    #     profile=Profile()
-    #     passw=random.randint(10000000,99999999)
-    #     user=User.objects.create_user('user'+str(i),str(passw),passw)
-    #     profile.user=user
-    #     profile.kafedra=get_object_or_404(Kafedra,fullname=a[i][0])
-    #     profile.dolzhnost=a[i][1]
-    #     profile.fullname=a[i][2]
-    #     profile.stepen=a[i][3]
-    #     profile.save()
-    #     print(profile.user,profile.kafedra.fullname,profile.dolzhnost,profile.stepen)
-        # for j in range(len(a[i])):
-        #
-            # if j==0:
-            #     try:
-            #         alkaf=Kafedra.objects.get(fullname=a[i][j])
-            #     except Kafedra.DoesNotExist:
-            #         kaf=Kafedra()
-            #         kaf.name="kaf"+str(i)+str(j)
-            #         kaf.fullname=a[i][j]
-            #         kaf.save()
-
-
-
-
-
-
-    # return redirect('index')
-
-
-
-
-
 
 def index(request):
     if request.user.is_authenticated:
@@ -1116,6 +653,7 @@ def index(request):
         })
     else:
         return redirect('log')
+
 def nagruzkaSave(request):
     if request.user.is_authenticated:
         if request.method=="POST":
@@ -1128,14 +666,17 @@ def nagruzkaSave(request):
                     my_object.delete()
                     nagruzka.kafedra=profile.kafedra
                     nagruzka.save()
+                    return HttpResponse("Нагрузка успешно заменена")
                 except Nagruzka.DoesNotExist:
 
                     nagruzka=form.save(commit=False)
                     nagruzka.kafedra=profile.kafedra
                     nagruzka.save()
+                    return HttpResponse("Нагрузка успешно добавлена")
             else:
-                    print('blen')
-        return redirect('index')
+                print('blen')
+                return HttpResponse("Произошла ошибка при сохранении нагрузки")
+
     else:
         return redirect('log')
 
@@ -1397,6 +938,7 @@ def nagruzkafact(request,year,slug):
         return redirect('detail_plan',slug=profile.user.username,year=year)
     else:
         return redirect('log')
+
 def kafedra_view(request,kafedra,year):
     if request.user.is_authenticated:
         profile=get_object_or_404(Profile,user=request.user)
@@ -1417,8 +959,6 @@ def kafedra_view(request,kafedra,year):
         return redirect('log')
         #выгружаем данные в документ
 #формируем список из всех данных и отправляем в скрипт
-
-
 def documentSave(request,year,slug):
 
     if request.user.is_authenticated:
@@ -1685,29 +1225,6 @@ def documentSave(request,year,slug):
     else:
         return redirect('log')
 
-
-# выгружаем данные с дока в базу
-#пока тест на 1 запись
-
-# listAllTable=takeTable('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/kavesh.docx')
-# print(listAllTable[1][0][0])
-# form2=Table1Form()
-# predmet2=form2.save(commit=False)
-# predmet2.kafedra=profile.kafedra
-# predmet2.prepodavatel=profile
-# predmet2.prepodavatel=profile
-# predmet2.leccii=listAllTable[1][0][1]
-# predmet2.name=listAllTable[1][0][0]
-# if predmet2.name!='':
-# predmet2.save()
-#закидываем даные с базы в документ
-# data=[]
-# predmets=list(Predmet.objects.filter(prepodavatel=profile))
-# for p in predmets:
-#     a=p.all_values()
-#     data+=a
-#     print(data)
-# createDoc('out.docx', data)
 #подсчет вcей нагррузки
 def mainTableCount(request):
     if request.user.is_authenticated:
@@ -1960,7 +1477,7 @@ def saveT2(request):
                             predmet.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2023,7 +1540,7 @@ def saveT3(request):
                     print('blen')
 
 
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2123,7 +1640,7 @@ def saveT4(request):
 
                     print('blen')
 
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 #
@@ -2153,7 +1670,7 @@ def saveT5(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+            return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2183,13 +1700,9 @@ def saveT6(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
-
-
-
 
 #tabler foe NIR
 def saveT7(request):
@@ -2217,7 +1730,7 @@ def saveT7(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2246,7 +1759,7 @@ def saveT8(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2278,7 +1791,7 @@ def saveT9(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 def saveT10(request):
@@ -2306,7 +1819,7 @@ def saveT10(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2338,7 +1851,7 @@ def saveT11(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2368,7 +1881,7 @@ def saveT12(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
         #иностранные слушателями
@@ -2398,7 +1911,7 @@ def saveT13(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2428,10 +1941,9 @@ def saveT14(request):
                             umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 
 def deltable(request):
@@ -2480,7 +1992,7 @@ def shapka(request):
 
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
@@ -2510,7 +2022,7 @@ def saveMesyac(request):
                     umr.save()
             else:
                     print('blen')
-        return redirect('detail_plan',slug=profile.user.username,year=request.POST['year'])
+        return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 

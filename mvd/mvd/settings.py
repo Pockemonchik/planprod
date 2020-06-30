@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'plan',
     'rating',
     'rest_framework',
-    'background_task',
+#    'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
