@@ -38,7 +38,10 @@ def createplan(request):
                 newplan.save()
 
 
-    return HttpResponse("План успешно создан")
+    return Response([{
+    text:"План успешно создан",
+    href:"plan/"+profile.user.username+"/"+year+"/",
+    }])
 
 def createratinghome(request):
     if request.user.is_authenticated:
