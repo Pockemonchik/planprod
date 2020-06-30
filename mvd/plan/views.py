@@ -42,20 +42,12 @@ def createplan(request):
 
 
     return Response([{
-<<<<<<< HEAD
-<<<<<<< HEAD
-    text:"План успешно создан",
-    href:"plan/"+profile.user.username+"/"+year+"/"
-=======
-    "text":"План успешно создан",
-    "href":"plan/"+profile.user.username+"/"+year+"/",
->>>>>>> 4a3e0c4b95265668c22322330262501196c1c6b0
-=======
-    "text":"План успешно создан",
-    "href":"plan/"+profile.user.username+"/"+year+"/",
->>>>>>> 4a3e0c4b95265668c22322330262501196c1c6b0
-    }])
 
+    "text":"План успешно создан",
+    "href":"plan/"+profile.user.username+"/"+year+"/",
+
+    }])
+@api_view(['POST'])
 def createratinghome(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -139,8 +131,13 @@ def createratinghome(request):
                     newrating.summ = newurr.getsumm() + summmrr
                     newrating.save()
 
+    return Response([{
 
-    return HttpResponse("Рейтинг успешно сформирован")
+    "text":"Рейтинг успешно сформирован",
+    "href":"rating/rate_otsenka/"+profile.user.username+"/"+year+"/",
+
+    }])
+
 
 def changepass(request):
     if request.user.is_authenticated:
