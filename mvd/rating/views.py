@@ -62,7 +62,11 @@ def rate_otsenka(request,slug,year):
     })
 
 def nach_kaf(request):
-    return render(request,'nach_kaf.html');
+    profile = get_object_or_404(Profile, user=request.user)
+    kafedra= profile.kafedra.fullname
+    return render(request,'nach_kaf.html',{
+        'kafedra': kafedra,
+        });
 
 def sotr_umr(request):
     return render(request,'sotr_umr.html');
@@ -139,6 +143,7 @@ class KafedraAllView(APIView):
         }
         serializer = KafedraSerializer(kafedras, context=serializer_context,many=True)
         return Response(serializer.data)
+
 class ProfileAllView(APIView):
     #получение all
     permission_classes = [AllowAny]
