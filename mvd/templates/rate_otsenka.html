@@ -20,15 +20,18 @@
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm toolbar">
     <img class="toolbar-img" src="{% static "admin1/images/logo.png" %}" >
-    <h5 class="my-0 mr-md-auto font-weight-normal">Рейтинговая оценка</h5>
+
 
       <ul class="navbar-nav ml-auto">
-        <ul class="list-group list-group-horizontal-sm">
-        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "index"%}"><img src="{% static "admin1/images/home.png" %}">Главная</a>
-        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
-        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/question.png" %}">Справка</a>
-        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "logout"%}"><img src="{% static "admin1/images/logout.png" %}">Выйти</a>
-        </ul>
+        <ul class="navbar-nav ml-auto">
+      <ul class="list-group list-group-horizontal-sm">
+      <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "index"%}"><img src="{% static "admin1/images/home.png" %}">Главная</a>
+        {%if request.user.profile.role == 2 or request.user.profile.role == 3 %}
+      <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "nach_kaf"%}"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
+          {%endif%}
+      <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "spravka"%}"><img src="{% static "admin1/images/question.png" %}">Справка</a>
+      <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "logout"%}"><img src="{% static "admin1/images/logout.png" %}">Выйти</a>
+      </ul>
       </ul>
 
   </div>
