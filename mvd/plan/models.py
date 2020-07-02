@@ -120,8 +120,11 @@ class DocInfo(models.Model):
     kafedra=models.CharField(max_length=250,blank=True)
     plan=models.OneToOneField(Plan,related_name='shapka',on_delete=models.CASCADE,primary_key=True)
     def all_values(self):
-        if self.stavka.is_integer():
-            self.stavka=int(self.stavka)
+        try:
+            if self.stavka.is_integer():
+                self.stavka=int(self.stavka)
+        except:
+            self.stavka=0
         let=''
         k = self.visluga % 10
         if (self.visluga>9)and(self.visluga<20)or(self.visluga>110)or(k>4)or(k==0):
