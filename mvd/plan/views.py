@@ -350,7 +350,8 @@ def createrating(request,year,slug):
                 newrating.summ = newurr.getsumm() + summmrr
                 newrating.save()
                 setplace(year,profile)
-            except:
+            except Exception as e:
+                print(e)
                 return render(request,'error.html',{'content':"Сначала заполните фактически выполненную работы за оба полугодия"})
 
 
