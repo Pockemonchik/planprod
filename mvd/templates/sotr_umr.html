@@ -26,17 +26,14 @@
 </head>
 <body>
   <div class="content active"  id="app" data-app>
-    <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
-    <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
-    <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="flex-block">
                 <div class="sotr-block">
-                    <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)"></v-select>
-                    <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man"></v-select>
-                    <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year"></v-select>
+                    <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)" class="input-height"></v-select>
+                    <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man" class="input-height"></v-select>
+                    <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year" class="input-height"></v-select>
                     <div class="table-responsive table-width">
                       <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
                       <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
@@ -45,6 +42,11 @@
                     </div>
                 </div>
                 <div class="graph-block">
+                  <div class="row pr-3 pl-3">
+                    <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
+                    <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
+                    <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
+                  </div>
                   <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                 </div>
             </div>

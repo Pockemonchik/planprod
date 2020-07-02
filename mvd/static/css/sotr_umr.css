@@ -36,7 +36,7 @@
 
 .graph-block{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 30px;
     margin-left: 20px;
     padding: 10px;
@@ -46,4 +46,12 @@
 #graphic1{
     border: 1px solid #dee2e6;
     text-align: center;
+}
+
+.input-height{
+    max-height: 67px;
+}
+
+.row .v-input {
+    margin-right: 5px;
 }

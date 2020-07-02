@@ -21,10 +21,19 @@
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm toolbar">
     <img class="toolbar-img" src="{% static "admin1/images/logo.png" %}" >
     <h5 class="my-0 mr-md-auto font-weight-normal">Рейтинговая оценка</h5>
-    <a class="btn btn-outline-warning" href="#">Главная</a>
+    
+      <ul class="navbar-nav ml-auto">
+        <ul class="list-group list-group-horizontal-sm">
+        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "index"%}"><img src="{% static "admin1/images/home.png" %}">Главная</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/question.png" %}">Справка</a>
+        <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "logout"%}"><img src="{% static "admin1/images/logout.png" %}">Выйти</a>
+        </ul>  
+      </ul>
+    
   </div>
   
-  <div class="px-3 py-3 pt-md-2 breadcrumb-block">
+  <!-- <div class="px-3 py-3 pt-md-2 breadcrumb-block">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb link-bar">
         <li class="breadcrumb-item"><a href="#">Главная</a></li>
@@ -32,7 +41,7 @@
         <li class="breadcrumb-item active" aria-current="page">Рейтинговая оценка</li>
       </ol>
     </nav>
-  </div>
+  </div> -->
   
   <div class="container main-block " id="app">
     <div class="card-deck mb-3 text-center">
