@@ -69,7 +69,7 @@ def rate_otsenka(request,slug,year):
 def nach_kaf(request):
     profile = get_object_or_404(Profile, user=request.user)
     if profile.role == 3:
-        redirect('sotr_umr')
+        return render(request,'sotr_umr.html');
     kafedra= profile.kafedra.fullname
     return render(request,'nach_kaf.html',{
         'kafedra': kafedra,
@@ -90,27 +90,37 @@ def documentSave(request,year,slug):
         inTable=[
 
         ]
-        toptext.append(profile.kafedra.fullname)
-        toptext.append(str(year))
-        toptext.append(str((int(year)+1)))
-        toptext.append(profile.info.fio)
-        toptext.append(profile.info.dolznost)
-        toptext.append(str(profile.info.stavka))
-        toptext.append(profile.info.uchst)
-        toptext.append(profile.info.uchzv)
-        toptext.append(" ")
+        try:
+            toptext.append(profile.kafedra.fullname)
+            toptext.append(str(year))
+            toptext.append(str((int(year)+1)))
+            toptext.append(profile.info.fio)
+            toptext.append(profile.info.dolznost)
+            toptext.append(str(profile.info.stavka))
+            toptext.append(profile.info.uchst)
+            toptext.append(profile.info.uchzv)
+            toptext.append(" ")
+        except:
+            toptext=[" "," "," ","Заполните главную страницу"," "," "," "," "," "]
+
 
 
         try:
             urr=get_object_or_404(URR, profile=profile, year=year)
             inTable.append(urr.getDataForDoc())
         except:
-            urr=None
+            urr=URR()
+            urr.profile=profile
+            urr.year=year
+            inTable.append(urr.getDataForDoc())
         try:
             ormr = get_object_or_404(ORMR, profile=profile, year=year)
             inTable.append(ormr.getDataForDoc())
         except:
-            ormr = None
+            ormr=ORMR()
+            ormr.profile=profile
+            ormr.year=year
+            inTable.append(ormr.getDataForDoc())
         mrrdata=[]
         mrr = MRR.objects.filter(profile=profile, year=year)
         for m in mrr:
@@ -121,9 +131,12 @@ def documentSave(request,year,slug):
             pcr = get_object_or_404(PCR, profile=profile, year=year)
             inTable.append(pcr.getDataForDoc())
         except:
-            pcr = None
+            pcr=PCR()
+            pcr.profile=profile
+            pcr.year=year
+            inTable.append(pcr.getDataForDoc())
         tableLens.extend([7,35,mrr.count(),5])
-        print(inTable)
+
         sumBal=[str(rating.urr),str(rating.ormr),str(rating.mrr),str(rating.pcr),str(rating.summ)]
 
         doc=createRatingDocx(toptext,tableLens,inTable,sumBal)

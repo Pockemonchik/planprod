@@ -22,7 +22,7 @@
                 <div class="card-header">
                   <h3>Индивидуальные планы</h3>
                   <!-- <button type="button" class="btn btn-outline-primary dok-button">Добавить ИП</button> -->
-                  
+
                   <v-menu
                     v-model="menu"
                     :close-on-content-click="false"
@@ -33,13 +33,13 @@
                     <template v-slot:activator="{ on, attrs }">
                       <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить ИП</button>
                     </template>
-              
+
                     <v-card>
                       <form>
                         {%csrf_token%}
                       <v-list>
                         <v-list-item>
-              
+
                           <v-list-item-action>
                             <v-text-field
                               solo
@@ -53,14 +53,14 @@
                       </v-list>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-              
+
                         <v-btn text @click="menu = false">закрыть</v-btn>
                         <v-btn color="#007bff" text @click="addIP($event)">сохранить</v-btn>
                       </v-card-actions>
                     </form>
                     </v-card>
                   </v-menu>
-                
+
                 </div>
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
@@ -103,13 +103,13 @@
                       <template v-slot:activator="{ on, attrs }">
                         <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
                       </template>
-                
+
                       <v-card>
                         <form>
                           {%csrf_token%}
                         <v-list>
                           <v-list-item>
-                
+
                             <v-list-item-action>
                               <v-text-field
                                 name="year"
@@ -123,7 +123,7 @@
                         </v-list>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                
+
                           <v-btn text @click="menu = false">закрыть</v-btn>
                           <v-btn color="#007bff" text @click="addRate">сохранить</v-btn>
                         </v-card-actions>
@@ -159,6 +159,7 @@
                   </table>
                 </div>
               </div>
+              {%if profile.role == 2 or profile.role == 3%}
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Документы кафедры</h3>
@@ -178,7 +179,7 @@
                         {%csrf_token%}
                       <v-list>
                         <v-list-item>
-              
+
                             <v-text-field
                               name="year"
                               label="Введите год"
@@ -211,7 +212,7 @@
                 <div class="card-body card-body-alt dokumenti" >
                   <table class="table table-css">
                     <tbody>
-                       {%if profile.role == 2%}
+                       {%if profile.role == 2 or profile.role == 3%}
                       {%for doc in nagruzkadocs%}
                       <tr>
                         <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
@@ -237,6 +238,7 @@
                   </table>
                 </div>
               </div>
+              {%endif%}
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 ">
@@ -296,21 +298,23 @@
                   </div>
 
               </div>
+                {%if profile.role == 2 or profile.role == 3%}
               <div class="card rounded">
                 <supertable></supertable>
               </div>
+              {%endif%}
             </div>
       </div>
     </div>
   </div>
-  
+
 </div>
 <v-snackbar
          v-model="snackbar"
          :timeout="timeout"
          >
          { text }
-   
+
          <template v-slot:action="{ attrs }">
             <v-btn
                color="blue"
@@ -390,7 +394,7 @@ Vue.component('supertable',{
         },
       ]
     },
-    
+
     itr(item , row){
       console.log(item)
       console.log(row)
@@ -454,7 +458,7 @@ Vue.component('supertable',{
               <v-card-title>
                 <span class="headline">Добавить сотрудника</span>
               </v-card-title>
-  
+
               <v-card-text>
                 <v-container>
                       <v-text-field v-model="editedItem.name" label="ФИО"></v-text-field>
@@ -462,7 +466,7 @@ Vue.component('supertable',{
                   <v-text-field v-model="editedItem.password" label="Пароль"></v-text-field>
                 </v-container>
               </v-card-text>
-  
+
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="close">Закрыть</v-btn>
@@ -562,8 +566,8 @@ Vue.component('supertable',{
             this.snackbar=true
             console.log(errors)
         })
-        
-        
+
+
       },
       addRate(){
         this.menuRate = false
