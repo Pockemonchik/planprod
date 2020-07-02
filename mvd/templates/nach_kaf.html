@@ -4,14 +4,15 @@
 <html>
 <head>
     <link rel="stylesheet" href="{% static "/css/sotr_umr.css" %}" />
+    <link rel="stylesheet" href="{% static "/css/nach_kaf.css" %}" />
     <link rel="stylesheet" href="{% static "/css/fonts.googleapis.css" %}" />
     <!-- <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" /> -->
     <link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" />
     <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
 
-    <script type="text/javascript" src="{% static "/js/graph.js" %}"></script>
     <script src="{% static "/js/apexcharts.js" %}"></script>
     <script src="{% static "/js/vue-apexcharts.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/graph.js" %}"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script> -->
     <script src="{% static "/js/vue.js" %}"></script>
     <script src="{% static "/js/axios.js" %}"></script>
@@ -25,7 +26,7 @@
 
 </head>
 <body>
-  <input type="hidden" name="kafedra" value="{{kafedra}}">
+  <input type="hidden" name="kafedra" value="{{kafedra}}" id="kafedra">
   <div class="content active"  id="app" data-app>
       <div class="container-fluid">
       <div class="row">
@@ -42,6 +43,7 @@
                     </div>
                 </div>
                 <div class="graph-block">
+                  <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
                   <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                 </div>
             </div>
@@ -72,7 +74,7 @@
         el: '#app',
         vuetify: new Vuetify(),
         data: {
-          kaf: "",
+          kaf: document.getElementById("kafedra").value,
           man: "",
           year: "",
           dolzhnost: ["Все должности", "профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
@@ -217,17 +219,6 @@
             this.series = e
           },
 
-          onChangeKaf(event){
-            this.kaf=event
-            this.man=""
-            axios.get(urlman, {params: {kafedra:event}}).then(response => {
-              this.resultMan=[]
-              this.resultYear=[]
-              response.data.forEach(element => {
-                this.resultMan.push(element.fullname)
-              });
-            })
-          },
           onChangeMan(event){
             this.resultYear=[]
             this.man=event
@@ -238,6 +229,7 @@
               });
             })
           },
+
           onChangeYear(event){
             axios.get(urlpar, {params: {profile:this.man,year:event}}).then(response => {
               this.desserts[0].val=response.data[0].urr
@@ -252,12 +244,13 @@
               this.desserts2[3].val=response.data[0].unikplace
             })
           },
+
           onChangeGraph(event){
-            if (this.yearGraph!="" && this.dolGraph!="" && this.kafGraph!=""){
-              axios.get(urlgraph, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+            if (this.yearGraph!=""){
+              axios.get(urlgraph, {params: {kafedra:this.kaf,dolzhnost:"Все должности",year:this.yearGraph}}).then(response => {
                 this.updateSeries(response.data)
               })
-              axios.get(urlgraphMan, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
+              axios.get(urlgraphMan, {params: {kafedra:this.kaf,dolzhnost:"Все должности",year:this.yearGraph}}).then(response => {
                 var fullFio=[]
                 var fio=[]
                 console.log(response.data)
@@ -276,14 +269,11 @@
         },
 
         mounted() {
-          axios.get(urlkaf).then(response => {
-            // this.resultKaf = response.data;
-            this.resultKafGraph.push("Все кафедры")
-            response.data.forEach(element => {
-              this.resultKaf.push(element.fullname)
-              this.resultKafGraph.push(element.fullname)
-            });
-          })
+          axios.get(urlman, {params: {kafedra:this.kaf}}).then(response => {
+              response.data.forEach(element => {
+                this.resultMan.push(element.fullname)
+              });
+            })
         },
       });
 

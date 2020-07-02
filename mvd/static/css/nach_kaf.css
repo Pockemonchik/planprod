@@ -37,3 +37,7 @@
     padding: 10px;
     border: 1px solid #dee2e6;
 }
+
+.v-input {
+    flex: 0 0 auto !important;
+}
