@@ -87,7 +87,7 @@
                </div>
             </div>
             <div class="block-button-3">
-               
+
                 <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
                <div class="input-group mb-3">
 
@@ -120,8 +120,8 @@
                      <div class="col nav-block">
                         <nav class="main-nav">
                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                              <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Общ нагрузка</a>
-                              <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >План уч. работа</a>
+                              <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Общ. сведения</a>
+                              <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >План. уч. работа</a>
                               <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false" >Факт. вып. работа</a>
                               <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false" >Ежемесяный Учет вып. уч. нагрузок</a>
                               <a class="nav-item nav-link"  id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Метод. работа</a>
@@ -133,7 +133,7 @@
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
                            <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
-                              <h3>Общая нагрузка</h3>
+                              <h3>Сведения об выполнении видов работ</h3>
                               <div class="flex-block" id="table-first">
                                  <!-- <hr class="mt-2"> -->
                                  <div id="table" class="table-editable">
@@ -1074,7 +1074,7 @@
          :timeout="timeout"
          >
          { text }
-   
+
          <template v-slot:action="{ attrs }">
             <v-btn
                color="blue"
@@ -1181,7 +1181,7 @@
           this.snackbar=true
           console.log(errors)
        })
-       
+
      },
      saveShap(event){
       this.dis=true

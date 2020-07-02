@@ -48,10 +48,12 @@
 		        <ul class="navbar-nav ml-auto">
 				  <ul class="list-group list-group-horizontal-sm">
 					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "index"%}"><img src="{% static "admin1/images/home.png" %}">Главная</a>
-					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
-					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/question.png" %}">Справка</a>
+						{%if request.user.profile.role == 2 or request.user.profile.role == 3 %}
+					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "nach_kaf"%}"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
+						  {%endif%}
+					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "spravka"%}"><img src="{% static "admin1/images/question.png" %}">Справка</a>
 					<a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "logout"%}"><img src="{% static "admin1/images/logout.png" %}">Выйти</a>
-				  </ul>  
+				  </ul>
 		        </ul>
 		      </div>
 		    </nav>

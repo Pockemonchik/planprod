@@ -11,8 +11,8 @@ from django.contrib.auth.views import LoginView
 urlpatterns = [
     url(r'^rate_otsenka/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.rate_otsenka,name='rate_otsenka'),
     url('profilesfilter', views.ProfileFilterView.as_view()),
-    url(r'^nach_kaf', views.nach_kaf),
-    url(r'^sotr_umr', views.sotr_umr),
+    url(r'^nach_kaf', views.nach_kaf,name='nach_kaf'),
+    url(r'^sotr_umr', views.sotr_umr,name='sotr_umr'),
     url('kafedras', views.KafedraAllView.as_view()),
     url('profiles', views.ProfileAllView.as_view()),
     url('profilerating', views.ProfileRatingView.as_view()),

@@ -63,6 +63,8 @@ def rate_otsenka(request,slug,year):
 
 def nach_kaf(request):
     profile = get_object_or_404(Profile, user=request.user)
+    if profile.role == 3:
+        redirect('sotr_umr')
     kafedra= profile.kafedra.fullname
     return render(request,'nach_kaf.html',{
         'kafedra': kafedra,
@@ -70,6 +72,27 @@ def nach_kaf(request):
 
 def sotr_umr(request):
     return render(request,'sotr_umr.html');
+
+def documentSave(request,year,slug):
+
+    if request.user.is_authenticated:
+            # user=User.objects.get(username=slug)
+            # profile=get_object_or_404(Profile,user=user)
+            #
+            #
+            # doc=writeInfoDoc(listInfo,data,indexRow)
+            #
+            # file_path=plan.document.path
+            # f =BytesIO()
+            # doc.save(f)
+            response = HttpResponse(f.getvalue(), content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            response['Content-Disposition'] = 'inline; filename=plan.docx'
+            return response
+
+
+
+    else:
+        return redirect('log')
 
 
 
