@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from rest_framework import status
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -12,10 +13,14 @@ from plan.models import Profile,Kafedra,ProfileInfo
 from rating.models import URR, ORMR, PCR, MRR,Rating
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
+from rating.ratingDocx import createRatingDocx
 from rating.forms import URRForm,ORMRForm,PCRForm,MRRForm
 from .serializers import KafedraSerializer, ProfileSerializer, RatingSerializer,PlaceSerializer,Place,SaveMRRSerializer,SaveORMRSerializer,SavePCRSerializer,SaveURRSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticated
+
+import os
+from io import StringIO,BytesIO
 
 
 def rate_otsenka(request,slug,year):
@@ -76,18 +81,58 @@ def sotr_umr(request):
 def documentSave(request,year,slug):
 
     if request.user.is_authenticated:
-            # user=User.objects.get(username=slug)
-            # profile=get_object_or_404(Profile,user=user)
-            #
-            #
-            # doc=writeInfoDoc(listInfo,data,indexRow)
-            #
-            # file_path=plan.document.path
-            # f =BytesIO()
-            # doc.save(f)
-            response = HttpResponse(f.getvalue(), content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-            response['Content-Disposition'] = 'inline; filename=plan.docx'
-            return response
+        user=User.objects.get(username=slug)
+        profile=get_object_or_404(Profile,user=user)
+        rating = get_object_or_404(Rating, profile=profile, year=year)
+
+        toptext=[]
+        tableLens=[]
+        inTable=[
+
+        ]
+        toptext.append(profile.kafedra.fullname)
+        toptext.append(str(year))
+        toptext.append(str((int(year)+1)))
+        toptext.append(profile.info.fio)
+        toptext.append(profile.info.dolznost)
+        toptext.append(str(profile.info.stavka))
+        toptext.append(profile.info.uchst)
+        toptext.append(profile.info.uchzv)
+        toptext.append(" ")
+
+
+        try:
+            urr=get_object_or_404(URR, profile=profile, year=year)
+            inTable.append(urr.getDataForDoc())
+        except:
+            urr=None
+        try:
+            ormr = get_object_or_404(ORMR, profile=profile, year=year)
+            inTable.append(ormr.getDataForDoc())
+        except:
+            ormr = None
+        mrrdata=[]
+        mrr = MRR.objects.filter(profile=profile, year=year)
+        for m in mrr:
+            mrrdata.extend(["3.1",m.name,str(m.bal)])
+        inTable.append(mrrdata)
+
+        try:
+            pcr = get_object_or_404(PCR, profile=profile, year=year)
+            inTable.append(pcr.getDataForDoc())
+        except:
+            pcr = None
+        tableLens.extend([7,35,mrr.count(),5])
+        print(inTable)
+        sumBal=[str(rating.urr),str(rating.ormr),str(rating.mrr),str(rating.pcr),str(rating.summ)]
+
+        doc=createRatingDocx(toptext,tableLens,inTable,sumBal)
+
+        f =BytesIO()
+        doc.save(f)
+        response = HttpResponse(f.getvalue(), content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        response['Content-Disposition'] = 'inline; filename=rating.docx'
+        return response
 
 
 

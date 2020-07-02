@@ -21,18 +21,18 @@
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm toolbar">
     <img class="toolbar-img" src="{% static "admin1/images/logo.png" %}" >
     <h5 class="my-0 mr-md-auto font-weight-normal">Рейтинговая оценка</h5>
-    
+
       <ul class="navbar-nav ml-auto">
         <ul class="list-group list-group-horizontal-sm">
         <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "index"%}"><img src="{% static "admin1/images/home.png" %}">Главная</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/marketing.png" %}">Рейтинг</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="#"><img src="{% static "admin1/images/question.png" %}">Справка</a>
         <a class="list-group-item list-group-item-action list-group-item-secondary item-list" href="{%url "logout"%}"><img src="{% static "admin1/images/logout.png" %}">Выйти</a>
-        </ul>  
+        </ul>
       </ul>
-    
+
   </div>
-  
+
   <!-- <div class="px-3 py-3 pt-md-2 breadcrumb-block">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb link-bar">
@@ -42,7 +42,7 @@
       </ol>
     </nav>
   </div> -->
-  
+
   <div class="container main-block " id="app">
     <div class="card-deck mb-3 text-center">
       <div class="card mb-4 shadow-sm main-block">
@@ -60,7 +60,7 @@
                     <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false">Подготовка учебно-методических материалов</a>
                     <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Педагогический контроль</a>
                     <div class="list-group" id="list-tab" role="tablist">
-                      <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
+                      <a class="list-group-item list-group-item-action"  href="{%url 'documentSaveRating' rating.year profile1.user.username%}" role="tab" aria-controls="home"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
                     </div>
                   </div>
               </nav>
@@ -806,7 +806,7 @@
                         :timeout="timeout"
                       >
                         { text }
-                  
+
                         <template v-slot:action="{ attrs }">
                           <v-btn
                             color="blue"
@@ -878,7 +878,7 @@
            this.snackbar=true
            console.log(errors)
         })
-        
+
       }
     }
     })

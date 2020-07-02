@@ -13,6 +13,7 @@ urlpatterns = [
     url('profilesfilter', views.ProfileFilterView.as_view()),
     url(r'^nach_kaf', views.nach_kaf,name='nach_kaf'),
     url(r'^sotr_umr', views.sotr_umr,name='sotr_umr'),
+    url(r'^documentSaveRating/(?P<year>\d{4})/(?P<slug>[\w-]+)/$', views.documentSave,name='documentSaveRating'),
     url('kafedras', views.KafedraAllView.as_view()),
     url('profiles', views.ProfileAllView.as_view()),
     url('profilerating', views.ProfileRatingView.as_view()),

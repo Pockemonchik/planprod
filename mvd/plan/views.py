@@ -34,11 +34,11 @@ def createplan(request):
                 return Response([{
 
                             "text":"Такой план уже существует"
-                            
+
 
                             }])
 
-            
+
             except:
                 newplan=Plan()
                 newplan.user=request.user
@@ -65,7 +65,7 @@ def createratinghome(request):
                 return Response([{
 
                             "text":"Такой рейтинг уже существует",
-                            
+
 
                             }])
             except:
@@ -145,12 +145,12 @@ def createratinghome(request):
                         newrating.summ = newurr.getsumm() + summmrr
                         newrating.save()
                         print("zaebis")
-                except Exception as e: 
+                except Exception as e:
                     print(e)
                     return Response([{
 
                             "text":"Ошибка при созданиии рейтинга, сначала аполните ИП на этот год",
-                            
+
 
                             }])
 
@@ -194,7 +194,7 @@ def changepass(request):
 def createrating(request,year,slug):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user__username=slug)
-        if not Rating.objects.get(profile=profile,year=year):
+        if not Rating.objects.get(profile=profile,year=year).exists():
             newrating = Rating()
             print(newrating)
             newrating.profile = profile
@@ -210,6 +210,9 @@ def createrating(request,year,slug):
             newurr.obshbal = itog.get_obshaya_nagruzka()
             sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
             newurr.sootn = sootn
+            print(newurr.sootn)
+
+            print(newurr.sootnbal)
             if sootn >70:
                 newurr.sootnbal = sootn - 70
             else:
