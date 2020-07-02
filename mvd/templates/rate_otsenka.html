@@ -852,6 +852,115 @@
     delimiters:['{','}'],
     vuetify: new Vuetify(),
     data:{
+
+
+
+      obsh:"",
+      sootn:"",
+      zansprakt:"",
+      viezdsprakt:"",
+      ppsfp:"",
+      ppsdr:"",
+      vneaudotor:"",
+
+      ruksec:"",
+      rukpredmsek:"",
+      rabotaruk:"",
+      rabotachlen:"",
+      rukkafnach:"",
+      rukkafzam:"",
+      bestprepodmir:"",
+      bestprepodrus:"",
+      bestprepodreg:"",
+      bestprepodunik:"",
+      uchastiebestprepodmir:"",
+      uchastiebestprepodrus:"",
+      uchastiebestprepodreg:"",
+      uchastiebestprepodunik:"",
+      ekspert:"",
+      metodkonk1:"",
+      metodkonk2:"",
+      metodkonk3:"",
+      metodkonk4:"",
+      profmaster:"",
+      podgsbornmir:"",
+      podgsbornrus:"",
+      podgsbornreg:"",
+      podgsbornunik:"",
+      vulkan:"",
+      plenar:"",
+      obrprogramma:"",
+      proverkaf:"",
+      inpectunik:"",
+      resocenki1:"",
+      resocenki6:"",
+      resocenki11:"",
+      resocenki16:"",
+      resocenki26:"",
+      inovac:"",
+
+
+      otkr:"",
+      kontrud:"",
+      kontrneud:"",
+      sriv:"",
+      opozdanie:"",
+
+
+      obshbal:"",
+      sootnbal:"",
+      zanspraktbal:"",
+      viezdspraktbal:"",
+      ppsfpbal:"",
+      ppsdrbal:"",
+      vneaudotorbal:"",
+
+      ruksecbal:"",
+      rukpredmsekbal:"",
+      rabotarukbal:"",
+      rabotachlenbal:"",
+      rukkafnachbal:"",
+      rukkafzambal:"",
+      bestprepodmirbal:"",
+      bestprepodrusbal:"",
+      bestprepodregbal:"",
+      bestprepodunikbal:"",
+      uchastiebestprepodmirbal:"",
+      uchastiebestprepodrusbal:"",
+      uchastiebestprepodregbal:"",
+      uchastiebestprepodunikbal:"",
+      ekspertbal:"",
+      metodkonk1bal:"",
+      metodkonk2bal:"",
+      metodkonk3bal:"",
+      metodkonk4bal:"",
+      profmasterbal:"",
+      podgsbornmirbal:"",
+      podgsbornrusbal:"",
+      podgsbornregbal:"",
+      podgsbornunikbal:"",
+      vulkanbal:"",
+      plenarbal:"",
+      obrprogrammabal:"",
+      proverkafbal:"",
+      inpectunikbal:"",
+      resocenki1bal:"",
+      resocenki6bal:"",
+      resocenki11bal:"",
+      resocenki16bal:"",
+      resocenki26bal:"",
+      inovacbal:"",
+
+
+      otkrbal:"",
+      kontrudbal:"",
+      kontrneudbal:"",
+      srivbal:"",
+      opozdaniebal:"",
+
+
+
+
      dis:false,
      snackbar: false,
      buttontext:"Сохранить таблицу",
@@ -880,6 +989,152 @@
         })
 
       }
+    },
+    watch:{
+      // obsh: function(old, newval) {
+      //   this.obshbal = old
+      // },
+      // sootn: function(old, newval) {
+      //   this.sootnbal = old
+      // },
+      zansprakt: function(old, newval) {
+        this.zanspraktbal = old * 4
+      },
+      viezdsprakt: function(old, newval) {
+        this.viezdspraktbal = old * 1
+      },
+      ppsfp: function(old, newval) {
+        this.ppsfpbal = old * 1
+      },
+      ppsdr: function(old, newval) {
+        this.ppsdrbal = old * 2
+      },
+      vneaudotor: function(old, newval) {
+        this.vneaudotorbal = old * 2
+      },
+
+      ruksec: function(old, newval) {
+        this.ruksecbal = old * 20
+      },
+      rukpredmsek: function(old, newval) {
+        this.rukpredmsekbal = old * 15
+      },
+      rabotaruk: function(old, newval) {
+        this.rabotarukbal = old * 15
+      },
+      rabotachlen: function(old, newval) {
+        this.rabotachlenbal = old * 10
+      },
+      rukkafnach: function(old, newval) {
+        this.rukkafnachbal = old * 3
+      },
+      rukkafzam: function(old, newval) {
+        this.rukkafzambal = old * 2
+      },
+      bestprepodmir: function(old, newval) {
+        this.bestprepodmirbal = old * 100
+      },
+      bestprepodrus: function(old, newval) {
+        this.bestprepodrusbal = old * 80
+      },
+      bestprepodreg: function(old, newval) {
+        this.bestprepodregbal = old * 65
+      },
+      bestprepodunik: function(old, newval) {
+        this.bestprepodunikbal = old * 50
+      },
+      uchastiebestprepodmir: function(old, newval) {
+        this.uchastiebestprepodmirbal = old * 50
+      },
+      uchastiebestprepodrus: function(old, newval) {
+        this.uchastiebestprepodrusbal = old * 40
+      },
+      uchastiebestprepodreg: function(old, newval) {
+        this.uchastiebestprepodregbal = old * 30
+      },
+      uchastiebestprepodunik: function(old, newval) {
+        this.uchastiebestprepodunikbal = old * 20
+      },
+      ekspert: function(old, newval) {
+        this.ekspertbal = old * 10
+      },
+      metodkonk1: function(old, newval) {
+        this.metodkonk1bal = old * 30
+      },
+      metodkonk2: function(old, newval) {
+        this.metodkonk2bal = old * 20
+      },
+      metodkonk3: function(old, newval) {
+        this.metodkonk3bal = old * 10
+      },
+      metodkonk4: function(old, newval) {
+        this.metodkonk4bal = old * 5
+      },
+      profmaster: function(old, newval) {
+        this.profmasterbal = old * 40
+      },
+      podgsbornmir: function(old, newval) {
+        this.podgsbornmirbal = old * 40
+      },
+      podgsbornrus: function(old, newval) {
+        this.podgsbornrusbal = old * 30
+      },
+      podgsbornreg: function(old, newval) {
+        this.podgsbornregbal = old * 20
+      },
+      podgsbornunik: function(old, newval) {
+        this.podgsbornunikbal = old * 5
+      },
+      vulkan: function(old, newval) {
+        this.vulkanbal = old * 30
+      },
+      plenar: function(old, newval) {
+        this.plenarbal = old * 40
+      },
+      obrprogramma: function(old, newval) {
+        this.obrprogrammabal = old * 40
+      },
+      proverkaf: function(old, newval) {
+        this.proverkafbal = old * 20
+      },
+      inpectunik: function(old, newval) {
+        this.inpectunikbal = old * 30
+      },
+      resocenki1: function(old, newval) {
+        this.resocenki1bal = old * 50
+      },
+      resocenki6: function(old, newval) {
+        this.resocenki6bal = old * 20
+      },
+      resocenki11: function(old, newval) {
+        this.resocenki11bal = 0
+      },
+      resocenki16: function(old, newval) {
+        this.resocenki16bal = -20
+      },
+      resocenki26: function(old, newval) {
+        this.resocenki26bal = -50
+      },
+      inovac: function(old, newval) {
+        this.inovacbal = old * 50
+      },
+
+      otkr: function(old, newval) {
+        // this.otkrbal = old * 0.25
+      },
+      kontrud: function(old, newval) {
+        if (old > 20) {this.kontrudbal = 20}
+        else {this.kontrudbal = old}
+      },
+      kontrneud: function(old, newval) {
+        this.kontrneudbal = old * -50
+      },
+      sriv: function(old, newval) {
+        this.srivbal = old * -100
+      },
+      opozdanie: function(old, newval) {
+        this.opozdaniebal = old * -50
+      },
     }
     })
  </script>
