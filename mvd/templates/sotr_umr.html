@@ -22,11 +22,11 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet"> -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    
+
 </head>
 <body>
   <div class="content active"  id="app" data-app>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="flex-block">
@@ -38,7 +38,7 @@
                       <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
                       <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
                       <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts2" item-key="name" class="elevation-1"></v-data-table>
-                      
+
                     </div>
                 </div>
                 <div class="graph-block">
@@ -134,11 +134,11 @@
                             rotate: -90,
                             rotateAlways: true,
                             minHeight: 150,
-                            maxHeight: 300,   
+                            maxHeight: 300,
                             }
                         },
                         legend: {
-                          horizontalAlign: 'left', 
+                          horizontalAlign: 'left',
                           width: 500,
                           position: 'top',
                         },
@@ -279,7 +279,7 @@
             }
           },
         },
-        
+
         mounted() {
           axios.get(urlkaf).then(response => {
             // this.resultKaf = response.data;
@@ -291,7 +291,7 @@
           })
         },
       });
-      
+
     </script>
 </body>
 </html>

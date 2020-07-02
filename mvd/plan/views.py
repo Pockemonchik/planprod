@@ -194,11 +194,11 @@ def changepass(request):
 def createrating(request,year,slug):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user__username=slug)
-        if not Rating.objects.get(profile=profile,year=year).exists():
-            newrating = Rating()
-            print(newrating)
+        try:
+            newrating=Rating.objects.get(profile=profile,year=year)
             newrating.profile = profile
             newrating.year = year
+            print("menyaem")
             itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
             try:
                 newurr = URR.objects.get(profile=profile, year=year)
@@ -273,9 +273,10 @@ def createrating(request,year,slug):
                 newrating.summ = newurr.getsumm() + summmrr
                 newrating.save()
 
-        else:
-            newrating = Rating.objects.get(profile=profile, year=year)
+        except:
+            newrating = Rating()
             print(newrating)
+            print("sozd nwe rat")
             newrating.profile = profile
             newrating.year = year
             itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
@@ -289,9 +290,11 @@ def createrating(request,year,slug):
             newurr.obshbal = itog.get_obshaya_nagruzka()
             sootn = int(itog.get_auditor_nagruzka()/ itog.get_obshaya_nagruzka() * 100)
             newurr.sootn = sootn
-            newurr.sootnbal = sootn - 70
             print(newurr.sootn)
-
+            if sootn >70:
+                newurr.sootnbal = sootn - 70
+            else:
+                newurr.sootnbal = 0
             print(newurr.sootnbal)
             newurr.save()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
@@ -343,9 +346,9 @@ def createrating(request,year,slug):
                     summmrr += 5
                     newmrr.save()
 
-                newrating.summ = newurr.getsumm() + summmrr
-                newrating.save()
-                setplace(year,profile)
+            newrating.summ = newurr.getsumm() + summmrr
+            newrating.save()
+            setplace(year,profile)
 
 
 
