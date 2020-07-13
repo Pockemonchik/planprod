@@ -9,3 +9,11 @@
 .card-height{
     min-height: 415px ;
 }
+
+.v-input--has-state.error--text{
+    color: red;
+}
+
+.v-messages__message{
+    color: red;
+}

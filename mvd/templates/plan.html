@@ -332,6 +332,20 @@
 <script id='INLINE_PEN_JS_ID'>
 Vue.component('supertable',{
   data: () => ({
+    rulesLogin: [
+      value => !!value || 'Required.',
+      value => {
+        const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
+        return pattern.test(value) || 'Только буквы или цифры'
+      },
+    ],
+    rulesPassword: [
+      value => !!value || 'Required.',
+      value => {
+        const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
+        return pattern.test(value) || 'Только буквы или цифры'
+      },
+    ],
     dialog: false,
     headers: [
       {
@@ -461,9 +475,10 @@ Vue.component('supertable',{
 
               <v-card-text>
                 <v-container>
-                      <v-text-field v-model="editedItem.name" label="ФИО"></v-text-field>
-                   <v-text-field v-model="editedItem.login" label="Логин"></v-text-field>
-                  <v-text-field v-model="editedItem.password" label="Пароль"></v-text-field>
+                  <v-text-field v-model="editedItem.name" label="ФИО"></v-text-field>
+                  <v-text-field v-model="editedItem.login" label="Логин" :rules="rulesLogin"></v-text-field>
+                  <v-text-field v-model="editedItem.password" label="Пароль" :rules="rulesPassword"></v-text-field>
+                  </div>
                 </v-container>
               </v-card-text>
 
