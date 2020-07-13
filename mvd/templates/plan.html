@@ -458,24 +458,39 @@ Vue.component('supertable',{
 
   methods: {
     initialize () {
+      axios.post("http://127.0.0.1:8000/supertable/").then((response) => {
+        this.desserts= response.data
+        })
       this.desserts = [
         {
           name: 'Ленин Владимир Ильич',
+          login: 'asdasd',
+          password: 'asd',
         },
         {
           name: 'Ice cream sandwich',
+          login: 'asdasd',
+          password: 'asd',
         },
         {
           name: 'Eclair',
+          login: 'asdasd',
+          password: 'asd',
         },
         {
           name: 'Cupcake',
+          login: 'asdasd',
+          password: 'asd',
         },
         {
           name: 'Gingerbread',
+          login: 'asdasd',
+          password: 'asd',
         },
         {
           name: 'Jelly bean',
+          login: 'asdasd',
+          password: 'asd',
         },
       ]
     },
@@ -494,6 +509,7 @@ Vue.component('supertable',{
     },
 
     deleteItem (item) {
+      axios.post("http://127.0.0.1:8000/deluser/", item.name)
       const index = this.desserts.indexOf(item)
       confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
     },
@@ -513,6 +529,13 @@ Vue.component('supertable',{
         this.desserts.push(this.editedItem)
       }
       this.close()
+      console.log(this.editedItem)
+      params = {
+        "name": this.editedItem.name,
+        "login": this.editedItem.login,
+        "pass": this.editedItem.password
+      }
+      axios.post("http://127.0.0.1:8000/editUser/", this.editedItem.name)
     },
   },
   template: `
