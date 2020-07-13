@@ -9,6 +9,14 @@ body {
 header {
   transition: all 0.15s linear;
 }
+
+header h4 {
+  color: #F6DC76;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #F6DC76;
+  
+}
 .navbar {
   padding: 20px 30px;
   background-color: #1B2F55;
