@@ -2104,7 +2104,7 @@ def detail_plan(request,slug,year):
         MesyacFormSet= modelformset_factory(Mesyac,form=MesyacForm)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
         try:
-            querymes=Mesyac.objects.filter(prepodavatel=profile1,year=2019,polugodie=1,status=False)
+            querymes=Mesyac.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False)
 
             if not querymes:
                 mesyacprofile=get_object_or_404(Profile,user__username='admin')
