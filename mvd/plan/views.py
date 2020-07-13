@@ -816,7 +816,7 @@ def nagruzka(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='1'
                     predmet.status=False
                     #tru если выполена false если план
@@ -860,7 +860,7 @@ def nagruzka(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='2'
                     predmet.status=False#tru если выполена false если план
                     # print(predmet.all_values())
@@ -946,7 +946,7 @@ def nagruzkafact(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='1'
                     predmet.status=True
                     #tru если выполена false если план
@@ -990,7 +990,7 @@ def nagruzkafact(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='2'
                     predmet.status=True#tru если выполена false если план
                     print(predmet.all_values())
