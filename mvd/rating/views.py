@@ -45,7 +45,7 @@ def rate_otsenka(request,slug,year):
     urrform=URRForm(instance=urr)
     ormrform=ORMRForm(instance=ormr)
     pcrform=PCRForm(instance=pcr)
-    mrrformset = modelformset_factory(MRR, form=MRRForm, extra=5)
+    mrrformset = modelformset_factory(MRR, form=MRRForm, extra=0)
     formset = mrrformset(queryset=MRR.objects.filter(profile=profile1, year=year))
     print(MRR.objects.filter(profile=profile1, year=year))
     return render(request,'rate_otsenka.html',{

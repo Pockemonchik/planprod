@@ -44,7 +44,9 @@ def createplan(request):
                 newplan.user=request.user
                 newplan.prepod=profile
                 newplan.year=request.POST['year']
-                newplan.name="План "+profile.fullname
+
+                newplan.name=''.join([profile.fullname.split(' ')[0],' ',profile.fullname.split(' ')[1][0],'.',profile.fullname.split(' ')[1][0]])
+                print("sozadanie plana "+ newplan.name)
                 newplan.save()
 
 
@@ -96,8 +98,8 @@ def createratinghome(request):
                     umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
                     summmrr = 0
                     for u in umrs:
-                        if ("основной профессиональной образовательной" in u.vid or
-                                "римерной основной профессиональной образовательной" in u.vid or
+                        if ("азработка основной профессиональной образовательной" in u.vid or
+                                "азработка примерной основной профессиональной образовательной" in u.vid or
                                 "оздание структуры и содержания электронного учебного курса" in u.vid or
                                 "нтеграция тестовых заданий в программную оболочку" in u.vid):
                             newmrr = MRR()
@@ -108,14 +110,14 @@ def createratinghome(request):
                             newmrr.year = year
                             summmrr += 20
                             newmrr.save()
-                        if ("римерной рабочей программы учебной дисциплины" in u.vid or
-                                "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
-                                "ополнительной профессиональной программы" in u.vid or
-                                "ондовой лекции" in u.vid or
-                                "атериалов для проведения конкурса профессионального мастерств" in u.vid or
-                                "ценария для учебного фильма" in u.vid or
-                                "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
-                                "ондовой лекции" in u.vid):
+                        if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
+                                "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                                "азработка дополнительной профессиональной программы" in u.vid or
+                                "азработка фондовой лекции" in u.vid or
+                                "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
+                                "азработка сценария для учебного фильма" in u.vid or
+                                "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                            ):
                             newmrr = MRR()
                             newmrr.profile = profile
                             newmrr.name = u.vid
@@ -124,15 +126,15 @@ def createratinghome(request):
                             newmrr.year = year
                             summmrr += 10
                             newmrr.save()
-                        if ("рабочей программы учебной дисциплины" in u.vid or
-                                "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
-                                "атурных объектов на контрольные экспертизы" in u.vid or
-                                "естов для проведения мероприятий по указанию МВД России" in u.vid or
-                                "рактикума по дисциплине" in u.vid or
-                                "атериалов для вступительных испытаний" in u.vid or
-                                "атериалов для проведения кандидатского экзамен" in u.vid or
-                                "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
-                                "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                        if ("азработка рабочей программы учебной дисциплины" in u.vid or
+                                "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                                "азработка натурных объектов на контрольные экспертизы" in u.vid or
+                                "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
+                                "азработка практикума по дисциплине" in u.vid or
+                                "азработка материалов для вступительных испытаний" in u.vid or
+                                "азработка материалов для проведения кандидатского экзамен" in u.vid or
+                                "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
+                                "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
                             newmrr = MRR()
                             newmrr.profile = profile
                             newmrr.name = u.vid
@@ -224,8 +226,8 @@ def createrating(request,year,slug):
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
             summmrr = 0
             for u in umrs:
-                if ("основной профессиональной образовательной" in u.vid or
-                        "римерной основной профессиональной образовательной" in u.vid or
+                if ("азработка основной профессиональной образовательной" in u.vid or
+                        "азработка примерной основной профессиональной образовательной" in u.vid or
                         "оздание структуры и содержания электронного учебного курса" in u.vid or
                         "нтеграция тестовых заданий в программную оболочку" in u.vid):
                     newmrr = MRR()
@@ -236,14 +238,14 @@ def createrating(request,year,slug):
                     newmrr.year = year
                     summmrr += 20
                     newmrr.save()
-                if ("римерной рабочей программы учебной дисциплины" in u.vid or
-                        "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
-                        "ополнительной профессиональной программы" in u.vid or
-                        "ондовой лекции" in u.vid or
-                        "атериалов для проведения конкурса профессионального мастерств" in u.vid or
-                        "ценария для учебного фильма" in u.vid or
-                        "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
-                        "ондовой лекции" in u.vid):
+                if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
+                        "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                        "азработка дополнительной профессиональной программы" in u.vid or
+                        "азработка фондовой лекции" in u.vid or
+                        "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
+                        "азработка сценария для учебного фильма" in u.vid or
+                        "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                    ):
                     newmrr = MRR()
                     newmrr.profile = profile
                     newmrr.name = u.vid
@@ -252,15 +254,15 @@ def createrating(request,year,slug):
                     newmrr.year = year
                     summmrr += 10
                     newmrr.save()
-                if ("рабочей программы учебной дисциплины" in u.vid or
-                        "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
-                        "атурных объектов на контрольные экспертизы" in u.vid or
-                        "естов для проведения мероприятий по указанию МВД России" in u.vid or
-                        "рактикума по дисциплине" in u.vid or
-                        "атериалов для вступительных испытаний" in u.vid or
-                        "атериалов для проведения кандидатского экзамен" in u.vid or
-                        "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
-                        "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                if ("азработка рабочей программы учебной дисциплины" in u.vid or
+                        "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                        "азработка натурных объектов на контрольные экспертизы" in u.vid or
+                        "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
+                        "азработка практикума по дисциплине" in u.vid or
+                        "азработка материалов для вступительных испытаний" in u.vid or
+                        "азработка материалов для проведения кандидатского экзамен" in u.vid or
+                        "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
+                        "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
                     newmrr = MRR()
                     newmrr.profile = profile
                     newmrr.name = u.vid
@@ -270,8 +272,8 @@ def createrating(request,year,slug):
                     summmrr += 5
                     newmrr.save()
 
-                newrating.summ = newurr.getsumm() + summmrr
-                newrating.save()
+            newrating.summ = newurr.getsumm() + summmrr
+            newrating.save()
 
         except:
             try:
@@ -301,8 +303,8 @@ def createrating(request,year,slug):
                 umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
                 summmrr = 0
                 for u in umrs:
-                    if ("основной профессиональной образовательной" in u.vid or
-                            "римерной основной профессиональной образовательной" in u.vid or
+                    if ("азработка основной профессиональной образовательной" in u.vid or
+                            "азработка примерной основной профессиональной образовательной" in u.vid or
                             "оздание структуры и содержания электронного учебного курса" in u.vid or
                             "нтеграция тестовых заданий в программную оболочку" in u.vid):
                         newmrr = MRR()
@@ -313,14 +315,14 @@ def createrating(request,year,slug):
                         newmrr.year = year
                         summmrr += 20
                         newmrr.save()
-                    if ("римерной рабочей программы учебной дисциплины" in u.vid or
-                            "римерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
-                            "ополнительной профессиональной программы" in u.vid or
-                            "ондовой лекции" in u.vid or
-                            "атериалов для проведения конкурса профессионального мастерств" in u.vid or
-                            "ценария для учебного фильма" in u.vid or
-                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid or
-                            "ондовой лекции" in u.vid):
+                    if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
+                            "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                            "азработка дополнительной профессиональной программы" in u.vid or
+                            "азработка фондовой лекции" in u.vid or
+                            "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
+                            "азработка сценария для учебного фильма" in u.vid or
+                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                        ):
                         newmrr = MRR()
                         newmrr.profile = profile
                         newmrr.name = u.vid
@@ -329,21 +331,21 @@ def createrating(request,year,slug):
                         newmrr.year = year
                         summmrr += 10
                         newmrr.save()
-                    if ("рабочей программы учебной дисциплины" in u.vid or
-                            "абочей программы государственной итоговой аттестации, программы практики" in u.vid or
-                            "атурных объектов на контрольные экспертизы" in u.vid or
-                            "естов для проведения мероприятий по указанию МВД России" in u.vid or
-                            "рактикума по дисциплине" in u.vid or
-                            "атериалов для вступительных испытаний" in u.vid or
-                            "атериалов для проведения кандидатского экзамен" in u.vid or
-                            "атериалов для мультимедийного сопровождения дисциплины" in u.vid or
-                            "cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                    if ("азработка рабочей программы учебной дисциплины" in u.vid or
+                            "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                            "азработка натурных объектов на контрольные экспертизы" in u.vid or
+                            "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
+                            "азработка практикума по дисциплине" in u.vid or
+                            "азработка материалов для вступительных испытаний" in u.vid or
+                            "азработка материалов для проведения кандидатского экзамен" in u.vid or
+                            "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
+                            "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
                         newmrr = MRR()
                         newmrr.profile = profile
                         newmrr.name = u.vid
                         print(newmrr.name)
                         newmrr.bal = 5
-                        newmrr.year=year
+                        newmrr.year = year
                         summmrr += 5
                         newmrr.save()
 
@@ -436,7 +438,7 @@ def adduser(request):
                         print(plan.name)
                         usernew.save()
                         profilenew.save()
-                        plan.save()
+                        # plan.save()
 
                     except:
                         print("ne")
@@ -814,7 +816,7 @@ def nagruzka(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='1'
                     predmet.status=False
                     #tru если выполена false если план
@@ -858,7 +860,7 @@ def nagruzka(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='2'
                     predmet.status=False#tru если выполена false если план
                     # print(predmet.all_values())
@@ -944,7 +946,7 @@ def nagruzkafact(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='1'
                     predmet.status=True
                     #tru если выполена false если план
@@ -988,7 +990,7 @@ def nagruzkafact(request,year,slug):
                     predmet.kafedra=profile.kafedra
                     # print(predmet.__dict__)
                     predmet.prepodavatel=profile
-                    predmet.year="2019"
+                    predmet.year=year
                     predmet.polugodie='2'
                     predmet.status=True#tru если выполена false если план
                     print(predmet.all_values())
@@ -2102,7 +2104,7 @@ def detail_plan(request,slug,year):
         MesyacFormSet= modelformset_factory(Mesyac,form=MesyacForm)
         plan=get_object_or_404(Plan,prepod=profile1,year=year)
         try:
-            querymes=Mesyac.objects.filter(prepodavatel=profile1,year=2019,polugodie=1,status=False)
+            querymes=Mesyac.objects.filter(prepodavatel=profile1,year=year,polugodie=1,status=False)
 
             if not querymes:
                 mesyacprofile=get_object_or_404(Profile,user__username='admin')
