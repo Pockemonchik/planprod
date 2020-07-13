@@ -510,16 +510,16 @@
                                                        </tr>
                                                         {%endif%}
                                                        {%endfor%}
-
+<!--
                                                        <tr id="empty_form"  style="display:none;">
                                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                                           {% for field in formset3.empty_form %}
                                                           <td>{{ field }}</td>
                                                           {% endfor %}
-                                                       </tr>
+                                                       </tr> -->
                                     </tbody>
                                  </table>
-                                 <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                                 <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset3%}
                                  {%if form.instance.name == 'Итого за 1 полугодие:'%}
                                  <table  class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
@@ -645,14 +645,14 @@
                                            {%endif%}
                                            {%endif%}
                                            {%endfor%}
-                                           <tr id="empty_form"  style="display:none;">
+                                           <!-- <tr id="empty_form"  style="display:none;">
                                               <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in formset4.empty_form %}
                                               <td>{{ field }}</td>
-                                              {% endfor %}
+                                              {% endfor %} -->
                                     </tbody>
                                  </table>
-                                 <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                                 <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset4%}
                                  {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
                                  <table class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
