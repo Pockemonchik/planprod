@@ -22,8 +22,8 @@ import subprocess
 def convert(nameDoc):
     wdFormatPDF = 17
 
-    in_file = os.path.abspath('/home/andrey/Desktop/plan-master/mvd/plan' + nameDoc)
-    out_file = os.path.abspath('/home/andrey/Desktop/plan-master/mvd/plan' + "out.pdf")
+    in_file = os.path.abspath('/root/planprod/mvd/plan' + nameDoc)
+    out_file = os.path.abspath('/root/planprod/mvd/plan' + "out.pdf")
 
     word = comtypes.client.CreateObject('Word.Application')
     doc = word.Documents.Open(in_file)
@@ -32,7 +32,7 @@ def convert(nameDoc):
     word.Quit()
 
     pdf_document = "out.pdf"
-    pdf = PdfFileReader(open('/home/andrey/Desktop/plan-master/mvd/plan' + pdf_document, "rb"))
+    pdf = PdfFileReader(open('/root/planprod/mvd/plan' + pdf_document, "rb"))
 
     return pdf
 
@@ -266,7 +266,7 @@ def takeXls(nameDoc,namePrepod,flag):
 
 # Запись в документ Основной информации
 def writeInfoDoc(listInfo, listCell,indexRow):
-    document = Document("/home/andrey/Desktop/plan-master/mvd/plan/docDynamic.docx")
+    document = Document("/root/planprod/mvd/plan/docDynamic.docx")
 
 
     needStrings = [8, 9, 10, 20, 22, 23,31]
@@ -331,7 +331,7 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
 
-    document.save('/home/andrey/Desktop/plan-master/mvd/tmp.docx')
+    document.save('/root/planprod/mvd/tmp.docx')
     return createDoc(listCell,indexRow)
 
 
@@ -351,7 +351,7 @@ def readInfoDoc(nameDoc):
     print(infoDoc)
 
 def createDoc2(nameDoc, listCell, numString1, numString2):
-    document = Document('/home/andrey/Desktop/plan-master/mvd/plan/test.docx')
+    document = Document('/root/planprod/mvd/plan/test.docx')
     #document = Document("test.docx")
     count = 0
     for table in document.tables:
@@ -374,14 +374,14 @@ def createDoc2(nameDoc, listCell, numString1, numString2):
                     count+=1
 #         print(count)
 
-    document.save('/home/andrey/Desktop/plan-master/mvd/'+nameDoc+'.docx')
+    document.save('/root/planprod/mvd/'+nameDoc+'.docx')
 
 # Заполнение документа по полученным данным и сохранение документа
 def createDoc(listCell, indexRow):
 #     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
 
     needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    document = Document("/home/andrey/Desktop/plan-master/mvd/tmp.docx")
+    document = Document("/root/planprod/mvd/tmp.docx")
     print(indexRow)
     count = -1
     for i in needTables:
@@ -412,7 +412,7 @@ def createDoc(listCell, indexRow):
     return(document)
 #    return convert(nameDoc)
 # def createDoc(nameDoc, listCell):
-#     document = Document('/home/andrey/Desktop/plan-master/mvd/plan322.docx')
+#     document = Document('/root/planprod/mvd/plan322.docx')
 #
 #     count = 0
 #     for table in document.tables:
@@ -426,7 +426,7 @@ def createDoc(listCell, indexRow):
 #                     count+=1
 # #         print(count)
 #
-#     document.save('/home/andrey/Desktop/plan-master/mvd/'+nameDoc+'.docx')
+#     document.save('/root/planprod/mvd/'+nameDoc+'.docx')
 #     # return convert(nameDoc)
 #     return document
 
@@ -435,13 +435,13 @@ def createDoc(listCell, indexRow):
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
 def takeTable(nameDoc):
     # try:
-    #     document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    #     document = Document("/root/planprod/mvd/"+nameDoc)
     # except:
     #     print(nameDoc)
-    #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/home/andrey/Desktop/plan-master/mvd/"+nameDoc])
+    #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/root/planprod/mvd/"+nameDoc])
     #     print("1")
-    #     document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
-    document = Document("/home/andrey/Desktop/plan-master/mvd/"+nameDoc)
+    #     document = Document("/root/planprod/mvd/"+nameDoc)
+    document = Document("/root/planprod/mvd/"+nameDoc)
     # document = nameDoc
     listAllTable = []
     listOneTable = []
