@@ -689,6 +689,9 @@ def index(request):
             infoform = ProfileInfoForm(instance=info)
         except:
             infoform=ProfileInfoForm()
+
+        title= "Главная "+''.join([profile.fullname.split(' ')[0],' ',profile.fullname.split(' ')[1][0],'.',profile.fullname.split(' ')[1][0]])
+
         return render(request, 'plan.html',{
         'profile':profile,
         'kafedri':kafedri,
@@ -698,7 +701,8 @@ def index(request):
         'useraddform':useraddform,
         'sotr':sotr,
         'ratings':ratings,
-        'infoform': infoform
+        'infoform': infoform,
+        'title':title
         })
     else:
         return redirect('log')
@@ -2137,6 +2141,8 @@ def detail_plan(request,slug,year):
             shapka=ShapkaForm(instance=docinf)
         except DocInfo.DoesNotExist:
             shapka=ShapkaForm()
+            
+        title= "Индивидуальный план  "+''.join([profile1.fullname.split(' ')[0],' ',profile1.fullname.split(' ')[1][0],'.',profile1.fullname.split(' ')[1][0]])
         return render(request, 'detail_plan.html',{
         'mainForm':mainForm,
         'formset': formset,
@@ -2159,7 +2165,8 @@ def detail_plan(request,slug,year):
         'profile1':profile1,
         'shapka':shapka,
         'docForm':docForm,
-        'mesyac':mesyac
+        'mesyac':mesyac,
+        'title':title
 
 
         })
