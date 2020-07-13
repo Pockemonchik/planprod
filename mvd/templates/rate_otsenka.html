@@ -20,7 +20,7 @@
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm toolbar">
     <img class="toolbar-img" src="{% static "admin1/images/logo.png" %}" >
-
+      <h4>{{title}}</h4>
 
       <ul class="navbar-nav ml-auto">
         <ul class="navbar-nav ml-auto">
@@ -694,7 +694,7 @@
 
 
                          {%if "римерной рабочей программы учебной дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value  and "атериалов для вступительных испытаний" not in field.value and "естов для проведения мероприятий по указанию МВД Росси" not in field.value and "атурных объектов на контрольные экспертизы" not in field.value and "абочей программы дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value %}
-                        <td class="pt-3-half">  <input class="form-control" @change="findball($event)" value="pusto"></td>
+                        <td class="pt-3-half"> </td>
                          {%endif%}
 
 

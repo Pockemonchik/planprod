@@ -48,6 +48,7 @@ def rate_otsenka(request,slug,year):
     mrrformset = modelformset_factory(MRR, form=MRRForm, extra=0)
     formset = mrrformset(queryset=MRR.objects.filter(profile=profile1, year=year))
     print(MRR.objects.filter(profile=profile1, year=year))
+    title ="Рейтинговая оценка "+''.join([profile1.fullname.split(' ')[0],' ',profile1.fullname.split(' ')[1][0],'.',profile1.fullname.split(' ')[1][0]])
     return render(request,'rate_otsenka.html',{
         'formset': formset,
         'urrform': urrform,
@@ -60,7 +61,7 @@ def rate_otsenka(request,slug,year):
         'urr': urr,
         'ormr': ormr,
         'pcr': pcr,
-
+        'title':title
 
 
 
