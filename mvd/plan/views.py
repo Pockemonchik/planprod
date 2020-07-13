@@ -275,7 +275,7 @@ def createrating(request,year,slug):
 
             newrating.summ = newurr.getsumm() + summmrr
             newrating.save()
-
+            setplace(year,profile)
         except:
             try:
                 newrating = Rating()
