@@ -201,7 +201,7 @@ def createrating(request,year,slug):
             newrating.profile = profile
             newrating.year = year
             print("menyaem")
-            itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+            itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:",status=True)
             try:
                 newurr = URR.objects.get(profile=profile, year=year)
             except:
@@ -209,7 +209,8 @@ def createrating(request,year,slug):
             newurr.profile = profile
             newurr.year = year
             newurr.obsh = itog.get_obshaya_nagruzka()
-            newurr.obshbal = itog.get_obshaya_nagruzka()
+            newurr.obshbal = int(itog.get_obshaya_nagruzka()/45)
+            #не забыть поменять на флоат
             sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
             newurr.sootn = sootn
             print(newurr.sootn)
@@ -282,7 +283,7 @@ def createrating(request,year,slug):
                 print("sozd nwe rat")
                 newrating.profile = profile
                 newrating.year = year
-                itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+                itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:",status=True)
                 try:
                     newurr = URR.objects.get(profile=profile, year=year)
                 except:
@@ -290,7 +291,7 @@ def createrating(request,year,slug):
                 newurr.profile = profile
                 newurr.year = year
                 newurr.obsh = itog.get_obshaya_nagruzka()
-                newurr.obshbal = itog.get_obshaya_nagruzka()
+                newurr.obshbal = int(itog.get_obshaya_nagruzka()/45)
                 sootn = int(itog.get_auditor_nagruzka()/ itog.get_obshaya_nagruzka() * 100)
                 newurr.sootn = sootn
                 print(newurr.sootn)
@@ -2141,7 +2142,7 @@ def detail_plan(request,slug,year):
             shapka=ShapkaForm(instance=docinf)
         except DocInfo.DoesNotExist:
             shapka=ShapkaForm()
-            
+
         title= "Индивидуальный план  "+''.join([profile1.fullname.split(' ')[0],' ',profile1.fullname.split(' ')[1][0],'.',profile1.fullname.split(' ')[1][0]])
         return render(request, 'detail_plan.html',{
         'mainForm':mainForm,
