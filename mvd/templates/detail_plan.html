@@ -289,9 +289,9 @@
                                     </tbody>
                                  </table>
                               </div>
-                              <div class="btn-right">
+                              <!-- <div class="btn-right">
                                  <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                              </div>
+                              </div> -->
                                </form>
                               <h3>Планируемая учебная работа за второе полугодие</h3>
                               <hr class="mt-2">
@@ -396,22 +396,26 @@
                                     </tbody>
                                  </table>
                               </div>
-                              <div class="btn-right">
+                              <!-- <div class="btn-right">
                                  <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                              </div>
+                              </div> -->
                                     </form>
                            </div>
 
                            <div class="tab-pane fade" id="nav3" role="tabpanel">
                               <h3>Фактически выполненная работа за первое полугодие</h3>
                               <hr class="mt-2">
-                             <form action="{%url 'saveT3' %}" method="post">
-                              {% csrf_token %}
-                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <div id="table" class="table-editable">
+                                   <form action="{%url 'saveT3' %}" method="post">
+                                    {% csrf_token %}
+                                       <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+
+                                 <table id="form_set" class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
+                                         <th class="text-center">
+
+                                         </th>
                                           <th class="text-center">
                                              <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
                                           </th>
@@ -496,14 +500,38 @@
 
                                       {{ formset3.management_form }}
                                                        {%for form in formset3%}
+                                                        {%if form.instance.name != 'Итого за 1 полугодие:'%}
                                                        <tr>
+                                                         <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+
                                                           {% for field in form %}
                                                           <td>{{ field }}</td>
                                                           {% endfor %}
                                                        </tr>
+                                                        {%endif%}
                                                        {%endfor%}
+
+                                                       <tr id="empty_form"  style="display:none;">
+                                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                                          {% for field in formset3.empty_form %}
+                                                          <td>{{ field }}</td>
+                                                          {% endfor %}
+                                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                                 {%for form in formset3%}
+                                 {%if form.instance.name == 'Итого за 1 полугодие:'%}
+                                 <table  class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                    <tr>
+                                       <td class="deleteRow"></td>
+                                       {% for field in form %}
+                                       <td>{{ field }}</td>
+                                       {% endfor %}
+                                    </tr>
+                                 </table>
+                                 {%endif%}
+                                 {% endfor %}
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
@@ -516,9 +544,12 @@
                               {% csrf_token %}
                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id="form_set"class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
+                                         <th class="text-center">
+
+                                         </th>
                                           <th class="text-center">
                                              <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
                                           </th>
@@ -603,14 +634,37 @@
                                      </tr>
                                            {{ formset4.management_form }}
                                            {%for form in formset4%}
+                                           {%if form.instance.name != 'Итого за 2 полугодие:' %}
+                                           {%if form.instance.name != 'Итого за учебный год:' %}
                                            <tr>
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in form %}
                                               <td>{{ field }}</td>
                                               {% endfor %}
                                            </tr>
+                                           {%endif%}
+                                           {%endif%}
                                            {%endfor%}
+                                           <tr id="empty_form"  style="display:none;">
+                                              <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                              {% for field in formset4.empty_form %}
+                                              <td>{{ field }}</td>
+                                              {% endfor %}
                                     </tbody>
                                  </table>
+                                 <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br>
+                                 {%for form in formset4%}
+                                 {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
+                                 <table class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                    <tr>
+                                       <td class="deleteRow"></td>
+                                       {% for field in form %}
+                                       <td >{{ field }}</td>
+                                       {% endfor %}
+                                    </tr>
+                                 </table>
+                                 {%endif%}
+                                 {% endfor %}
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
@@ -1094,6 +1148,7 @@
    $('.add_more').click(function(ev) {
        // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
        var form_idx = ev.target.closest('form')
+           console.log("add")
        var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
        // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
        var empty_form=$(form_idx).find('#empty_form')
@@ -1110,16 +1165,6 @@
 
 
    });
-   // $('.sohr').click(function(ev) {
-   //   console.log(ev.target)
-   //     var form_idx = ev.target.closest('form')
-   //     $(form_idx).submit(function (e) {
-   //         $('form_idx').find ('input, textearea, select').each(function() {
-   //           console.log($(this).val());
-   //
-   //         })
-   //       });
-   //     });
 
 
 
@@ -1128,8 +1173,8 @@
 </script>
 <script type="text/javascript">
    // var test=document.getElementById("form_set")
-
-     var test=document.getElementsByClassName('table table-bordered table-hover')
+     var test=document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
+    console.log("del")
      for (var i=0 ; i<test.length; i++) {
        test[i].addEventListener('click', function(evt){
          if(evt.target.closest('.deleteRow')) {
