@@ -699,35 +699,35 @@
 
 
                          {%if "римерной рабочей программы учебной дисциплины" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="2"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" id="krem" name="krem" value="2"></td>
                          {%endif%}
 
 
 
                          {%if "абочей программы дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="1"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @onchange="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="1"></td>
                          {%endif%}
 
 
                          {%if "атурных объектов на контрольные экспертизы" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
                          {%endif%}
 
 
 
                          {%if "естов для проведения мероприятий по указанию МВД Росси" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.05"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.05"></td>
                          {%endif%}
 
                          {%if "атериалов для вступительных испытаний" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="5"></</td>
                          {%endif%}
 
                          {%if "атериалов для проведения кандидатского экзамена" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="5"></td>
                          {%endif%}
                          {%if "атериалов для мультимедийного сопровождения дисциплины" in field.value %}
-                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
                          {%endif%}
 
 
@@ -904,8 +904,6 @@
     vuetify: new Vuetify(),
     data:{
 
-
-
       obsh:document.getElementById("id_obsh").value,
       sootn:document.getElementById("id_sootn").value,
       zansprakt:document.getElementById("id_zansprakt").value,
@@ -1019,6 +1017,19 @@
      timeout: 2000,
     },
     methods:{
+      findball($event){
+        if (event.target.checked == false){
+          console.log(event)
+          event.target.which=event.target.value
+          event.path[6].children[4].children[0].value=event.path[6].cells[4].children[0].value*event.path[5].children[1].value*event.target.value
+          event.target.checked = true
+          console.log(event)
+        }
+        else {
+          event.path[6].children[4].children[0].value=event.path[6].children[4].children[0].value/event.target.which*event.target.value
+          event.target.which=event.target.value
+        }
+      },
       save(event) {
         this.dis=true
         this.buttontext="Загрузка таблицы..."

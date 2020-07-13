@@ -117,4 +117,21 @@
     padding-top: 5px;
     margin-right: 7px;
     height: 20px;
-  }
+}
+
+.v-text-field input {
+    padding: 0 !important;
+}
+
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+    margin-bottom: 0px !important;
+}
+
+.v-text-field__details {
+    height: 0px !important;
+    min-height: 0px !important;
+}
+
+.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state)>.v-input__control>.v-input__slot fieldset {
+    background-color: white;
+}
