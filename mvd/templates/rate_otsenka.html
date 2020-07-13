@@ -673,10 +673,11 @@
                       <thead>
                         <tr>
                           <th class="text-center">Показатель</th>
+                           <th class="text-center">Дополниетельно<br />(зач.ед,кол-во вопросов, комплектов)</th>
                           <th class="text-center">Соавторство</th>
                           <th class="text-center">ДГСК</th>
                           <th class="text-center">Баллы</th>
-                           <th class="text-center"></th>
+
                         </tr>
                       </thead>
                       <tbody>
@@ -689,6 +690,53 @@
                         {% for field in form %}
                          <td class="pt-3-half">   {{ field }}</td>
 
+                          {%if field.name == "name" %}
+
+
+                         {%if "римерной рабочей программы учебной дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value  and "атериалов для вступительных испытаний" not in field.value and "естов для проведения мероприятий по указанию МВД Росси" not in field.value and "атурных объектов на контрольные экспертизы" not in field.value and "абочей программы дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value %}
+                        <td class="pt-3-half">  <input class="form-control" @change="findball($event)" value="pusto"></td>
+                         {%endif%}
+
+
+                         {%if "римерной рабочей программы учебной дисциплины" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="2"></td>
+                         {%endif%}
+
+
+
+                         {%if "абочей программы дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="1"></td>
+                         {%endif%}
+
+
+                         {%if "атурных объектов на контрольные экспертизы" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.5"></td>
+                         {%endif%}
+
+
+
+                         {%if "естов для проведения мероприятий по указанию МВД Росси" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.05"></td>
+                         {%endif%}
+
+                         {%if "атериалов для вступительных испытаний" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="5"></td>
+                         {%endif%}
+
+                         {%if "атериалов для проведения кандидатского экзамена" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="5"></td>
+                         {%endif%}
+                         {%if "атериалов для мультимедийного сопровождения дисциплины" in field.value %}
+                         <td class="pt-3-half">  <input class="form-control" @change="findball($event)">  <input type="hidden" value="0.5"></td>
+                         {%endif%}
+
+
+
+
+
+
+
+                        {%endif%}
                         {% endfor %}
 
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
