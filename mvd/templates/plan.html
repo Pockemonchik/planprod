@@ -326,6 +326,79 @@
             </v-btn>
          </template>
       </v-snackbar>
+        <v-dialog v-model="dialogredirect" persistent max-width="700px">
+          <template v-slot:activator="{ on, attrs }">
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Перейти в:</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field
+                      label="Индивидальный план за"
+                      rows="1"
+                      :disabled="true"
+                      :rounded="true"
+                      auto-grow="true"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <v-select
+                      :items="itemsIpYear"
+                      label=""
+                      @change="redtoIP($event)"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <v-text-field
+                      label="год"
+                      rows="1"
+                      :disabled="true"
+                      :rounded="true"
+                      auto-grow="true"
+                    ></v-text-field>
+                    
+                  </v-col>
+                  
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field
+                      label="Рейтинги за"
+                      rows="1"
+                      :disabled="true"
+                      :rounded="true"
+                      auto-grow="true"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <v-select
+                      :items="itemsRateYear"
+                      label=""
+                      @change="redtoRate($event)"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <v-text-field
+                      label="год"
+                      rows="1"
+                      :disabled="true"
+                      :rounded="true"
+                      auto-grow="true"
+                    ></v-text-field>
+                    
+                  </v-col>
+                  
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogredirect=false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 </div>
 </div>
 </div>
@@ -409,9 +482,9 @@ Vue.component('supertable',{
       ]
     },
 
-    itr(item , row){
-      console.log(item)
-      console.log(row)
+    itr(item){
+      this.$root.dialogredirect=true
+      this.$parent.$options.methods.redirectto(item.name)
     },
 
     editItem (item) {
@@ -525,6 +598,12 @@ Vue.component('supertable',{
     delimiters:['{','}'],
     vuetify: new Vuetify(),
     data:{
+
+      dialogredirect: false,
+      itemsIpYear:[],
+      itemsRateYear:[],
+      userredirect:"",
+
       plfa:"",
       planfact:["Планируемая","Фактическая"],
       yearIP:"",
@@ -543,8 +622,23 @@ Vue.component('supertable',{
       timeout: 2000,
     },
     methods:{
+      redirectto(fioredirect){
+        console.log(this.$root)
+        pathpost="http://127.0.0.1:8000/"
+        axios.post(pathpost, fioredirect).then((response) => {
+          itemsIpYear=response.data.Ip
+          itemsRateYear=response.data.Rate
+          userredirect=response.data.username
+        })
+      },
+      redtoIP(item){
+        console.log(item)
+        window.location.href = "http://127.0.0.1:8000/plan/"+ this.userredirect + "/" + item
+      },
+      redtoRate(item){
+        console.log(item)
+      },
       save(event) {
-        console.log(event)
         this.dis=true
         this.buttontext="Загрузка таблицы..."
         form = event.path[2];
