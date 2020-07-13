@@ -623,7 +623,6 @@ Vue.component('supertable',{
     },
     methods:{
       redirectto(fioredirect){
-        console.log(this.$root)
         pathpost="http://127.0.0.1:8000/"
         axios.post(pathpost, fioredirect).then((response) => {
           itemsIpYear=response.data.Ip
@@ -632,11 +631,10 @@ Vue.component('supertable',{
         })
       },
       redtoIP(item){
-        console.log(item)
         window.location.href = "http://127.0.0.1:8000/plan/"+ this.userredirect + "/" + item
       },
       redtoRate(item){
-        console.log(item)
+        window.location.href = "http://127.0.0.1:8000/rating/rate_otsenka/"+ this.userredirect + "/" + item
       },
       save(event) {
         this.dis=true
