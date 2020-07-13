@@ -532,10 +532,11 @@
                                  </table>
                                  {%endif%}
                                  {% endfor %}
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                              
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
                               </div>
                              </form>
                               <h3>Фактическая выполненная работа за второе полугодие</h3>
