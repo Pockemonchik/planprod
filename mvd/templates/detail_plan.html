@@ -386,7 +386,7 @@
 
                                      </tr>
                                      {{ formset.management_form }}
-                                     {%for form in formset%}
+                                     {%for form in formset2%}
                                      <tr>
                                         {% for field in form %}
                                         <td>{{ field }}</td>
@@ -532,7 +532,7 @@
                                  </table>
                                  {%endif%}
                                  {% endfor %}
-                              
+
                                  <div class="btn-right">
                                     <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                     <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>

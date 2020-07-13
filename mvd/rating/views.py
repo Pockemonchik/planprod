@@ -443,10 +443,7 @@ class SaveMRRView(View):
 def setplace(year,profile):
     allrating = Rating.objects.all()
     profilerating = Rating.objects.get(profile=profile, year=year)
-    profilerating.kafedraplace = allrating.filter(profile__kafedra=profile.kafedra, year=year,
-                                                  summ__gte=profilerating.summ).count()
-    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,summ__gte=profilerating.summ).count()
-    profilerating.unikplace = allrating.filter(year=year,summ__gte=profilerating.summ).count()
+
     try:
         urrsumm = (URR.objects.get(profile=profile, year=year)).getsumm()
     except:
@@ -468,6 +465,10 @@ def setplace(year,profile):
     profilerating.ormr=ormrsumm
     profilerating.pcr=pcrsumm
     profilerating.mrr=mrrsumm
+    profilerating.kafedraplace = allrating.filter(profile__kafedra=profile.kafedra, year=year,
+                                                  summ__gte=profilerating.summ).count()
+    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,summ__gte=profilerating.summ).count()
+    profilerating.unikplace = allrating.filter(year=year,summ__gte=profilerating.summ).count()
     profilerating.save()
     print(profilerating.urr)
     print(profilerating.ormr)
