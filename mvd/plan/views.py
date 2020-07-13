@@ -44,7 +44,9 @@ def createplan(request):
                 newplan.user=request.user
                 newplan.prepod=profile
                 newplan.year=request.POST['year']
-                newplan.name="План "+profile.fullname
+
+                newplan.name=''.join([profile.fullname.split(' ')[0],' ',profile.fullname.split(' ')[1][0],'.',profile.fullname.split(' ')[1][0]])
+                print("sozadanie plana "+ newplan.name)
                 newplan.save()
 
 
@@ -319,7 +321,7 @@ def createrating(request,year,slug):
                             "азработка фондовой лекции" in u.vid or
                             "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
                             "азработка сценария для учебного фильма" in u.vid or
-                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid 
+                            "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
                         ):
                         newmrr = MRR()
                         newmrr.profile = profile
@@ -436,7 +438,7 @@ def adduser(request):
                         print(plan.name)
                         usernew.save()
                         profilenew.save()
-                        plan.save()
+                        # plan.save()
 
                     except:
                         print("ne")
