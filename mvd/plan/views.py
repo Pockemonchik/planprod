@@ -16,13 +16,30 @@ from django.conf import settings
 from django.db.models import Q
 from rest_framework.response import Response
 # from .tasks import saveallnagr
-
+import json
 from django.http import HttpResponse
 import random
 from docx import Document
 import os
 from io import StringIO,BytesIO
 from rest_framework.decorators import api_view
+@api_view(['GET'])
+def supertable(request):
+    kafname=request.GET['kafname']
+    kafedra = Kafedra.objects.get(name=kafname)
+    data=[]
+    profiles=Profile.objects.filter(kafedra=kafedra)
+    for p in profiles:
+        data.append(
+        {
+        "name": p.fullname,
+        "login":p.user.username,
+        "password":p.user.email
+        }
+        )
+    return Response(data)
+
+
 @api_view(['POST'])
 def createplan(request):
     if request.user.is_authenticated:
@@ -164,30 +181,31 @@ def createratinghome(request):
 
     }])
 
-
+@api_view(['POST'])
 def changepass(request):
-    if request.user.is_authenticated:
-        profile=get_object_or_404(Profile,user=request.user)
-        if profile.role==2 or profile.role==3:
-            if request.method=="POST":
-                # try:
-                    print(request.POST['profile'])
-                    profilechange=Profile.objects.get(fullname=request.POST['profile'])
-                    user=profilechange.user
-                    usernew =User.objects.create_user(form.cleaned_data.get('username'),form.cleaned_data.get('password'),form.cleaned_data.get('password'))
-                    usernew.save()
-                    profilechange.user=usernew
-                    profilechange.save()
+        #profile=get_object_or_404(Profile,user=request.user)
 
-                #except:
-                        #return HttpResponse("ошибка при смене учетных данных")
+        if request.method=="POST":
+
+            username=request.data.get("login")
+            password=request.data.get("pass")
+            previos_username=request.data.get("prev_login")
+            previos_user=User.objects.get(username=previos_username)
+            try:
+                usernew =User.objects.create_user(username,password,password)
+                profile=Profile.objects.get(user=previos_user)
+                profile.user=usernew
+                profile.fullname=request.data.get("name")
+            except:
+                print("ne")
+                return HttpResponse("Произошла ошибка при изменении данных пользователя")
+        else:
+            print('blen')
+            return render(request,'error.html',{'content':"Произошла ошибка при изменении данных пользователя"})
 
 
+        return HttpResponse("Учетные данные успешно изменены")
 
-
-            return HttpResponse("Учетные данные успешно изменены")
-    else:
-        return redirect('log')
 
 
 
@@ -380,8 +398,13 @@ def profileinfo(request):
                     print("ne")
 
                 infodel = form.save(commit=False)
-                infodel.profile = profile
+                profile.dolznost=infodel.dolznost
+                profile.save()
                 infodel.save()
+                infodel.profile = profile
+
+
+
 
             else:
                 HttpResponse("Ошибка при сохранении данных")
@@ -389,68 +412,54 @@ def profileinfo(request):
     else:
         return redirect('log')
 
+@api_view(['POST'])
 def deluser(request):
-    if request.user.is_authenticated:
-        profile=get_object_or_404(Profile,user=request.user)
-        if profile.role==2 or profile.role==3:
-            if request.method=="POST":
-                # try:
-                    print(request.POST['profile'])
-                    profiledel=Profile.objects.get(fullname=request.POST['profile'])
-                    profiledel.kafedra=NULL
-                    profiledel.save()
 
-                    #plandel=Plan.objects.get(prepod=profiledel)
-                    # userdel=profiledel.user
-                    # profiledel.delete()
-                    # plandel.delete()
-                    # userdel.delete()
-                # except:
-                #     return render(request,'error.html',{'content':"Произошла ошибка при удалении пользователя"})
+    if request.method=="POST":
+
+        previos_username=request.data.get("login")
+        previos_user=User.objects.get(username=previos_username)
+        profile=Profile.objects.get(user=previos_user)
+
+        try:
+            profile.kafedra=NULL
+            profile.save()
+
+        except:
+            return HttpResponse("Ошибка при удалении пользователя")
 
 
 
 
-            return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
+
+        return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
     else:
         return redirect('log')
 
 
-
+@api_view(['POST'])
 def adduser(request):
-    if request.user.is_authenticated:
+
         if request.method=="POST":
 
-            profile=get_object_or_404(Profile,user=request.user)
-            if profile.role==2 or profile.role==3:
-                form=UserAddForm(request.POST)
-                if form.is_valid():
-                    try:
-                        usernew =User.objects.create_user(form.cleaned_data.get('username'),form.cleaned_data.get('password'),form.cleaned_data.get('password'))
+            username=request.data.get("login")
+            password=request.data.get("pass")
 
-
-                        profilenew=Profile()
-                        profilenew.user=usernew
-                        profilenew.fullname=form.cleaned_data.get('fio')
-                        profilenew.kafedra=profile.kafedra
-                        plan=Plan()
-                        plan.prepod=profilenew
-                        plan.name=''.join([form.cleaned_data.get('fio').split(' ')[0],' ',form.cleaned_data.get('fio').split(' ')[1][0],'.',form.cleaned_data.get('fio').split(' ')[1][0]])
-                        print(plan.name)
-                        usernew.save()
-                        profilenew.save()
-                        # plan.save()
-
-                    except:
-                        print("ne")
-                        return HttpResponse("Произошла ошибка при добавлении пользователя")
-            else:
-
-                print('blen')
-                return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
+            try:
+                usernew =User.objects.create_user(username,password,password)
+                profilenew=Profile()
+                profilenew.user=usernew
+                profilenew.fullname=request.data.get('name')
+                profilenew.kafedra=request.data.get('kafname')
+                usernew.save()
+                profilenew.save()
+            except:
+                print("ne")
+                return HttpResponse("Произошла ошибка при добавлении пользователя")
+        else:
+            print('blen')
+            return render(request,'error.html',{'content':"Произошла ошибка при добавлении пользователя"})
         return HttpResponse("Сотрудник успешно добавлен")
-    else:
-        return redirect('log')
 
 
 
