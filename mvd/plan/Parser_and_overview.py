@@ -440,7 +440,7 @@ def takeTable(nameDoc):
     #     print(nameDoc)
     #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/root/planprod/mvd/"+nameDoc])
     #     print("1")
-    document = Document("/root/planprod/mvd/"+nameDoc)
+    document = Document("/root/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
 
     # document = nameDoc
@@ -453,7 +453,7 @@ def takeTable(nameDoc):
     if len(table) != 18:
         print('ne 18')
         if len(table) != 19:
-            print('ne 1')
+            print('ne 19')
             print(nameDoc)
             return ('dolbaeb')
         else:
