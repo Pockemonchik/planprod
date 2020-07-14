@@ -17,4 +17,5 @@ admin.site.register(Nagruzka)
 admin.site.register(DocInfo)
 admin.site.register(Mesyac)
 admin.site.register(Article)
+admin.site.register(ProfileInfo)
 # Register your models here.
