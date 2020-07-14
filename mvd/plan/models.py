@@ -61,7 +61,7 @@ class ProfileInfo(models.Model):
     profile=models.OneToOneField(Profile,related_name='info',on_delete=models.CASCADE,primary_key=True)
 
     def __str__(self):
-        return self.plan.name
+        return self.fio
 
 #  основная модель плана
 class Plan(models.Model):

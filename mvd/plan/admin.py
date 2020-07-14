@@ -1,5 +1,5 @@
 from django.contrib import admin
-from plan.models import Profile,Kafedra,Plan,Predmet,UMR,VR,DR,NIR,INR,Nagruzka,DocInfo,Mesyac,Article
+from plan.models import Profile,Kafedra,Plan,Predmet,UMR,VR,DR,NIR,INR,Nagruzka,DocInfo,Mesyac,Article,ProfileInfo
 class PlanAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 class ProfileAdmin(admin.ModelAdmin):
@@ -17,4 +17,5 @@ admin.site.register(Nagruzka)
 admin.site.register(DocInfo)
 admin.site.register(Mesyac)
 admin.site.register(Article)
+admin.site.register(ProfileInfo)
 # Register your models here.
