@@ -37,6 +37,7 @@
                     <v-card>
                       <form>
                         {%csrf_token%}
+                        <input type="hidden" value="{%csrf_token%}" v-model="token">
                       <v-list>
                         <v-list-item>
 
@@ -459,41 +460,41 @@ Vue.component('supertable',{
 
   methods: {
     initialize () {
-      // axios.get("http://127.0.0.1:8000/supertable/", {"kafname":this.$root.kafname}).then((response) => {
-      //   this.desserts= response.data
-      //   })
-      this.desserts = [
-        {
-          name: 'Ленин Владимир Ильич',
-          login: 'asdasd',
-          password: 'asd',
-        },
-        {
-          name: 'Ice cream sandwich',
-          login: 'asdasd',
-          password: 'asd',
-        },
-        {
-          name: 'Eclair',
-          login: 'asdasd',
-          password: 'asd',
-        },
-        {
-          name: 'Cupcake',
-          login: 'asdasd',
-          password: 'asd',
-        },
-        {
-          name: 'Gingerbread',
-          login: 'asdasd',
-          password: 'asd',
-        },
-        {
-          name: 'Jelly bean',
-          login: 'asdasd',
-          password: 'asd',
-        },
-      ]
+      axios.get("http://127.0.0.1:8000/supertable/", {params: {"kafname":this.$root.kafname}}).then((response) => {
+        this.desserts= response.data
+        })
+      // this.desserts = [
+      //   {
+      //     name: 'Ленин Владимир Ильич',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      //   {
+      //     name: 'Ice cream sandwich',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      //   {
+      //     name: 'Eclair',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      //   {
+      //     name: 'Cupcake',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      //   {
+      //     name: 'Gingerbread',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      //   {
+      //     name: 'Jelly bean',
+      //     login: 'asdasd',
+      //     password: 'asd',
+      //   },
+      // ]
     },
 
     itr(item){
@@ -510,7 +511,7 @@ Vue.component('supertable',{
     },
 
     deleteItem (item) {
-      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login})
+      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login}, {headers:{"X-CSRFTOKEN": this.$root.token}})
       const index = this.desserts.indexOf(item)
       confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
     },
@@ -532,7 +533,7 @@ Vue.component('supertable',{
           "pass": this.editedItem.password,
           "prev_login":this.desserts[this.editedIndex].login
         }
-        axios.post("http://127.0.0.1:8000/editUser/", params)
+        axios.post("http://127.0.0.1:8000/editUser/", params, {headers:{"X-CSRFTOKEN": this.$root.token}})
         Object.assign(this.desserts[this.editedIndex], this.editedItem)
       } else {
         params = {
@@ -541,7 +542,7 @@ Vue.component('supertable',{
         "pass": this.editedItem.password,
         "kafname": this.$root.kafname
         }
-        axios.post("http://127.0.0.1:8000/createUser/", params)
+        axios.post("http://127.0.0.1:8000/createUser/", params, {headers:{"X-CSRFTOKEN": this.$root.token}})
         this.desserts.push(this.editedItem)
       }
       this.close()
@@ -631,6 +632,8 @@ Vue.component('supertable',{
     delimiters:['{','}'],
     vuetify: new Vuetify(),
     data:{
+
+      token:"",
 
       dialogredirect: false,
       itemsIpYear:[],
