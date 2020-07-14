@@ -399,9 +399,10 @@ def profileinfo(request):
 
                 infodel = form.save(commit=False)
                 profile.dolznost=infodel.dolznost
+                infodel.profile = profile
                 profile.save()
                 infodel.save()
-                infodel.profile = profile
+
 
 
 
