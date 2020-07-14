@@ -498,7 +498,8 @@ def documentAnalize(request):
                             handle_uploaded_file(file)
                             try:
                               data=takeTable('anal.docx')
-                            except:
+                            except Exception as e:
+                                print(e)
                                 print("fail takeTable")
                                 return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного doc файла, пожалуйста проверьте формат документа(см.справку)"})
 

@@ -440,8 +440,8 @@ def takeTable(nameDoc):
     #     print(nameDoc)
     #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/root/planprod/mvd/"+nameDoc])
     #     print("1")
-    #     document = Document("/root/planprod/mvd/"+nameDoc)
-    document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
+    document = Document("/root/planprod/mvd/"+nameDoc)
+    #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
 
     # document = nameDoc
     listAllTable = []
