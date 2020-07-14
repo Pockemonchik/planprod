@@ -1201,11 +1201,11 @@
     },
     mounted() {
       console.log(this.$el.querySelectorAll("div.v-text-field__slot > input"))
-      console.log(this.$el)
-      var elements = document.getElementsByClassName("qwerqwerqwer")
-      console.log(elements[0].lastChild.firstChild.lastChild.firstChild.value)
-      elements[0].lastChild.firstChild.lastChild.firstChild.value=33
-      console.log(elements[0].lastChild.firstChild.lastChild.firstChild.value)
+      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
+      this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value = 888
+      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
+      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input"))
+      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
     }
     })
  </script>

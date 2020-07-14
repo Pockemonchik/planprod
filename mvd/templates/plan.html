@@ -37,7 +37,6 @@
                     <v-card>
                       <form>
                         {%csrf_token%}
-                        <input type="hidden" value="{%csrf_token%}" v-model="token">
                       <v-list>
                         <v-list-item>
 
@@ -634,7 +633,7 @@ Vue.component('supertable',{
     vuetify: new Vuetify(),
     data:{
 
-      token:"",
+      // token:"",
 
       dialogredirect: false,
       itemsIpYear:[],
