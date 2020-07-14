@@ -460,6 +460,7 @@ Vue.component('supertable',{
 
   methods: {
     initialize () {
+      console.log(this.$root.kafname)
       axios.get("http://127.0.0.1:8000/supertable/", {params: {"kafname":this.$root.kafname}}).then((response) => {
         this.desserts= response.data
         })
@@ -640,7 +641,7 @@ Vue.component('supertable',{
       itemsRateYear:[],
       userredirect:"",
 
-      kafname:document.getElementById("kafname"),
+      kafname:document.getElementById("kafname").value,
       plfa:"",
       planfact:["Планируемая","Фактическая"],
       yearIP:"",
