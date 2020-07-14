@@ -397,6 +397,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <input type="hidden" value={{profile.kafedra.name}} id="kafname">
 </div>
 </div>
 </div>
@@ -458,9 +459,9 @@ Vue.component('supertable',{
 
   methods: {
     initialize () {
-      axios.post("http://127.0.0.1:8000/supertable/").then((response) => {
-        this.desserts= response.data
-        })
+      // axios.get("http://127.0.0.1:8000/supertable/", {"kafname":this.$root.kafname}).then((response) => {
+      //   this.desserts= response.data
+      //   })
       this.desserts = [
         {
           name: 'Ленин Владимир Ильич',
@@ -509,7 +510,7 @@ Vue.component('supertable',{
     },
 
     deleteItem (item) {
-      axios.post("http://127.0.0.1:8000/deluser/", item.name)
+      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login})
       const index = this.desserts.indexOf(item)
       confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
     },
@@ -524,18 +525,28 @@ Vue.component('supertable',{
 
     save () {
       if (this.editedIndex > -1) {
+        console.log(this.desserts[this.editedIndex].login)
+        params = {
+          "name": this.editedItem.name,
+          "login": this.editedItem.login,
+          "pass": this.editedItem.password,
+          "prev_login":this.desserts[this.editedIndex].login
+        }
+        axios.post("http://127.0.0.1:8000/editUser/", params)
         Object.assign(this.desserts[this.editedIndex], this.editedItem)
       } else {
+        params = {
+        "name": this.editedItem.name,
+        "login": this.editedItem.login,
+        "pass": this.editedItem.password,
+        "kafname": this.$root.kafname
+        }
+        axios.post("http://127.0.0.1:8000/createUser/", params)
         this.desserts.push(this.editedItem)
       }
       this.close()
       console.log(this.editedItem)
-      params = {
-        "name": this.editedItem.name,
-        "login": this.editedItem.login,
-        "pass": this.editedItem.password
-      }
-      axios.post("http://127.0.0.1:8000/editUser/", this.editedItem.name)
+      
     },
   },
   template: `
@@ -626,6 +637,7 @@ Vue.component('supertable',{
       itemsRateYear:[],
       userredirect:"",
 
+      kafname:document.getElementById("kafname"),
       plfa:"",
       planfact:["Планируемая","Фактическая"],
       yearIP:"",

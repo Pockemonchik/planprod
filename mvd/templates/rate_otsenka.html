@@ -699,35 +699,35 @@
 
 
                          {%if "римерной рабочей программы учебной дисциплины" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" id="krem" name="krem" value="2"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" :value="1" outlined dense></v-text-field>  <input type="hidden" id="krem" name="krem" value="2"></td>
                          {%endif%}
 
 
 
                          {%if "абочей программы дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @onchange="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="1"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="1"></td>
                          {%endif%}
 
 
                          {%if "атурных объектов на контрольные экспертизы" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
                          {%endif%}
 
 
 
                          {%if "естов для проведения мероприятий по указанию МВД Росси" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.05"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.05"></td>
                          {%endif%}
 
                          {%if "атериалов для вступительных испытаний" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="5"></</td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="5"></</td>
                          {%endif%}
 
                          {%if "атериалов для проведения кандидатского экзамена" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="5"></td>
                          {%endif%}
                          {%if "атериалов для мультимедийного сопровождения дисциплины" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
                          {%endif%}
 
 
@@ -1026,6 +1026,7 @@
           console.log(event)
         }
         else {
+          console.log(event)
           event.path[6].children[4].children[0].value=event.path[6].children[4].children[0].value/event.target.which*event.target.value
           event.target.which=event.target.value
         }
@@ -1197,6 +1198,14 @@
       opozdanie: function(old, newval) {
         this.opozdaniebal = old * -50
       },
+    },
+    mounted() {
+      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input"))
+      console.log(this.$el)
+      var elements = document.getElementsByClassName("qwerqwerqwer")
+      console.log(elements[0].lastChild.firstChild.lastChild.firstChild.value)
+      elements[0].lastChild.firstChild.lastChild.firstChild.value=33
+      console.log(elements[0].lastChild.firstChild.lastChild.firstChild.value)
     }
     })
  </script>
