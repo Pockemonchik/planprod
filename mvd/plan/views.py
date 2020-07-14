@@ -490,15 +490,16 @@ def documentAnalize(request):
                     if request.user.is_authenticated:
                         if request.method=="POST":
                             file=request.FILES['file']
-
+                            year=request.POST['year']
                             profile=get_object_or_404(Profile,user=request.user)
                             if profile.role==3 or profile.role==2:
                                     profile=get_object_or_404(Profile,user__username=request.POST['profile'])
                             print(profile.fullname)
                             handle_uploaded_file(file)
                             try:
-                                data=takeTable('anal.docx')
-                            except:
+                              data=takeTable('anal.docx')
+                            except Exception as e:
+                                print(e)
                                 print("fail takeTable")
                                 return render(request,'error.html',{'content':"Произошла ошибка при заполнении плана из загруженного doc файла, пожалуйста проверьте формат документа(см.справку)"})
 
@@ -520,7 +521,7 @@ def documentAnalize(request):
                                         umr.prepodavatel=profile
 
 
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='1'
                                         umr.save()
                                         print("sohraninen")
@@ -535,7 +536,7 @@ def documentAnalize(request):
                                         umr.srok=data[table][row][2]
                                         umr.otmetka=data[table][row][3]
                                         umr.prepodavatel=profile
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='2'
                                         umr.save()
                                 if table==2:
@@ -550,7 +551,7 @@ def documentAnalize(request):
                                         umr.prepodavatel=profile
 
 
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='1'
                                         umr.save()
                                         print("sohraninen")
@@ -566,7 +567,7 @@ def documentAnalize(request):
                                         umr.srok=data[table][row][2]
                                         umr.otmetka=data[table][row][3]
                                         umr.prepodavatel=profile
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='2'
                                         umr.save()
                                 if table==4:
@@ -581,7 +582,7 @@ def documentAnalize(request):
                                         umr.prepodavatel=profile
 
 
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='1'
                                         umr.save()
                                         print("sohraninen")
@@ -597,7 +598,7 @@ def documentAnalize(request):
                                         umr.srok=data[table][row][2]
                                         umr.otmetka=data[table][row][3]
                                         umr.prepodavatel=profile
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='2'
                                         umr.save()
                                 if table==6:
@@ -613,7 +614,7 @@ def documentAnalize(request):
                                         umr.prepodavatel=profile
 
 
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='1'
                                         umr.save()
                                         print("sohraninen")
@@ -629,7 +630,7 @@ def documentAnalize(request):
                                         umr.srok=data[table][row][2]
                                         umr.otmetka=data[table][row][3]
                                         umr.prepodavatel=profile
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='2'
                                         umr.save()
                                 if table==8:
@@ -644,7 +645,7 @@ def documentAnalize(request):
                                         umr.prepodavatel=profile
 
 
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='1'
                                         umr.save()
                                         print("sohraninen")
@@ -660,7 +661,7 @@ def documentAnalize(request):
                                         umr.srok=data[table][row][2]
                                         umr.otmetka=data[table][row][3]
                                         umr.prepodavatel=profile
-                                        umr.year="2019"
+                                        umr.year=year
                                         umr.polugodie='2'
                                         umr.save()
                             print("vrode norm")
