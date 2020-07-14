@@ -512,7 +512,7 @@ Vue.component('supertable',{
     },
 
     deleteItem (item) {
-      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login}, {headers:{"X-CSRFTOKEN": this.$root.token}})
+      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login}, {headers:{"X-CSRFToken": this.$root.token}})
       const index = this.desserts.indexOf(item)
       confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
     },
@@ -534,7 +534,7 @@ Vue.component('supertable',{
           "pass": this.editedItem.password,
           "prev_login":this.desserts[this.editedIndex].login
         }
-        axios.post("http://127.0.0.1:8000/editUser/", params, {headers:{"X-CSRFTOKEN": this.$root.token}})
+        axios.post("http://127.0.0.1:8000/editUser/", params, {headers:{"X-CSRFToken": this.$root.token}})
         Object.assign(this.desserts[this.editedIndex], this.editedItem)
       } else {
         params = {
@@ -543,7 +543,7 @@ Vue.component('supertable',{
         "pass": this.editedItem.password,
         "kafname": this.$root.kafname
         }
-        axios.post("http://127.0.0.1:8000/createUser/", params, {headers:{"X-CSRFTOKEN": this.$root.token}})
+        axios.post("http://127.0.0.1:8000/createUser/", params, {headers:{"X-CSRFToken": this.$root.token}})
         this.desserts.push(this.editedItem)
       }
       this.close()
