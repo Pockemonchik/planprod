@@ -184,6 +184,9 @@ def createratinghome(request):
     }])
 
 
+""" Работа с пользователями в главной таблице"""
+
+
 @api_view(['POST'])
 def changepass(request):
     # profile=get_object_or_404(Profile,user=request.user)
@@ -191,21 +194,72 @@ def changepass(request):
     if request.method == "POST":
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
-        previos_username = request.data["prev_login"]
+        previos_username = request.POST["prev_login"]
+        fio = form.cleaned_data['fio']
         previos_user = User.objects.get(username=previos_username)
         try:
             usernew = User.objects.create_user(username, password, password)
+            usernew.save()
             profile = Profile.objects.get(user=previos_user)
             profile.user = usernew
-            profile.fullname = request.data.get("name")
-        except:
-            print("ne")
+            profile.fullname = fio
+            profile.save()
+        except Exception as e:
+            print(e)
             return HttpResponse("Произошла ошибка при изменении данных пользователя")
     else:
         print('blen')
         return render(request, 'error.html', {'content': "Произошла ошибка при изменении данных пользователя"})
 
     return HttpResponse("Учетные данные успешно изменены")
+
+
+@api_view(['POST'])
+def deluser(request):
+    if request.method == "POST":
+
+        previos_username = request.data.get("login")
+        previos_user = User.objects.get(username=previos_username)
+        profile = Profile.objects.get(user=previos_user)
+
+        try:
+            profile.kafedra = NULL
+            profile.save()
+        except:
+            return HttpResponse("Ошибка при удалении пользователя")
+
+        return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
+    else:
+        return redirect('log')
+
+
+@api_view(['POST'])
+def adduser(request):
+    if request.method == "POST":
+        form = UserAddForm(request)
+        profile = get_object_or_404(Profile, user=request.user)
+        kafedra = profile.kafedra
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            fio = form.cleaned_data['fio']
+            try:
+                usernew = User.objects.create_user(username, password, password)
+                profilenew = Profile()
+                profilenew.user = usernew
+                profilenew.fullname = fio
+                profilenew.kafedra = kafedra
+                usernew.save()
+                profilenew.save()
+            except Exeption as e:
+                print(e)
+                return HttpResponse("Произошла ошибка при добавлении пользователя")
+        else:
+            return HttpResponse("Произошла ошибка при добавлении пользователя,ошибка при отправке формы")
+    else:
+        print('blen')
+        return render(request, 'error.html', {'content': "Произошла ошибка при добавлении пользователя"})
+    return HttpResponse("Сотрудник успешно добавлен")
 
 
 def createrating(request, year, slug):
@@ -411,54 +465,6 @@ def profileinfo(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
-
-@api_view(['POST'])
-def deluser(request):
-    if request.method == "POST":
-
-        previos_username = request.data.get("login")
-        previos_user = User.objects.get(username=previos_username)
-        profile = Profile.objects.get(user=previos_user)
-
-        try:
-            profile.kafedra = NULL
-            profile.save()
-        except:
-            return HttpResponse("Ошибка при удалении пользователя")
-
-        return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
-    else:
-        return redirect('log')
-
-
-@api_view(['POST'])
-def adduser(request):
-    if request.method == "POST":
-        form = UserAddForm(request)
-        profile = get_object_or_404(Profile, user=request.user)
-        kafedra = profile.kafedra
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            fio = form.cleaned_data['fio']
-            try:
-                usernew = User.objects.create_user(username, password, password)
-                profilenew = Profile()
-                profilenew.user = usernew
-                profilenew.fullname = fio
-                profilenew.kafedra = kafedra
-                usernew.save()
-                profilenew.save()
-            except Exeption as e:
-                print(e)
-                return HttpResponse("Произошла ошибка при добавлении пользователя")
-        else:
-            return HttpResponse("Произошла ошибка при добавлении пользователя,ошибка при отправке формы")
-    else:
-        print('blen')
-        return render(request, 'error.html', {'content': "Произошла ошибка при добавлении пользователя"})
-    return HttpResponse("Сотрудник успешно добавлен")
 
 
 def exelobr(request):
