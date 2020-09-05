@@ -4,8 +4,14 @@ from django.forms import TextInput,Textarea,NumberInput,FileInput
 
 class UserAddForm(forms.Form):
     fio = forms.CharField(max_length=100)
-    username = forms.CharField(max_length=30)
-    password = forms.CharField(max_length=30)
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=50)
+
+class ChangePassForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=50)
+
+
 
 
 
