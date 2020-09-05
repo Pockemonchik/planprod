@@ -60,7 +60,7 @@
                     <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Суммарные показатели рейтинговой оценки</a>
                     <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >Учебная работа</a>
                     <a class="nav-item nav-link"  id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false">Организационно-методическая работа</a>
-                    <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false">Подготовка учебно-методических материалов</a>
+                    <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false"  @click="updatePUMR($event)">Подготовка учебно-методических материалов</a>
                     <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Педагогический контроль</a>
                     <div class="list-group" id="list-tab" role="tablist">
                       <a class="list-group-item list-group-item-action"  href="{%url 'documentSaveRating' rating.year profile1.user.username%}" role="tab" aria-controls="home"><i class="fa fa-file-text" aria-hidden="true"></i>Подготовить документ</a>
@@ -680,7 +680,7 @@
 
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody class="tbvue">
                         {{ formset.management_form }}
                       {%for form in formset%}
                          <tr>
@@ -699,35 +699,35 @@
 
 
                          {%if "римерной рабочей программы учебной дисциплины" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" :value="1" outlined dense></v-text-field>  <input type="hidden" id="krem" name="krem" value="2"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="2"></td>
                          {%endif%}
 
 
 
                          {%if "абочей программы дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="1"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="1"></input></td>
                          {%endif%}
 
 
                          {%if "атурных объектов на контрольные экспертизы" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="0.5"></input></input></td>
                          {%endif%}
 
 
 
                          {%if "естов для проведения мероприятий по указанию МВД Росси" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.05"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="0.05"></input></td>
                          {%endif%}
 
                          {%if "атериалов для вступительных испытаний" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="5"></</td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="5"></input></td>
                          {%endif%}
 
                          {%if "атериалов для проведения кандидатского экзамена" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="5"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="5"></input></td>
                          {%endif%}
                          {%if "атериалов для мультимедийного сопровождения дисциплины" in field.value %}
-                         <td class="pt-3-half">  <v-text-field class="qwerqwerqwer" @change="findball($event)" ref="qwerqwer" outlined dense></v-text-field>  <input type="hidden" value="0.5"></td>
+                         <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="0.5"></input></td>
                          {%endif%}
 
 
@@ -1017,18 +1017,32 @@
      timeout: 2000,
     },
     methods:{
+      updatePUMR($event){
+        // event.path[3].lastChild.children[3].children[0].children[0][34].value=159
+        
+        // document.querySelectorAll("div.input__slot > input").forEach(element => {
+        //   element.value=123123
+        //   this.findball(event.path[3].lastChild.children[3].children[0].children[0][34])
+        // });
+        console.log(document.querySelectorAll("input.qwerqwer"))
+        document.querySelectorAll("input.qwerqwer").forEach(element => {
+          if (element.parentElement.parentElement.cells[3].children[0].checked){
+            element.value=(Number(element.parentElement.parentElement.cells[4].firstChild.value/1.25*element.parentElement.parentElement.cells[2].lastChild.value)-Number(element.parentElement.parentElement.cells[4].lastChild.value))/element.parentElement.lastChild.value
+          }
+          else{
+            element.value=(Number(element.parentElement.parentElement.cells[4].firstChild.value*element.parentElement.parentElement.cells[2].lastChild.value)-Number(element.parentElement.parentElement.cells[4].lastChild.value))/element.parentElement.lastChild.value
+          }
+        });
+        console.log(document.querySelectorAll("input.qwerqwer"))
+      },
       findball($event){
-        if (event.target.checked == false){
-          console.log(event)
-          event.target.which=event.target.value
-          event.path[6].children[4].children[0].value=event.path[6].cells[4].children[0].value*event.path[5].children[1].value*event.target.value
-          event.target.checked = true
-          console.log(event)
+        if (event.path[1].parentElement.cells[3].children[0].checked){
+          // event.target.value=(Number(event.path[1].parentElement.cells[4].firstChild.value/1.25*event.path[1].parentElement.cells[2].lastChild.value)-Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].lastChild.value
+          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value)+Number(event.path[1].parentElement.cells[4].lastChild.value))*1.25/event.path[1].parentElement.cells[2].lastChild.value
         }
-        else {
-          console.log(event)
-          event.path[6].children[4].children[0].value=event.path[6].children[4].children[0].value/event.target.which*event.target.value
-          event.target.which=event.target.value
+        else{
+          // event.target.value=(Number(event.path[1].parentElement.cells[4].lastChild.value*event.path[1].parentElement.cells[2].lastChild.value)-Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].lastChild.value
+          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value)+Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].parentElement.cells[2].lastChild.value
         }
       },
       save(event) {
@@ -1199,14 +1213,6 @@
         this.opozdaniebal = old * -50
       },
     },
-    mounted() {
-      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input"))
-      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
-      this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value = 888
-      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
-      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input"))
-      console.log(this.$el.querySelectorAll("div.v-text-field__slot > input")[0].value)
-    }
     })
  </script>
 </body>
