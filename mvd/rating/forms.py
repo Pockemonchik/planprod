@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import TextInput,Textarea, NumberInput
+from django.forms import TextInput,Textarea, NumberInput, CheckboxInput
 from rating.models import URR, ORMR, PCR, MRR,Rating
 
 
@@ -183,7 +183,8 @@ class MRRForm(forms.ModelForm):
         model=MRR
         exclude = ['year','profile']
         widgets = {
-            'soavtr': NumberInput(attrs={"class":"form-control"}),
+            'soavtr': NumberInput(attrs={"class":"form-control", "@change":"soavtrChange($event)"}),
+            'dgsk' : CheckboxInput(attrs={"@change":"dgskChange($event)"}),
             'bal': NumberInput(attrs={"class": "form-control", "readonly":"readonly"}),
             'name': TextInput(attrs={"class": "form-control"}),
         }

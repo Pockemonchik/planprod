@@ -673,7 +673,7 @@
                       <thead>
                         <tr>
                           <th class="text-center">Показатель</th>
-                           <th class="text-center">Дополниетельно<br />(зач.ед,кол-во вопросов, комплектов)</th>
+                           <th class="text-center">Дополнительно<br />(зач.ед,кол-во вопросов, комплектов)</th>
                           <th class="text-center">Соавторство</th>
                           <th class="text-center">ДГСК</th>
                           <th class="text-center">Баллы</th>
@@ -688,13 +688,14 @@
 
 
                         {% for field in form %}
+                        {%if field.name != "default"%}
                          <td class="pt-3-half">   {{ field }}</td>
 
                           {%if field.name == "name" %}
 
 
                          {%if "римерной рабочей программы учебной дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value  and "атериалов для вступительных испытаний" not in field.value and "естов для проведения мероприятий по указанию МВД Росси" not in field.value and "атурных объектов на контрольные экспертизы" not in field.value and "абочей программы дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value %}
-                        <td class="pt-3-half"> </td>
+                        <td class="pt-3-half">{{form.default.value}}</td>
                          {%endif%}
 
 
@@ -737,6 +738,9 @@
 
 
                         {%endif%}
+
+                        {%endif%}
+
                         {% endfor %}
 
                             <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
@@ -1027,22 +1031,49 @@
         console.log(document.querySelectorAll("input.qwerqwer"))
         document.querySelectorAll("input.qwerqwer").forEach(element => {
           if (element.parentElement.parentElement.cells[3].children[0].checked){
-            element.value=(Number(element.parentElement.parentElement.cells[4].firstChild.value/1.25*element.parentElement.parentElement.cells[2].lastChild.value)-Number(element.parentElement.parentElement.cells[4].lastChild.value))/element.parentElement.lastChild.value
+            console.log(element)
+            element.value=Number(element.parentElement.parentElement.cells[4].firstChild.value/1.25*element.parentElement.parentElement.cells[2].lastChild.value)/element.parentElement.lastChild.value
           }
           else{
-            element.value=(Number(element.parentElement.parentElement.cells[4].firstChild.value*element.parentElement.parentElement.cells[2].lastChild.value)-Number(element.parentElement.parentElement.cells[4].lastChild.value))/element.parentElement.lastChild.value
+            //element.value=(Number(element.parentElement.parentElement.cells[4].firstChild.value*element.parentElement.parentElement.cells[2].lastChild.value)-Number(element.parentElement.parentElement.cells[4].lastChild.value))/element.parentElement.lastChild.value
+            element.value=Number(element.parentElement.parentElement.cells[4].firstChild.value*element.parentElement.parentElement.cells[2].lastChild.value)/element.parentElement.lastChild.value
           }
         });
         console.log(document.querySelectorAll("input.qwerqwer"))
       },
       findball($event){
         if (event.path[1].parentElement.cells[3].children[0].checked){
+          console.log(event)
           // event.target.value=(Number(event.path[1].parentElement.cells[4].firstChild.value/1.25*event.path[1].parentElement.cells[2].lastChild.value)-Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].lastChild.value
-          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value)+Number(event.path[1].parentElement.cells[4].lastChild.value))*1.25/event.path[1].parentElement.cells[2].lastChild.value
+          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value))*1.25/event.path[1].parentElement.cells[2].lastChild.value
         }
         else{
           // event.target.value=(Number(event.path[1].parentElement.cells[4].lastChild.value*event.path[1].parentElement.cells[2].lastChild.value)-Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].lastChild.value
-          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value)+Number(event.path[1].parentElement.cells[4].lastChild.value))/event.path[1].parentElement.cells[2].lastChild.value
+          event.path[1].parentElement.cells[4].firstChild.value=(Number(event.target.value*event.path[1].lastChild.value))/event.path[1].parentElement.cells[2].lastChild.value
+        }
+      },
+      dgskChange($event){
+        console.log(event)
+        // console.log(event.path[2].children[1].children)
+        if(event.path[2].children[1].children.length === 1){
+          if(event.target.checked){
+            console.log(true)
+            event.path[2].cells[4].children[0].value=event.path[2].children[1].children[1]/event.path[3].children[0]*1.25
+          }
+          else{
+            console.log(false)
+            event.path[2].cells[4].children[0].value=event.path[2].children[1].children[1]/event.path[3].children[0]
+          }
+        }
+        else{
+          if(event.target.checked){
+            console.log(true)
+            
+          }
+          else{
+            console.log(false)
+
+          }
         }
       },
       save(event) {
