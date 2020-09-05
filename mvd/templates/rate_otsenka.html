@@ -695,7 +695,7 @@
 
 
                          {%if "римерной рабочей программы учебной дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value  and "атериалов для вступительных испытаний" not in field.value and "естов для проведения мероприятий по указанию МВД Росси" not in field.value and "атурных объектов на контрольные экспертизы" not in field.value and "абочей программы дисциплины" not in field.value and "атериалов для проведения кандидатского экзамена" not in field.value %}
-                        <td class="pt-3-half">{{form.default.value}}</td>
+                        <td class="pt-3-half"><input type="hidden" value={{form.default.value}}></input></td>
                          {%endif%}
 
 
@@ -1058,21 +1058,43 @@
         if(event.path[2].children[1].children.length === 1){
           if(event.target.checked){
             console.log(true)
-            event.path[2].cells[4].children[0].value=event.path[2].children[1].children[1]/event.path[3].children[0]*1.25
+            console.log(Number(event.path[2].children[1].children[0].value))
+            event.path[2].cells[4].children[0].value=Number(event.path[2].children[1].children[0].value)/event.path[2].children[2].children[0].value*1.25
           }
           else{
             console.log(false)
-            event.path[2].cells[4].children[0].value=event.path[2].children[1].children[1]/event.path[3].children[0]
+            event.path[2].cells[4].children[0].value=Number(event.path[2].children[1].children[0].value)/event.path[2].children[2].children[0].value
           }
         }
         else{
           if(event.target.checked){
+            console.log(event)
             console.log(true)
-            
+            event.path[2].cells[4].children[0].value=event.path[2].cells[1].firstChild.value*event.path[2].cells[1].lastChild.value/event.path[2].cells[2].firstChild.value*1.25
           }
           else{
             console.log(false)
-
+            event.path[2].cells[4].children[0].value=event.path[2].cells[1].firstChild.value*event.path[2].cells[1].lastChild.value/event.path[2].cells[2].firstChild.value
+          }
+        }
+      },
+      soavtrChange($event){
+        console.log(event)
+        if(event.path[2].children[1].children.length === 1){
+          event.path[2].cells[4].firstChild.value=event.path[2].cells[1].firstChild.value/event.path[2].cells[2].firstChild.value
+          if(event.path[2].cells[3].firstChild.checked){
+            event.path[2].cells[4].children[0].value=Number(event.path[2].children[1].children[0].value)/event.path[2].children[2].children[0].value*1.25
+          }
+          else{
+            event.path[2].cells[4].children[0].value=Number(event.path[2].children[1].children[0].value)/event.path[2].children[2].children[0].value
+          }
+        }
+        else{
+          if(event.path[2].cells[3].firstChild.checked){
+            event.path[2].cells[4].children[0].value=event.path[2].cells[1].firstChild.value*event.path[2].cells[1].lastChild.value/event.path[2].cells[2].firstChild.value*1.25
+          }
+          else{
+            event.path[2].cells[4].children[0].value=event.path[2].cells[1].firstChild.value*event.path[2].cells[1].lastChild.value/event.path[2].cells[2].firstChild.value
           }
         }
       },
