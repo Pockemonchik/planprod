@@ -300,11 +300,11 @@ class PCR(models.Model):
 class MRR(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=250, blank=True)
-    soavtr = models.IntegerField(default=1)
-    dgsk = models.BooleanField(default=False)
-    bal = models.FloatField(default=0)
-    default = models.FloatField(default=0)
-    year = models.IntegerField(default=2020)
+    soavtr = models.IntegerField(default=1, blank=True)
+    dgsk = models.BooleanField(default=False, blank=True)
+    bal = models.FloatField(default=0, blank=True)
+    default = models.FloatField(default=0, blank=True)
+    year = models.IntegerField(default=2020, blank=True)
     def __str__(self):
         return self.profile.user.username
 
