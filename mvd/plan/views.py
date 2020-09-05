@@ -669,42 +669,6 @@ def saveDB(request):
     return redirect('index')
 
 
-def index(request):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        plans = Plan.objects.filter(prepod=profile)
-        kafedri = Kafedra.objects.all()
-        sotr = ''
-        if profile.role == 2:
-            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
-            sotr = Profile.objects.filter(kafedra=profile.kafedra)
-        nagruzkadocs = Nagruzka.objects.filter(kafedra=profile.kafedra)
-        nagruzka = NagruzkaForm()
-        useraddform = UserAddForm()
-        ratings = Rating.objects.filter(profile=profile)
-        try:
-            info = ProfileInfo.objects.get(profile=profile)
-            infoform = ProfileInfoForm(instance=info)
-        except:
-            infoform = ProfileInfoForm()
-
-        title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
-                                      profile.fullname.split(' ')[1][0]])
-
-        return render(request, 'plan.html', {
-            'profile': profile,
-            'kafedri': kafedri,
-            'plans': plans,
-            'nagruzka': nagruzka,
-            'nagruzkadocs': nagruzkadocs,
-            'useraddform': useraddform,
-            'sotr': sotr,
-            'ratings': ratings,
-            'infoform': infoform,
-            'title': title
-        })
-    else:
-        return redirect('log')
 
 
 @api_view(['POST'])
@@ -2196,6 +2160,43 @@ def detail_plan(request, slug, year):
             'mesyac': mesyac,
             'title': title
 
+        })
+    else:
+        return redirect('log')
+
+def index(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        plans = Plan.objects.filter(prepod=profile)
+        kafedri = Kafedra.objects.all()
+        sotr = ''
+        if profile.role == 2:
+            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
+            sotr = Profile.objects.filter(kafedra=profile.kafedra)
+        nagruzkadocs = Nagruzka.objects.filter(kafedra=profile.kafedra)
+        nagruzka = NagruzkaForm()
+        useraddform = UserAddForm()
+        ratings = Rating.objects.filter(profile=profile)
+        try:
+            info = ProfileInfo.objects.get(profile=profile)
+            infoform = ProfileInfoForm(instance=info)
+        except:
+            infoform = ProfileInfoForm()
+
+        title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
+                                      profile.fullname.split(' ')[1][0]])
+
+        return render(request, 'plan.html', {
+            'profile': profile,
+            'kafedri': kafedri,
+            'plans': plans,
+            'nagruzka': nagruzka,
+            'nagruzkadocs': nagruzkadocs,
+            'useraddform': useraddform,
+            'sotr': sotr,
+            'ratings': ratings,
+            'infoform': infoform,
+            'title': title
         })
     else:
         return redirect('log')

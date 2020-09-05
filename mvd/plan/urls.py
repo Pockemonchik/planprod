@@ -34,6 +34,8 @@ urlpatterns = [
 
     url(r'^deluser/$', views.deluser,name='deluser'),
     url(r'^createUser/$', views.adduser,name='adduser'),
+
+
     url(r'^spravka/$', views.spravka,name='spravka'),
     url(r'^docxobr/$', views.docxobr,name='docxobr'),
     url(r'^exelobr/$', views.exelobr,name='exelobr'),
