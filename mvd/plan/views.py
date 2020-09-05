@@ -1127,17 +1127,17 @@ def documentSave(request,year,slug):
                     else:
                        data.append(a)
             #по месяцам!!
-            # data+=[" "]*(375)
+            data+=[" "]*(375)
             ##normalno po mesyacam
             #u admina dolzhna bit tablisa zapolnena
-            mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
-            for m in mesyac:
-                arr=m.all_values()
-                for a in arr:
-                   if a=='0':
-                       data.append(" ")
-                   else:
-                       data.append(a)
+            # mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+            # for m in mesyac:
+            #     arr=m.all_values()
+            #     for a in arr:
+            #        if a=='0':
+            #            data.append(" ")
+            #        else:
+            #            data.append(a)
 
 
 

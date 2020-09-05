@@ -393,7 +393,7 @@ def createDoc(listCell, indexRow):
     needTables.append(5)
     needTables.append(16)
     needTables.sort()
-
+    print(listCell)
 
     count = 0
     for i in needTables:
