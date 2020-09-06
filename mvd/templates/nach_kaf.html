@@ -50,6 +50,9 @@
         </div>
       </div>
     </div>
+    <div class="card rounded">
+      <supertable></supertable>
+    </div>
 </div>
     <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script> -->
 
@@ -57,14 +60,73 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script> -->
 
     <script id='INLINE_PEN_JS_ID'>
-      const urlkaf = "http://78.24.220.66:9000/rating/kafedras"
-      const urlman = "http://78.24.220.66:9000/rating/profiles"
-      const urlyear ="http://78.24.220.66:9000/rating/years"
-      const urlpar = "http://78.24.220.66:9000/rating/profilerating"
-      const urlpar1 = "http://78.24.220.66:9000/rating/profileplace"
-      const urlparkaf = "http://78.24.220.66:9000/rating/graphkafedra"
-      const urlgraph = "http://78.24.220.66:9000/rating/graph"
-      const urlgraphMan = "http://78.24.220.66:9000/rating/profilesfilter"
+
+
+
+Vue.component('supertable',{
+  delimiters:['##','##'],
+  data: () => ({
+    rules: [
+      value => !!value || ' ',
+      value => (value && value.length == 4) || '4 цифры'
+    ],
+    search: '',
+    headers: [
+      { text: 'ФИО', align: 'start', value: 'fio',},
+      { text: 'Сумма баллов', value: 'summ' },
+      { text: 'Место по университету', value: 'unikplace' },
+      { text: 'Место по должности', value: 'dolzhnostplace' },
+      { text: 'Место по кафедре', value: 'kafedraplace' },
+    ],
+    desserts: []
+  }),
+  methods: {
+    updateTable(value) {
+      console.log(value)
+      axios.get("127.0.0.1:8000/rating/ratingTable/", {params: {year:value}}).then(response => {
+        this.desserts=response.data
+      })
+    }
+  },
+  template: `
+    <v-card>
+      <v-card-title>
+        Рейтинг по сотрудникам за
+        <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="margin-bottom:11px;padding-left:15px;"></v-text-field>
+        год
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        items-per-page="25"
+        dense
+        multi-sort
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      ></v-data-table>
+    </v-card>
+  `
+})
+
+
+
+
+
+      const urlkaf = "http://127.0.0.1:8000/rating/kafedras"
+      const urlman = "http://127.0.0.1:8000/rating/profiles"
+      const urlyear ="http://127.0.0.1:8000/rating/years"
+      const urlpar = "http://127.0.0.1:8000/rating/profilerating"
+      const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
+      const urlparkaf = "http://127.0.0.1:8000/rating/graphkafedra"
+      const urlgraph = "http://127.0.0.1:8000/rating/graph"
+      const urlgraphMan = "http://127.0.0.1:8000/rating/profilesfilter"
 
       Vue.component('apexchart', VueApexCharts)
 
