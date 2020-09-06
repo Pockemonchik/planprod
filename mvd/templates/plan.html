@@ -403,6 +403,7 @@
 </div>
 <script id='INLINE_PEN_JS_ID'>
 Vue.component('supertable',{
+  delimiters:['##','##'],
   data: () => ({
     rulesLogin: [
       value => !!value || 'Required.',
@@ -418,7 +419,12 @@ Vue.component('supertable',{
         return pattern.test(value) || 'Только буквы или цифры'
       },
     ],
+    flagDialogAddOrEdit: false,
     dialog: false,
+    snackbar: false,
+    timeout: 2000,
+    buttontext:"Сохранить таблицу",
+    text: 'My timeout is set to 2000.',
     headers: [
       {
         text: 'ФИО',
@@ -507,6 +513,7 @@ Vue.component('supertable',{
     editItem (item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
+      this.flagDialogAddOrEdit = true
       this.dialog = true
     },
 
@@ -517,6 +524,7 @@ Vue.component('supertable',{
     },
 
     close () {
+      this.flagDialogAddOrEdit = false
       this.dialog = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -524,7 +532,7 @@ Vue.component('supertable',{
       })
     },
 
-    save () {
+    save ($event) {
       if (this.editedIndex > -1) {
         console.log(this.desserts[this.editedIndex].login)
         params = {
@@ -533,8 +541,19 @@ Vue.component('supertable',{
           "pass": this.editedItem.password,
           "prev_login":this.desserts[this.editedIndex].login
         }
-        axios.post("http://127.0.0.1:8000/editUser/", params, {headers:{"X-CSRFToken": this.$root.token}})
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        var formData = new FormData(event.path[3])
+        axios.post("http://127.0.0.1:8000/editUser/", formData).then((response) => {
+          if (response.data=="Учетные данные успешно изменены"){
+            Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          }
+          this.text=response.data
+          this.snackbar=true
+          this.close()
+        }).catch((errors) => {
+          this.text="Ошибка соединения"
+          this.snackbar=true
+          this.close()
+        })
       } else {
         params = {
         "name": this.editedItem.name,
@@ -542,11 +561,20 @@ Vue.component('supertable',{
         "pass": this.editedItem.password,
         "kafname": this.$root.kafname
         }
-        axios.post("http://127.0.0.1:8000/createUser/", params, {headers:{"X-CSRFToken": this.$root.token}})
-        this.desserts.push(this.editedItem)
+        var formData = new FormData(event.path[3])
+        axios.post("http://127.0.0.1:8000/createUser/", formData).then((response) => {
+          if (response.data=="Сотрудник успешно добавлен"){
+            this.desserts.push(this.editedItem)
+          }
+          this.text=response.data
+          this.snackbar=true
+          this.close()
+        }).catch((errors) => {
+          this.text="Ошибка соединения"
+          this.snackbar=true
+          this.close()
+        })
       }
-      this.close()
-      console.log(this.editedItem)
 
     },
   },
@@ -576,24 +604,43 @@ Vue.component('supertable',{
               >Добавить сотрудника</button>
             </template>
             <v-card>
-              <v-card-title>
-                <span class="headline">Добавить сотрудника</span>
+              <v-card-title v-if="flagDialogAddOrEdit === false">
+                <span class="headline">
+                  Добавить сотрудника
+                </span>
+              </v-card-title>
+              <v-card-title v-else>
+                <span class="headline">
+                  Редактировать
+                </span>
               </v-card-title>
 
-              <v-card-text>
-                <v-container>
-                  <v-text-field v-model="editedItem.name" label="ФИО"></v-text-field>
-                  <v-text-field v-model="editedItem.login" label="Логин" :rules="rulesLogin"></v-text-field>
-                  <v-text-field v-model="editedItem.password" label="Пароль" :rules="rulesPassword"></v-text-field>
-                  </div>
-                </v-container>
-              </v-card-text>
+              <form  action="{%url 'adduser'%}" method="post">
+                  {% csrf_token %}
+                <v-card-text v-if="flagDialogAddOrEdit === false">
+                  <v-container>
+                    <v-text-field v-model="editedItem.name" label="ФИО" name="fio"></v-text-field>
+                    <v-text-field v-model="editedItem.login" label="Логин" :rules="rulesLogin" name="username"></v-text-field>
+                    <v-text-field v-model="editedItem.password" label="Пароль" :rules="rulesPassword" name="password"></v-text-field>
+                  </v-container>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Закрыть</v-btn>
-                <v-btn color="#007bff" text @click="save">Сохранить</v-btn>
-              </v-card-actions>
+                <v-card-text v-else>
+                  <v-container>
+                    <v-text-field v-model="editedItem.name" label="ФИО" name="fio"></v-text-field>
+                    <v-text-field v-model="editedItem.login" label="Логин" :rules="rulesLogin" name="username"></v-text-field>
+                    <v-text-field v-model="editedItem.password" label="Пароль" :rules="rulesPassword" name="password"></v-text-field>
+                    <input type="hidden" name="prev_login" :value="desserts[editedIndex].login">
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="close">Закрыть</v-btn>
+                  <v-btn color="#007bff" text @click.prevent="save($event)" type="submit">Сохранить</v-btn>
+                </v-card-actions>
+              </form>
+
             </v-card>
           </v-dialog>
         </v-toolbar>
@@ -612,6 +659,25 @@ Vue.component('supertable',{
         >
           mdi-delete
         </v-icon>
+
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          >
+          ## text ##
+
+          <template v-slot:action="{ attrs }">
+              <v-btn
+                color="blue"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+              >
+                Закрыть
+              </v-btn>
+          </template>
+        </v-snackbar>
+
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -621,11 +687,11 @@ Vue.component('supertable',{
 })
 
 
-  const addIPurl = "http://78.24.220.66:9000/createplan/"
-  const addRateurl = "http://78.24.220.66:9000/createratinghome/"
-  const addDocurl ="http://78.24.220.66:9000/nagruzkaSave/"
-  const urlpar = "http://78.24.220.66:9000/rating/profilerating"
-  const urlpar1 = "http://78.24.220.66:9000/rating/profileplace"
+  const addIPurl = "http://127.0.0.1:8000/createplan/"
+  const addRateurl = "http://127.0.0.1:8000/createratinghome/"
+  const addDocurl ="http://127.0.0.1:8000/nagruzkaSave/"
+  const urlpar = "http://127.0.0.1:8000/rating/profilerating"
+  const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
 
   new Vue({
     el: '#app',
