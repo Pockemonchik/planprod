@@ -24,6 +24,8 @@ urlpatterns = [
     url('saveMRR', views.SaveMRRView.as_view(),name='saveMRR'),
     url('years', views.YearView.as_view()),
     url('graph', views.GraphView.as_view()),
+    url('ratingTable', views.RatingTableView.as_view()),
+    url('refresh_rating',views.RefreshRatingView.as_view())
 
 ]
 if settings.DEBUG:

@@ -24,8 +24,6 @@ import os
 from io import StringIO, BytesIO
 
 """Ренедеринг основных страниц"""
-
-
 def rate_otsenka(request, slug, year):
     profile = get_object_or_404(Profile, user=request.user)
     profile1 = get_object_or_404(Profile, user__username=slug)
@@ -52,7 +50,7 @@ def rate_otsenka(request, slug, year):
     print(MRR.objects.filter(profile=profile1, year=year))
     title = "Рейтинговая оценка " + ''.join(
         [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-         profile1.fullname.split(' ')[1][0]])
+         profile1.fullname.split(' ')[1][0]])+" "+year
     return render(request, 'rate_otsenka.html', {
         'formset': formset,
         'urrform': urrform,
@@ -85,8 +83,6 @@ def sotr_umr(request):
 
 
 """Получение данных о пользователях, кафедрах и друге"""
-
-
 class GraphView(APIView):
     permission_classes = [AllowAny]
 
@@ -252,8 +248,6 @@ class ProfilePlaceView(APIView):
 
 
 """Сохранение основных таблиц"""
-
-
 class SaveURRView(View):
 
     def post(self, request):
@@ -386,16 +380,35 @@ class SaveMRRView(View):
             return redirect('log')
 
 
+"""Обновление рейтингов для всех сотрудников по ссыылке"""
+class RefreshRatingView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        year = request.query_params.get('year')
+
+        return Response(refresh_places(year))
+
+
 """Класс для общей таблицы """
 class RatingTableView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        serializer_context = {
-            'request': request,
-        }
-        serializer = PlaceSerializer(place, context=serializer_context)
-        return Response([serializer.data])
+        year = request.query_params.get('year')
+        allrating = Rating.objects.filter(year=year).order_by("summ")
+        data = []
+        for r in allrating:
+            if r.summ != 0:
+                data.append(
+                    {'fio': r.profile.fullname,
+                     'summ': r.summ,
+                     'unikplace': r.unikplace,
+                     'dolzhnostplace': r.dolzhnostplace,
+                     'kafedraplace': r.kafedraplace
+                     }
+                )
+        return Response(data)
 
 
 """Сохранение документа"""
@@ -474,7 +487,7 @@ def documentSave(request, year, slug):
 
 """Пересчет рейтинга и сумм баллов при сохраненни отдельных отаблиц"""
 def setplace(year, profile):
-    allrating = Rating.objects.all()
+    allrating = Rating.objects.filter(year=year)
     profilerating = Rating.objects.get(profile=profile, year=year)
 
     try:
@@ -504,14 +517,18 @@ def setplace(year, profile):
                                                     summ__gte=profilerating.summ).count()
     profilerating.unikplace = allrating.filter(year=year, summ__gte=profilerating.summ).count()
     profilerating.save()
-    print(profilerating.urr)
-    print(profilerating.ormr)
-    print(profilerating.pcr)
-    print(profilerating.mrr)
-    print(profilerating.kafedraplace)
-    print(profilerating.unikplace)
-    print(profilerating.dolzhnostplace)
-    print(allrating.filter(year=year, summ__gte=profilerating.summ))
+    print(profilerating.profile.fullname," ",profilerating.summ," ",profilerating.unikplace)
+
+    #print(allrating.filter(year=year, summ__gte=profilerating.summ))
 
 
-
+"""Пересчет рейтинга для всех сотрудников"""
+def refresh_places(year):
+    try:
+        allrating = Rating.objects.filter(year=year)
+        for r in allrating:
+            setplace(year, r.profile)
+        return "Успешно обновлены позиции"
+    except Exception as e:
+        print(e)
+        return "Ошибка при обновлении позиций"

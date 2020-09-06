@@ -82,7 +82,7 @@ def detail_plan(request, slug, year):
 
         title = "Индивидуальный план  " + ''.join(
             [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-             profile1.fullname.split(' ')[1][0]])
+             profile1.fullname.split(' ')[1][0]])+" "+year
         return render(request, 'detail_plan.html', {
             'mainForm': mainForm,
             'formset': formset,
@@ -345,7 +345,7 @@ def deluser(request):
         profile = Profile.objects.get(user=previos_user)
 
         try:
-            profile.kafedra = ""
+            profile.kafedra = None
             profile.save()
         except Exception as e:
             print(e)
@@ -470,6 +470,9 @@ def createrating(request, year, slug):
 
             print(newurr.sootnbal)
             newurr.save()
+            mmrs_for_del=MRR.objects.filter(profile=profile,year=year)
+            for m in mrr:
+                m.delete()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
             summmrr = 0
             for u in umrs:
