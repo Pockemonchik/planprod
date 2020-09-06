@@ -517,10 +517,16 @@ Vue.component('supertable',{
       this.dialog = true
     },
 
-    deleteItem (item) {
-      axios.post("http://127.0.0.1:8000/deluser/", {"login":item.login}, {headers:{"X-CSRFToken": this.$root.token}})
-      const index = this.desserts.indexOf(item)
-      confirm('Вы действительно хотите удалить сотрудника?') && this.desserts.splice(index, 1)
+    deleteItem (item, $event) {
+      if(confirm('Вы действительно хотите удалить сотрудника?')){
+        console.log(1)
+        formData=new FormData(event.path[1].firstChild)
+        console.log(2)
+        axios.post("http://127.0.0.1:8000/deluser/", formData).then((response) => {
+          const index = this.desserts.indexOf(item)
+          this.desserts.splice(index, 1)
+        })
+      }
     },
 
     close () {
@@ -647,6 +653,10 @@ Vue.component('supertable',{
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
+        <form action="{%url 'deluser'%}" method="post">
+          {% csrf_token %}
+          <input type="hidden" :value="item.login" name="login"></input>
+        </form>
         <v-icon
           small
           class="mr-2"
@@ -656,7 +666,7 @@ Vue.component('supertable',{
         </v-icon>
         <v-icon
           small
-          @click="deleteItem(item)"
+          @click="deleteItem(item, $event)"
         >
           mdi-delete
         </v-icon>
