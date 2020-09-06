@@ -471,7 +471,7 @@ def createrating(request, year, slug):
             print(newurr.sootnbal)
             newurr.save()
             mmrs_for_del=MRR.objects.filter(profile=profile,year=year)
-            for m in mrr:
+            for m in mmrs_for_del:
                 m.delete()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
             summmrr = 0
@@ -528,7 +528,8 @@ def createrating(request, year, slug):
             newrating.summ = newurr.getsumm() + summmrr
             newrating.save()
             setplace(year, profile)
-        except:
+        except Exception as e:
+            print(e)
             try:
                 newrating = Rating()
                 print(newrating)

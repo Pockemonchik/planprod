@@ -396,7 +396,7 @@ class RatingTableView(APIView):
 
     def get(self, request):
         year = request.query_params.get('year')
-        allrating = Rating.objects.filter(year=year).order_by("summ")
+        allrating = Rating.objects.filter(year=year).order_by("summ").reverse()
         data = []
         for r in allrating:
             if r.summ != 0:
