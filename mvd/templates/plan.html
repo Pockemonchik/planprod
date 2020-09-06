@@ -631,6 +631,7 @@ Vue.component('supertable',{
                     <v-text-field v-model="editedItem.login" label="Логин" :rules="rulesLogin" name="username"></v-text-field>
                     <v-text-field v-model="editedItem.password" label="Пароль" :rules="rulesPassword" name="password"></v-text-field>
                     <input type="hidden" name="prev_login" :value="desserts[editedIndex].login">
+                    <input type="hidden" name="prev_password" :value="desserts[editedIndex].password">
                   </v-container>
                 </v-card-text>
 
