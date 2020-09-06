@@ -40,7 +40,7 @@ class Nagruzka(models.Model):
 #профили пользователей
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE,primary_key=True)
-    kafedra=models.ForeignKey(Kafedra, related_name='prepods',on_delete=models.CASCADE,null=True)
+    kafedra=models.ForeignKey(Kafedra, related_name='prepods',on_delete=models.CASCADE,null=True,blank=True)
     dolzhnost=models.CharField(max_length=1000,blank=True)
     fullname=models.CharField(max_length=250,blank=True)
     stepen=models.CharField(max_length=250,blank=True)
