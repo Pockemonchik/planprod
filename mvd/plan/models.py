@@ -48,7 +48,7 @@ class Profile(models.Model):
     role = models.IntegerField(default=1)
     status=models.BooleanField(default=True)
     def __str__(self):
-        return self.kafedra.fullname+" "+self.fullname+" "+self.user.username+" "+self.user.email+" "
+        return " "+self.fullname+" "+self.user.username+" "+self.user.email+" "
 
 class ProfileInfo(models.Model):
     fio=models.CharField(max_length=250,blank=True)
