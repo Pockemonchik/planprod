@@ -370,7 +370,6 @@ def changepass(request):
             if previos_username == username:
                 try:
                     profile = Profile.objects.get(user=previos_user)
-                    profile.user = usernew
                     profile.fullname = fio
                     profile.save()
                 except Exception as e:
