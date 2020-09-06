@@ -367,6 +367,15 @@ def changepass(request):
             previos_username = request.POST["prev_login"]
             fio = form.cleaned_data['fio']
             previos_user = User.objects.get(username=previos_username)
+            if previos_username == username:
+                try:
+                    profile = Profile.objects.get(user=previos_user)
+                    profile.user = usernew
+                    profile.fullname = fio
+                    profile.save()
+                except Exception as e:
+                    print(e)
+                    return HttpResponse("Произошла ошибка при изменении данных пользователя")
             try:
                 usernew = User.objects.create_user(username, password, password)
                 usernew.save()
@@ -1076,12 +1085,9 @@ def documentSave(request, year, slug):
     else:
         return redirect('log')
 
-
 def saveDB(request):
     saveallnagr()
     return redirect('index')
-
-
 
 
 @api_view(['POST'])
@@ -1137,7 +1143,6 @@ def deleteNgruzka(request, year):
             return redirect('index')
     else:
         return redirect('log')
-
 
 # анализ нагрузки
 def nagruzka(request, year, slug):
@@ -1387,16 +1392,6 @@ def nagruzkafact(request, year, slug):
         return redirect('log')
 
 
-
-
-
-
-
-
-# формируем список из всех данных и отправляем в скрипт
-
-
-
 # подсчет вcей нагррузки
 def mainTableCount(request):
     if request.user.is_authenticated:
@@ -1539,8 +1534,6 @@ def mainTableCount(request):
     else:
         return redirect('log')
 
-
-# форма основной таблицы
 def mainTableSave(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -1599,9 +1592,6 @@ def mainTableSave(request):
     else:
         return redirect('log')
 
-
-# сохранение первой  таблицы
-
 def saveT1(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1630,8 +1620,6 @@ def saveT1(request):
     else:
         return redirect('log')
 
-
-# сохранение 2  таблицы
 def saveT2(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1659,8 +1647,6 @@ def saveT2(request):
     else:
         return redirect('log')
 
-
-# сохранение 3  таблицы
 def saveT3(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -1721,7 +1707,6 @@ def saveT3(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 def saveT4(request):
     if request.user.is_authenticated:
@@ -1822,9 +1807,6 @@ def saveT4(request):
     else:
         return redirect('log')
 
-
-#
-# table for umr
 def saveT5(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1854,7 +1836,6 @@ def saveT5(request):
     else:
         return redirect('log')
 
-
 def saveT6(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1883,7 +1864,6 @@ def saveT6(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 # tabler foe NIR
 def saveT7(request):
@@ -1915,7 +1895,6 @@ def saveT7(request):
     else:
         return redirect('log')
 
-
 def saveT8(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1945,8 +1924,6 @@ def saveT8(request):
     else:
         return redirect('log')
 
-
-# table for vr
 def saveT9(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -1975,7 +1952,6 @@ def saveT9(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 def saveT10(request):
     if request.user.is_authenticated:
@@ -2006,9 +1982,6 @@ def saveT10(request):
     else:
         return redirect('log')
 
-
-# table for DR
-
 def saveT11(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -2037,7 +2010,6 @@ def saveT11(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 def saveT12(request):
     if request.user.is_authenticated:
@@ -2070,7 +2042,6 @@ def saveT12(request):
         return redirect('log')
         # иностранные слушателями
 
-
 def saveT13(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -2101,7 +2072,6 @@ def saveT13(request):
     else:
         return redirect('log')
 
-
 def saveT14(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
@@ -2131,7 +2101,6 @@ def saveT14(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 def deltable(request):
     if request.user.is_authenticated and request.method == 'POST':

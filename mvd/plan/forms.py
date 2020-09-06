@@ -8,6 +8,7 @@ class UserAddForm(forms.Form):
     password = forms.CharField(max_length=50)
 
 class ChangePassForm(forms.Form):
+    fio = forms.CharField(max_length=100)
     username = forms.CharField(max_length=100)
     password = forms.CharField(max_length=50)
 
