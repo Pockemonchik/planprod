@@ -345,7 +345,7 @@ def deluser(request):
         profile = Profile.objects.get(user=previos_user)
 
         try:
-            profile.kafedra = NULL
+            profile.kafedra = None
             profile.save()
         except Exception as e:
             print(e)
