@@ -8,30 +8,33 @@ from django.http import HttpResponse
 from django.views.generic import View
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-#from snippets.serializers import SnippetSerializer
-from plan.models import Profile,Kafedra,ProfileInfo
-from rating.models import URR, ORMR, PCR, MRR,Rating
+# from snippets.serializers import SnippetSerializer
+from plan.models import Profile, Kafedra, ProfileInfo
+from rating.models import URR, ORMR, PCR, MRR, Rating
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rating.ratingDocx import createRatingDocx
-from rating.forms import URRForm,ORMRForm,PCRForm,MRRForm
-from .serializers import KafedraSerializer, ProfileSerializer, RatingSerializer,PlaceSerializer,Place,SaveMRRSerializer,SaveORMRSerializer,SavePCRSerializer,SaveURRSerializer
+from rating.forms import URRForm, ORMRForm, PCRForm, MRRForm
+from .serializers import KafedraSerializer, ProfileSerializer, RatingSerializer, PlaceSerializer, Place, \
+    SaveMRRSerializer, SaveORMRSerializer, SavePCRSerializer, SaveURRSerializer
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 import os
-from io import StringIO,BytesIO
+from io import StringIO, BytesIO
+
+"""Ренедеринг основных страниц"""
 
 
-def rate_otsenka(request,slug,year):
+def rate_otsenka(request, slug, year):
     profile = get_object_or_404(Profile, user=request.user)
     profile1 = get_object_or_404(Profile, user__username=slug)
     rating = get_object_or_404(Rating, profile=profile1, year=year)
 
     try:
-        urr=get_object_or_404(URR, profile=profile1, year=year)
+        urr = get_object_or_404(URR, profile=profile1, year=year)
     except:
-        urr=None
+        urr = None
     try:
         ormr = get_object_or_404(ORMR, profile=profile1, year=year)
     except:
@@ -41,118 +44,47 @@ def rate_otsenka(request,slug,year):
     except:
         pcr = None
 
-
-    urrform=URRForm(instance=urr)
-    ormrform=ORMRForm(instance=ormr)
-    pcrform=PCRForm(instance=pcr)
+    urrform = URRForm(instance=urr)
+    ormrform = ORMRForm(instance=ormr)
+    pcrform = PCRForm(instance=pcr)
     mrrformset = modelformset_factory(MRR, form=MRRForm, extra=0)
     formset = mrrformset(queryset=MRR.objects.filter(profile=profile1, year=year))
     print(MRR.objects.filter(profile=profile1, year=year))
-    title ="Рейтинговая оценка "+''.join([profile1.fullname.split(' ')[0],' ',profile1.fullname.split(' ')[1][0],'.',profile1.fullname.split(' ')[1][0]])
-    return render(request,'rate_otsenka.html',{
+    title = "Рейтинговая оценка " + ''.join(
+        [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
+         profile1.fullname.split(' ')[1][0]])
+    return render(request, 'rate_otsenka.html', {
         'formset': formset,
         'urrform': urrform,
-        'ormrform':ormrform,
+        'ormrform': ormrform,
         'pcrform': pcrform,
         'profile': profile,
         'profile1': profile1,
-        'rating':rating,
+        'rating': rating,
 
         'urr': urr,
         'ormr': ormr,
         'pcr': pcr,
-        'title':title
-
-
+        'title': title
 
     })
+
 
 def nach_kaf(request):
     profile = get_object_or_404(Profile, user=request.user)
     if profile.role == 3:
-        return render(request,'sotr_umr.html');
-    kafedra= profile.kafedra.fullname
-    return render(request,'nach_kaf.html',{
+        return render(request, 'sotr_umr.html')
+    kafedra = profile.kafedra.fullname
+    return render(request, 'nach_kaf.html', {
         'kafedra': kafedra,
-        });
+    })
+
 
 def sotr_umr(request):
-    return render(request,'sotr_umr.html');
-
-def documentSave(request,year,slug):
-
-    if request.user.is_authenticated:
-        user=User.objects.get(username=slug)
-        profile=get_object_or_404(Profile,user=user)
-        rating = get_object_or_404(Rating, profile=profile, year=year)
-
-        toptext=[]
-        tableLens=[]
-        inTable=[
-
-        ]
-        try:
-            toptext.append(profile.kafedra.fullname)
-            toptext.append(str(year))
-            toptext.append(str((int(year)+1)))
-            toptext.append(profile.info.fio)
-            toptext.append(profile.info.dolznost)
-            toptext.append(str(profile.info.stavka))
-            toptext.append(profile.info.uchst)
-            toptext.append(profile.info.uchzv)
-            toptext.append(" ")
-        except:
-            toptext=[" "," "," ","Заполните главную страницу"," "," "," "," "," "]
+    return render(request, 'sotr_umr.html')
 
 
-
-        try:
-            urr=get_object_or_404(URR, profile=profile, year=year)
-            inTable.append(urr.getDataForDoc())
-        except:
-            urr=URR()
-            urr.profile=profile
-            urr.year=year
-            inTable.append(urr.getDataForDoc())
-        try:
-            ormr = get_object_or_404(ORMR, profile=profile, year=year)
-            inTable.append(ormr.getDataForDoc())
-        except:
-            ormr=ORMR()
-            ormr.profile=profile
-            ormr.year=year
-            inTable.append(ormr.getDataForDoc())
-        mrrdata=[]
-        mrr = MRR.objects.filter(profile=profile, year=year)
-        for m in mrr:
-            mrrdata.extend(["3.1",m.name,str(m.bal)])
-        inTable.append(mrrdata)
-
-        try:
-            pcr = get_object_or_404(PCR, profile=profile, year=year)
-            inTable.append(pcr.getDataForDoc())
-        except:
-            pcr=PCR()
-            pcr.profile=profile
-            pcr.year=year
-            inTable.append(pcr.getDataForDoc())
-        tableLens.extend([7,35,mrr.count(),5])
-
-        sumBal=[str(rating.urr),str(rating.ormr),str(rating.mrr),str(rating.pcr),str(rating.summ)]
-
-        doc=createRatingDocx(toptext,tableLens,inTable,sumBal)
-
-        f =BytesIO()
-        doc.save(f)
-        response = HttpResponse(f.getvalue(), content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'inline; filename=rating.docx'
-        return response
-
-
-
-    else:
-        return redirect('log')
-
+"""Получение данных о пользователях, кафедрах и друге"""
 
 
 class GraphView(APIView):
@@ -166,43 +98,43 @@ class GraphView(APIView):
             rating = Rating.objects.filter(year=year)
         else:
             if kafedra == "Все кафедры":
-                rating = Rating.objects.filter(profile__dolzhnost=dolzhnost,year=year)
+                rating = Rating.objects.filter(profile__dolzhnost=dolzhnost, year=year)
             else:
                 if dolzhnost == "Все должности":
-                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra,year=year)
+                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, year=year)
                 else:
-                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra,profile__dolzhnost=dolzhnost,year=year)
+                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, profile__dolzhnost=dolzhnost,
+                                                   year=year)
         print(rating)
         print(request.query_params.get('kafedra'))
-
 
         year = request.query_params.get('year')
 
         print(rating)
-        graphdata=[]
-        buff=[]
+        graphdata = []
+        buff = []
         for r in rating:
             print(r.profile.fullname)
             buff.append(r.urr)
         graphdata.append({
-               "name": 'Учебная работа',
-               "data": buff
+            "name": 'Учебная работа',
+            "data": buff
         })
         buff = []
         for r in rating:
             print(r.profile.fullname)
             buff.append(r.ormr)
         graphdata.append({
-                "name": 'Организационно методическая работа',
-                "data": buff
+            "name": 'Организационно методическая работа',
+            "data": buff
         })
         buff = []
         for r in rating:
             print(r.profile.fullname)
             buff.append(r.mrr)
         graphdata.append({
-                "name": 'Подготовка учебно-методических материалов',
-                "data": buff
+            "name": 'Подготовка учебно-методических материалов',
+            "data": buff
         })
         buff = []
         for r in rating:
@@ -215,64 +147,74 @@ class GraphView(APIView):
 
         return Response(graphdata)
 
+
 class KafedraAllView(APIView):
-    #получение all
+    # получение all
     permission_classes = [AllowAny]
+
     def get(self, request):
         kafedras = Kafedra.objects.all()
         serializer_context = {
             'request': request,
         }
-        serializer = KafedraSerializer(kafedras, context=serializer_context,many=True)
+        serializer = KafedraSerializer(kafedras, context=serializer_context, many=True)
         return Response(serializer.data)
 
+
 class ProfileAllView(APIView):
-    #получение all
+    # получение all
     permission_classes = [AllowAny]
+
     def get(self, request):
-        kafedra=request.query_params.get('kafedra')
+        kafedra = request.query_params.get('kafedra')
         profiles = Profile.objects.filter(kafedra__fullname=kafedra)
         serializer_context = {
             'request': request,
         }
-        serializer = ProfileSerializer(profiles, context=serializer_context,many=True)
+        serializer = ProfileSerializer(profiles, context=serializer_context, many=True)
         return Response(serializer.data)
+
+
 class ProfileFilterView(APIView):
-    #получение all
+    # получение all
     permission_classes = [AllowAny]
+
     def get(self, request):
-        kafedra=request.query_params.get('kafedra')
+        kafedra = request.query_params.get('kafedra')
         dolzhnost = request.query_params.get('dolzhnost')
-        year=request.query_params.get('year')
+        year = request.query_params.get('year')
         if dolzhnost == "Все должности" and kafedra == "Все кафедры":
             profiles = Rating.objects.filter(year=year)
             print(profiles)
         else:
             if kafedra == "Все кафедры":
-                profiles = Rating.objects.filter(profile__dolzhnost=dolzhnost,year=year)
+                profiles = Rating.objects.filter(profile__dolzhnost=dolzhnost, year=year)
             else:
                 if dolzhnost == "Все должности":
-                    profiles = Rating.objects.filter(profile__kafedra__fullname=kafedra,year=year)
+                    profiles = Rating.objects.filter(profile__kafedra__fullname=kafedra, year=year)
                 else:
-                    profiles = Rating.objects.filter(profile__kafedra__fullname=kafedra, dolzhnost=dolzhnost,year=year)
+                    profiles = Rating.objects.filter(profile__kafedra__fullname=kafedra, dolzhnost=dolzhnost, year=year)
 
-        data=[]
+        data = []
         for p in profiles:
-            data.append({'fullname':p.profile.fullname})
+            data.append({'fullname': p.profile.fullname})
 
         return Response(data)
 
+
 class YearView(APIView):
-    #получение all
+    # получение all
     permission_classes = [AllowAny]
+
     def get(self, request):
-        profile=get_object_or_404(Profile,fullname=request.query_params.get('profile'))
-        profileratings=Rating.objects.filter(profile=profile)
-        years=[]
+        profile = get_object_or_404(Profile, fullname=request.query_params.get('profile'))
+        profileratings = Rating.objects.filter(profile=profile)
+        years = []
         for p in profileratings:
-            years.append({"year":p.year})
+            years.append({"year": p.year})
 
         return Response(years)
+
 
 class ProfileRatingView(APIView):
     permission_classes = [AllowAny]
@@ -280,32 +222,37 @@ class ProfileRatingView(APIView):
     def get(self, request):
         profile = request.query_params.get('profile')
         year = request.query_params.get('year')
-        rating = Rating.objects.filter(profile__fullname=profile,year=year)
+        rating = Rating.objects.filter(profile__fullname=profile, year=year)
         serializer_context = {
             'request': request,
         }
         serializer = RatingSerializer(rating, context=serializer_context, many=True)
         return Response(serializer.data)
 
+
 class ProfilePlaceView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
         profilefullnname = request.query_params.get('profile')
-        profile=get_object_or_404(Profile,fullname=profilefullnname)
-        year= request.query_params.get('year')
+        profile = get_object_or_404(Profile, fullname=profilefullnname)
+        year = request.query_params.get('year')
         try:
-            profilerating=Rating.objects.get(profile=profile,year=year)
+            profilerating = Rating.objects.get(profile=profile, year=year)
         except:
             return HttpResponse("Ре")
 
-
-        place = Place(profilerating.summ,profilerating.kafedraplace,profilerating.dolzhnostplace,profilerating.unikplace)
+        place = Place(profilerating.summ, profilerating.kafedraplace, profilerating.dolzhnostplace,
+                      profilerating.unikplace)
         serializer_context = {
             'request': request,
         }
         serializer = PlaceSerializer(place, context=serializer_context)
         return Response([serializer.data])
+
+
+"""Сохранение основных таблиц"""
+
 
 class SaveURRView(View):
 
@@ -314,25 +261,24 @@ class SaveURRView(View):
             if request.method == "POST":
                 print(request.POST)
                 profile = get_object_or_404(Profile, user=request.user)
-                year=request.POST['year']
+                year = request.POST['year']
                 if profile.role == 3 or profile.role == 2:
                     profile = get_object_or_404(Profile, user__username=request.POST['profile'])
 
                 form = URRForm(request.POST)
 
-
                 if form.is_valid():
                     try:
-                        urrdel = get_object_or_404(URR, profile=profile,year=year)
+                        urrdel = get_object_or_404(URR, profile=profile, year=year)
                         urrdel.delete()
                     except:
                         print("ne")
 
                     urr = form.save(commit=False)
                     urr.profile = profile
-                    urr.year=year
+                    urr.year = year
                     urr.save()
-                    setplace(year,profile)
+                    setplace(year, profile)
 
                 else:
                     print('blen')
@@ -340,6 +286,7 @@ class SaveURRView(View):
             return HttpResponse("Успешно сохранено")
         else:
             return redirect('log')
+
 
 class SaveORMRView(View):
     def post(self, request):
@@ -363,9 +310,9 @@ class SaveORMRView(View):
 
                     urr = form.save(commit=False)
                     urr.profile = profile
-                    urr.year=year
+                    urr.year = year
                     urr.save()
-                    setplace(year,profile)
+                    setplace(year, profile)
                 else:
                     print(form.errors)
                     return HttpResponse("Ошибка при сохранении таблицы")
@@ -396,9 +343,9 @@ class SavePCRView(View):
 
                     urr = form.save(commit=False)
                     urr.profile = profile
-                    urr.year=year
+                    urr.year = year
                     urr.save()
-                    setplace(year,profile)
+                    setplace(year, profile)
                 else:
                     print(form.errors)
                     return HttpResponse("Ошибка при сохранении таблицы")
@@ -408,7 +355,6 @@ class SavePCRView(View):
 
 
 class SaveMRRView(View):
-
 
     def post(self, request):
         if request.user.is_authenticated:
@@ -422,7 +368,7 @@ class SaveMRRView(View):
                 formset = MRRFormSet(request.POST, queryset=MRR.objects.filter(profile=profile))
 
                 if formset.is_valid():
-                    mrrdel = MRR.objects.filter(profile=profile,year=year)
+                    mrrdel = MRR.objects.filter(profile=profile, year=year)
                     for u in mrrdel:
                         u.delete()
                     for form in formset:
@@ -430,7 +376,7 @@ class SaveMRRView(View):
                         mrr.profile = profile
                         mrr.year = request.POST['year']
                         mrr.save()
-                        setplace(year,profile)
+                        setplace(year, profile)
 
                 else:
                     print(formset.errors)
@@ -439,8 +385,95 @@ class SaveMRRView(View):
         else:
             return redirect('log')
 
-#pereschet ratinga i summ
-def setplace(year,profile):
+
+"""Класс для общей таблицы """
+class RatingTableView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        serializer_context = {
+            'request': request,
+        }
+        serializer = PlaceSerializer(place, context=serializer_context)
+        return Response([serializer.data])
+
+
+"""Сохранение документа"""
+def documentSave(request, year, slug):
+    if request.user.is_authenticated:
+        user = User.objects.get(username=slug)
+        profile = get_object_or_404(Profile, user=user)
+        rating = get_object_or_404(Rating, profile=profile, year=year)
+
+        toptext = []
+        tableLens = []
+        inTable = [
+
+        ]
+        try:
+            toptext.append(profile.kafedra.fullname)
+            toptext.append(str(year))
+            toptext.append(str((int(year) + 1)))
+            toptext.append(profile.info.fio)
+            toptext.append(profile.info.dolznost)
+            toptext.append(str(profile.info.stavka))
+            toptext.append(profile.info.uchst)
+            toptext.append(profile.info.uchzv)
+            toptext.append(" ")
+        except:
+            toptext = [" ", " ", " ", "Заполните главную страницу", " ", " ", " ", " ", " "]
+
+        try:
+            urr = get_object_or_404(URR, profile=profile, year=year)
+            inTable.append(urr.getDataForDoc())
+        except:
+            urr = URR()
+            urr.profile = profile
+            urr.year = year
+            inTable.append(urr.getDataForDoc())
+        try:
+            ormr = get_object_or_404(ORMR, profile=profile, year=year)
+            inTable.append(ormr.getDataForDoc())
+        except:
+            ormr = ORMR()
+            ormr.profile = profile
+            ormr.year = year
+            inTable.append(ormr.getDataForDoc())
+        mrrdata = []
+        mrr = MRR.objects.filter(profile=profile, year=year)
+        for m in mrr:
+            mrrdata.extend(["3.1", m.name, str(m.bal)])
+        inTable.append(mrrdata)
+
+        try:
+            pcr = get_object_or_404(PCR, profile=profile, year=year)
+            inTable.append(pcr.getDataForDoc())
+        except:
+            pcr = PCR()
+            pcr.profile = profile
+            pcr.year = year
+            inTable.append(pcr.getDataForDoc())
+        tableLens.extend([7, 35, mrr.count(), 5])
+
+        sumBal = [str(rating.urr), str(rating.ormr), str(rating.mrr), str(rating.pcr), str(rating.summ)]
+
+        doc = createRatingDocx(toptext, tableLens, inTable, sumBal)
+
+        f = BytesIO()
+        doc.save(f)
+        response = HttpResponse(f.getvalue(),
+                                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        response['Content-Disposition'] = 'inline; filename=rating.docx'
+        return response
+
+
+
+    else:
+        return redirect('log')
+
+
+"""Пересчет рейтинга и сумм баллов при сохраненни отдельных отаблиц"""
+def setplace(year, profile):
     allrating = Rating.objects.all()
     profilerating = Rating.objects.get(profile=profile, year=year)
 
@@ -460,15 +493,16 @@ def setplace(year,profile):
     mrrs = MRR.objects.filter(profile=profile, year=year)
     for m in mrrs:
         mrrsumm += m.bal
-    profilerating.summ = urrsumm+ormrsumm+pcrsumm+mrrsumm
-    profilerating.urr=urrsumm
-    profilerating.ormr=ormrsumm
-    profilerating.pcr=pcrsumm
-    profilerating.mrr=mrrsumm
+    profilerating.summ = urrsumm + ormrsumm + pcrsumm + mrrsumm
+    profilerating.urr = urrsumm
+    profilerating.ormr = ormrsumm
+    profilerating.pcr = pcrsumm
+    profilerating.mrr = mrrsumm
     profilerating.kafedraplace = allrating.filter(profile__kafedra=profile.kafedra, year=year,
                                                   summ__gte=profilerating.summ).count()
-    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,summ__gte=profilerating.summ).count()
-    profilerating.unikplace = allrating.filter(year=year,summ__gte=profilerating.summ).count()
+    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,
+                                                    summ__gte=profilerating.summ).count()
+    profilerating.unikplace = allrating.filter(year=year, summ__gte=profilerating.summ).count()
     profilerating.save()
     print(profilerating.urr)
     print(profilerating.ormr)
@@ -477,4 +511,7 @@ def setplace(year,profile):
     print(profilerating.kafedraplace)
     print(profilerating.unikplace)
     print(profilerating.dolzhnostplace)
-    print(allrating.filter(year=year,summ__gte=profilerating.summ))
+    print(allrating.filter(year=year, summ__gte=profilerating.summ))
+
+
+

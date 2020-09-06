@@ -168,6 +168,15 @@ def kafedra_view(request, kafedra, year):
     else:
         return redirect('log')
         # выгружаем данные в документ
+
+def spravka(request):
+    if request.user.is_authenticated:
+
+        return render(request, 'spravka.html')
+    else:
+        return redirect('log')
+
+
 """Работа на главной странице"""
 
 @api_view(['GET'])
@@ -352,24 +361,26 @@ def changepass(request):
 
     if request.method == "POST":
         form = ChangePassForm(request.POST)
-        username = form.cleaned_data['username']
-        password = form.cleaned_data['password']
-        previos_username = request.POST["prev_login"]
-        fio = form.cleaned_data['fio']
-        previos_user = User.objects.get(username=previos_username)
-        try:
-            usernew = User.objects.create_user(username, password, password)
-            usernew.save()
-            profile = Profile.objects.get(user=previos_user)
-            profile.user = usernew
-            profile.fullname = fio
-            profile.save()
-        except Exception as e:
-            print(e)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            previos_username = request.POST["prev_login"]
+            fio = form.cleaned_data['fio']
+            previos_user = User.objects.get(username=previos_username)
+            try:
+                usernew = User.objects.create_user(username, password, password)
+                usernew.save()
+                profile = Profile.objects.get(user=previos_user)
+                profile.user = usernew
+                profile.fullname = fio
+                profile.save()
+            except Exception as e:
+                print(e)
+                return HttpResponse("Произошла ошибка при изменении данных пользователя")
+
+        else:
+            print('blen')
             return HttpResponse("Произошла ошибка при изменении данных пользователя")
-    else:
-        print('blen')
-        return render(request, 'error.html', {'content': "Произошла ошибка при изменении данных пользователя"})
 
     return HttpResponse("Учетные данные успешно изменены")
 
@@ -2127,16 +2138,6 @@ def deltable(request):
         print(request.POST)
     return JsonResponse("1", safe=False)
 
-
-def spravka(request):
-    if request.user.is_authenticated:
-
-        return render(request, 'spravka.html')
-    else:
-        return redirect('log')
-
-
-# сохранение шапки
 def shapka(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -2174,7 +2175,6 @@ def shapka(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
-
 
 def saveMesyac(request):
     if request.user.is_authenticated:
