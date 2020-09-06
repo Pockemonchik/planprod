@@ -337,19 +337,18 @@ def createratinghome(request):
 
 
 """ Работа с пользователями в главной таблице"""
-
-@api_view(['POST'])
 def deluser(request):
     if request.method == "POST":
 
-        previos_username = request.data.get("login")
+        previos_username = request.POST["login"]
         previos_user = User.objects.get(username=previos_username)
         profile = Profile.objects.get(user=previos_user)
 
         try:
             profile.kafedra = NULL
             profile.save()
-        except:
+        except Exception as e:
+            print(e)
             return HttpResponse("Ошибка при удалении пользователя")
 
         return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
@@ -365,9 +364,11 @@ def changepass(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             previos_username = request.POST["prev_login"]
+            previos_password = request.POST["prev_password"]
             fio = form.cleaned_data['fio']
             previos_user = User.objects.get(username=previos_username)
-            if previos_username == username:
+            if previos_username == username and previos_password == password:
+                print("change fio")
                 try:
                     profile = Profile.objects.get(user=previos_user)
                     profile.fullname = fio
@@ -375,16 +376,33 @@ def changepass(request):
                 except Exception as e:
                     print(e)
                     return HttpResponse("Произошла ошибка при изменении данных пользователя")
-            try:
-                usernew = User.objects.create_user(username, password, password)
-                usernew.save()
-                profile = Profile.objects.get(user=previos_user)
-                profile.user = usernew
-                profile.fullname = fio
-                profile.save()
-            except Exception as e:
-                print(e)
-                return HttpResponse("Произошла ошибка при изменении данных пользователя")
+            else:
+                if previos_username == username and previos_password != password:
+                    print("change pass")
+                    try:
+                        previos_user.set_password(password)
+                        previos_user.email=password
+                        previos_user.save()
+                        profile = Profile.objects.get(user=previos_user)
+                        profile.fullname = fio
+                        profile.save()
+                    except Exception as e:
+                        print(e)
+                        return HttpResponse("Произошла ошибка при изменении данных пользователя")
+                else:
+                    print("change pass login ")
+                    try:
+                        previos_user.username=username
+                        previos_user.set_password(password)
+                        previos_user.email = password
+                        previos_user.save()
+                        profile = Profile.objects.get(user=previos_user)
+                        profile.fullname = fio
+                        profile.save()
+
+                    except Exception as e:
+                        print(e)
+                        return HttpResponse("Произошла ошибка при изменении данных пользователя, такой пользователь уже существует")
 
         else:
             print('blen')
