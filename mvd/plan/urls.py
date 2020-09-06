@@ -28,12 +28,14 @@ urlpatterns = [
     url(r'^createratinghome/$', views.createratinghome,name='createratinghome'),
     url(r'^createrating/(?P<slug>[\w-]+)/(?P<year>\d{4})/$', views.createrating, name='createrating'),
     url(r'^createplan/$', views.createplan,name='createplan'),
-    url(r'^editUser/$', views.changepass,name='changepass'),
+
     url(r'^profileinfo/$', views.profileinfo,name='profileinfo'),
     url(r'^saveMesyac/$', views.saveMesyac,name='saveMesyac'),
 
     url(r'^deluser/$', views.deluser,name='deluser'),
     url(r'^createUser/$', views.adduser,name='adduser'),
+    url(r'^editUser/$', views.changepass, name='changepass'),
+
 
 
     url(r'^spravka/$', views.spravka,name='spravka'),

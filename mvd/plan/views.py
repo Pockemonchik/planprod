@@ -233,10 +233,10 @@ def deluser(request):
         return redirect('log')
 
 
-@api_view(['POST'])
+
 def adduser(request):
     if request.method == "POST":
-        form = UserAddForm(request)
+        form = UserAddForm(request.POST)
         profile = get_object_or_404(Profile, user=request.user)
         kafedra = profile.kafedra
         if form.is_valid():
