@@ -3,10 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from rating.models import URR, ORMR, PCR, MRR, Rating
 from rating.views import setplace
-from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, VR, DR, UMR, INR, Nagruzka, DocInfo, \
-    ProfileInfo
-from plan.forms import MesyacForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form, \
-    Table4Form, Table6Form, Table5Form, MAinTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
+from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, VR, DR, UMR, INR, Nagruzka, DocInfo, ProfileInfo
+from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form,Table4Form, Table6Form, Table5Form, MAinTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod
@@ -26,6 +24,151 @@ import os
 from io import StringIO, BytesIO
 from rest_framework.decorators import api_view
 
+"""Рендер основных страниц"""
+
+def detail_plan(request, slug, year):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        profile1 = get_object_or_404(Profile, user__username=slug)
+        Table0FormSet = modelformset_factory(Predmet, form=Table1Form, extra=0)
+        Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
+        Table2FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
+        Table3FormSet = modelformset_factory(NIR, form=Table3Form, extra=5)
+        Table4FormSet = modelformset_factory(VR, form=Table4Form, extra=5)
+        Table5FormSet = modelformset_factory(DR, form=Table5Form, extra=5)
+        Table6FormSet = modelformset_factory(INR, form=Table6Form, extra=5)
+        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
+        plan = get_object_or_404(Plan, prepod=profile1, year=year)
+        try:
+            querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
+
+            if not querymes:
+                mesyacprofile = get_object_or_404(Profile, user__username='admin')
+                mesyac = MesyacFormSet(
+                    queryset=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=2019, polugodie=1, status=False))
+            else:
+                mesyac = MesyacFormSet(
+                    queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
+        except:
+            mesyac = MesyacFormSet()
+        mainForm = MAinTableForm(instance=plan)
+        docForm = docUploadForm()
+        formset = Table0FormSet(
+            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
+        formset2 = Table0FormSet(
+            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=2, status=False))
+        formset3 = Table1FormSet(
+            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=True))
+        formset4 = Table1FormSet(
+            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=2, status=True))
+        formset5 = Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
+        formset6 = Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        formset7 = Table3FormSet(queryset=NIR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
+        formset8 = Table3FormSet(queryset=NIR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        formset9 = Table4FormSet(queryset=VR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
+        formset10 = Table4FormSet(queryset=VR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        formset11 = Table5FormSet(queryset=DR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
+        formset12 = Table5FormSet(queryset=DR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        formset13 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
+        formset14 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        kafedri = Kafedra.objects.all()
+        if profile.role == 2:
+            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
+        try:
+            docinf = DocInfo.objects.get(plan=plan)
+            shapka = ShapkaForm(instance=docinf)
+        except DocInfo.DoesNotExist:
+            shapka = ShapkaForm()
+
+        title = "Индивидуальный план  " + ''.join(
+            [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
+             profile1.fullname.split(' ')[1][0]])
+        return render(request, 'detail_plan.html', {
+            'mainForm': mainForm,
+            'formset': formset,
+            'formset2': formset2,
+            'formset3': formset3,
+            'formset4': formset4,
+            'formset5': formset5,
+            'formset6': formset6,
+            'formset7': formset7,
+            'formset8': formset8,
+            'formset9': formset9,
+            'formset10': formset10,
+            'formset11': formset11,
+            'formset12': formset12,
+            'formset13': formset13,
+            'formset14': formset14,
+            'kafedri': kafedri,
+            'plan': plan,
+            'profile': profile,
+            'profile1': profile1,
+            'shapka': shapka,
+            'docForm': docForm,
+            'mesyac': mesyac,
+            'title': title
+
+        })
+    else:
+        return redirect('log')
+
+def index(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        plans = Plan.objects.filter(prepod=profile)
+        kafedri = Kafedra.objects.all()
+        sotr = ''
+        if profile.role == 2:
+            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
+            sotr = Profile.objects.filter(kafedra=profile.kafedra)
+        nagruzkadocs = Nagruzka.objects.filter(kafedra=profile.kafedra)
+        nagruzka = NagruzkaForm()
+        useraddform = UserAddForm()
+        ratings = Rating.objects.filter(profile=profile)
+        try:
+            info = ProfileInfo.objects.get(profile=profile)
+            infoform = ProfileInfoForm(instance=info)
+        except:
+            infoform = ProfileInfoForm()
+
+        title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
+                                      profile.fullname.split(' ')[1][0]])
+
+        return render(request, 'plan.html', {
+            'profile': profile,
+            'kafedri': kafedri,
+            'plans': plans,
+            'nagruzka': nagruzka,
+            'nagruzkadocs': nagruzkadocs,
+            'useraddform': useraddform,
+            'sotr': sotr,
+            'ratings': ratings,
+            'infoform': infoform,
+            'title': title
+        })
+    else:
+        return redirect('log')
+
+def kafedra_view(request, kafedra, year):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        plans = Plan.objects.filter(prepod__kafedra__name=kafedra, year=year)
+        kafedri = Kafedra.objects.all()
+        if profile.role == 2:
+            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
+        arr = []
+        # for kaf in kafedri:
+        #     arr.append(kaf.fullname)
+        # print(arr)
+        return render(request, 'strprepod.html', {
+            'profile': profile,
+            'kafedri': kafedri,
+            'plans': plans
+        })
+    else:
+        return redirect('log')
+        # выгружаем данные в документ
+"""Работа на главной странице"""
 
 @api_view(['GET'])
 def supertable(request):
@@ -186,12 +329,29 @@ def createratinghome(request):
 
 """ Работа с пользователями в главной таблице"""
 
-
 @api_view(['POST'])
+def deluser(request):
+    if request.method == "POST":
+
+        previos_username = request.data.get("login")
+        previos_user = User.objects.get(username=previos_username)
+        profile = Profile.objects.get(user=previos_user)
+
+        try:
+            profile.kafedra = NULL
+            profile.save()
+        except:
+            return HttpResponse("Ошибка при удалении пользователя")
+
+        return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
+    else:
+        return redirect('log')
+
 def changepass(request):
     # profile=get_object_or_404(Profile,user=request.user)
 
     if request.method == "POST":
+        form = ChangePassForm(request.POST)
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
         previos_username = request.POST["prev_login"]
@@ -212,26 +372,6 @@ def changepass(request):
         return render(request, 'error.html', {'content': "Произошла ошибка при изменении данных пользователя"})
 
     return HttpResponse("Учетные данные успешно изменены")
-
-
-@api_view(['POST'])
-def deluser(request):
-    if request.method == "POST":
-
-        previos_username = request.data.get("login")
-        previos_user = User.objects.get(username=previos_username)
-        profile = Profile.objects.get(user=previos_user)
-
-        try:
-            profile.kafedra = NULL
-            profile.save()
-        except:
-            return HttpResponse("Ошибка при удалении пользователя")
-
-        return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
-    else:
-        return redirect('log')
-
 
 
 def adduser(request):
@@ -467,6 +607,7 @@ def profileinfo(request):
         return redirect('log')
 
 
+""" Работа с документами """
 def exelobr(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsx.xlsx')
     if os.path.exists(file_path):
@@ -662,6 +803,267 @@ def documentAnalize(request):
             return redirect('detail_plan', slug=profile.user.username, year=request.POST['year'])
         else:
             return redirect('log')
+
+
+def documentSave(request, year, slug):
+    if request.user.is_authenticated:
+        user = User.objects.get(username=slug)
+        profile = get_object_or_404(Profile, user=user)
+        plan = get_object_or_404(Plan, prepod=profile, year=year)
+        data = []
+        # count row for every table
+        indexRow = []
+
+        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False, year=year)
+        for p in predmets:
+            arr = p.all_values()
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+
+        indexRow.append(predmets.count())
+
+        # data+=[" "]*(122-(predmets.count()*12))
+        ##не забыть впихнуть 11 клеток итогов ра полугодие
+        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False, year=year)
+        for p in predmets:
+            arr = p.all_values()
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+        indexRow.append(predmets.count())
+
+        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True, year=year)
+        itog1 = ()
+        itog2 = ()
+        itogall = ()
+        for p in predmets:
+
+            arr = p.all_values()
+            if arr[0] == 'Итого за 1 полугодие:':
+                itog1 = arr
+                continue
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+        if itog1:
+            for a in itog1:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+
+        indexRow.append(predmets.count())
+
+        ##не забыть впихнуть 11 клеток итогов ра полугодие
+        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
+        for p in predmets:
+            arr = p.all_values()
+            if arr[0] == 'Итого за 2 полугодие:':
+                itog2 = arr
+                continue
+            if arr[0] == 'Итого за учебный год:':
+                itogall = arr
+                continue
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+        indexRow.append(predmets.count())
+        if itog2:
+            for a in itog2:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+        if itogall:
+            for a in itogall:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+        # по месяцам!!
+        data += [" "] * (375)
+        ##normalno po mesyacam
+        # u admina dolzhna bit tablisa zapolnena
+        # mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+        # for m in mesyac:
+        #     arr=m.all_values()
+        #     for a in arr:
+        #        if a=='0':
+        #            data.append(" ")
+        #        else:
+        #            data.append(a)
+
+        # учебно метадоч работа
+        umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+        count = 1
+        for u in umr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(umr.count())
+
+        umr = UMR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+        count = 1
+        for u in umr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(umr.count())
+        # таблица научно исслеовтельских работа
+        nir = NIR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+        count = 1
+        for u in nir:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(nir.count())
+        nir = NIR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+        count = 1
+        for u in nir:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(nir.count())
+        # для воспитаттльной работы
+        vr = VR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+        count = 1
+        for u in vr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(vr.count())
+
+        vr = VR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+        count = 1
+        for u in vr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(vr.count())
+        # работа ин спец
+        inr = INR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+        count = 1
+        for u in inr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(inr.count())
+
+        inr = INR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+        count = 1
+        for u in inr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(inr.count())
+        # для другой работы
+        dr = DR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+        count = 1
+        for u in dr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(dr.count())
+
+        dr = DR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+        count = 1
+        for u in dr:
+            arr = u.all_values()
+            data.append(str(count))
+            for a in arr:
+                if a == '0':
+                    data.append(" ")
+                else:
+                    data.append(a)
+            count += 1
+        indexRow.append(dr.count())
+        # главная таблица
+        data += plan.all_values()
+
+        # shapka
+        try:
+            docinf = DocInfo.objects.get(plan=plan)
+        except:
+            docinf = DocInfo(plan=plan)
+        listInfo = docinf.all_values()
+        # print(indexRow)
+        # print(data)
+        #
+
+        doc = writeInfoDoc(listInfo, data, indexRow)
+        # doc=createDoc('testforsave',data)
+        # plan.document.save("testsave",f,save=True)
+        file_path = plan.document.path
+        f = BytesIO()
+        doc.save(f)
+        response = HttpResponse(f.getvalue(),
+                                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        response['Content-Disposition'] = 'inline; filename=plan.docx'
+        return response
+
+        # print(data)
+        # response = HttpResponse(doc,content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        # return response
+        return redirect('detail_plan', slug=profile.user.username, year=plan.year)
+
+    else:
+        return redirect('log')
 
 
 def saveDB(request):
@@ -974,287 +1376,14 @@ def nagruzkafact(request, year, slug):
         return redirect('log')
 
 
-def kafedra_view(request, kafedra, year):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        plans = Plan.objects.filter(prepod__kafedra__name=kafedra, year=year)
-        kafedri = Kafedra.objects.all()
-        if profile.role == 2:
-            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
-        arr = []
-        # for kaf in kafedri:
-        #     arr.append(kaf.fullname)
-        # print(arr)
-        return render(request, 'strprepod.html', {
-            'profile': profile,
-            'kafedri': kafedri,
-            'plans': plans
-        })
-    else:
-        return redirect('log')
-        # выгружаем данные в документ
+
+
+
+
 
 
 # формируем список из всех данных и отправляем в скрипт
-def documentSave(request, year, slug):
-    if request.user.is_authenticated:
-        user = User.objects.get(username=slug)
-        profile = get_object_or_404(Profile, user=user)
-        plan = get_object_or_404(Plan, prepod=profile, year=year)
-        data = []
-        # count row for every table
-        indexRow = []
 
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-
-        indexRow.append(predmets.count())
-
-        # data+=[" "]*(122-(predmets.count()*12))
-        ##не забыть впихнуть 11 клеток итогов ра полугодие
-        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        indexRow.append(predmets.count())
-
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True, year=year)
-        itog1 = ()
-        itog2 = ()
-        itogall = ()
-        for p in predmets:
-
-            arr = p.all_values()
-            if arr[0] == 'Итого за 1 полугодие:':
-                itog1 = arr
-                continue
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        if itog1:
-            for a in itog1:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-
-        indexRow.append(predmets.count())
-
-        ##не забыть впихнуть 11 клеток итогов ра полугодие
-        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            if arr[0] == 'Итого за 2 полугодие:':
-                itog2 = arr
-                continue
-            if arr[0] == 'Итого за учебный год:':
-                itogall = arr
-                continue
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        indexRow.append(predmets.count())
-        if itog2:
-            for a in itog2:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        if itogall:
-            for a in itogall:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        # по месяцам!!
-        data += [" "] * (375)
-        ##normalno po mesyacam
-        # u admina dolzhna bit tablisa zapolnena
-        # mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
-        # for m in mesyac:
-        #     arr=m.all_values()
-        #     for a in arr:
-        #        if a=='0':
-        #            data.append(" ")
-        #        else:
-        #            data.append(a)
-
-        # учебно метадоч работа
-        umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in umr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(umr.count())
-
-        umr = UMR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in umr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(umr.count())
-        # таблица научно исслеовтельских работа
-        nir = NIR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in nir:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(nir.count())
-        nir = NIR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in nir:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(nir.count())
-        # для воспитаттльной работы
-        vr = VR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in vr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(vr.count())
-
-        vr = VR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in vr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(vr.count())
-        # работа ин спец
-        inr = INR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in inr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(inr.count())
-
-        inr = INR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in inr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(inr.count())
-        # для другой работы
-        dr = DR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in dr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(dr.count())
-
-        dr = DR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in dr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(dr.count())
-        # главная таблица
-        data += plan.all_values()
-
-        # shapka
-        try:
-            docinf = DocInfo.objects.get(plan=plan)
-        except:
-            docinf = DocInfo(plan=plan)
-        listInfo = docinf.all_values()
-        # print(indexRow)
-        # print(data)
-        #
-
-        doc = writeInfoDoc(listInfo, data, indexRow)
-        # doc=createDoc('testforsave',data)
-        # plan.document.save("testsave",f,save=True)
-        file_path = plan.document.path
-        f = BytesIO()
-        doc.save(f)
-        response = HttpResponse(f.getvalue(),
-                                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'inline; filename=plan.docx'
-        return response
-
-        # print(data)
-        # response = HttpResponse(doc,content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        # return response
-        return redirect('detail_plan', slug=profile.user.username, year=plan.year)
-
-    else:
-        return redirect('log')
 
 
 # подсчет вcей нагррузки
@@ -2078,125 +2207,3 @@ def saveMesyac(request):
         return redirect('log')
 
 
-def detail_plan(request, slug, year):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        profile1 = get_object_or_404(Profile, user__username=slug)
-        Table0FormSet = modelformset_factory(Predmet, form=Table1Form, extra=0)
-        Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
-        Table2FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
-        Table3FormSet = modelformset_factory(NIR, form=Table3Form, extra=5)
-        Table4FormSet = modelformset_factory(VR, form=Table4Form, extra=5)
-        Table5FormSet = modelformset_factory(DR, form=Table5Form, extra=5)
-        Table6FormSet = modelformset_factory(INR, form=Table6Form, extra=5)
-        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
-        plan = get_object_or_404(Plan, prepod=profile1, year=year)
-        try:
-            querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
-
-            if not querymes:
-                mesyacprofile = get_object_or_404(Profile, user__username='admin')
-                mesyac = MesyacFormSet(
-                    queryset=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=2019, polugodie=1, status=False))
-            else:
-                mesyac = MesyacFormSet(
-                    queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
-        except:
-            mesyac = MesyacFormSet()
-        mainForm = MAinTableForm(instance=plan)
-        docForm = docUploadForm()
-        formset = Table0FormSet(
-            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
-        formset2 = Table0FormSet(
-            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=2, status=False))
-        formset3 = Table1FormSet(
-            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=True))
-        formset4 = Table1FormSet(
-            queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=2, status=True))
-        formset5 = Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
-        formset6 = Table2FormSet(queryset=UMR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
-        formset7 = Table3FormSet(queryset=NIR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
-        formset8 = Table3FormSet(queryset=NIR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
-        formset9 = Table4FormSet(queryset=VR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
-        formset10 = Table4FormSet(queryset=VR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
-        formset11 = Table5FormSet(queryset=DR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
-        formset12 = Table5FormSet(queryset=DR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
-        formset13 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
-        formset14 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
-        kafedri = Kafedra.objects.all()
-        if profile.role == 2:
-            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
-        try:
-            docinf = DocInfo.objects.get(plan=plan)
-            shapka = ShapkaForm(instance=docinf)
-        except DocInfo.DoesNotExist:
-            shapka = ShapkaForm()
-
-        title = "Индивидуальный план  " + ''.join(
-            [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-             profile1.fullname.split(' ')[1][0]])
-        return render(request, 'detail_plan.html', {
-            'mainForm': mainForm,
-            'formset': formset,
-            'formset2': formset2,
-            'formset3': formset3,
-            'formset4': formset4,
-            'formset5': formset5,
-            'formset6': formset6,
-            'formset7': formset7,
-            'formset8': formset8,
-            'formset9': formset9,
-            'formset10': formset10,
-            'formset11': formset11,
-            'formset12': formset12,
-            'formset13': formset13,
-            'formset14': formset14,
-            'kafedri': kafedri,
-            'plan': plan,
-            'profile': profile,
-            'profile1': profile1,
-            'shapka': shapka,
-            'docForm': docForm,
-            'mesyac': mesyac,
-            'title': title
-
-        })
-    else:
-        return redirect('log')
-
-def index(request):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        plans = Plan.objects.filter(prepod=profile)
-        kafedri = Kafedra.objects.all()
-        sotr = ''
-        if profile.role == 2:
-            kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
-            sotr = Profile.objects.filter(kafedra=profile.kafedra)
-        nagruzkadocs = Nagruzka.objects.filter(kafedra=profile.kafedra)
-        nagruzka = NagruzkaForm()
-        useraddform = UserAddForm()
-        ratings = Rating.objects.filter(profile=profile)
-        try:
-            info = ProfileInfo.objects.get(profile=profile)
-            infoform = ProfileInfoForm(instance=info)
-        except:
-            infoform = ProfileInfoForm()
-
-        title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
-                                      profile.fullname.split(' ')[1][0]])
-
-        return render(request, 'plan.html', {
-            'profile': profile,
-            'kafedri': kafedri,
-            'plans': plans,
-            'nagruzka': nagruzka,
-            'nagruzkadocs': nagruzkadocs,
-            'useraddform': useraddform,
-            'sotr': sotr,
-            'ratings': ratings,
-            'infoform': infoform,
-            'title': title
-        })
-    else:
-        return redirect('log')
