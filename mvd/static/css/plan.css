@@ -17,3 +17,6 @@
 .v-messages__message{
     color: red;
 }
+.v-text-field--rounded>.v-input__control>.v-input__slot {
+    padding: 0px !important;
+}

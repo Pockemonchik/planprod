@@ -334,7 +334,7 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="6">
+                  <v-col cols="12" sm="5" md="5">
                     <v-text-field
                       label="Индивидальный план за"
                       rows="1"
@@ -344,13 +344,12 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="3" md="3">
-                    <v-select
-                      :items="itemsIpYear"
-                      label=""
-                      @change="redtoIP($event)"
-                    ></v-select>
+                    <v-text-field
+                      label="Введите год"
+                      v-model="redtoIPYear"
+                    ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="3" md="3">
+                  <v-col cols="12" sm="1" md="1">
                     <v-text-field
                       label="год"
                       rows="1"
@@ -361,7 +360,13 @@
 
                   </v-col>
 
-                  <v-col cols="12" sm="6" md="6">
+                  <v-col cols="12" sm="3" md="3">
+                    <v-btn style="margin-top: 10px;" @click="redtoIP()">
+                      Перейти
+                    </v-btn>
+                  </v-col>
+
+                  <v-col cols="12" sm="5" md="5">
                     <v-text-field
                       label="Рейтинги за"
                       rows="1"
@@ -371,13 +376,12 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="3" md="3">
-                    <v-select
-                      :items="itemsRateYear"
-                      label=""
-                      @change="redtoRate($event)"
-                    ></v-select>
+                    <v-text-field
+                      label="Введите год"
+                      v-model="redtoRateYear"
+                    ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="3" md="3">
+                  <v-col cols="12" sm="1" md="1">
                     <v-text-field
                       label="год"
                       rows="1"
@@ -386,6 +390,11 @@
                       auto-grow="true"
                     ></v-text-field>
 
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <v-btn style="margin-top: 10px;" @click="redtoRate()">
+                      Перейти
+                    </v-btn>
                   </v-col>
 
                 </v-row>
@@ -504,10 +513,11 @@ Vue.component('supertable',{
     },
 
     itr(item){
-      // if (this.dialog!=true){
-      //   this.$root.dialogredirect=true
-      //   this.$parent.$options.methods.redirectto(item.name)
-      // }
+      if (this.dialog!=true){
+        this.$root.dialogredirect=true
+        // this.$parent.$options.methods.redirectto(item.name)
+        this.$root.itemToRedirect=item.login
+      }
     },
 
     editItem (item) {
@@ -713,9 +723,14 @@ Vue.component('supertable',{
       // token:"",
 
       dialogredirect: false,
-      itemsIpYear:[],
-      itemsRateYear:[],
-      userredirect:"",
+      itemToRedirect: "",
+
+      redtoRateYear: "",
+      redtoIPYear: "",
+
+      // itemsIpYear:[],
+      // itemsRateYear:[],
+      // userredirect:"",
 
       kafname:document.getElementById("kafname").value,
       plfa:"",
@@ -736,19 +751,19 @@ Vue.component('supertable',{
       timeout: 2000,
     },
     methods:{
-      redirectto(fioredirect){
-        pathpost="http://127.0.0.1:8000/"
-        axios.post(pathpost, fioredirect).then((response) => {
-          itemsIpYear=response.data.Ip
-          itemsRateYear=response.data.Rate
-          userredirect=response.data.username
-        })
+      // redirectto(fioredirect){
+      //   pathpost="http://127.0.0.1:8000/"
+      //   axios.post(pathpost, fioredirect).then((response) => {
+      //     itemsIpYear=response.data.Ip
+      //     itemsRateYear=response.data.Rate
+      //     userredirect=response.data.username
+      //   })
+      // },
+      redtoIP(){
+        window.location.href = "http://127.0.0.1:8000/plan/"+ this.itemToRedirect + "/" + this.redtoIPYear
       },
-      redtoIP(item){
-        window.location.href = "http://127.0.0.1:8000/plan/"+ this.userredirect + "/" + item
-      },
-      redtoRate(item){
-        window.location.href = "http://127.0.0.1:8000/rating/rate_otsenka/"+ this.userredirect + "/" + item
+      redtoRate(){
+        window.location.href = "http://127.0.0.1:8000/rating/rate_otsenka/"+ this.itemToRedirect + "/" + this.redtoRateYear
       },
       save(event) {
         this.dis=true
