@@ -36,8 +36,22 @@
     margin-left: 20px;
     padding: 10px;
     border: 1px solid #dee2e6;
+    width: 100%;
 }
 
 .v-input {
     flex: 0 0 auto !important;
+}
+
+.cake {
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.v-card:not(.v-sheet--tile):not(.v-card--shaped){
+    display: flex;
+    text-align: center;
+    width: 100%;
 }
