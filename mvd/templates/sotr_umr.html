@@ -30,22 +30,12 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="flex-block">
-                <div class="sotr-block">
-                    <v-select :items="resultKaf" label="Кафедра" standard @change="onChangeKaf($event)" class="input-height"></v-select>
-                    <v-select :items="resultMan" label="ФИО" standard @change="onChangeMan($event)" v-model="man" class="input-height"></v-select>
-                    <v-select :items="resultYear" label="Год" standard @change="onChangeYear($event)" v-model="year" class="input-height"></v-select>
-                    <div class="table-responsive table-width">
-                      <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts" item-key="name" class="elevation-1"></v-data-table>
-                      <hr style="border-top:3px solid rgba(0,0,0,.2)!important">
-                      <v-data-table class="subtitle-1 font-weight-bold"  light  hide-default-header hide-default-footer :headers="headers" :items="desserts2" item-key="name" class="elevation-1"></v-data-table>
-
-                    </div>
-                </div>
                 <div class="graph-block">
                   <div class="row pr-3 pl-3">
                     <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
                     <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
                     <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
+                    <v-btn @click="getRatingAllCafedras()">Рейтинг по кафедрам</v-btn>
                   </div>
                   <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                 </div>
@@ -100,114 +90,52 @@
 
 
           options: {
-                        chart: {
-                          type: 'bar',
-                          height: '100%',
-                          width:'100%',
-                          stacked: true,
-                          toolbar: {
-                            show: true
-                          },
-                          zoom: {
-                            enabled: true
-                          }
-                        },
-                        responsive: [{
-                          options: {
-                            legend: {
-                              position: 'bottom',
-                              offsetX: -10,
-                              offsetY: 0
-                            }
-                          }
-                        }],
-                        plotOptions: {
-                          bar: {
-                            horizontal: false,
-                          },
-                        },
-                        xaxis: {
-                          tickPlacement: 'on',
-                          categories: [],
-                          labels: {
-                            show: true,
-                            rotate: -90,
-                            rotateAlways: true,
-                            minHeight: 150,
-                            maxHeight: 300,
-                            }
-                        },
-                        legend: {
-                          horizontalAlign: 'left',
-                          width: 500,
-                          position: 'top',
-                        },
-                        fill: {
-                          opacity: 1
-                        }
-                        },
-          series: [{
-                          name: 'Учебная работа',
-                          data: []
-                        }, {
-                          name: 'Организационно методическая работа',
-                          data: []
-                        }, {
-                          name: 'Подготовка учебно-методических материалов',
-                          data: []
-                        }, {
-                          name: 'Педагогический контроль',
-                          data: []
-                        }],
-
-
-          desserts: [
-            {
-              name: 'Учебная работа',
-              val: 159,
+            chart: {
+              type: 'bar',
+              height: '100%',
+              width:'100%',
+              stacked: true,
+              toolbar: {
+                show: true
+              },
+              zoom: {
+                enabled: true
+              }
             },
-            {
-              name: 'Организационно методическая работа',
-              val: 237,
+            responsive: [{
+              options: {
+                legend: {
+                  position: 'bottom',
+                  offsetX: -10,
+                  offsetY: 0
+                }
+              }
+            }],
+            plotOptions: {
+              bar: {
+                horizontal: false,
+              },
             },
-            {
-              name: 'Подготовка учебно-методических материалов',
-              val: 262,
+            xaxis: {
+              tickPlacement: 'on',
+              categories: [],
+              labels: {
+                show: true,
+                rotate: -90,
+                rotateAlways: true,
+                minHeight: 150,
+                maxHeight: 300,
+                }
             },
-            {
-              name: 'Педагогический контроль',
-              val: 305,
+            legend: {
+              horizontalAlign: 'left',
+              width: 500,
+              position: 'top',
             },
-          ],
-
-          desserts2: [
-            {
-              name: 'Сумма рейтинговых баллов',
-              val: 15,
+            fill: {
+              opacity: 1
+            }
             },
-            {
-              name: 'Место на кафедре',
-              val: 23,
-            },
-            {
-              name: 'Место в университете по должностной категории',
-              val: 26,
-            },
-            {
-              name: 'Место в университете по всему ППС',
-              val: 30,
-            },
-          ],
-
-          headers: [
-            {
-              text: '',
-              align: 'start',
-              sortable: false,
-              value: 'name',
-            },
-            { text: '', value: 'val' },
-          ],
         },
         methods: {
           updateTheme(e) {
@@ -222,41 +150,6 @@
             this.series = e
           },
 
-          onChangeKaf(event){
-            this.kaf=event
-            this.man=""
-            axios.get(urlman, {params: {kafedra:event}}).then(response => {
-              this.resultMan=[]
-              this.resultYear=[]
-              response.data.forEach(element => {
-                this.resultMan.push(element.fullname)
-              });
-            })
-          },
-          onChangeMan(event){
-            this.resultYear=[]
-            this.man=event
-            axios.get(urlyear, {params: {profile:event}}).then(response => {
-              response.data.forEach(element => {
-                this.resultYear.push(element.year)
-                this.year = ""
-              });
-            })
-          },
-          onChangeYear(event){
-            axios.get(urlpar, {params: {profile:this.man,year:event}}).then(response => {
-              this.desserts[0].val=response.data[0].urr
-              this.desserts[1].val=response.data[0].ormr
-              this.desserts[2].val=response.data[0].mrr
-              this.desserts[3].val=response.data[0].pcr
-            })
-            axios.get(urlpar1, {params: {profile:this.man,year:event}}).then(response => {
-              this.desserts2[0].val=response.data[0].summ
-              this.desserts2[1].val=response.data[0].kafedraplace
-              this.desserts2[2].val=response.data[0].dolzhnostplace
-              this.desserts2[3].val=response.data[0].unikplace
-            })
-          },
           onChangeGraph(event){
             if (this.yearGraph!="" && this.dolGraph!="" && this.kafGraph!=""){
               axios.get(urlgraph, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
@@ -278,6 +171,22 @@
               })
             }
           },
+          getRatingAllCafedras(){
+            axios.get('127.0.0.1:8000/kafedras/').then(response => {
+              this.updateSeries(response.data)
+            })
+            axios.get('127.0.0.1:8000/rating/graph?kafedra=Рейтинг по кафедрам').then(response => {
+              response.data.forEach(element => {
+                fullFio.push(element.fullname)
+              });
+              fullFio.forEach(element => {
+                var t = element.split (' ');
+                fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
+              });
+              console.log(fio)
+              this.updateTheme(fio)
+            })
+          }
         },
 
         mounted() {

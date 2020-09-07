@@ -502,7 +502,7 @@
                                                        {%for form in formset3%}
                                                         {%if form.instance.name != 'Итого за 1 полугодие:'%}
                                                        <tr>
-                                                         <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                                         <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
 
                                                           {% for field in form %}
                                                           <td>{{ field }}</td>
@@ -512,7 +512,7 @@
                                                        {%endfor%}
 <!--
                                                        <tr id="empty_form"  style="display:none;">
-                                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                                           {% for field in formset3.empty_form %}
                                                           <td>{{ field }}</td>
                                                           {% endfor %}
@@ -524,7 +524,7 @@
                                  {%if form.instance.name == 'Итого за 1 полугодие:'%}
                                  <table  class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
                                     <tr>
-                                       <td class="deleteRow"></td>
+                                       <td class="deleteRow" @click="deleteRow"></td>
                                        {% for field in form %}
                                        <td>{{ field }}</td>
                                        {% endfor %}
@@ -638,7 +638,7 @@
                                            {%if form.instance.name != 'Итого за 2 полугодие:' %}
                                            {%if form.instance.name != 'Итого за учебный год:' %}
                                            <tr>
-                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in form %}
                                               <td>{{ field }}</td>
                                               {% endfor %}
@@ -647,7 +647,7 @@
                                            {%endif%}
                                            {%endfor%}
                                            <!-- <tr id="empty_form"  style="display:none;">
-                                              <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                              <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in formset4.empty_form %}
                                               <td>{{ field }}</td>
                                               {% endfor %} -->
@@ -658,7 +658,7 @@
                                  {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
                                  <table class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
                                     <tr>
-                                       <td class="deleteRow"></td>
+                                       <td class="deleteRow" @click="deleteRow"></td>
                                        {% for field in form %}
                                        <td >{{ field }}</td>
                                        {% endfor %}
@@ -803,7 +803,7 @@
                                        {{ formset5.management_form }}
                                        {%for form in formset5%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
 
@@ -838,7 +838,7 @@
                                        {{ formset6.management_form }}
                                        {%for form in formset6%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
@@ -872,7 +872,7 @@
                                       {{ formset7.management_form }}
                                        {%for form in formset7%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
@@ -904,7 +904,7 @@
                                       {{ formset8.management_form }}
                                        {%for form in formset8%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
@@ -938,7 +938,7 @@
                                        {{ formset9.management_form }}
                                    {%for form in formset9%}
                                    <tr>
-                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                       {% for field in form %}
                                       <td>{{ field }}</td>
                                       {% endfor %}
@@ -970,7 +970,7 @@
                                        {{ formset10.management_form }}
                                    {%for form in formset10%}
                                    <tr>
-                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                       {% for field in form %}
                                       <td>{{ field }}</td>
                                       {% endfor %}
@@ -1004,7 +1004,7 @@
                                    {{ formset13.management_form }}
                                    {%for form in formset13%}
                                    <tr>
-                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                       {% for field in form %}
                                       <td>{{ field }}</td>
                                       {% endfor %}
@@ -1036,7 +1036,7 @@
                                    {{ formset14.management_form }}
                                    {%for form in formset14%}
                                    <tr>
-                                      <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                       {% for field in form %}
                                       <td>{{ field }}</td>
                                       {% endfor %}
@@ -1070,7 +1070,7 @@
                                       {{ formset11.management_form }}
                                        {%for form in formset11%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
@@ -1102,7 +1102,7 @@
                                       {{ formset12.management_form }}
                                        {%for form in formset12%}
                                        <tr>
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
@@ -1208,6 +1208,23 @@
     timeout: 2000,
    },
    methods:{
+      deleteRow(){
+         var test=document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
+         console.log("del")
+         for (var i=0 ; i<test.length; i++) {
+            test[i].addEventListener('click', function(evt){
+               if(evt.target.closest('.deleteRow')) {
+               m=evt.target.closest('tr');
+               var i=m.getElementsByTagName('textarea')[0]
+               console.log($(i).val())
+               var t=""
+               $(i).val(t)
+               console.log($(i).val())
+               evt.target.closest('tr').style.display='none';
+
+               }
+            })}
+      },
      save(event) {
        this.dis=true
        this.buttontext="Загрузка таблицы..."
