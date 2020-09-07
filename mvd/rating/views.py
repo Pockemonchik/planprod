@@ -96,7 +96,7 @@ class GraphView(APIView):
             graphdata = []
             buff = []
             for k in kafedras:
-                profiles=k.prepods.all())
+                profiles=k.prepods.all()
                 
                 # for p in k.prepods:
                 #     print(p.fullname)
