@@ -90,58 +90,71 @@ class GraphView(APIView):
         dolzhnost = request.query_params.get('dolzhnost')
         year = request.query_params.get('year')
         kafedra = request.query_params.get('kafedra')
-        if dolzhnost == "Все должности" and kafedra == "Все кафедры":
+        if kafedra == "Рейтинг по кафедрам":
             rating = Rating.objects.filter(year=year)
+            kafedras = Kafedra.objects.all()
+            graphdata = []
+            buff = []
+            for k in kafedras:
+                profiles=k.prepods.all())
+                
+                # for p in k.prepods:
+                #     print(p.fullname)
+
+            return Response(graphdata)
         else:
-            if kafedra == "Все кафедры":
-                rating = Rating.objects.filter(profile__dolzhnost=dolzhnost, year=year)
+            if dolzhnost == "Все должности" and kafedra == "Все кафедры":
+                rating = Rating.objects.filter(year=year)
             else:
-                if dolzhnost == "Все должности":
-                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, year=year)
+                if kafedra == "Все кафедры":
+                    rating = Rating.objects.filter(profile__dolzhnost=dolzhnost, year=year)
                 else:
-                    rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, profile__dolzhnost=dolzhnost,
-                                                   year=year)
-        print(rating)
-        print(request.query_params.get('kafedra'))
+                    if dolzhnost == "Все должности":
+                        rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, year=year)
+                    else:
+                        rating = Rating.objects.filter(profile__kafedra__fullname=kafedra, profile__dolzhnost=dolzhnost,
+                                                       year=year)
+            print(rating)
+            print(request.query_params.get('kafedra'))
 
-        year = request.query_params.get('year')
+            year = request.query_params.get('year')
 
-        print(rating)
-        graphdata = []
-        buff = []
-        for r in rating:
-            print(r.profile.fullname)
-            buff.append(r.urr)
-        graphdata.append({
-            "name": 'Учебная работа',
-            "data": buff
-        })
-        buff = []
-        for r in rating:
-            print(r.profile.fullname)
-            buff.append(r.ormr)
-        graphdata.append({
-            "name": 'Организационно методическая работа',
-            "data": buff
-        })
-        buff = []
-        for r in rating:
-            print(r.profile.fullname)
-            buff.append(r.mrr)
-        graphdata.append({
-            "name": 'Подготовка учебно-методических материалов',
-            "data": buff
-        })
-        buff = []
-        for r in rating:
-            print(r.profile.fullname)
-            buff.append(r.pcr)
-        graphdata.append({
-            "name": 'Педагогический контроль',
-            "data": buff
-        })
+            print(rating)
+            graphdata = []
+            buff = []
+            for r in rating:
+                print(r.profile.fullname)
+                buff.append(r.urr)
+            graphdata.append({
+                "name": 'Учебная работа',
+                "data": buff
+            })
+            buff = []
+            for r in rating:
+                print(r.profile.fullname)
+                buff.append(r.ormr)
+            graphdata.append({
+                "name": 'Организационно методическая работа',
+                "data": buff
+            })
+            buff = []
+            for r in rating:
+                print(r.profile.fullname)
+                buff.append(r.mrr)
+            graphdata.append({
+                "name": 'Подготовка учебно-методических материалов',
+                "data": buff
+            })
+            buff = []
+            for r in rating:
+                print(r.profile.fullname)
+                buff.append(r.pcr)
+            graphdata.append({
+                "name": 'Педагогический контроль',
+                "data": buff
+            })
 
-        return Response(graphdata)
+            return Response(graphdata)
 
 
 class KafedraAllView(APIView):
