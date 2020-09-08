@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {%load static%}
 {% block content %}
+
 <head>
    <link rel="stylesheet" href="{% static "/css/detail_plan.css" %}" />
    <link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
@@ -13,59 +14,62 @@
    <script src="{% static "/js/vuetify.js" %}"></script>
    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
 </head>
+
 <body>
    <div class="content active" id="app">
       <div class="container-fluid middle-block">
 
 
-            <div class="input-block">
+         <div class="input-block">
 
             <div class="block-content">
-                <form  action="{%url 'shapka'%}" method="post" class="shapka" id="qwewq">
+               <form action="{%url 'shapka'%}" method="post" class="shapka" id="qwewq">
                   {% csrf_token %}
-                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                  <input type="hidden" name="profile" value="{{profile1.user.username}}"><input type="hidden"
+                     name="year" value="{{plan.year}}">
 
-               <div class="mb-3">
-                  <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
-                 {{shapka.shapka}}
-               </div>
-               <div class="mb-3">
-                  <label for="address2">Фио лица, утферждающего индивидуальный план</label>
-                {{shapka.fionach}}
-               </div>
-               <div class="row mb-3">
-
-                  <div class="col">
-                     <label for="address">Дата утверждения:</label>
-                     {{shapka.data}}
+                  <div class="mb-3">
+                     <label for="address2">Должность и звание лица, утвердившего индивидуальный план</label>
+                     {{shapka.shapka}}
                   </div>
-               </div>
-               <div class="row">
+                  <div class="mb-3">
+                     <label for="address2">Фио лица, утферждающего индивидуальный план</label>
+                     {{shapka.fionach}}
+                  </div>
+                  <div class="row mb-3">
 
-                   <div class="col">
-                      <label for="address"></label>
+                     <div class="col">
+                        <label for="address">Дата утверждения:</label>
+                        {{shapka.data}}
+                     </div>
+                  </div>
+                  <div class="row">
+
+                     <div class="col">
+                        <label for="address"></label>
                         <div class="btn-right">
-                           <button type="button" id="shap" class="btn btn-outline-primary btn-save" @click="saveShap($event)" :disabled="dis">{buttontext}</button>
+                           <button type="button" id="shap" class="btn btn-outline-primary btn-save"
+                              @click="saveShap($event)" :disabled="dis">{buttontext}</button>
                            <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                         </div>
-                   </div>
-                  <div class="col">
-                     <label for="address">Количество отработанных месяцев</label>
-                     <div class="flex-row">
-
-                        <input type="number" name="kolvomes" value="0" class="form-control kolvomes" >
-
+                        </div>
                      </div>
-                  </div>
-                  <div class="col">
-                     <label for="address">Дата</label>
-                     <div class="flex-row">
-                        {{shapka.na_kakoygod}}
-                        {{shapka.na_kakoygod1}}
-                     </div>
-                  </div>
+                     <div class="col">
+                        <label for="address">Количество отработанных месяцев</label>
+                        <div class="flex-row">
 
-               </div>
+                           <input type="number" name="kolvomes" value="0" class="form-control kolvomes">
+
+                        </div>
+                     </div>
+                     <div class="col">
+                        <label for="address">Дата</label>
+                        <div class="flex-row">
+                           {{shapka.na_kakoygod}}
+                           {{shapka.na_kakoygod1}}
+                        </div>
+                     </div>
+
+                  </div>
 
                </form>
             </div>
@@ -76,35 +80,45 @@
          <div class="col block-button">
             <div class="block-button-1">
                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg " id="list-home-list" href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"  aria-controls="home">Cформировать Индивидуальный план</a>
-                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-profile-list"  href="{%url 'nagruzka' plan.prepod.user.username plan.year%}"  aria-controls="profile">Заполнить планируемую нагрузку</a>
-                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-messages-list"  href="{%url 'nagruzkafact' plan.prepod.user.username plan.year%}"  aria-controls="messages">Заполнить фактическую нагрузку</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg " id="list-home-list"
+                     href="{%url 'documentSave' plan.prepod.user.username plan.year  %}"
+                     aria-controls="home">Cформировать Индивидуальный план</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-profile-list"
+                     href="{%url 'nagruzka' plan.prepod.user.username plan.year%}" aria-controls="profile">Заполнить
+                     планируемую нагрузку</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-messages-list"
+                     href="{%url 'nagruzkafact' plan.prepod.user.username plan.year%}"
+                     aria-controls="messages">Заполнить фактическую нагрузку</a>
                </div>
             </div>
             <div class="block-button-2">
                <div class="list-group" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-home-list"  href="{%url 'createrating'  profile1.user.username plan.year%}" role="tab" aria-controls="home">Cформировать рейтинг</a>
+                  <a class="list-group-item list-group-item-action btn btn-primary btn-lg" id="list-home-list"
+                     href="{%url 'createrating'  profile1.user.username plan.year%}" role="tab"
+                     aria-controls="home">Cформировать рейтинг</a>
                </div>
             </div>
             <div class="block-button-3">
 
-                <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
-               <div class="input-group mb-3">
+               <form action="{%url 'documentAnalize'%}" method="post" enctype="multipart/form-data" class="zagruzka">
+                  <div class="input-group mb-3">
 
-                  {% csrf_token %}
-                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                  <!-- <div class="custom-file">
+                     {% csrf_token %}
+                     <input type="hidden" name="profile" value="{{profile1.user.username}}"><input type="hidden"
+                        name="year" value="{{plan.year}}">
+                     <!-- <div class="custom-file">
                       <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
 
                      <label class="custom-file-label" for="inputGroupFile01">Файл</label>
 
                   </div> -->
-                  <v-file-input name="file" accept=".docx" label="Загрузить занные из .docx файла" class="otl" dense outlined ></v-file-input>
-                  <v-btn type="submit" color="pink" fab small class="butshad">
-                     <v-icon>mdi-cloud-upload</v-icon>
-                   </v-btn>
-               </div>
-                </form>
+                     <v-file-input name="file" accept=".docx" label="Загрузить занные из .docx файла" class="otl" dense
+                        outlined></v-file-input>
+                     <v-btn type="submit" color="pink" fab small class="butshad">
+                        <v-icon>mdi-cloud-upload</v-icon>
+                     </v-btn>
+                  </div>
+               </form>
 
             </div>
          </div>
@@ -120,93 +134,116 @@
                      <div class="col nav-block">
                         <nav class="main-nav">
                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                              <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"  aria-selected="true">Общ. сведения</a>
-                              <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"  aria-selected="false" >План. уч. работа</a>
-                              <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"  aria-selected="false" >Факт. вып. работа</a>
-                              <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"  aria-selected="false" >Ежемесяный Учет вып. уч. нагрузок</a>
-                              <a class="nav-item nav-link"  id="tab5" data-toggle="tab" href="#nav5" role="tab"  aria-selected="false">Метод. работа</a>
-                              <a class="nav-item nav-link" id="tab6" data-toggle="tab" href="#nav6" role="tab"  aria-selected="false">НИР</a>
-                              <a class="nav-item nav-link" id="tab7" data-toggle="tab" href="#nav7" role="tab"  aria-selected="false">Морально-психологическая работа</a>
-                              <a class="nav-item nav-link" id="tab8" data-toggle="tab" href="#nav8" role="tab"  aria-selected="false">Работа с иностр. слуш.</a>
-                              <a class="nav-item nav-link" id="tab9" data-toggle="tab" href="#nav9" role="tab"  aria-selected="false">Иные виды работ</a>
+                              <a class="nav-item nav-link active" id="tab1" data-toggle="tab" href="#nav1" role="tab"
+                                 aria-selected="true">Общ. сведения</a>
+                              <a class="nav-item nav-link" id="tab2" data-toggle="tab" href="#nav2" role="tab"
+                                 aria-selected="false">План. уч. работа</a>
+                              <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"
+                                 aria-selected="false">Факт. вып. работа</a>
+                              <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"
+                                 aria-selected="false">Ежемесяный Учет вып. уч. нагрузок</a>
+                              <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"
+                                 aria-selected="false">Метод. работа</a>
+                              <a class="nav-item nav-link" id="tab6" data-toggle="tab" href="#nav6" role="tab"
+                                 aria-selected="false">НИР</a>
+                              <a class="nav-item nav-link" id="tab7" data-toggle="tab" href="#nav7" role="tab"
+                                 aria-selected="false">Морально-психологическая работа</a>
+                              <a class="nav-item nav-link" id="tab8" data-toggle="tab" href="#nav8" role="tab"
+                                 aria-selected="false">Работа с иностр. слуш.</a>
+                              <a class="nav-item nav-link" id="tab9" data-toggle="tab" href="#nav9" role="tab"
+                                 aria-selected="false">Иные виды работ</a>
                            </div>
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
-                           <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel" >
+                           <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel">
                               <h3>Сведения об выполнении видов работ</h3>
                               <div class="flex-block" id="table-first">
                                  <!-- <hr class="mt-2"> -->
-                                 <div id="table" class="table-editable">
-                                     <form action="{%url 'mainTableSave'%}" method="post">
-                                     {% csrf_token %}
-                                    <table class="table table-bordered table-responsive-md table-striped text-center">
-                                       <thead>
-                                          <tr>
-                                             <th class="text-center">Виды работ</th>
-                                             <th class="text-center">1 сем</th>
-                                             <th class="text-center">2 сем</th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                          <tr>
-                                             <td class="pt-3-half">Учебная</td>
-                                             <td class="pt-3-half">{{mainForm.ucheb_r_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.ucheb_r_2_p}}</td>
-                                          </tr>
-                                          <!-- This is our clonable table line -->
-                                          <tr>
-                                             <td class="pt-3-half">Методическая</td>
-                                             <td class="pt-3-half">{{mainForm.ucheb_med_r_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.ucheb_med_r_2_p}}</td>
-                                          </tr>
-                                          <!-- This is our clonable table line -->
-                                          <tr>
-                                             <td class="pt-3-half">Научная и исследовательская</td>
-                                             <td class="pt-3-half">{{mainForm.nir_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.nir_2_p}}</td>
-                                          </tr>
-                                          <!-- This is our clonable table line -->
-                                          <tr>
-                                             <td class="pt-3-half">Работа по морально-психологическому обеспечению</td>
-                                             <td class="pt-3-half">{{mainForm.vr_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.vr_2_p}}</td>
-                                          </tr>
-                                          <tr>
-                                             <td class="pt-3-half">Работа с иностранными слушателями</td>
-                                             <td class="pt-3-half">{{mainForm.inr_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.inr_2_p}}</td>
-                                          </tr>
-                                          <tr>
-                                             <td class="pt-3-half">Иные виды работ</td>
-                                             <td class="pt-3-half">{{mainForm.dr_1_p}}</td>
-                                             <td class="pt-3-half">{{mainForm.dr_2_p}}</td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </div>
+                                 <form action="{%url 'mainTableSave'%}" method="post">
+                                    <div id="table" class="table-editable">
+
+                                       {% csrf_token %}
+                                       <table
+                                          class="table table-bordered table-responsive-md table-striped text-center">
+                                          <thead>
+                                             <tr>
+                                                <th class="text-center">Виды работ</th>
+                                                <th class="text-center">1 сем</th>
+                                                <th class="text-center">2 сем</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td class="pt-3-half">Учебная</td>
+                                                <td class="pt-3-half">{{mainForm.ucheb_r_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.ucheb_r_2_p}}</td>
+                                             </tr>
+                                             <!-- This is our clonable table line -->
+                                             <tr>
+                                                <td class="pt-3-half">Методическая</td>
+                                                <td class="pt-3-half">{{mainForm.ucheb_med_r_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.ucheb_med_r_2_p}}</td>
+                                             </tr>
+                                             <!-- This is our clonable table line -->
+                                             <tr>
+                                                <td class="pt-3-half">Научная и исследовательская</td>
+                                                <td class="pt-3-half">{{mainForm.nir_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.nir_2_p}}</td>
+                                             </tr>
+                                             <!-- This is our clonable table line -->
+                                             <tr>
+                                                <td class="pt-3-half">Работа по морально-психологическому обеспечению
+                                                </td>
+                                                <td class="pt-3-half">{{mainForm.vr_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.vr_2_p}}</td>
+                                             </tr>
+                                             <tr>
+                                                <td class="pt-3-half">Работа с иностранными слушателями</td>
+                                                <td class="pt-3-half">{{mainForm.inr_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.inr_2_p}}</td>
+                                             </tr>
+                                             <tr>
+                                                <td class="pt-3-half">Иные виды работ</td>
+                                                <td class="pt-3-half">{{mainForm.dr_1_p}}</td>
+                                                <td class="pt-3-half">{{mainForm.dr_2_p}}</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                    <div class="btn-right">
+                                       <button type="button" class="btn btn-outline-primary btn-save"
+                                          @click="save($event)" :disabled="dis">{buttontext}</button>
+                                       <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                    </div>
+
+                                 </form>
                                  <div class="btn-right">
-                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}">
-                                 <input type="hidden"name="year"  value="{{plan.year}}">
+                                    <input type="hidden" name="profile" value="{{profile1.user.username}}">
+                                    <input type="hidden" name="year" value="{{plan.year}}">
                                     {%if profile.role == 2 or profile.role == 3%}
-                                    <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                                   {%endif%}
-                                     <a href="{% url 'update_plan_summ' profile1.user.username plan.year%}">Обновить данные</a>
+
+                                    {%endif%}
+                                    <a href="{% url 'update_plan_summ' profile1.user.username plan.year%}">Обновить
+                                       данные</a>
                                  </div>
-                                     </form>
                               </div>
+
                            </div>
-                           <div class="tab-pane fade" id="nav2" role="tabpanel">
-                              <h3>Планируемая учебная работа за первое полугодие</h3>
-                              <hr class="mt-2">
-                              <form action="{%url 'saveT1' %}" method="post">
-                                  {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                        </div>
+                        <div class="tab-pane fade" id="nav2" role="tabpanel">
+                           <h3>Планируемая учебная работа за первое полугодие</h3>
+                           <hr class="mt-2">
+                           <form action="{%url 'saveT1' %}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                   <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Чтение лекций</div>
@@ -245,7 +282,8 @@
                                              <div class="rotate">Проверка аудиторной контрольной работы</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                использование ДОТ</div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Проверка практикума, реферата</div>
@@ -275,7 +313,8 @@
                                              <div class="rotate">Прием кандидатских экзаменов</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Общая учебная нагрузка</div>
@@ -286,32 +325,34 @@
                                        </tr>
                                     </thead>
                                     <tbody>
-                                            {{ formset.management_form }}
-                                           {%for form in formset%}
-                                           <tr>
-                                              {% for field in form %}
-                                              <td>{{ field }}</td>
-                                              {% endfor %}
-                                           </tr>
-                                           {%endfor%}
+                                       {{ formset.management_form }}
+                                       {%for form in formset%}
+                                       <tr>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
                                     </tbody>
                                  </table>
                               </div>
                               <!-- <div class="btn-right">
                                  <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
                               </div> -->
-                               </form>
-                              <h3>Планируемая учебная работа за второе полугодие</h3>
-                              <hr class="mt-2">
-                               <form action="{%url 'saveT2' %}" method="post">
-                                 {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                           <h3>Планируемая учебная работа за второе полугодие</h3>
+                           <hr class="mt-2">
+                           <form action="{%url 'saveT2' %}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
                                  <table class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Чтение лекций</div>
@@ -350,7 +391,8 @@
                                              <div class="rotate">Проверка аудиторной контрольной работы</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                использование ДОТ</div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Проверка практикума, реферата</div>
@@ -380,7 +422,8 @@
                                              <div class="rotate">Прием кандидатских экзаменов</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Общая учебная нагрузка</div>
@@ -392,40 +435,43 @@
                                     </thead>
                                     <tbody>
 
-                                     </tr>
-                                     {{ formset.management_form }}
-                                     {%for form in formset2%}
-                                     <tr>
-                                        {% for field in form %}
-                                        <td>{{ field }}</td>
-                                        {% endfor %}
-                                     </tr>
-                                     {%endfor%}
+                                       </tr>
+                                       {{ formset.management_form }}
+                                       {%for form in formset2%}
+                                       <tr>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
                                     </tbody>
                                  </table>
                               </div>
                               <!-- <div class="btn-right">
                                  <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
                               </div> -->
-                                    </form>
-                           </div>
+                           </form>
+                        </div>
 
-                           <div class="tab-pane fade" id="nav3" role="tabpanel">
-                              <h3>Фактически выполненная работа за первое полугодие</h3>
-                              <hr class="mt-2">
-                                   <form action="{%url 'saveT3' %}" method="post">
-                                    <div id="table" class="table-editable">
-                                    {% csrf_token %}
-                                       <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                        <div class="tab-pane fade" id="nav3" role="tabpanel">
+                           <h3>Фактически выполненная работа за первое полугодие</h3>
+                           <hr class="mt-2">
+                           <form action="{%url 'saveT3' %}" method="post">
+                              <div id="table" class="table-editable">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
 
-                                 <table id="form_set" class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id="form_set"
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center">
-
-                                         </th>
                                           <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+
+                                          </th>
+                                          <th class="text-center">
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Чтение лекций</div>
@@ -464,7 +510,8 @@
                                              <div class="rotate">Проверка аудиторной контрольной работы</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                использование ДОТ</div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Проверка практикума, реферата</div>
@@ -494,7 +541,8 @@
                                              <div class="rotate">Прием кандидатских экзаменов</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Общая учебная нагрузка</div>
@@ -506,26 +554,27 @@
                                     </thead>
                                     <tbody>
 
-                                      {{ formset3.management_form }}
-                                                       {%for form in formset3%}
-                                                        {%if form.instance.name != 'Итого за 1 полугодие:'%}
-                                                       <tr>
-                                                         <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                       {{ formset3.management_form }}
+                                       {%for form in formset3%}
+                                       {%if form.instance.name != 'Итого за 1 полугодие:'%}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
 
-                                                          {% for field in form %}
-                                                          <td>{{ field }}</td>
-                                                          {% endfor %}
-                                                       </tr>
-                                                        {%endif%}
-                                                       {%endfor%}
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endif%}
+                                       {%endfor%}
 
-                                                       <tr id="empty_form"  style="display:none;">
-                                                         <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                                         {% for field in formset3.empty_form %}
-                                                         <td>{{ field }}</td>
-                                                         {% endfor %}
-                                                      </tr>
-<!--
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset3.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       <!--
                                                        <tr id="empty_form"  style="display:none;">
                                                           <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                                           {% for field in formset3.empty_form %}
@@ -538,7 +587,8 @@
                                  <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset3%}
                                  {%if form.instance.name == 'Итого за 1 полугодие:'%}
-                                 <table  class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                 <table class="table table-bordered table-responsive-md table-striped text-center"
+                                    data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
                                     <tr>
                                        <td class="deleteRow" @click="deleteRow"></td>
                                        {% for field in form %}
@@ -550,25 +600,29 @@
                                  {% endfor %}
 
                                  <div class="btn-right">
-                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
                                     <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                                  </div>
                               </div>
-                             </form>
-                              <h3>Фактическая выполненная работа за второе полугодие</h3>
-                              <hr class="mt-2">
-                              <form action="{%url 'saveT4' %}" method="post">
+                           </form>
+                           <h3>Фактическая выполненная работа за второе полугодие</h3>
+                           <hr class="mt-2">
+                           <form action="{%url 'saveT4' %}" method="post">
                               {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id="form_set"class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id="form_set"
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center">
-
-                                         </th>
                                           <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+
+                                          </th>
+                                          <th class="text-center">
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Чтение лекций</div>
@@ -607,7 +661,8 @@
                                              <div class="rotate">Проверка аудиторной контрольной работы</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                использование ДОТ</div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Проверка практикума, реферата</div>
@@ -637,7 +692,8 @@
                                              <div class="rotate">Прием кандидатских экзаменов</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Общая учебная нагрузка</div>
@@ -648,30 +704,31 @@
                                        </tr>
                                     </thead>
                                     <tbody>
-                                     </tr>
-                                           {{ formset4.management_form }}
-                                           {%for form in formset4%}
-                                           {%if form.instance.name != 'Итого за 2 полугодие:' %}
-                                           {%if form.instance.name != 'Итого за учебный год:' %}
-                                           <tr>
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                              {% for field in form %}
-                                              <td>{{ field }}</td>
-                                              {% endfor %}
-                                           </tr>
-                                           {%endif%}
-                                           {%endif%}
-                                           {%endfor%}
+                                       </tr>
+                                       {{ formset4.management_form }}
+                                       {%for form in formset4%}
+                                       {%if form.instance.name != 'Итого за 2 полугодие:' %}
+                                       {%if form.instance.name != 'Итого за учебный год:' %}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endif%}
+                                       {%endif%}
+                                       {%endfor%}
 
 
-                                           <tr id="empty_form"  style="display:none;">
-                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                             {% for field in formset3.empty_form %}
-                                             <td>{{ field }}</td>
-                                             {% endfor %}
-                                          </tr>
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset3.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
 
-                                           <!-- <tr id="empty_form"  style="display:none;">
+                                       <!-- <tr id="empty_form"  style="display:none;">
                                               <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in formset4.empty_form %}
                                               <td>{{ field }}</td>
@@ -682,11 +739,12 @@
                                  <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset4%}
                                  {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
-                                 <table class="table table-bordered table-responsive-md table-striped text-center" data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                 <table class="table table-bordered table-responsive-md table-striped text-center"
+                                    data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
                                     <tr>
                                        <td class="deleteRow" @click="deleteRow"></td>
                                        {% for field in form %}
-                                       <td >{{ field }}</td>
+                                       <td>{{ field }}</td>
                                        {% endfor %}
                                     </tr>
                                  </table>
@@ -695,24 +753,27 @@
 
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
                               </div>
-                              </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav4" role="tabpanel">
-                              <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
-                              <hr class="mt-2">
-                              <form action="{%url 'saveMesyac'%}" method="post">
-                                {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav4" role="tabpanel">
+                           <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
+                           <hr class="mt-2">
+                           <form action="{%url 'saveMesyac'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
                                  <table class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы</div>
+                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Чтение лекций</div>
@@ -751,7 +812,8 @@
                                              <div class="rotate">Проверка аудиторной контрольной работы</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с использование ДОТ</div>
+                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                использование ДОТ</div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Проверка практикума, реферата</div>
@@ -781,7 +843,8 @@
                                              <div class="rotate">Прием кандидатских экзаменов</div>
                                           </th>
                                           <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта</div>
+                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                             </div>
                                           </th>
                                           <th class="text-center">
                                              <div class="rotate">Общая учебная нагрузка</div>
@@ -792,7 +855,7 @@
                                        </tr>
                                     </thead>
                                     <tbody>
-                                     {{ mesyac.management_form }}
+                                       {{ mesyac.management_form }}
                                        {%for form in mesyac%}
                                        <tr>
                                           {% for field in form %}
@@ -804,18 +867,21 @@
                                  </table>
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                              </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav5" role="tabpanel" >
-                              <h3>Методическая работа за первое полугодие</h3>
-                             <form action="{%url 'saveT5'%}" method="post">
-                             {% csrf_token %}
-                              <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav5" role="tabpanel">
+                           <h3>Методическая работа за первое полугодие</h3>
+                           <form action="{%url 'saveT5'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center first-col"></th>
@@ -830,14 +896,15 @@
                                        {{ formset5.management_form }}
                                        {%for form in formset5%}
                                        <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
 
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset5.empty_form %}
                                           <td>{{ field }}</td>
@@ -848,16 +915,19 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                             </form>
-                              <h3>Методическая работа за второе полугодие</h3>
-                            <form action="{%url 'saveT6'%}" method="post">
-                             {% csrf_token %}
-                                <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                           <h3>Методическая работа за второе полугодие</h3>
+                           <form action="{%url 'saveT6'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center first-col"></th>
@@ -872,13 +942,14 @@
                                        {{ formset6.management_form }}
                                        {%for form in formset6%}
                                        <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset6.empty_form %}
                                           <td>{{ field }}</td>
@@ -889,37 +960,41 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                             </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav6" role="tabpanel" >
-                              <h3>Научно исследовательская работа за первое полугодие</h3>
-                              <form action="{%url 'saveT7'%}" method="post">
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav6" role="tabpanel">
+                           <h3>Научно исследовательская работа за первое полугодие</h3>
+                           <form action="{%url 'saveT7'%}" method="post">
                               {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center"></th>
+                                          <th class="text-center"></th>
                                           <th class="text-center">Вид работы</th>
                                           <th class="text-center">Срок выполнения</th>
                                           <th class="text-center">Отметка о выполнении</th>
                                        </tr>
                                     </thead>
                                     <tbody>
-                                      {{ formset7.management_form }}
+                                       {{ formset7.management_form }}
                                        {%for form in formset7%}
                                        <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset7.empty_form %}
                                           <td>{{ field }}</td>
@@ -930,35 +1005,39 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                              </form>
-                              <h3>Научно исследовательская работа за второе полугодие</h3>
-                               <form action="{%url 'saveT8'%}" method="post">
+                           </form>
+                           <h3>Научно исследовательская работа за второе полугодие</h3>
+                           <form action="{%url 'saveT8'%}" method="post">
                               {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center"></th>
+                                          <th class="text-center"></th>
                                           <th class="text-center">Вид работы</th>
                                           <th class="text-center">Срок выполнения</th>
                                           <th class="text-center">Отметка о выполнении</th>
                                        </tr>
                                     </thead>
                                     <tbody>
-                                      {{ formset8.management_form }}
+                                       {{ formset8.management_form }}
                                        {%for form in formset8%}
                                        <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset8.empty_form %}
                                           <td>{{ field }}</td>
@@ -969,21 +1048,24 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                              </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav7" role="tabpanel" >
-                              <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
-                               <form action="{%url 'saveT9'%}" method="post">
-                               {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav7" role="tabpanel">
+                           <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
+                           <form action="{%url 'saveT9'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center"></th>
+                                          <th class="text-center"></th>
                                           <th class="text-center">Вид работы</th>
                                           <th class="text-center">Срок выполнения</th>
                                           <th class="text-center">Отметка о выполнении</th>
@@ -991,39 +1073,43 @@
                                     </thead>
                                     <tbody>
                                        {{ formset9.management_form }}
-                                   {%for form in formset9%}
-                                   <tr>
-                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                      {% for field in form %}
-                                      <td>{{ field }}</td>
-                                      {% endfor %}
-                                   </tr>
-                                   {%endfor%}
-                                   <tr id="empty_form"  style="display:none;">
-                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                    {% for field in formset9.empty_form %}
-                                    <td>{{ field }}</td>
-                                    {% endfor %}
-                                 </tr>
+                                       {%for form in formset9%}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset9.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 
+
                               </div>
-                               </form>
-                              <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
-                               <form action="{%url 'saveT10'%}" method="post">
-                               {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                           <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
+                           <form action="{%url 'saveT10'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center"></th>
+                                          <th class="text-center"></th>
                                           <th class="text-center">Вид работы</th>
                                           <th class="text-center">Срок выполнения</th>
                                           <th class="text-center">Отметка о выполнении</th>
@@ -1031,139 +1117,152 @@
                                     </thead>
                                     <tbody>
                                        {{ formset10.management_form }}
-                                   {%for form in formset10%}
-                                   <tr>
-                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                      {% for field in form %}
-                                      <td>{{ field }}</td>
-                                      {% endfor %}
-                                   </tr>
-                                   {%endfor%}
-                                   <tr id="empty_form"  style="display:none;">
-                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                    {% for field in formset10.empty_form %}
-                                    <td>{{ field }}</td>
-                                    {% endfor %}
-                                 </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 
-                              </div>
-                               </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav8" role="tabpanel" >
-                              <h3>Работа с иностранными слушателями за первое полугодие</h3>
-                               <form action="{%url 'saveT13'%}" method="post">
-                                {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
+                                       {%for form in formset10%}
                                        <tr>
-                                         <th></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                   {{ formset13.management_form }}
-                                   {%for form in formset13%}
-                                   <tr>
-                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                      {% for field in form %}
-                                      <td>{{ field }}</td>
-                                      {% endfor %}
-                                   </tr>
-                                   {%endfor%}
-                                   <tr id="empty_form"  style="display:none;">
-                                       <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                       {% for field in formset13.empty_form %}
-                                       <td>{{ field }}</td>
-                                       {% endfor %}
-                                    </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 
-                              </div>
-                               </form>
-                              <h3>Работа с иностранными слушателями за второе полугодие</h3>
-                              <form action="{%url 'saveT14'%}" method="post">
-                                {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                         <th></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                   {{ formset14.management_form }}
-                                   {%for form in formset14%}
-                                   <tr>
-                                      <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                      {% for field in form %}
-                                      <td>{{ field }}</td>
-                                      {% endfor %}
-                                   </tr>
-                                   {%endfor%}
-                                   <tr id="empty_form"  style="display:none;">
-                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                    {% for field in formset14.empty_form %}
-                                    <td>{{ field }}</td>
-                                    {% endfor %}
-                                 </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 
-                              </div>
-                               </form>
-                           </div>
-                           <div class="tab-pane fade" id="nav9" role="tabpanel" >
-                              <h3>Иные виды работ за первое полугодие</h3>
-                              <form action="{%url 'saveT11'%}" method="post">
-                          {% csrf_token %}
-                                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                         <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                      {{ formset11.management_form }}
-                                       {%for form in formset11%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset10.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                              </div>
+                              <div class="btn-right">
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+
+                              </div>
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav8" role="tabpanel">
+                           <h3>Работа с иностранными слушателями за первое полугодие</h3>
+                           <form action="{%url 'saveT13'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset13.management_form }}
+                                       {%for form in formset13%}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset13.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                              </div>
+                              <div class="btn-right">
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+
+                              </div>
+                           </form>
+                           <h3>Работа с иностранными слушателями за второе полугодие</h3>
+                           <form action="{%url 'saveT14'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset14.management_form }}
+                                       {%for form in formset14%}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                       <tr id="empty_form" style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset14.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                              </div>
+                              <div class="btn-right">
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
+                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+
+                              </div>
+                           </form>
+                        </div>
+                        <div class="tab-pane fade" id="nav9" role="tabpanel">
+                           <h3>Иные виды работ за первое полугодие</h3>
+                           <form action="{%url 'saveT11'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
+                              <div id="table" class="table-editable">
+                                 <table id='form_set'
+                                    class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                       <tr>
+                                          <th class="text-center"></th>
+                                          <th class="text-center">Вид работы</th>
+                                          <th class="text-center">Срок выполнения</th>
+                                          <th class="text-center">Отметка о выполнении</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       {{ formset11.management_form }}
+                                       {%for form in formset11%}
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                       {%endfor%}
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset11.empty_form %}
                                           <td>{{ field }}</td>
@@ -1174,36 +1273,40 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 
+
                               </div>
-                              </form>
-                              <h3>Иные виды работ за второе полугодие</h3>
-                               <form action="{%url 'saveT12'%}" method="post">
-                          {% csrf_token %}
-                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
+                           </form>
+                           <h3>Иные виды работ за второе полугодие</h3>
+                           <form action="{%url 'saveT12'%}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                 type="hidden" name="year" value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table id="form_set" class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id="form_set"
+                                    class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
-                                         <th class="text-center"></th>
+                                          <th class="text-center"></th>
                                           <th class="text-center">Вид работы</th>
                                           <th class="text-center">Срок выполнения</th>
                                           <th class="text-center">Отметка о выполнении</th>
                                        </tr>
                                     </thead>
                                     <tbody>
-                                      {{ formset12.management_form }}
+                                       {{ formset12.management_form }}
                                        {%for form in formset12%}
                                        <tr>
-                                          <td class="deleteRow" @click="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          <td class="deleteRow" @click="deleteRow" @click="deleteRow"><img
+                                                src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in form %}
                                           <td>{{ field }}</td>
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
-                                       <tr id="empty_form"  style="display:none;">
+                                       <tr id="empty_form" style="display:none;">
                                           <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                           {% for field in formset12.empty_form %}
                                           <td>{{ field }}</td>
@@ -1214,11 +1317,11 @@
                                  <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
+                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                    :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                               </div>
-                              </form>
-                           </div>
+                           </form>
                         </div>
                      </div>
                   </div>
@@ -1226,23 +1329,16 @@
             </div>
          </div>
       </div>
-      <v-snackbar
-         v-model="snackbar"
-         :timeout="timeout"
-         >
-         { text }
+   </div>
+   <v-snackbar v-model="snackbar" :timeout="timeout">
+      { text }
 
-         <template v-slot:action="{ attrs }">
-            <v-btn
-               color="blue"
-               text
-               v-bind="attrs"
-               @click="snackbar = false"
-            >
-               Закрыть
-            </v-btn>
-         </template>
-      </v-snackbar>
+      <template v-slot:action="{ attrs }">
+         <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+            Закрыть
+         </v-btn>
+      </template>
+   </v-snackbar>
    </div>
 </body>
 
@@ -1250,94 +1346,96 @@
 
 <script id='INLINE_PEN_JS_ID'>
    new Vue({
-   el: '#app',
-   delimiters:['{','}'],
-   vuetify: new Vuetify(),
-   data:{
-    dis:false,
-    snackbar: false,
-    buttontext:"Сохранить таблицу",
-    text: 'My timeout is set to 2000.',
-    timeout: 2000,
-   },
-   methods:{
-      addRow($event){
-         var form_idx = event.target.closest('form')
-         console.log(form_idx)
-          var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
-          // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
-          var empty_form=$(form_idx).find('#empty_form')
-          console.log(empty_form)
-          var newrow=$(empty_form).html().replace(/__prefix__/g, count);
-      
-          $('<tr>').appendTo($(form_idx).find('tbody'))
-          console.log(form_idx)
-          var table=$(form_idx).children('#table').children('#form_set');
-      
-          $(newrow).clone().appendTo($(table).find('tbody'))
-      
-          $('</tr>').appendTo($(form_idx).find('tbody'))
-          $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+      el: '#app',
+      delimiters: ['{', '}'],
+      vuetify: new Vuetify(),
+      data: {
+         dis: false,
+         snackbar: false,
+         buttontext: "Сохранить таблицу",
+         text: 'My timeout is set to 2000.',
+         timeout: 2000,
       },
-      deleteRow(){
-         var test=document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
-         console.log("del")
-         for (var i=0 ; i<test.length; i++) {
-            test[i].addEventListener('click', function(evt){
-               if(evt.target.closest('.deleteRow')) {
-               m=evt.target.closest('tr');
-               var i=m.getElementsByTagName('textarea')[0]
-               console.log($(i).val())
-               var t=""
-               $(i).val(t)
-               console.log($(i).val())
-               evt.target.closest('tr').style.display='none';
+      methods: {
+         addRow($event) {
+            var form_idx = event.target.closest('form')
+            console.log(form_idx)
+            var count = $(form_idx).find('#id_form-TOTAL_FORMS').val()
+            // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
+            var empty_form = $(form_idx).find('#empty_form')
+            console.log(empty_form)
+            var newrow = $(empty_form).html().replace(/__prefix__/g, count);
 
-               }
-            })}
-      },
-     save(event) {
-       this.dis=true
-       this.buttontext="Загрузка таблицы..."
-       try{var form = event.path[2]; var formData = new FormData(form);}
-       catch{var form = event.path[3];  var formData = new FormData(form);}
-       var pathpost = form.action
-       axios.post(pathpost, formData).then((response) => {
-       this.dis=false
-       this.buttontext="Сохранить таблицу"
-       this.text=response.data
-       this.snackbar=true
-       })
-       .catch((errors) => {
-          this.dis=false
-          this.buttontext="Сохранить таблицу"
-          this.text="Ошибка соединения"
-          this.snackbar=true
-          console.log(errors)
-       })
+            $('<tr>').appendTo($(form_idx).find('tbody'))
+            console.log(form_idx)
+            var table = $(form_idx).children('#table').children('#form_set');
 
-     },
-     saveShap(event){
-      this.dis=true
-       this.buttontext="Загрузка таблицы..."
-       form = event.path[4];
-       var formData = new FormData(form);
-       var pathpost = event.path[4].action
-       axios.post(pathpost, formData).then((response) => {
-       this.dis=false
-       this.buttontext="Сохранить таблицу"
-       this.text=response.data
-       this.snackbar=true
-       })
-       .catch((errors) => {
-          this.dis=false
-          this.buttontext="Сохранить таблицу"
-          this.text="Ошибка соединения"
-          this.snackbar=true
-          console.log(errors)
-       })
-     }
-   }
+            $(newrow).clone().appendTo($(table).find('tbody'))
+
+            $('</tr>').appendTo($(form_idx).find('tbody'))
+            $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+         },
+         deleteRow() {
+            var test = document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
+            console.log("del")
+            for (var i = 0; i < test.length; i++) {
+               test[i].addEventListener('click', function (evt) {
+                  if (evt.target.closest('.deleteRow')) {
+                     m = evt.target.closest('tr');
+                     var i = m.getElementsByTagName('textarea')[0]
+                     console.log($(i).val())
+                     var t = ""
+                     $(i).val(t)
+                     console.log($(i).val())
+                     evt.target.closest('tr').style.display = 'none';
+
+                  }
+               })
+            }
+         },
+         save(event) {
+            console.log(event)
+            this.dis = true
+            this.buttontext = "Загрузка таблицы..."
+            try { var form = event.path[2]; var formData = new FormData(form); }
+            catch{ var form = event.path[3]; var formData = new FormData(form); }
+            var pathpost = form.action
+            axios.post(pathpost, formData).then((response) => {
+               this.dis = false
+               this.buttontext = "Сохранить таблицу"
+               this.text = response.data
+               this.snackbar = true
+            })
+               .catch((errors) => {
+                  this.dis = false
+                  this.buttontext = "Сохранить таблицу"
+                  this.text = "Ошибка соединения"
+                  this.snackbar = true
+                  console.log(errors)
+               })
+
+         },
+         saveShap(event) {
+            this.dis = true
+            this.buttontext = "Загрузка таблицы..."
+            form = event.path[4];
+            var formData = new FormData(form);
+            var pathpost = event.path[4].action
+            axios.post(pathpost, formData).then((response) => {
+               this.dis = false
+               this.buttontext = "Сохранить таблицу"
+               this.text = response.data
+               this.snackbar = true
+            })
+               .catch((errors) => {
+                  this.dis = false
+                  this.buttontext = "Сохранить таблицу"
+                  this.text = "Ошибка соединения"
+                  this.snackbar = true
+                  console.log(errors)
+               })
+         }
+      }
    })
 </script>
 {% endblock %}
