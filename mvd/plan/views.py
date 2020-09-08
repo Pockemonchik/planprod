@@ -40,7 +40,7 @@ def detail_plan(request, slug, year):
         MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
         try:
             plan = get_object_or_404(Plan, prepod=profile1, year=year)
-
+            print(plan.prepod.fullname, plan.year)
         except Exception as e:
             print(e)
             return render(request, 'error.html', {'content': "Произошла ошибка, обратитесь к админитсрации"})
@@ -2187,16 +2187,24 @@ def update_plan_summ(request,year,slug):
     try:
         profile=Profile.objects.get(user__username=slug)
         predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=year)
+
         newplan=Plan.objects.get(prepod=profile,year=year)
+        ucheb_r_1_p = 0
+        ucheb_r_2_p = 0
         for p in predmets:
+            print(p.name)
             if p.name == "Итого за 1 полугодие:":
-                newplan.ucheb_med_r_1_p = p.ucheb_nagruzka
-                print(newplan.ucheb_med_r_1_p)
+                ucheb_r_1_p = p.ucheb_nagruzka
             if p.name == "Итого за 2 полугодие:":
-                newplan.ucheb_med_r_2_p = p.ucheb_nagruzka
-                print(newplan.ucheb_med_r_2_p)
+                ucheb_r_2_p = p.ucheb_nagruzka
         newplan.save()
-        return HttpResponse("Успешно сохранено")
+        return HttpResponse(
+            [
+             {
+                "1": ucheb_r_1_p,
+                "2": ucheb_r_2_p
+             }
+            ])
     except Exception as e:
         print(e)
         return HttpResponse("Ошибка при обновлении данных таблицы")
