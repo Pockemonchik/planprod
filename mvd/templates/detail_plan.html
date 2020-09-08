@@ -1291,9 +1291,9 @@
      save(event) {
        this.dis=true
        this.buttontext="Загрузка таблицы..."
-       form = event.path[2];
-       var formData = new FormData(form);
-       var pathpost = event.path[2].action
+       try{var form = event.path[2]; var formData = new FormData(form);}
+       catch{var form = event.path[3];  var formData = new FormData(form);}
+       var pathpost = form.action
        axios.post(pathpost, formData).then((response) => {
        this.dis=false
        this.buttontext="Сохранить таблицу"
