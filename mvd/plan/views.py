@@ -2184,6 +2184,7 @@ def saveMesyac(request):
     else:
         return redirect('log')
 
+@api_view(['GET'])
 def update_plan_summ(request,year,slug):
     try:
         profile=Profile.objects.get(user__username=slug)
