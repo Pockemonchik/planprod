@@ -1576,7 +1576,7 @@ def mainTableSave(request):
             if form.is_valid():
 
                 newplan = form.save(commit=False)
-                predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=year)
+                predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=request.POST['year'])
                 for p in predmets:
                     if p.name == "Итого за 1 полугодие:":
                         newplan.ucheb_med_r_1_p = p.ucheb_nagruzka
