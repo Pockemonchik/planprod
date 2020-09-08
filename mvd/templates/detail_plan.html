@@ -210,1118 +210,1132 @@
                                           </tbody>
                                        </table>
                                     </div>
+
+                                    <input type="hidden" name="profile" value="{{profile1.user.username}}">
+                                    <input type="hidden" name="year" value="{{plan.year}}">
+                                    {%if profile.role == 2 or profile.role == 3%}
                                     <div class="btn-right">
                                        <button type="button" class="btn btn-outline-primary btn-save"
                                           @click="save($event)" :disabled="dis">{buttontext}</button>
                                        <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                                     </div>
-
+                                    {%endif%}
                                  </form>
                                  <div class="btn-right">
-                                    <input type="hidden" name="profile" value="{{profile1.user.username}}">
-                                    <input type="hidden" name="year" value="{{plan.year}}">
-                                    {%if profile.role == 2 or profile.role == 3%}
-
-                                    {%endif%}
+                                    <button type="button" class="btn btn-outline-primary btn-save"
+                                       @click="updateFirstTable($event)" :disabled="dis">Обновитьданные</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                                     <a href="{% url 'update_plan_summ' profile1.user.username plan.year%}">Обновить
                                        данные</a>
                                  </div>
                               </div>
 
                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav2" role="tabpanel">
-                           <h3>Планируемая учебная работа за первое полугодие</h3>
-                           <hr class="mt-2">
-                           <form action="{%url 'saveT1' %}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Чтение лекций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение семинаров</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в группе</div>
-                                          </th>
-                                          <th class="text-center ">
-                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение текущих консультаций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием внеаудиторного чтени</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство практикой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство ВКР</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство курсовой работой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
-                                                использование ДОТ</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка практикума, реферата</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка лабораторной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием защит практик</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием зачетов устных</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка письменного зачета</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием вступительных испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием кандидатских экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Общая учебная нагрузка</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
-                                          </th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset.management_form }}
-                                       {%for form in formset%}
-                                       <tr>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                    </tbody>
-                                 </table>
-                              </div>
-                              <!-- <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                              </div> -->
-                           </form>
-                           <h3>Планируемая учебная работа за второе полугодие</h3>
-                           <hr class="mt-2">
-                           <form action="{%url 'saveT2' %}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Чтение лекций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение семинаров</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в группе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение текущих консультаций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием внеаудиторного чтени</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство практикой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство ВКР</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство курсовой работой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
-                                                использование ДОТ</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка практикума, реферата</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка лабораторной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием защит практик</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием зачетов устных</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка письменного зачета</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием вступительных испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием кандидатских экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Общая учебная нагрузка</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
-                                          </th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-
-                                       </tr>
-                                       {{ formset.management_form }}
-                                       {%for form in formset2%}
-                                       <tr>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                    </tbody>
-                                 </table>
-                              </div>
-                              <!-- <div class="btn-right">
-                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                              </div> -->
-                           </form>
-                        </div>
-
-                        <div class="tab-pane fade" id="nav3" role="tabpanel">
-                           <h3>Фактически выполненная работа за первое полугодие</h3>
-                           <hr class="mt-2">
-                           <form action="{%url 'saveT3' %}" method="post">
-                              <div id="table" class="table-editable">
+                           <div class="tab-pane fade" id="nav2" role="tabpanel">
+                              <h3>Планируемая учебная работа за первое полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT1' %}" method="post">
                                  {% csrf_token %}
                                  <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
                                     type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">
+                                                <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Чтение лекций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение семинаров</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в группе</div>
+                                             </th>
+                                             <th class="text-center ">
+                                                <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение текущих консультаций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием внеаудиторного чтени</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство практикой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство ВКР</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство курсовой работой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                   использование ДОТ</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка практикума, реферата</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка лабораторной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием защит практик</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием зачетов устных</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка письменного зачета</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием вступительных испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием кандидатских экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Общая учебная нагрузка</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                             </th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset.management_form }}
+                                          {%for form in formset%}
+                                          <tr>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <!-- <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div> -->
+                              </form>
+                              <h3>Планируемая учебная работа за второе полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT2' %}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">
+                                                <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Чтение лекций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение семинаров</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в группе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение текущих консультаций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием внеаудиторного чтени</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство практикой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство ВКР</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство курсовой работой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                   использование ДОТ</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка практикума, реферата</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка лабораторной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием защит практик</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием зачетов устных</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка письменного зачета</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием вступительных испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием кандидатских экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Общая учебная нагрузка</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                             </th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
 
-                                 <table id="form_set"
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center">
+                                          </tr>
+                                          {{ formset.management_form }}
+                                          {%for form in formset2%}
+                                          <tr>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <!-- <div class="btn-right">
+                                 <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
+                              </div> -->
+                              </form>
+                           </div>
 
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Чтение лекций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение семинаров</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в группе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение текущих консультаций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием внеаудиторного чтени</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство практикой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство ВКР</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство курсовой работой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
-                                                использование ДОТ</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка практикума, реферата</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка лабораторной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием защит практик</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием зачетов устных</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка письменного зачета</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием вступительных испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием кандидатских экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Общая учебная нагрузка</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
-                                          </th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
+                           <div class="tab-pane fade" id="nav3" role="tabpanel">
+                              <h3>Фактически выполненная работа за первое полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT3' %}" method="post">
+                                 <div id="table" class="table-editable">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                       type="hidden" name="year" value="{{plan.year}}">
 
-                                       {{ formset3.management_form }}
-                                       {%for form in formset3%}
-                                       {%if form.instance.name != 'Итого за 1 полугодие:'%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
+                                    <table id="form_set"
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">
 
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endif%}
-                                       {%endfor%}
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Чтение лекций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение семинаров</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в группе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение текущих консультаций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием внеаудиторного чтени</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство практикой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство ВКР</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство курсовой работой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                   использование ДОТ</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка практикума, реферата</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка лабораторной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием защит практик</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием зачетов устных</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка письменного зачета</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием вступительных испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием кандидатских экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Общая учебная нагрузка</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                             </th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
 
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset3.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       <!--
+                                          {{ formset3.management_form }}
+                                          {%for form in formset3%}
+                                          {%if form.instance.name != 'Итого за 1 полугодие:'%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endif%}
+                                          {%endfor%}
+
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset3.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          <!--
                                                        <tr id="empty_form"  style="display:none;">
                                                           <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                                           {% for field in formset3.empty_form %}
                                                           <td>{{ field }}</td>
                                                           {% endfor %}
                                                        </tr> -->
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                                 <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
-                                 {%for form in formset3%}
-                                 {%if form.instance.name == 'Итого за 1 полугодие:'%}
-                                 <table class="table table-bordered table-responsive-md table-striped text-center"
-                                    data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
-                                    <tr>
-                                       <td class="deleteRow" @click="deleteRow"></td>
-                                       {% for field in form %}
-                                       <td>{{ field }}</td>
-                                       {% endfor %}
-                                    </tr>
-                                 </table>
-                                 {%endif%}
-                                 {% endfor %}
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                    <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
+                                    {%for form in formset3%}
+                                    {%if form.instance.name == 'Итого за 1 полугодие:'%}
+                                    <table class="table table-bordered table-responsive-md table-striped text-center"
+                                       data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                    </table>
+                                    {%endif%}
+                                    {% endfor %}
 
+                                    <div class="btn-right">
+                                       <button type="button" class="btn btn-outline-primary btn-save"
+                                          @click="save($event)" :disabled="dis">{buttontext}</button>
+                                       <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                    </div>
+                                 </div>
+                              </form>
+                              <h3>Фактическая выполненная работа за второе полугодие</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveT4' %}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id="form_set"
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">
+
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Чтение лекций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение семинаров</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в группе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение текущих консультаций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием внеаудиторного чтени</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство практикой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство ВКР</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство курсовой работой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                   использование ДОТ</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка практикума, реферата</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка лабораторной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием защит практик</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием зачетов устных</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка письменного зачета</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием вступительных испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием кандидатских экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Общая учебная нагрузка</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                             </th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          </tr>
+                                          {{ formset4.management_form }}
+                                          {%for form in formset4%}
+                                          {%if form.instance.name != 'Итого за 2 полугодие:' %}
+                                          {%if form.instance.name != 'Итого за учебный год:' %}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endif%}
+                                          {%endif%}
+                                          {%endfor%}
+
+
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset3.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+
+                                          <!-- <tr id="empty_form"  style="display:none;">
+                                              <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                              {% for field in formset4.empty_form %}
+                                              <td>{{ field }}</td>
+                                              {% endfor %} -->
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                    <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
+                                    {%for form in formset4%}
+                                    {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
+                                    <table class="table table-bordered table-responsive-md table-striped text-center"
+                                       data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
+                                       <tr>
+                                          <td class="deleteRow" @click="deleteRow"></td>
+                                          {% for field in form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
+                                    </table>
+                                    {%endif%}
+                                    {% endfor %}
+
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav4" role="tabpanel">
+                              <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
+                              <hr class="mt-2">
+                              <form action="{%url 'saveMesyac'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center">
+                                                <div class="rotate">Наименование дисциплины, факультет курс,номер группы
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Чтение лекций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение семинаров</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в группе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение практических занятий в подгруппе</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение консультаций перед экзаменами</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проведение текущих консультаций</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием внеаудиторного чтени</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство практикой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство ВКР</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство курсовой работой</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка аудиторной контрольной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
+                                                   использование ДОТ</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка практикума, реферата</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка лабораторной работы</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием защит практик</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием зачетов устных</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Проверка письменного зачета</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием вступительных испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Прием кандидатских экзаменов</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Руководство адьюнктами, консультирование докторанта
+                                                </div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">Общая учебная нагрузка</div>
+                                             </th>
+                                             <th class="text-center">
+                                                <div class="rotate">В т.ч. аудиторная нагрузка</div>
+                                             </th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ mesyac.management_form }}
+                                          {%for form in mesyac%}
+                                          <tr>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                       </tbody>
+                                    </table>
+                                 </div>
                                  <div class="btn-right">
                                     <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
                                        :disabled="dis">{buttontext}</button>
                                     <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
                                  </div>
-                              </div>
-                           </form>
-                           <h3>Фактическая выполненная работа за второе полугодие</h3>
-                           <hr class="mt-2">
-                           <form action="{%url 'saveT4' %}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id="form_set"
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center">
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav5" role="tabpanel">
+                              <h3>Методическая работа за первое полугодие</h3>
+                              <form action="{%url 'saveT5'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center first-col"></th>
+                                             <th class="text-center first-col">Иностранцы</th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                             <th class="text-center first-col">Включить в рейтинг</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset5.management_form }}
+                                          {%for form in formset5%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
 
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Чтение лекций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение семинаров</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в группе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение текущих консультаций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием внеаудиторного чтени</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство практикой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство ВКР</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство курсовой работой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
-                                                использование ДОТ</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка практикума, реферата</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка лабораторной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием защит практик</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием зачетов устных</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка письменного зачета</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием вступительных испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием кандидатских экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Общая учебная нагрузка</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
-                                          </th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       </tr>
-                                       {{ formset4.management_form }}
-                                       {%for form in formset4%}
-                                       {%if form.instance.name != 'Итого за 2 полугодие:' %}
-                                       {%if form.instance.name != 'Итого за учебный год:' %}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endif%}
-                                       {%endif%}
-                                       {%endfor%}
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset5.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                              <h3>Методическая работа за второе полугодие</h3>
+                              <form action="{%url 'saveT6'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center first-col"></th>
+                                             <th class="text-center first-col">Иностранцы</th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                             <th class="text-center first-col">Включить в рейтинг</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset6.management_form }}
+                                          {%for form in formset6%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset6.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav6" role="tabpanel">
+                              <h3>Научно исследовательская работа за первое полугодие</h3>
+                              <form action="{%url 'saveT7'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset7.management_form }}
+                                          {%for form in formset7%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset7.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                              <h3>Научно исследовательская работа за второе полугодие</h3>
+                              <form action="{%url 'saveT8'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset8.management_form }}
+                                          {%for form in formset8%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset8.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav7" role="tabpanel">
+                              <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
+                              <form action="{%url 'saveT9'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset9.management_form }}
+                                          {%for form in formset9%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset9.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
+                                 </div>
+                              </form>
+                              <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
+                              <form action="{%url 'saveT10'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset10.management_form }}
+                                          {%for form in formset10%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset10.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset3.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav8" role="tabpanel">
+                              <h3>Работа с иностранными слушателями за первое полугодие</h3>
+                              <form action="{%url 'saveT13'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset13.management_form }}
+                                          {%for form in formset13%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset13.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
-                                       <!-- <tr id="empty_form"  style="display:none;">
-                                              <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                              {% for field in formset4.empty_form %}
-                                              <td>{{ field }}</td>
-                                              {% endfor %} -->
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                                 <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
-                                 {%for form in formset4%}
-                                 {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
-                                 <table class="table table-bordered table-responsive-md table-striped text-center"
-                                    data-tablesaw-mode="columntoggle" data-tablesaw-minimapp>
-                                    <tr>
-                                       <td class="deleteRow" @click="deleteRow"></td>
-                                       {% for field in form %}
-                                       <td>{{ field }}</td>
-                                       {% endfor %}
-                                    </tr>
-                                 </table>
-                                 {%endif%}
-                                 {% endfor %}
+                                 </div>
+                              </form>
+                              <h3>Работа с иностранными слушателями за второе полугодие</h3>
+                              <form action="{%url 'saveT14'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset14.management_form }}
+                                          {%for form in formset14%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset14.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="tab-pane fade" id="nav9" role="tabpanel">
+                              <h3>Иные виды работ за первое полугодие</h3>
+                              <form action="{%url 'saveT11'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id='form_set'
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset11.management_form }}
+                                          {%for form in formset11%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset11.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
 
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav4" role="tabpanel">
-                           <h3>Ежемесяный учет выполнения учебных нагрузок</h3>
-                           <hr class="mt-2">
-                           <form action="{%url 'saveMesyac'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center">
-                                             <div class="rotate">Наименование дисциплины, факультет курс,номер группы
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Чтение лекций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение семинаров</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в группе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение практических занятий в подгруппе</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение учений, деловых игр, круглых столов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение консультаций перед экзаменами</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проведение текущих консультаций</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием внеаудиторного чтени</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство практикой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство ВКР</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство курсовой работой</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка аудиторной контрольной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка домашней контрольной работы, в т.ч. с
-                                                использование ДОТ</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка практикума, реферата</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка лабораторной работы</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием защит практик</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием зачетов устных</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Проверка письменного зачета</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием вступительных испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием ГИА, защит ВКР, итоговых испытаний</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Прием кандидатских экзаменов</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Руководство адьюнктами, консультирование докторанта
-                                             </div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">Общая учебная нагрузка</div>
-                                          </th>
-                                          <th class="text-center">
-                                             <div class="rotate">В т.ч. аудиторная нагрузка</div>
-                                          </th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ mesyac.management_form }}
-                                       {%for form in mesyac%}
-                                       <tr>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                    </tbody>
-                                 </table>
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav5" role="tabpanel">
-                           <h3>Методическая работа за первое полугодие</h3>
-                           <form action="{%url 'saveT5'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center first-col"></th>
-                                          <th class="text-center first-col">Иностранцы</th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                          <th class="text-center first-col">Включить в рейтинг</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset5.management_form }}
-                                       {%for form in formset5%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset5.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
-                           <h3>Методическая работа за второе полугодие</h3>
-                           <form action="{%url 'saveT6'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center first-col"></th>
-                                          <th class="text-center first-col">Иностранцы</th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                          <th class="text-center first-col">Включить в рейтинг</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset6.management_form }}
-                                       {%for form in formset6%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset6.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav6" role="tabpanel">
-                           <h3>Научно исследовательская работа за первое полугодие</h3>
-                           <form action="{%url 'saveT7'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset7.management_form }}
-                                       {%for form in formset7%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset7.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
-                           <h3>Научно исследовательская работа за второе полугодие</h3>
-                           <form action="{%url 'saveT8'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset8.management_form }}
-                                       {%for form in formset8%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset8.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav7" role="tabpanel">
-                           <h3>Работа по морально-психологическому обеспечению за первое полугодие</h3>
-                           <form action="{%url 'saveT9'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset9.management_form }}
-                                       {%for form in formset9%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset9.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-
-                              </div>
-                           </form>
-                           <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
-                           <form action="{%url 'saveT10'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset10.management_form }}
-                                       {%for form in formset10%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset10.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav8" role="tabpanel">
-                           <h3>Работа с иностранными слушателями за первое полугодие</h3>
-                           <form action="{%url 'saveT13'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset13.management_form }}
-                                       {%for form in formset13%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset13.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-
-                              </div>
-                           </form>
-                           <h3>Работа с иностранными слушателями за второе полугодие</h3>
-                           <form action="{%url 'saveT14'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset14.management_form }}
-                                       {%for form in formset14%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset14.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-
-                              </div>
-                           </form>
-                        </div>
-                        <div class="tab-pane fade" id="nav9" role="tabpanel">
-                           <h3>Иные виды работ за первое полугодие</h3>
-                           <form action="{%url 'saveT11'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id='form_set'
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset11.management_form }}
-                                       {%for form in formset11%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset11.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-
-                              </div>
-                           </form>
-                           <h3>Иные виды работ за второе полугодие</h3>
-                           <form action="{%url 'saveT12'%}" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
-                                 type="hidden" name="year" value="{{plan.year}}">
-                              <div id="table" class="table-editable">
-                                 <table id="form_set"
-                                    class="table table-bordered table-responsive-md table-striped text-center">
-                                    <thead>
-                                       <tr>
-                                          <th class="text-center"></th>
-                                          <th class="text-center">Вид работы</th>
-                                          <th class="text-center">Срок выполнения</th>
-                                          <th class="text-center">Отметка о выполнении</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       {{ formset12.management_form }}
-                                       {%for form in formset12%}
-                                       <tr>
-                                          <td class="deleteRow" @click="deleteRow" @click="deleteRow"><img
-                                                src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                       {%endfor%}
-                                       <tr id="empty_form" style="display:none;">
-                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
-                                          {% for field in formset12.empty_form %}
-                                          <td>{{ field }}</td>
-                                          {% endfor %}
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
-                              </div>
-                              <div class="btn-right">
-                                 <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
-                                    :disabled="dis">{buttontext}</button>
-                                 <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                              </div>
-                           </form>
+                                 </div>
+                              </form>
+                              <h3>Иные виды работ за второе полугодие</h3>
+                              <form action="{%url 'saveT12'%}" method="post">
+                                 {% csrf_token %}
+                                 <input type="hidden" name="profile" value="{{profile1.user.username}}"><input
+                                    type="hidden" name="year" value="{{plan.year}}">
+                                 <div id="table" class="table-editable">
+                                    <table id="form_set"
+                                       class="table table-bordered table-responsive-md table-striped text-center">
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center"></th>
+                                             <th class="text-center">Вид работы</th>
+                                             <th class="text-center">Срок выполнения</th>
+                                             <th class="text-center">Отметка о выполнении</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          {{ formset12.management_form }}
+                                          {%for form in formset12%}
+                                          <tr>
+                                             <td class="deleteRow" @click="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                          {%endfor%}
+                                          <tr id="empty_form" style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             </td>
+                                             {% for field in formset12.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
+                                 </div>
+                                 <div class="btn-right">
+                                    <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)"
+                                       :disabled="dis">{buttontext}</button>
+                                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                 </div>
+                              </form>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -1329,16 +1343,15 @@
             </div>
          </div>
       </div>
-   </div>
-   <v-snackbar v-model="snackbar" :timeout="timeout">
-      { text }
+      <v-snackbar v-model="snackbar" :timeout="timeout">
+         { text }
 
-      <template v-slot:action="{ attrs }">
-         <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-            Закрыть
-         </v-btn>
-      </template>
-   </v-snackbar>
+         <template v-slot:action="{ attrs }">
+            <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+               Закрыть
+            </v-btn>
+         </template>
+      </v-snackbar>
    </div>
 </body>
 
@@ -1357,6 +1370,21 @@
          timeout: 2000,
       },
       methods: {
+         updateFirstTable($event) {
+            this.dis = true
+            pathpost = "{% url 'update_plan_summ' profile1.user.username plan.year%}"
+            console.log(event.path[2].children[0][1])
+            axios.get(pathpost).then((response) => {
+               console.log(response.data)
+               event.path[2].children[0][1] = response.data.first
+               event.path[2].children[0][2] = response.data.second
+               this.dis = false
+            }).catch((errors) => {
+               this.dis = false
+               this.text = "Ошибка соединения"
+               this.snackbar = true
+            })
+         },
          addRow($event) {
             var form_idx = event.target.closest('form')
             console.log(form_idx)
