@@ -34,7 +34,7 @@
                   <div class="row pr-3 pl-3">
                     <v-select :items="resultKafGraph" label="Кафедра" standard @change="onChangeGraph($event)" v-model="kafGraph"></v-select>
                     <v-select :items="dolzhnost" label="Должность" standard @change="onChangeGraph($event)" v-model="dolGraph"></v-select>
-                    <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
+                    <v-text-field class="anim" label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
                     <v-btn @click="getRatingAllCafedras()">Рейтинг по кафедрам</v-btn>
                   </div>
                   <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
@@ -248,18 +248,28 @@ Vue.component('supertable',{
             }
           },
           getRatingAllCafedras(){
-            axios.get('http://127.0.0.1:8000/rating/graph', {params: {kafedra:'Рейтинг по кафедрам',year:this.yearGraph}}).then(response => {
+            if (this.yearGraph != ''){
+              axios.get('http://127.0.0.1:8000/rating/graph', {params: {kafedra:'Рейтинг по кафедрам',year:this.yearGraph}}).then(response => {
               console.log(response.data)
-              debugger;
               this.updateSeries(response.data)
             })
             axios.get('http://127.0.0.1:8000/rating/kafedras/').then(response => {
               var fio=[]
+              console.log(response.data)
               response.data.forEach(element => {
-                fio.push(element.data)
+                fio.push(element.fullname)
+                console.log(element.fullname)
               });
-              this.updateTheme(response.data)
+              this.updateTheme(fio)
             })
+            }
+            else{
+              let qwer = event.path[2].children[2]
+              console.log()
+              qwer.classList.add('active');
+              setTimeout(() => qwer.classList.remove('active'), 1000);
+              // setTimeout(,1000);
+            }
           }
         },
 
