@@ -137,6 +137,8 @@
                               <div class="flex-block" id="table-first">
                                  <!-- <hr class="mt-2"> -->
                                  <div id="table" class="table-editable">
+                                     <form action="{%url 'mainTableSave'%}" method="post">
+                                     {% csrf_token %}
                                     <table class="table table-bordered table-responsive-md table-striped text-center">
                                        <thead>
                                           <tr>
@@ -148,43 +150,49 @@
                                        <tbody>
                                           <tr>
                                              <td class="pt-3-half">Учебная</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.ucheb_r_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.ucheb_r_2_p}}</td>
                                           </tr>
                                           <!-- This is our clonable table line -->
                                           <tr>
                                              <td class="pt-3-half">Методическая</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.ucheb_med_r_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.ucheb_med_r_2_p}}</td>
                                           </tr>
                                           <!-- This is our clonable table line -->
                                           <tr>
                                              <td class="pt-3-half">Научная и исследовательская</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.nir_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.nir_2_p}}</td>
                                           </tr>
                                           <!-- This is our clonable table line -->
                                           <tr>
                                              <td class="pt-3-half">Работа по морально-психологическому обеспечению</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.vr_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.vr_2_p}}</td>
                                           </tr>
                                           <tr>
                                              <td class="pt-3-half">Работа с иностранными слушателями</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.inr_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.inr_2_p}}</td>
                                           </tr>
                                           <tr>
                                              <td class="pt-3-half">Иные виды работ</td>
-                                             <td class="pt-3-half"></td>
-                                             <td class="pt-3-half"></td>
+                                             <td class="pt-3-half">{{mainForm.dr_1_p}}</td>
+                                             <td class="pt-3-half">{{mainForm.dr_2_p}}</td>
                                           </tr>
                                        </tbody>
                                     </table>
                                  </div>
                                  <div class="btn-right">
+                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}">
+                                 <input type="hidden"name="year"  value="{{plan.year}}">
+                                    {%if profile.role == 2 or profile.role == 3%}
                                     <button type="submit" class="btn btn-outline-primary btn-save">Сохранить таблицу</button>
-                                 </div>             
+                                   {%endif%}
+                                     <a href="{% url 'update_plan_summ' profile1.user.username plan.year%}">Обновить данные</a>
+                                 </div>
+                                     </form>
                               </div>
                            </div>
                            <div class="tab-pane fade" id="nav2" role="tabpanel">

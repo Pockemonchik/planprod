@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rating.models import URR, ORMR, PCR, MRR, Rating
 from rating.views import setplace
 from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, VR, DR, UMR, INR, Nagruzka, DocInfo, ProfileInfo
-from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form,Table4Form, Table6Form, Table5Form, MAinTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
+from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form, Table4Form, Table6Form, Table5Form, MainTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod
@@ -38,7 +38,13 @@ def detail_plan(request, slug, year):
         Table5FormSet = modelformset_factory(DR, form=Table5Form, extra=5)
         Table6FormSet = modelformset_factory(INR, form=Table6Form, extra=5)
         MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
-        plan = get_object_or_404(Plan, prepod=profile1, year=year)
+        try:
+            plan = get_object_or_404(Plan, prepod=profile1, year=year)
+
+        except Exception as e:
+            print(e)
+            return render(request, 'error.html', {'content': "Произошла ошибка, обратитесь к админитсрации"})
+
         try:
             querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
 
@@ -51,7 +57,7 @@ def detail_plan(request, slug, year):
                     queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
         except:
             mesyac = MesyacFormSet()
-        mainForm = MAinTableForm(instance=plan)
+        mainForm = MainTableForm(instance=plan)
         docForm = docUploadForm()
         formset = Table0FormSet(
             queryset=Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
@@ -1561,35 +1567,16 @@ def mainTableSave(request):
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
-            plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
-            # заполняем
-            # try:
-            #
-            #     form=MAinTableForm(request.POST,instance=plan)
-            #     print(form.errors)
-            #     if form.is_valid():
-            #         newplan=form.save(commit=False)
-            #         predmets=Predmet.objects.filter(prepodavatel=profile)
-            #         for p in predmets:
-            #             if p.name=="Итого за 1 полугодие:":
-            #                 newplan.ucheb_med_r_1_p=p.ucheb_nagruzka
-            #             if p.name=="Итого за 2 полугодие:":
-            #                 newplan.ucheb_med_r_2_p=p.ucheb_nagruzka
-            #         newplan.year=request.POST['year']
-            #         newplan.name=plan.name
-            #         newplan.save()
-            #
-            #     else:
-            #         print('blen')
-            # except:
-            #     return render(request,'error.html',{'content':""})
-
-            form = MAinTableForm(request.POST)
+            try:
+                 plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
+            except Exception as e:
+                Plan.objects.filter(prepod=profile,year=request.POST['year']).delete()
+            form = MainTableForm(request.POST)
             print(form.errors)
             if form.is_valid():
 
                 newplan = form.save(commit=False)
-                predmets = Predmet.objects.filter(prepodavatel=profile, status=True)
+                predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=year)
                 for p in predmets:
                     if p.name == "Итого за 1 полугодие:":
                         newplan.ucheb_med_r_1_p = p.ucheb_nagruzka
@@ -1604,14 +1591,14 @@ def mainTableSave(request):
 
                 newplan.save()
                 plan.delete()
-
-
+                return HttpResponse("Успешно сохранено")
             else:
-                print('blen')
-
-        return redirect('detail_plan', slug=profile.user.username, year=request.POST['year'])
+                return HttpResponse("Ошибка при сохранении таблицы")
     else:
         return redirect('log')
+
+
+
 
 def saveT1(request):
     if request.user.is_authenticated:
@@ -2196,4 +2183,21 @@ def saveMesyac(request):
     else:
         return redirect('log')
 
+def update_plan_summ(request,year,slug):
+    try:
+        profile=Profile.objects.get(user__username=slug)
+        predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=year)
+        newplan=Plan.objects.get(prepod=profile,year=year)
+        for p in predmets:
+            if p.name == "Итого за 1 полугодие:":
+                newplan.ucheb_med_r_1_p = p.ucheb_nagruzka
+                print(newplan.ucheb_med_r_1_p)
+            if p.name == "Итого за 2 полугодие:":
+                newplan.ucheb_med_r_2_p = p.ucheb_nagruzka
+                print(newplan.ucheb_med_r_2_p)
+        newplan.save()
+        return HttpResponse("Успешно сохранено")
+    except Exception as e:
+        print(e)
+        return HttpResponse("Ошибка при обновлении данных таблицы")
 

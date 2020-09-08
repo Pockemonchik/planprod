@@ -69,7 +69,7 @@ urlpatterns = [
 
     url(r'^nagruzkaSave/$', views.nagruzkaSave,name='nagruzkaSave'),
     url(r'^shapka/$', views.shapka,name='shapka'),
-
+    url(r'^update_plan_summ/(?P<slug>[\w-]+)/(?P<year>\d{4})$', views.update_plan_summ,name='update_plan_summ'),
 
     url(r'^deltable/$', views.deltable,name='deltable'),
 
