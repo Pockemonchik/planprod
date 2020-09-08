@@ -150,6 +150,19 @@ Vue.component('supertable',{
             value => (value && value.length == 4) || '4 цифры'
           ],
 
+          series: [{
+                          name: 'Учебная работа',
+                          data: []
+                        }, {
+                          name: 'Организационно методическая работа',
+                          data: []
+                        }, {
+                          name: 'Подготовка учебно-методических материалов',
+                          data: []
+                        }, {
+                          name: 'Педагогический контроль',
+                          data: []
+                        }],
 
           options: {
             chart: {
@@ -216,6 +229,7 @@ Vue.component('supertable',{
             if (this.yearGraph!="" && this.dolGraph!="" && this.kafGraph!=""){
               axios.get(urlgraph, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
                 this.updateSeries(response.data)
+                console.log(response.data)
               })
               axios.get(urlgraphMan, {params: {kafedra:this.kafGraph,dolzhnost:this.dolGraph,year:this.yearGraph}}).then(response => {
                 var fullFio=[]
@@ -234,19 +248,17 @@ Vue.component('supertable',{
             }
           },
           getRatingAllCafedras(){
-            axios.get('127.0.0.1:8000/kafedras/').then(response => {
+            axios.get('http://127.0.0.1:8000/rating/graph', {params: {kafedra:'Рейтинг по кафедрам',year:this.yearGraph}}).then(response => {
+              console.log(response.data)
+              debugger;
               this.updateSeries(response.data)
             })
-            axios.get('127.0.0.1:8000/rating/graph?kafedra=Рейтинг по кафедрам').then(response => {
+            axios.get('http://127.0.0.1:8000/rating/kafedras/').then(response => {
+              var fio=[]
               response.data.forEach(element => {
-                fullFio.push(element.fullname)
+                fio.push(element.data)
               });
-              fullFio.forEach(element => {
-                var t = element.split (' ');
-                fio.push(t [0] + ' ' + t [1].charAt(0) + '. ' + t [2].charAt (0) + '.')
-              });
-              console.log(fio)
-              this.updateTheme(fio)
+              this.updateTheme(response.data)
             })
           }
         },
