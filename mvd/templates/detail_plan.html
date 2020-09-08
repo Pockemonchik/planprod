@@ -405,8 +405,8 @@
                            <div class="tab-pane fade" id="nav3" role="tabpanel">
                               <h3>Фактически выполненная работа за первое полугодие</h3>
                               <hr class="mt-2">
-                                 <div id="table" class="table-editable">
                                    <form action="{%url 'saveT3' %}" method="post">
+                                    <div id="table" class="table-editable">
                                     {% csrf_token %}
                                        <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
 
@@ -510,6 +510,13 @@
                                                        </tr>
                                                         {%endif%}
                                                        {%endfor%}
+
+                                                       <tr id="empty_form"  style="display:none;">
+                                                         <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                                         {% for field in formset3.empty_form %}
+                                                         <td>{{ field }}</td>
+                                                         {% endfor %}
+                                                      </tr>
 <!--
                                                        <tr id="empty_form"  style="display:none;">
                                                           <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
@@ -519,6 +526,7 @@
                                                        </tr> -->
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                                  <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset3%}
                                  {%if form.instance.name == 'Итого за 1 полугодие:'%}
@@ -646,6 +654,15 @@
                                            {%endif%}
                                            {%endif%}
                                            {%endfor%}
+
+
+                                           <tr id="empty_form"  style="display:none;">
+                                             <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                             {% for field in formset3.empty_form %}
+                                             <td>{{ field }}</td>
+                                             {% endfor %}
+                                          </tr>
+
                                            <!-- <tr id="empty_form"  style="display:none;">
                                               <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
                                               {% for field in formset4.empty_form %}
@@ -653,6 +670,7 @@
                                               {% endfor %} -->
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                                  <!-- <img style="margin-left:15px" class="add_more" src="{% static "admin1/images/plus.png" %}"><br> -->
                                  {%for form in formset4%}
                                  {%if form.instance.name == 'Итого за 2 полугодие:' or form.instance.name == 'Итого за учебный год:'%}
@@ -666,6 +684,7 @@
                                  </table>
                                  {%endif%}
                                  {% endfor %}
+
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
@@ -788,7 +807,7 @@
                              {% csrf_token %}
                               <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center first-col"></th>
@@ -810,13 +829,19 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset5.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
                               </div>
                              </form>
                               <h3>Методическая работа за второе полугодие</h3>
@@ -824,7 +849,7 @@
                              {% csrf_token %}
                                 <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                           <th class="text-center first-col"></th>
@@ -845,13 +870,19 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset6.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
                               </div>
                              </form>
                            </div>
@@ -861,7 +892,7 @@
                               {% csrf_token %}
                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -880,13 +911,19 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset7.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
                               </div>
                               </form>
                               <h3>Научно исследовательская работа за второе полугодие</h3>
@@ -894,7 +931,7 @@
                               {% csrf_token %}
                                    <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -913,13 +950,19 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset8.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
                               </div>
                               </form>
                            </div>
@@ -929,7 +972,7 @@
                                {% csrf_token %}
                                    <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -948,13 +991,20 @@
                                       {% endfor %}
                                    </tr>
                                    {%endfor%}
+                                   <tr id="empty_form"  style="display:none;">
+                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                    {% for field in formset9.empty_form %}
+                                    <td>{{ field }}</td>
+                                    {% endfor %}
+                                 </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
+                                 
                               </div>
                                </form>
                               <h3>Работа по морально-психологическому обеспечению за второе полугодие</h3>
@@ -962,7 +1012,7 @@
                                {% csrf_token %}
                                    <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -981,13 +1031,20 @@
                                       {% endfor %}
                                    </tr>
                                    {%endfor%}
+                                   <tr id="empty_form"  style="display:none;">
+                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                    {% for field in formset10.empty_form %}
+                                    <td>{{ field }}</td>
+                                    {% endfor %}
+                                 </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
+                                 
                               </div>
                                </form>
                            </div>
@@ -997,7 +1054,7 @@
                                 {% csrf_token %}
                                    <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th></th>
@@ -1016,13 +1073,20 @@
                                       {% endfor %}
                                    </tr>
                                    {%endfor%}
+                                   <tr id="empty_form"  style="display:none;">
+                                       <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                       {% for field in formset13.empty_form %}
+                                       <td>{{ field }}</td>
+                                       {% endfor %}
+                                    </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
+                                 
                               </div>
                                </form>
                               <h3>Работа с иностранными слушателями за второе полугодие</h3>
@@ -1030,7 +1094,7 @@
                                 {% csrf_token %}
                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th></th>
@@ -1049,13 +1113,20 @@
                                       {% endfor %}
                                    </tr>
                                    {%endfor%}
+                                   <tr id="empty_form"  style="display:none;">
+                                    <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                    {% for field in formset14.empty_form %}
+                                    <td>{{ field }}</td>
+                                    {% endfor %}
+                                 </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
+                                 
                               </div>
                                </form>
                            </div>
@@ -1065,7 +1136,7 @@
                           {% csrf_token %}
                                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id='form_set' class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -1084,13 +1155,20 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset11.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
+                                 
                               </div>
                               </form>
                               <h3>Иные виды работ за второе полугодие</h3>
@@ -1098,7 +1176,7 @@
                           {% csrf_token %}
                                    <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
                               <div id="table" class="table-editable">
-                                 <table class="table table-bordered table-responsive-md table-striped text-center">
+                                 <table id="form_set" class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                        <tr>
                                          <th class="text-center"></th>
@@ -1117,13 +1195,19 @@
                                           {% endfor %}
                                        </tr>
                                        {%endfor%}
+                                       <tr id="empty_form"  style="display:none;">
+                                          <td class="deleteRow"><img src="{% static "admin1/images/minus.png" %}"></td>
+                                          {% for field in formset12.empty_form %}
+                                          <td>{{ field }}</td>
+                                          {% endfor %}
+                                       </tr>
                                     </tbody>
                                  </table>
+                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow($event)">
                               </div>
                               <div class="btn-right">
                                  <button type="button" class="btn btn-outline-primary btn-save" @click="save($event)" :disabled="dis">{buttontext}</button>
                                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                 <img src="{% static "admin1/images/plus.png" %}" @click="addRow()">
                               </div>
                               </form>
                            </div>
@@ -1153,58 +1237,9 @@
       </v-snackbar>
    </div>
 </body>
-<script>
-   $(".textpole").autogrow();
-   $(".otmetka").autogrow();
-   $('.add_more').click(function(ev) {
-       // var form_idx = ev.target.closest('table').$('#id_form-TOTAL_FORMS').val();
-       var form_idx = ev.target.closest('form')
-           console.log("add")
-       var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
-       // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
-       var empty_form=$(form_idx).find('#empty_form')
-       var newrow=$(empty_form).html().replace(/__prefix__/g, count);
-
-       $('<tr>').appendTo($(form_idx).find('tbody'))
-       var table=$(form_idx).children('#form_set');
-
-       $(newrow).clone().appendTo($(table).find('tbody'))
-
-       $('</tr>').appendTo($(form_idx).find('tbody'))
-       $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
 
 
 
-   });
-
-
-
-
-
-</script>
-<script type="text/javascript">
-   // var test=document.getElementById("form_set")
-     var test=document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
-    console.log("del")
-     for (var i=0 ; i<test.length; i++) {
-       test[i].addEventListener('click', function(evt){
-         if(evt.target.closest('.deleteRow')) {
-           m=evt.target.closest('tr');
-           var i=m.getElementsByTagName('textarea')[0]
-           console.log($(i).val())
-           var t=""
-           $(i).val(t)
-           console.log($(i).val())
-           evt.target.closest('tr').style.display='none';
-
-         }
-       })}
-
-
-
-
-
-</script>
 <script id='INLINE_PEN_JS_ID'>
    new Vue({
    el: '#app',
@@ -1218,6 +1253,24 @@
     timeout: 2000,
    },
    methods:{
+      addRow($event){
+         var form_idx = event.target.closest('form')
+         console.log(form_idx)
+          var count=$(form_idx).find('#id_form-TOTAL_FORMS').val()
+          // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
+          var empty_form=$(form_idx).find('#empty_form')
+          console.log(empty_form)
+          var newrow=$(empty_form).html().replace(/__prefix__/g, count);
+      
+          $('<tr>').appendTo($(form_idx).find('tbody'))
+          console.log(form_idx)
+          var table=$(form_idx).children('#table').children('#form_set');
+      
+          $(newrow).clone().appendTo($(table).find('tbody'))
+      
+          $('</tr>').appendTo($(form_idx).find('tbody'))
+          $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
+      },
       deleteRow(){
          var test=document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
          console.log("del")
