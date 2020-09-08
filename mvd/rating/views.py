@@ -41,7 +41,6 @@ def rate_otsenka(request, slug, year):
         pcr = get_object_or_404(PCR, profile=profile1, year=year)
     except:
         pcr = None
-    print(1)
     urrform = URRForm(instance=urr)
     ormrform = ORMRForm(instance=ormr)
     pcrform = PCRForm(instance=pcr)
