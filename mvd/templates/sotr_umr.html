@@ -40,6 +40,9 @@
                   <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
                 </div>
             </div>
+            <div class="cake">
+              <supertable></supertable>
+            </div>
         </div>
       </div>
     </div>
@@ -50,6 +53,65 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script> -->
 
     <script id='INLINE_PEN_JS_ID'>
+
+
+Vue.component('supertable',{
+  delimiters:['##','##'],
+  data: () => ({
+    rules: [
+      value => !!value || ' ',
+      value => (value && value.length == 4) || '4 цифры'
+    ],
+    search: '',
+    headers: [
+      { text: 'ФИО', align: 'start', value: 'fio' },
+      { text: 'Сумма баллов', value: 'summ' },
+      { text: 'Кафедра', value:'kafedra' },
+      { text: 'Должность', value:'dolzhnost' },
+      { text: 'Место по университету', value: 'unikplace' },
+      { text: 'Место по должности', value: 'dolzhnostplace' },
+      { text: 'Место по кафедре', value: 'kafedraplace' }
+    ],
+    desserts: []
+  }),
+  methods: {
+    updateTable(value) {
+      console.log(value)
+      axios.get("127.0.0.1:8000/rating/ratingTable/", {params: {year:value}}).then(response => {
+        this.desserts=response.data
+      })
+    }
+  },
+  template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+          Рейтинг по сотрудникам за
+          <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="margin-bottom:11px;padding-left:15px;"></v-text-field>
+          год
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        items-per-page="25"
+        multi-sort
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      ></v-data-table>
+    </v-card>
+  `,
+})
+
+
+
+
+
       const urlkaf = "http://78.24.220.66:9000/rating/kafedras"
       const urlman = "http://78.24.220.66:9000/rating/profiles"
       const urlyear ="http://78.24.220.66:9000/rating/years"
