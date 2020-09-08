@@ -91,15 +91,57 @@ class GraphView(APIView):
         year = request.query_params.get('year')
         kafedra = request.query_params.get('kafedra')
         if kafedra == "Рейтинг по кафедрам":
-            rating = Rating.objects.filter(year=year)
             kafedras = Kafedra.objects.all()
             graphdata = []
             buff = []
+            urr_list=[]
+            ormr_list=[]
+            mrr_list=[]
+            pcr_list=[]
+            urr = 0
+            ormr = 0
+            mrr = 0
+            pcr = 0
             for k in kafedras:
+                print(k.fullname)
                 profiles=k.prepods.all()
-                
-                # for p in k.prepods:
-                #     print(p.fullname)
+
+                for p in profiles:
+                    try:
+                        rating = Rating.objects.get(profile=p, year=year)
+                        print(rating.profile.fullname, rating.urr,rating.ormr,rating.mrr,rating.pcr)
+                        urr += rating.urr
+                        ormr += rating.ormr
+                        mrr += rating.mrr
+                        pcr +=rating.pcr
+                    except Rating.DoesNotExist:
+                        continue
+                print(urr,ormr,mrr,pcr)
+                urr_list.append(urr)
+                ormr_list.append(ormr)
+                mrr_list.append(mrr)
+                pcr_list.append(pcr)
+                urr = 0
+                ormr = 0
+                mrr = 0
+                pcr = 0
+            graphdata.append({
+                "name": 'Учебная работа',
+                "data": urr_list
+            })
+            graphdata.append({
+                "name": 'Организационно методическая работа',
+                "data": ormr_list
+            })
+            graphdata.append({
+                "name": 'Подготовка учебно-методических материалов',
+                "data": mrr_list
+            })
+            buff.append(pcr)
+            graphdata.append({
+                "name": 'Педагогический контроль',
+                "data": pcr_list
+            })
 
             return Response(graphdata)
         else:
@@ -415,6 +457,8 @@ class RatingTableView(APIView):
             if r.summ != 0:
                 data.append(
                     {'fio': r.profile.fullname,
+                     'kafedra':r.profile.kafedra.fullname,
+                     'dolzhnost':r.profile.dolzhnost,
                      'summ': r.summ,
                      'unikplace': r.unikplace,
                      'dolzhnostplace': r.dolzhnostplace,
