@@ -71,7 +71,7 @@
                         <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.fullname}}</td>
                         <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
-                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        	<a href="{%url  'documentSave' profile.user.username  plan.year %}" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
@@ -140,7 +140,7 @@
                         <td style="border:0;vertical-align:middle;" valign="middle">{{r.profile.fullname}}</td>
                         <td style="border:0;vertical-align:middle;">{{r.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
-                        	<a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                        	<a href="{%url  'documentSaveRating' r.year profile.user.username   %}" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
