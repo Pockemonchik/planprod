@@ -44,7 +44,7 @@ def detail_plan(request, slug, year):
         except Exception as e:
             print(e)
             return render(request, 'error.html', {'content': "Произошла ошибка, обратитесь к админитсрации"})
-
+        print(Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=True))
         try:
             querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
 
@@ -53,6 +53,7 @@ def detail_plan(request, slug, year):
                 mesyac = MesyacFormSet(
                     queryset=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=2019, polugodie=1, status=False))
             else:
+
                 mesyac = MesyacFormSet(
                     queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
         except:
@@ -2198,11 +2199,11 @@ def update_plan_summ(request,year,slug):
             if p.name == "Итого за 2 полугодие:":
                 ucheb_r_2_p = p.ucheb_nagruzka
         newplan.save()
-        return HttpResponse(
+        return Response(
             [
              {
-                "1": ucheb_r_1_p,
-                "2": ucheb_r_2_p
+                "first": ucheb_r_1_p,
+                "second": ucheb_r_2_p
              }
             ])
     except Exception as e:
