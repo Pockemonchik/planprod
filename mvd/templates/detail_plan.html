@@ -1372,17 +1372,20 @@
       methods: {
          updateFirstTable($event) {
             this.dis = true
-            pathpost = "{% url 'update_plan_summ' profile1.user.username plan.year%}"
+            var pathpost = "{% url 'update_plan_summ' profile1.user.username plan.year%}"
             console.log(event.path[2].children[0][1])
+            let firstNUM=event.path[2].children[0][1]
+            let secondNUM=event.path[2].children[0][2]
             axios.get(pathpost).then((response) => {
                console.log(response.data)
-               event.path[2].children[0][1] = response.data.first
-               event.path[2].children[0][2] = response.data.second
+               firstNUM.value = response.data[0].first
+               secondNUM.value = response.data[0].second
                this.dis = false
             }).catch((errors) => {
                this.dis = false
                this.text = "Ошибка соединения"
                this.snackbar = true
+               console.log(errors)
             })
          },
          addRow($event) {

@@ -1,6 +1,6 @@
 from django import forms
 from plan.models import Predmet, NIR, VR, DR, UMR, Plan, INR, Nagruzka, DocInfo, ProfileInfo
-from django.forms import TextInput, Textarea, NumberInput, FileInput
+from django.forms import TextInput, Textarea, NumberInput, FileInput, Select
 
 
 class UserAddForm(forms.Form):
@@ -60,6 +60,20 @@ class MainTableForm(forms.ModelForm):
     class Meta:
         model = Plan
         exclude = ['prepod', 'year', 'name', 'document']
+        widgets = {
+            'ucheb_r_1_p': TextInput(attrs={'readonly':'readonly', 'class':'form-control'}),
+            'ucheb_r_2_p': TextInput(attrs={'readonly':'readonly', 'class':'form-control'}),
+            'ucheb_med_r_1_p': Select(attrs={'class':'form-control'}),
+            'ucheb_med_r_2_p': Select(attrs={'class':'form-control'}),
+            'nir_1_p': Select(attrs={'class':'form-control'}),
+            'nir_2_p': Select(attrs={'class':'form-control'}),
+            'vr_1_p': Select(attrs={'class':'form-control'}),
+            'vr_2_p': Select(attrs={'class':'form-control'}),
+            'inr_1_p': Select(attrs={'class':'form-control'}),
+            'inr_2_p': Select(attrs={'class':'form-control'}),
+            'dr_1_p': Select(attrs={'class':'form-control'}),
+            'dr_2_p': Select(attrs={'class':'form-control'}),
+        }
 
 
 class ProfileInfoForm(forms.ModelForm):
