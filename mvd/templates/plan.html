@@ -124,7 +124,7 @@
                         <v-card-actions>
                           <v-spacer></v-spacer>
 
-                          <v-btn text @click="menu = false">закрыть</v-btn>
+                          <v-btn text @click="menuRate = false">закрыть</v-btn>
                           <v-btn color="#007bff" text @click="addRate">сохранить</v-btn>
                         </v-card-actions>
                       </form>
@@ -265,7 +265,10 @@
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="lastName">Должность</label>
-                      {{infoform.dolznost}}
+                      <!-- {{infoform.dolznost}} -->
+                      <select label="Должность" name="dolznost" id="id_dolznost" class="form-control">
+                        <option v-for="item in dolzhnost" value="item">{item}</option>
+                      </select>
                         <div class="invalid-feedback">
                           Valid last name is required.
                         </div>
@@ -273,22 +276,22 @@
                     </div>
                     <div class="mb-3">
                       <label for="email">Кафедра</label>
-                      {{infoform.kafedra}}
+                      <input type="text" readonly name="kafedra" id="id_kafedra" maxlength="250" placeholder="кафедры административного права" class="form-control" value="{{profile.kafedra.fullname}}">
                     </div>
                     <div class="mb-3 row">
-                      <div class="col">
+                      <div class="col-lg-3 col-md-6">
                         <label for="address">Ставка</label>
                         {{infoform.stavka}}
                       </div>
-                      <div class="col">
+                      <div class="col-lg-3 col-md-6">
                         <label for="address">Ученая степень</label>
                        {{infoform.uchst}}
                       </div>
-                      <div class="col">
+                      <div class="col-lg-3 col-md-6">
                         <label for="address">Ученое звание</label>
                       {{infoform.uchzv}}
                       </div>
-                      <div class="col">
+                      <div class="col-lg-3 col-md-6">
                         <label for="address">Выслуга полных лет</label>
                        {{infoform.visluga}}
                       </div>
@@ -732,6 +735,7 @@ Vue.component('supertable',{
       // itemsRateYear:[],
       // userredirect:"",
 
+      dolzhnost: ["профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
       kafname:document.getElementById("kafname").value,
       plfa:"",
       planfact:["Планируемая","Фактическая"],
