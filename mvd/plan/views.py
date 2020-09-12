@@ -742,7 +742,7 @@ def documentAnalize(request):
                 if table == 0:
                     for row in range(len(data[table])):
                         count = 0
-                        if data[table][row][1] == 'Январь':
+                        if data[table][row][0] == 'Январь':
                             break
                         else:
                             mes = Mesyac()
