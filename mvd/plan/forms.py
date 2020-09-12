@@ -129,7 +129,7 @@ class MesyacForm(forms.ModelForm):
         exclude = ['kafedra', 'prepodavatel', 'year', 'polugodie', 'status']
         widgets = {
             'name': Textarea(
-                attrs={'class': 'form-control', 'spellcheck': 'true', 'readonly': 'readonly', 'rows': '2', }),
+                attrs={'class': 'form-control with-important', 'spellcheck': 'true', 'readonly': 'readonly', 'rows': '2', }),
             'leccii': NumberInput(attrs={'class': 'form-control'}),
             'seminar': NumberInput(attrs={'class': 'form-control'}),
             'practici_v_gruppe': NumberInput(attrs={'class': 'form-control'}),
