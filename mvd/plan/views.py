@@ -772,8 +772,9 @@ def documentAnalize(request):
                             mes.rucovodstvo_adunctami = float(data[table][row][23])
                             mes.ucheb_nagruzka = float(data[table][row][24])
                             mes.auditor_nagruzka = float(data[table][row][25])
-                            mes.prepodavatel = profile
 
+                            mes.prepodavatel = profile
+                            mes.kafedra = profile.kafedra
                             mes.year = year
                             mes.polugodie = '1'
                             mes.save()
@@ -807,6 +808,7 @@ def documentAnalize(request):
                             mes.ucheb_nagruzka = float(data[table][row][24])
                             mes.auditor_nagruzka = float(data[table][row][25])
                             mes.prepodavatel = profile
+                            mes.kafedra=profile.kafedra
                             mes.polugodie = '2'
                             mes.year = year
                             mes.save()
