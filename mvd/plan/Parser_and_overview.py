@@ -71,9 +71,9 @@ def takeXls(nameDoc,namePrepod,flag):
     '''
     if flag==True:
 
-        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР   руководство', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Плановая нагрузка', 'Плановая аудиторная нагрузка']
+        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР руководство', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Плановая нагрузка', 'Плановая аудиторная нагрузка']
     else:
-        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР   руководство', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Фактически выполненная нагрузка', 'Фактически выполненная аудиторная нагрузка']
+        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР руководство', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Фактически выполненная нагрузка', 'Фактически выполненная аудиторная нагрузка']
 
 
     nameprepodColumn = ['наименование дисциплины', 'Факультет', 'Курс, группа']
@@ -266,7 +266,8 @@ def takeXls(nameDoc,namePrepod,flag):
 
 # Запись в документ Основной информации
 def writeInfoDoc(listInfo, listCell,indexRow):
-    document = Document("/root/planprod/mvd/plan/docDynamic.docx")
+    # document = Document("/root/planprod/mvd/plan/docDynamic.docx")
+    document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
 
 
     needStrings = [8, 9, 10, 20, 22, 23,31]
@@ -331,7 +332,8 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
 
-    document.save('/root/planprod/mvd/tmp.docx')
+    # document.save('/root/planprod/mvd/tmp.docx')
+    document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     return createDoc(listCell,indexRow)
 
 
@@ -381,7 +383,8 @@ def createDoc(listCell, indexRow):
 #     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
 
     needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    document = Document("/root/planprod/mvd/tmp.docx")
+    # document = Document("/root/planprod/mvd/tmp.docx")
+    document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     print(indexRow)
     count = -1
     for i in needTables:
@@ -408,6 +411,7 @@ def createDoc(listCell, indexRow):
 #         print(count)
 
 #     document.save(nameDoc+'.docx')
+    # document.save("C:/Users/UzziMauzer/Desktop/asdasdasdasdasdasd"+'docx')
     print("Wow")
     return(document)
 #    return convert(nameDoc)
@@ -430,6 +434,162 @@ def createDoc(listCell, indexRow):
 #     # return convert(nameDoc)
 #     return document
 
+#Для созданных этим скриптом таблиц (сreateTable)
+def tekeUpdateTable(nameDoc):
+
+    document=Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
+    listAllTable = []
+    listOneTable = []
+    listRow = []
+
+    #Ежемас Таблица
+    table = document.tables[4]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            countCells=0
+            for cell in row.cells:
+                if countCells > 0:
+                    listRow.append(cell.text)
+                countCells+=1
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Метод 1 полугодие
+    table = document.tables[5]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Метод за 2 полугодие
+    table = document.tables[6]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Научн 1 полугодие
+    table = document.tables[7]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Научн за 2 полугодие
+    table = document.tables[8]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Восп 1 полугодие
+    table = document.tables[9]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Восп за 2 полугодие
+    table = document.tables[10]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Иностр за 1 полугодие
+    table = document.tables[11]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Иностр за 2 полугодие
+    table = document.tables[12]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Иные за 1 полугодие
+    table = document.tables[13]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
+
+    #Иные за 2 полугодие
+    table = document.tables[14]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 1:
+            for cell in row.cells:
+                listRow.append(cell.text)
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+
+    return listAllTable
+
+
 
 # Ð’ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¼Ñ‹ ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼Ñ‹Ð¹ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð²ÑÐµ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ Ð²Ð¾ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½Ñ‹Ñ… ÑÐ¿Ð¸ÑÐºÐ°Ñ…
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
@@ -440,8 +600,11 @@ def takeTable(nameDoc):
     #     print(nameDoc)
     #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/root/planprod/mvd/"+nameDoc])
     #     print("1")
-    document = Document("/root/planprod/"+nameDoc)
+    # document = Document("/root/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
+    document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
+
+    return 0
 
     # document = nameDoc
     listAllTable = []
@@ -452,6 +615,8 @@ def takeTable(nameDoc):
     print(len(table))
     if len(table) != 18:
         print('ne 18')
+        if("Москва" in document.sections[0].first_page_footer.paragraphs[0].text):
+            return (tekeUpdateTable(nameDoc))
         if len(table) != 19:
             print('ne 19')
             print(nameDoc)
@@ -544,6 +709,22 @@ def takeTable(nameDoc):
     flag = False
 
     countLoose = 0
+
+    #Ежемас Таблица
+    table = document.tables[6]
+    countRow = 0
+    for row in (table.rows):
+        listRow = []
+        if countRow > 0:
+            countCells=0
+            for cell in row.cells:
+                if countCells > 0:
+                    listRow.append(cell.text)
+                countCells+=1
+            listOneTable.append(listRow)
+        countRow+=1
+    listAllTable.append(listOneTable)
+    listOneTable = []
 
     #Для 6й таблицы
     table = document.tables[7]
@@ -1182,7 +1363,7 @@ def takeTable(nameDoc):
     listOneTable = []
     '''
 
-
+    print(listAllTable)
     return listAllTable
 
 
@@ -1191,7 +1372,7 @@ if __name__ == '__main__':
     # xlsPrepod('322.xlsx')
 #     fopen()
 #     createDoc('demo', listEny)
-#     takeTable('demo.docx')
+    # takeTable('demo.docx')
 #     readInfoDoc("demo.docx")
 #     writeInfoDoc("test", listInfo)
 #     takeXls('templateXls','Иванов В.Ю.')
