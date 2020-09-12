@@ -726,7 +726,7 @@ def documentAnalize(request):
             print(profile.fullname)
             handle_uploaded_file(file)
             try:
-                data = takeTable()
+                data = takeTable('anal.docx')
             except Exception as e:
                 print(e)
                 print("fail takeTable")
