@@ -435,9 +435,9 @@ def createDoc(listCell, indexRow):
 #     return document
 
 #Для созданных этим скриптом таблиц (сreateTable)
-def tekeUpdateTable(nameDoc):
+def tekeUpdateTable(document):
 
-    document=Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
+    # document=Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
     listAllTable = []
     listOneTable = []
     listRow = []
@@ -448,11 +448,8 @@ def tekeUpdateTable(nameDoc):
     for row in (table.rows):
         listRow = []
         if countRow > 0:
-            countCells=0
             for cell in row.cells:
-                if countCells > 0:
-                    listRow.append(cell.text)
-                countCells+=1
+                listRow.append(cell.text)
             listOneTable.append(listRow)
         countRow+=1
     listAllTable.append(listOneTable)
@@ -593,7 +590,7 @@ def tekeUpdateTable(nameDoc):
 
 # Ð’ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¼Ñ‹ ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼Ñ‹Ð¹ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð²ÑÐµ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ Ð²Ð¾ Ð²Ð»Ð¾Ð¶ÐµÐ½Ð½Ñ‹Ñ… ÑÐ¿Ð¸ÑÐºÐ°Ñ…
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
-def takeTable(nameDoc):
+def takeTable():
     # try:
     #     document = Document("/root/planprod/mvd/"+nameDoc)
     # except:
@@ -602,7 +599,8 @@ def takeTable(nameDoc):
     #     print("1")
     # document = Document("/root/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
-    document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
+    # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
+    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/anal.docx')
 
     return 0
 
@@ -616,7 +614,7 @@ def takeTable(nameDoc):
     if len(table) != 18:
         print('ne 18')
         if("Москва" in document.sections[0].first_page_footer.paragraphs[0].text):
-            return (tekeUpdateTable(nameDoc))
+            return (tekeUpdateTable(document))
         if len(table) != 19:
             print('ne 19')
             print(nameDoc)
@@ -716,11 +714,8 @@ def takeTable(nameDoc):
     for row in (table.rows):
         listRow = []
         if countRow > 0:
-            countCells=0
             for cell in row.cells:
-                if countCells > 0:
-                    listRow.append(cell.text)
-                countCells+=1
+                listRow.append(cell.text)
             listOneTable.append(listRow)
         countRow+=1
     listAllTable.append(listOneTable)
