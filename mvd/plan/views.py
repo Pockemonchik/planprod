@@ -742,7 +742,7 @@ def documentAnalize(request):
                 if table == 0:
                     for row in range(len(data[table])):
                         count = 0
-                        if row <6:
+                        if row <3:
 
                             mes = Mesyac()
                             mes.name = data[table][row][0]
