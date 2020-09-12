@@ -740,9 +740,10 @@ def documentAnalize(request):
             print(data)
             for table in range(len(data)):
                 if table == 0:
+                    Mesyac.objects.filter(prepodavatel=mesyacprofile, year=year, status=False).delete()
                     for row in range(len(data[table])):
                         count = 0
-                        if row <3:
+                        if row <6:
 
                             mes = Mesyac()
                             mes.name = data[table][row][0]
