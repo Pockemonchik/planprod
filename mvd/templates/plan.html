@@ -267,7 +267,7 @@
                         <label for="lastName">Должность</label>
                       <!-- {{infoform.dolznost}} -->
                       <select label="Должность" name="dolznost" id="id_dolznost" class="form-control">
-                        <option v-for="item in dolzhnost" value="item">{item}</option>
+                        <option v-for="item in dolzhnost" :value="item">{item}</option>
                       </select>
                         <div class="invalid-feedback">
                           Valid last name is required.
