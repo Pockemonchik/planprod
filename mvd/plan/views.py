@@ -778,40 +778,40 @@ def documentAnalize(request):
                             mes.year = year
                             mes.polugodie = '1'
                             mes.save()
-                        for row in range(len(data[table])):
-                            count = 0
-                            mes = Mesyac()
-                            mes.name = data[table][row][0]
-                            mes.leccii = float(data[table][row][1])
-                            mes.seminar = float(data[table][row][2])
-                            mes.practici_v_gruppe = float(data[table][row][3])
-                            mes.practici_v_podgruppe = float(data[table][row][4])
-                            mes.krugliy_stol = float(data[table][row][5])
-                            mes.konsultacii_pered_ekzamenom = float(data[table][row][6])
-                            mes.tekushie_konsultacii = float(data[table][row][7])
-                            mes.vneauditor_chtenie = float(data[table][row][8])
-                            mes.rucovodstvo_practikoy = float(data[table][row][9])
-                            mes.rucovodstvo_VKR = float(data[table][row][10])
-                            mes.rucovodstvo_kursovoy = float(data[table][row][11])
-                            mes.proverka_auditor_KR = float(data[table][row][12])
-                            mes.proverka_dom_KR = float(data[table][row][13])
-                            mes.proverka_practicuma = float(data[table][row][14])
-                            mes.proverka_lab = float(data[table][row][15])
-                            mes.priem_zashit_practic = float(data[table][row][16])
-                            mes.zacheti_ust = float(data[table][row][17])
-                            mes.zacheti_pism = float(data[table][row][18])
-                            mes.priem_vstupit = float(data[table][row][19])
-                            mes.ekzamenov = float(data[table][row][20])
-                            mes.priem_GIA = float(data[table][row][21])
-                            mes.priem_kandidtskih = float(data[table][row][22])
-                            mes.rucovodstvo_adunctami = float(data[table][row][23])
-                            mes.ucheb_nagruzka = float(data[table][row][24])
-                            mes.auditor_nagruzka = float(data[table][row][25])
-                            mes.prepodavatel = profile
-                            mes.kafedra=profile.kafedra
-                            mes.polugodie = '2'
-                            mes.year = year
-                            mes.save()
+                    for row in range(len(data[table])):
+                        count = 0
+                        mes = Mesyac()
+                        mes.name = data[table][row][0]
+                        mes.leccii = float(data[table][row][1])
+                        mes.seminar = float(data[table][row][2])
+                        mes.practici_v_gruppe = float(data[table][row][3])
+                        mes.practici_v_podgruppe = float(data[table][row][4])
+                        mes.krugliy_stol = float(data[table][row][5])
+                        mes.konsultacii_pered_ekzamenom = float(data[table][row][6])
+                        mes.tekushie_konsultacii = float(data[table][row][7])
+                        mes.vneauditor_chtenie = float(data[table][row][8])
+                        mes.rucovodstvo_practikoy = float(data[table][row][9])
+                        mes.rucovodstvo_VKR = float(data[table][row][10])
+                        mes.rucovodstvo_kursovoy = float(data[table][row][11])
+                        mes.proverka_auditor_KR = float(data[table][row][12])
+                        mes.proverka_dom_KR = float(data[table][row][13])
+                        mes.proverka_practicuma = float(data[table][row][14])
+                        mes.proverka_lab = float(data[table][row][15])
+                        mes.priem_zashit_practic = float(data[table][row][16])
+                        mes.zacheti_ust = float(data[table][row][17])
+                        mes.zacheti_pism = float(data[table][row][18])
+                        mes.priem_vstupit = float(data[table][row][19])
+                        mes.ekzamenov = float(data[table][row][20])
+                        mes.priem_GIA = float(data[table][row][21])
+                        mes.priem_kandidtskih = float(data[table][row][22])
+                        mes.rucovodstvo_adunctami = float(data[table][row][23])
+                        mes.ucheb_nagruzka = float(data[table][row][24])
+                        mes.auditor_nagruzka = float(data[table][row][25])
+                        mes.prepodavatel = profile
+                        mes.kafedra=profile.kafedra
+                        mes.polugodie = '2'
+                        mes.year = year
+                        mes.save()
                         print("sohraninen")
                 if table == 1:
                     for row in range(len(data[table])):
