@@ -23,6 +23,8 @@ from docx import Document
 import os
 from io import StringIO, BytesIO
 from rest_framework.decorators import api_view
+from itertools import chain
+
 
 """Рендер основных страниц"""
 
@@ -37,7 +39,7 @@ def detail_plan(request, slug, year):
         Table4FormSet = modelformset_factory(VR, form=Table4Form, extra=5)
         Table5FormSet = modelformset_factory(DR, form=Table5Form, extra=5)
         Table6FormSet = modelformset_factory(INR, form=Table6Form, extra=5)
-        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
+        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm,extra=0)
         try:
             plan = get_object_or_404(Plan, prepod=profile1, year=year)
             print(plan.prepod.fullname, plan.year)
@@ -49,14 +51,34 @@ def detail_plan(request, slug, year):
             querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
 
             if not querymes:
-                mesyacprofile = get_object_or_404(Profile, user__username='admin')
-                mesyac = MesyacFormSet(
-                    queryset=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=2019, polugodie=1, status=False))
-            else:
+                mesyacprofile = profile1
+
+                mes1 = Mesyac.objects.create(name='АВГУСТ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes2 = Mesyac.objects.create(name='СЕНТЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes3 = Mesyac.objects.create(name='ОКТЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes4 = Mesyac.objects.create(name='НОЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes5 = Mesyac.objects.create(name='ДЕКАБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes6 = Mesyac.objects.create(name='Итого за 1 полугодие:',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes7 = Mesyac.objects.create(name='ЯНВАРЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes8 = Mesyac.objects.create(name='ФЕВРАЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes9 = Mesyac.objects.create(name='МАРТ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes10 = Mesyac.objects.create(name='АПРЕЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes11 = Mesyac.objects.create(name='МАЙ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes12 = Mesyac.objects.create(name='ИЮНЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes13 = Mesyac.objects.create(name='ИЮЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes14 = Mesyac.objects.create(name='Итого за 2 полугодие:',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes15 = Mesyac.objects.create(name='Итого за учебный год:',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                qs=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=year, status=False)
 
                 mesyac = MesyacFormSet(
-                    queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False))
-        except:
+                    queryset=qs)
+
+            else:
+                print('not empty mes')
+                mesyac = MesyacFormSet(
+                    queryset=Mesyac.objects.filter(prepodavatel=profile1, year=year, status=False))
+        except Exception as e:
+            print(e)
             mesyac = MesyacFormSet()
         mainForm = MainTableForm(instance=plan)
         docForm = docUploadForm()
@@ -940,17 +962,17 @@ def documentSave(request, year, slug):
                 else:
                     data.append(a)
         # по месяцам!!
-        data += [" "] * (375)
+        # data += [" "] * (375)
         ##normalno po mesyacam
         # u admina dolzhna bit tablisa zapolnena
-        # mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
-        # for m in mesyac:
-        #     arr=m.all_values()
-        #     for a in arr:
-        #        if a=='0':
-        #            data.append(" ")
-        #        else:
-        #            data.append(a)
+        mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+        for m in mesyac:
+            arr=m.all_values()
+            for a in arr:
+               if a=='0':
+                   data.append(" ")
+               else:
+                   data.append(a)
 
         # учебно метадоч работа
         umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
@@ -1092,7 +1114,7 @@ def documentSave(request, year, slug):
         listInfo = docinf.all_values()
         # print(indexRow)
         # print(data)
-        #
+
 
         doc = writeInfoDoc(listInfo, data, indexRow)
         # doc=createDoc('testforsave',data)
@@ -1660,19 +1682,17 @@ def saveT3(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             # print(request.POST)
-
+            year=request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
-
-            Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5, can_delete=True)
-            formset3 = Table1FormSet(request.POST,
-                                     queryset=Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True))
+            Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
+            formset3 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
             if formset3.is_valid():
-                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True)
+                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
                 for p in pdel:
                     p.delete()
                 for form in formset3:
@@ -1686,7 +1706,9 @@ def saveT3(request):
                     if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:':
                         predmet.save()
                 itog = Predmet()
-                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True)
+                itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                                                status=False, year=year)
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
                 setattr(itog, 'polugodie', 1)
@@ -1707,8 +1729,10 @@ def saveT3(request):
                         # print(getattr(p,field.name))
 
                     setattr(itog, field.name, buff)
+                    setattr(itogmes, field.name, buff)
                     # print(str(buff)+field.name)
                 itog.save()
+                itogmes.save()
 
             else:
                 print('blen')
@@ -1720,17 +1744,17 @@ def saveT3(request):
 def saveT4(request):
     if request.user.is_authenticated:
         if request.method == "POST":
+            year = request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
-            formset4 = Table1FormSet(request.POST,
-                                     queryset=Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True))
+            formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True)
+                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
                 for p in pdel:
                     p.delete()
                 for form in formset4:
@@ -1744,7 +1768,9 @@ def saveT4(request):
                     if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:':
                         predmet.save()
                 itog = Predmet()
-                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True)
+                itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile, polugodie=2,
+                                      status=False, year=year)
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
                 setattr(itog, 'polugodie', 2)
@@ -1766,12 +1792,17 @@ def saveT4(request):
                         # print(getattr(p,field.name))
 
                     setattr(itog, field.name, buff)
+                    setattr(itogmes, field.name, buff)
                     print(str(buff) + field.name)
                 itog.save()
+                itogmes.save()
+                """Сохраняем год"""
                 itogall = Predmet()
+                itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile, polugodie=2,
+                                                status=False, year=year)
                 try:
                     itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
-                                                status=True)
+                                                status=True,year=year)
                     setattr(itogall, 'status', True)
                     setattr(itogall, 'polugodie', 2)
                     setattr(itogall, 'kafedra', profile.kafedra)
@@ -1786,7 +1817,9 @@ def saveT4(request):
                             setattr(itogall, field.name, 'Итого за учебный год:')
                             continue
                         setattr(itogall, field.name, (getattr(itog, field.name) + getattr(itog1, field.name)))
+                        setattr(itogmesall, field.name, (getattr(itog, field.name) + getattr(itog1, field.name)))
                     itogall.save()
+                    itogmesall.save()
                 except:
                     setattr(itogall, 'status', True)
                     setattr(itogall, 'polugodie', 2)
@@ -1802,8 +1835,9 @@ def saveT4(request):
                             setattr(itogall, field.name, 'Итого за учебный год:')
                             continue
                         setattr(itogall, field.name, (getattr(itog, field.name)))
+                        setattr(itogmesall, field.name, (getattr(itog, field.name)))
                     itogall.save()
-
+                    itogmesall.save()
 
 
 
@@ -1820,16 +1854,17 @@ def saveT5(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         if request.method == "POST":
+            year=request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
-            formset4 = Table1FormSet(request.POST, queryset=UMR.objects.filter(prepodavatel=profile, polugodie=1))
+            formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = UMR.objects.filter(prepodavatel=profile, polugodie=1)
+                udel = UMR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -1853,12 +1888,12 @@ def saveT6(request):
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
-            formset4 = Table1FormSet(request.POST, queryset=UMR.objects.filter(prepodavatel=profile, polugodie=2))
+            formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = UMR.objects.filter(prepodavatel=profile, polugodie=2)
+                udel = UMR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -1888,7 +1923,7 @@ def saveT7(request):
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = NIR.objects.filter(prepodavatel=profile, polugodie=1)
+                udel = NIR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -1917,7 +1952,7 @@ def saveT8(request):
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = NIR.objects.filter(prepodavatel=profile, polugodie=2)
+                udel = NIR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -1946,7 +1981,7 @@ def saveT9(request):
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = VR.objects.filter(prepodavatel=profile, polugodie=1)
+                udel = VR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -1975,7 +2010,7 @@ def saveT10(request):
             # формсет для первого полугодия
 
             if formset4.is_valid():
-                udel = VR.objects.filter(prepodavatel=profile, polugodie=2)
+                udel = VR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -2004,7 +2039,7 @@ def saveT11(request):
             # формсет для первого полугодия
             print(formset4.errors)
             if formset4.is_valid():
-                udel = DR.objects.filter(prepodavatel=profile, polugodie=1)
+                udel = DR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -2034,7 +2069,7 @@ def saveT12(request):
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
-                udel = DR.objects.filter(prepodavatel=profile, polugodie=2)
+                udel = DR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -2065,7 +2100,7 @@ def saveT13(request):
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
-                udel = INR.objects.filter(prepodavatel=profile, polugodie=1)
+                udel = INR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -2095,7 +2130,7 @@ def saveT14(request):
             print(request.POST['year'])
             print(formset4.errors)
             if formset4.is_valid():
-                udel = INR.objects.filter(prepodavatel=profile, polugodie=2)
+                udel = INR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
                 for u in udel:
                     u.delete()
                 for form in formset4:
@@ -2126,15 +2161,30 @@ def shapka(request):
             form = ShapkaForm(request.POST)
             print(request.POST)
 
+
             if form.is_valid():
                 try:
                     shpkdel = get_object_or_404(DocInfo, plan=plan)
                     shpkdel.delete()
                 except:
-                    print("ne")
+                    print("ne bilo shapki")
 
                 shpk = form.save(commit=False)
                 shpk.plan = plan
+                try:
+                    profileinfo = ProfileInfo.objects.get(profile=profile)
+                    shpk.fio=profileinfo.fio
+                    shpk.dolznost = profileinfo.dolznost
+                    shpk.stavka = profileinfo.stavka
+                    shpk.uchzv = profileinfo.uchzv
+                    shpk.uchst = profileinfo.uchst
+                    shpk.visluga = profileinfo.visluga
+                    shpk.kafedra = profileinfo.kafedra
+
+
+                except:
+                    return HttpResponse("Ошибка при сохранении, сначала заполните информацию на главной странице")
+
                 shpk.save()
                 kolvomes = request.POST['kolvomes']
                 try:
@@ -2150,6 +2200,7 @@ def shapka(request):
 
             else:
                 print('blen')
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2165,7 +2216,7 @@ def saveMesyac(request):
             formset4 = MesyacFormSet(request.POST, queryset=Mesyac.objects.filter(prepodavatel=profile, polugodie=1))
             if formset4.is_valid():
                 try:
-                    mesyacdel = Mesyac.objects.filter(prepodavatel=profile, polugodie=1)
+                    mesyacdel = Mesyac.objects.filter(prepodavatel=profile,year=request.POST['year'])
                     for m in mesyacdel:
                         m.delete()
 
@@ -2178,6 +2229,8 @@ def saveMesyac(request):
                     umr.kafedra = profile.kafedra
                     umr.year = request.POST['year']
                     umr.save()
+
+
             else:
                 print('blen')
         return HttpResponse("Успешно сохранено")

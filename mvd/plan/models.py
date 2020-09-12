@@ -19,7 +19,6 @@ def validate_decimals(value):
     except:
         raise ValidationError( _('%(value)s is not an integer or a float number'), params={'value': value}, )
 
-
 class Kafedra(models.Model):
      name=models.CharField(max_length=501)
      fullname=models.CharField(max_length=250,blank=True)
@@ -73,8 +72,8 @@ class Plan(models.Model):
     ucheb_r_2_p=models.FloatField(default=0)
     PROGRESS=(
         ('Выполнена', 'Выполнена'),
-        ('Выполнена', 'Выполнена частично'),
-        ('Выполнена', 'Не выполнена'),
+        ('Выполнена частично', 'Выполнена частично'),
+        ('Не выполнена', 'Не выполнена'),
         (' ', ' '))
 
     ucheb_med_r_1_p=models.CharField(max_length=20,choices=PROGRESS,default=" ")
@@ -91,19 +90,19 @@ class Plan(models.Model):
     def __str__(self):
         return self.name+" "+str(self.year)
     def all_values(self):
-        return (" "*12)
-            # str(self.ucheb_r_1_p),
-            # str(self.ucheb_r_2_p),
-            # str(self.ucheb_med_r_1_p),
-            # str(self.ucheb_med_r_2_p),
-            # str(self.nir_1_p),
-            # str(self.nir_2_p),
-            # str(self.vr_1_p),
-            # str(self.vr_2_p),
-            # str(self.dr_1_p),
-            # str(self.dr_2_p),
-            # str(self.inr_1_p),
-            # str(self.inr_2_p))
+        return(
+            str(self.ucheb_r_1_p),
+            str(self.ucheb_r_2_p),
+            str(self.ucheb_med_r_1_p),
+            str(self.ucheb_med_r_2_p),
+            str(self.nir_1_p),
+            str(self.nir_2_p),
+            str(self.vr_1_p),
+            str(self.vr_2_p),
+            str(self.dr_1_p),
+            str(self.dr_2_p),
+            str(self.inr_1_p),
+            str(self.inr_2_p))
 
 class DocInfo(models.Model):
     shapka=models.CharField(max_length=250,blank=True)
@@ -176,8 +175,10 @@ class DocInfo(models.Model):
         self.uchst+', '+self.uchzv+', '+str(self.visluga)+let
         ])
     def __str__(self):
-        return self.plan.name
-
+        if self.fio == "":
+            return self.plan.name
+        else:
+             return self.fio
 
 class Predmet(models.Model):
     name=models.CharField(max_length=250,blank=True)
@@ -371,8 +372,6 @@ class Predmet(models.Model):
         # print(self.get_obshaya_nagruzka())
         super(Predmet, self).save()
 
-
-
 #учебно методическая рабoта
 class UMR(models.Model):
     dubl_to_in=models.BooleanField(default=False)
@@ -437,6 +436,7 @@ class VR(models.Model):
 
             str(self.srok),
             str(self.otmetka))
+
 class INR(models.Model):
     vid=models.CharField(max_length=1000,blank=True)
     srok=models.CharField(max_length=1000,blank=True)
@@ -468,10 +468,6 @@ class DR(models.Model):
 
             str(self.srok),
             str(self.otmetka))
-
-
-
-
 
 class Mesyac(models.Model):
     name=models.CharField(max_length=250,blank=True)
@@ -577,7 +573,7 @@ class Mesyac(models.Model):
         return self.name
 
     def all_values(self):
-        return  (
+        return(
             str(self.leccii),
             str(self.seminar),
             str(self.practici_v_gruppe),
