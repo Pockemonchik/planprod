@@ -85,10 +85,10 @@ class ProfileInfoForm(forms.ModelForm):
             'fio': TextInput(attrs={'class': 'form-control', 'placeholder': 'Петрова Петра Петровича'}),
             'dolznost': TextInput(attrs={'class': 'form-control', 'placeholder': 'начальник кафедры'}),
             'kafedra': TextInput(attrs={'class': 'form-control', 'placeholder': 'кафедры административного права'}),
-            'visluga': NumberInput(attrs={'class': 'form-control', 'placeholder': '6'}),
+            'visluga': NumberInput(attrs={'class': 'form-control visluga', 'placeholder': '6'}),
             'uchzv': TextInput(attrs={'class': 'form-control', 'placeholder': 'доцент'}),
             'uchst': TextInput(attrs={'class': 'form-control', 'placeholder': 'д.э.н.'}),
-            'stavka': NumberInput(attrs={'class': 'form-control', 'placeholder': '0.5'}),
+            'stavka': NumberInput(attrs={'class': 'form-control stavka', 'placeholder': '0.5'}),
         }
 
 
