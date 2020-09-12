@@ -726,7 +726,7 @@ def documentAnalize(request):
             print(profile.fullname)
             handle_uploaded_file(file)
             try:
-                data = takeTable('anal.docx')
+                data = takeTable()
             except Exception as e:
                 print(e)
                 print("fail takeTable")
@@ -742,32 +742,80 @@ def documentAnalize(request):
                 if table == 0:
                     for row in range(len(data[table])):
                         count = 0
-                        umr = UMR()
-                        umr.vid = data[table][row][1]
-                        umr.srok = data[table][row][2]
-                        umr.otmetka = data[table][row][3]
-                        umr.prepodavatel = profile
+                        if data[table][row][1] == 'Январь':
+                            break
+                        else:
+                            mes = Mesyac()
+                            mes.name = data[table][row][1]
+                            mes.leccii = data[table][row][2]
+                            mes.seminar = data[table][row][3]
+                            mes.practici_v_gruppe = data[table][row][4]
+                            mes.practici_v_podgruppe = data[table][row][5]
+                            mes.krugliy_stol = data[table][row][6]
+                            mes.konsultacii_pered_ekzamenom = data[table][row][7]
+                            mes.tekushie_konsultacii = data[table][row][8]
+                            mes.vneauditor_chtenie = data[table][row][9]
+                            mes.rucovodstvo_practikoy = data[table][row][10]
+                            mes.rucovodstvo_VKR = data[table][row][11]
+                            mes.rucovodstvo_kursovoy = data[table][row][12]
+                            mes.proverka_auditor_KR = data[table][row][13]
+                            mes.proverka_dom_KR = data[table][row][14]
+                            mes.proverka_practicuma = data[table][row][15]
+                            mes.proverka_lab = data[table][row][16]
+                            mes.priem_zashit_practic = data[table][row][17]
+                            mes.zacheti_ust = data[table][row][18]
+                            mes.zacheti_pism = data[table][row][19]
+                            mes.priem_vstupit = data[table][row][20]
+                            mes.ekzamenov = data[table][row][21]
+                            mes.priem_GIA = data[table][row][22]
+                            mes.priem_kandidtskih = data[table][row][23]
+                            mes.rucovodstvo_adunctami = data[table][row][24]
+                            mes.ucheb_nagruzka = data[table][row][25]
+                            mes.auditor_nagruzka = data[table][row][26]
+                            mes.prepodavatel = profile
 
-                        umr.year = year
-                        umr.polugodie = '1'
-                        umr.save()
+                            mes.year = year
+                            mes.polugodie = '1'
+                            mes.save()
+                        for row in range(len(data[table])):
+                            count = 0
+                            mes = Mesyac()
+                            mes.name = data[table][row][1]
+                            mes.leccii = data[table][row][2]
+                            mes.seminar = data[table][row][3]
+                            mes.practici_v_gruppe = data[table][row][4]
+                            mes.practici_v_podgruppe = data[table][row][5]
+                            mes.krugliy_stol = data[table][row][6]
+                            mes.konsultacii_pered_ekzamenom = data[table][row][7]
+                            mes.tekushie_konsultacii = data[table][row][8]
+                            mes.vneauditor_chtenie = data[table][row][9]
+                            mes.rucovodstvo_practikoy = data[table][row][10]
+                            mes.rucovodstvo_VKR = data[table][row][11]
+                            mes.rucovodstvo_kursovoy = data[table][row][12]
+                            mes.proverka_auditor_KR = data[table][row][13]
+                            mes.proverka_dom_KR = data[table][row][14]
+                            mes.proverka_practicuma = data[table][row][15]
+                            mes.proverka_lab = data[table][row][16]
+                            mes.priem_zashit_practic = data[table][row][17]
+                            mes.zacheti_ust = data[table][row][18]
+                            mes.zacheti_pism = data[table][row][19]
+                            mes.priem_vstupit = data[table][row][20]
+                            mes.ekzamenov = data[table][row][21]
+                            mes.priem_GIA = data[table][row][22]
+                            mes.priem_kandidtskih = data[table][row][23]
+                            mes.rucovodstvo_adunctami = data[table][row][24]
+                            mes.ucheb_nagruzka = data[table][row][25]
+                            mes.auditor_nagruzka = data[table][row][26]
+                            mes.prepodavatel = profile
+
+                            mes.year = year
+                            mes.polugodie = '2'
+                            mes.save()
                         print("sohraninen")
                 if table == 1:
                     for row in range(len(data[table])):
                         count = 0
                         umr = UMR()
-                        count += 1
-                        umr.vid = data[table][row][1]
-                        umr.srok = data[table][row][2]
-                        umr.otmetka = data[table][row][3]
-                        umr.prepodavatel = profile
-                        umr.year = year
-                        umr.polugodie = '2'
-                        umr.save()
-                if table == 2:
-                    for row in range(len(data[table])):
-                        count = 0
-                        umr = NIR()
                         umr.vid = data[table][row][1]
                         umr.srok = data[table][row][2]
                         umr.otmetka = data[table][row][3]
@@ -777,23 +825,22 @@ def documentAnalize(request):
                         umr.polugodie = '1'
                         umr.save()
                         print("sohraninen")
+                if table == 2:
+                    for row in range(len(data[table])):
+                        count = 0
+                        umr = UMR()
+                        count += 1
+                        umr.vid = data[table][row][1]
+                        umr.srok = data[table][row][2]
+                        umr.otmetka = data[table][row][3]
+                        umr.prepodavatel = profile
+                        umr.year = year
+                        umr.polugodie = '2'
+                        umr.save()
                 if table == 3:
                     for row in range(len(data[table])):
                         count = 0
                         umr = NIR()
-
-                        count += 1
-                        umr.vid = data[table][row][1]
-                        umr.srok = data[table][row][2]
-                        umr.otmetka = data[table][row][3]
-                        umr.prepodavatel = profile
-                        umr.year = year
-                        umr.polugodie = '2'
-                        umr.save()
-                if table == 4:
-                    for row in range(len(data[table])):
-                        count = 0
-                        umr = VR()
                         umr.vid = data[table][row][1]
                         umr.srok = data[table][row][2]
                         umr.otmetka = data[table][row][3]
@@ -803,24 +850,23 @@ def documentAnalize(request):
                         umr.polugodie = '1'
                         umr.save()
                         print("sohraninen")
+                if table == 4:
+                    for row in range(len(data[table])):
+                        count = 0
+                        umr = NIR()
+
+                        count += 1
+                        umr.vid = data[table][row][1]
+                        umr.srok = data[table][row][2]
+                        umr.otmetka = data[table][row][3]
+                        umr.prepodavatel = profile
+                        umr.year = year
+                        umr.polugodie = '2'
+                        umr.save()
                 if table == 5:
                     for row in range(len(data[table])):
                         count = 0
                         umr = VR()
-
-                        count += 1
-                        umr.vid = data[table][row][1]
-                        umr.srok = data[table][row][2]
-                        umr.otmetka = data[table][row][3]
-                        umr.prepodavatel = profile
-                        umr.year = year
-                        umr.polugodie = '2'
-                        umr.save()
-                if table == 6:
-                    for row in range(len(data[table])):
-                        count = 0
-                        umr = INR()
-
                         umr.vid = data[table][row][1]
                         umr.srok = data[table][row][2]
                         umr.otmetka = data[table][row][3]
@@ -830,11 +876,38 @@ def documentAnalize(request):
                         umr.polugodie = '1'
                         umr.save()
                         print("sohraninen")
+                if table == 6:
+                    for row in range(len(data[table])):
+                        count = 0
+                        umr = VR()
+
+                        count += 1
+                        umr.vid = data[table][row][1]
+                        umr.srok = data[table][row][2]
+                        umr.otmetka = data[table][row][3]
+                        umr.prepodavatel = profile
+                        umr.year = year
+                        umr.polugodie = '2'
+                        umr.save()
                 if table == 7:
                     for row in range(len(data[table])):
                         count = 0
                         umr = INR()
 
+                        umr.vid = data[table][row][1]
+                        umr.srok = data[table][row][2]
+                        umr.otmetka = data[table][row][3]
+                        umr.prepodavatel = profile
+
+                        umr.year = year
+                        umr.polugodie = '1'
+                        umr.save()
+                        print("sohraninen")
+                if table == 8:
+                    for row in range(len(data[table])):
+                        count = 0
+                        umr = INR()
+
                         count += 1
                         umr.vid = data[table][row][1]
                         umr.srok = data[table][row][2]
@@ -843,7 +916,7 @@ def documentAnalize(request):
                         umr.year = year
                         umr.polugodie = '2'
                         umr.save()
-                if table == 8:
+                if table == 9:
                     for row in range(len(data[table])):
                         count = 0
                         umr = DR()
@@ -856,7 +929,7 @@ def documentAnalize(request):
                         umr.polugodie = '1'
                         umr.save()
                         print("sohraninen")
-                if table == 9:
+                if table == 10:
                     for row in range(len(data[table])):
                         count = 0
                         umr = DR()
@@ -1611,9 +1684,9 @@ def mainTableSave(request):
                 newplan.name = plan.name
                 newplan.prepod = profile
                 print(newplan.name)
-
-                newplan.save()
                 plan.delete()
+                newplan.save()
+
                 return HttpResponse("Успешно сохранено")
             else:
                 return HttpResponse("Ошибка при сохранении таблицы")

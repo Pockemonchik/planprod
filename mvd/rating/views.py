@@ -559,10 +559,11 @@ def setplace(year, profile):
     except:
         pcrsumm = 0
     mrrsumm = 0
+    effect_stavka=(profilerating.profile.info.stavka*profilerating.kolvomes/11)
     mrrs = MRR.objects.filter(profile=profile, year=year)
     for m in mrrs:
         mrrsumm += m.bal
-    profilerating.summ = urrsumm + ormrsumm + pcrsumm + mrrsumm
+    profilerating.summ = (urrsumm + ormrsumm + pcrsumm + mrrsumm)*effect_stavka
     profilerating.urr = urrsumm
     profilerating.ormr = ormrsumm
     profilerating.pcr = pcrsumm
