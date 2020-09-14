@@ -560,7 +560,10 @@ def createrating(request, year, slug):
         except Exception as e:
             print(e)
             try:
-                newrating = Rating()
+                try:
+                    newrating = Rating.objects.get(profile=profile, year=year)
+                except:
+                     newrating = Rating()
                 print(newrating)
                 print("sozd nwe rat")
                 newrating.profile = profile
@@ -638,7 +641,7 @@ def createrating(request, year, slug):
             except Exception as e:
                 print(e)
                 return render(request, 'error.html',
-                              {'content': "Сначала заполните фактически выполненную работы за оба полугодия"})
+                              {'content': "Сначала заполните фактически выполненную работы за оба полугодия, а также данные в шапке и профиле"})
 
         return redirect('rate_otsenka', slug=profile.user.username, year=year)
     else:
