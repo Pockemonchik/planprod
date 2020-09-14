@@ -457,7 +457,7 @@ def adduser(request):
                 profilenew.kafedra = kafedra
                 usernew.save()
                 profilenew.save()
-            except Exeption as e:
+            except Exception as e:
                 print(e)
                 return HttpResponse("Произошла ошибка при добавлении пользователя")
         else:
@@ -1678,10 +1678,10 @@ def mainTableSave(request):
                 predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=request.POST['year'])
                 for p in predmets:
                     if p.name == "Итого за 1 полугодие:":
-                        newplan.ucheb_med_r_1_p = p.ucheb_nagruzka
+                        newplan.ucheb_r_1_p = p.ucheb_nagruzka
                         print(newplan.ucheb_med_r_1_p)
                     if p.name == "Итого за 2 полугодие:":
-                        newplan.ucheb_med_r_2_p = p.ucheb_nagruzka
+                        newplan.ucheb_r_2_p = p.ucheb_nagruzka
                         print(newplan.ucheb_med_r_2_p)
                 newplan.year = request.POST['year']
                 newplan.name = plan.name
