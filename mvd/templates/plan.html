@@ -1,7 +1,14 @@
 {% extends "base.html" %}
-{%load static%}
+{%load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+<link rel="stylesheet" href="{% static "/css/plan.css" %}" />
+<link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" />
 
+
+<script src="{% static "/js/vue.js" %}"></script>
+<script src="{% static "/js/axios.js" %}"></script>
+<script src="{% static "/js/vuetify.js" %}"></script>
    <div class="content active">
   <div class="container-fluid" id="app" data-app>
     <div class="row">
