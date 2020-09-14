@@ -1841,8 +1841,8 @@ def saveT4(request):
                     if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:':
                         predmet.save()
                 itog = Predmet()
-                itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile, polugodie=2,
-                                      status=False, year=year)
+                itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                      year=year)
                 predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
@@ -1871,8 +1871,8 @@ def saveT4(request):
                 itogmes.save()
                 """Сохраняем год"""
                 itogall = Predmet()
-                itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile, polugodie=2,
-                                                status=False, year=year)
+                itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
+                                               year=year)
                 try:
                     itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=True,year=year)
