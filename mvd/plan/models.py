@@ -99,12 +99,12 @@ class Plan(models.Model):
             str(self.nir_2_p),
             str(self.vr_1_p),
             str(self.vr_2_p),
-            str(self.dr_1_p),
-            str(self.dr_2_p),
             str(self.inr_1_p),
             str(self.inr_2_p),
             str(self.dr_1_p),
             str(self.dr_2_p),
+
+
         )
 
 class DocInfo(models.Model):
