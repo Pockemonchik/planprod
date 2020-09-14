@@ -378,7 +378,8 @@ class Predmet(models.Model):
 #учебно методическая рабoта
 class UMR(models.Model):
     dubl_to_in=models.BooleanField(default=False)
-    vid=models.CharField(max_length=10000,blank=True)
+    # vid=models.CharField(max_length=10000,blank=True)
+    vid = models.TextField()
     srok=models.CharField(max_length=1000,blank=True)
     otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     include_rating = models.BooleanField(default=False)
@@ -408,7 +409,8 @@ class UMR(models.Model):
         super(UMR, self).save()
  #научyно сследовательская работа
 class NIR(models.Model):
-    vid=models.CharField(max_length=10000,blank=True)
+    # vid=models.CharField(max_length=10000,blank=True)
+    vid = models.TextField()
     srok=models.CharField(max_length=1000,blank=True)
     otmetka=models.CharField(max_length=1000,blank=True,default='___________ Протокол №__ от __.__.20__')
     prepodavatel=models.ForeignKey(Profile,related_name='nir',on_delete=models.CASCADE)
