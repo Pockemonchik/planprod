@@ -34,14 +34,20 @@
     width: 60%;
 }
 
+.cake{
+  width: 100%;
+  padding: 0px 25px;
+}
+
 .graph-block{
+  width: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
-    margin-left: 20px;
+    margin: 20px 30px;
     padding: 10px;
     border: 1px solid #dee2e6;
 }
+
 
 #graphic1{
     border: 1px solid #dee2e6;
@@ -61,22 +67,27 @@
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+}
+  
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
   }
   
-  @keyframes shake {
-    10%, 90% {
-      transform: translate3d(-1px, 0, 0);
-    }
-    
-    20%, 80% {
-      transform: translate3d(2px, 0, 0);
-    }
-  
-    30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
-    }
-  
-    40%, 60% {
-      transform: translate3d(4px, 0, 0);
-    }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
   }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.pDataHeader{
+  padding-top: 28px;
+  padding-right: 5px;
+}

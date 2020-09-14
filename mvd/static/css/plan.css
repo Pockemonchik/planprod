@@ -26,3 +26,22 @@
 .visluga{
     width: 100%;
 }
+.spSotrKafText{
+    overflow: normal ;
+    text-overflow: nowrap;
+    white-space: normal ;
+}
+.theme--light.v-toolbar.v-sheet {
+    min-height: 64px;
+    height: auto !important;
+}
+.v-toolbar__content, .v-toolbar__extension {
+    min-height: 56px;
+    height: auto !important;
+}
+.addSotrBut{
+    margin-left: auto;
+}
+.infoAccLable{
+    
+}

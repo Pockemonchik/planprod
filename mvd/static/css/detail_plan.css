@@ -166,10 +166,25 @@
 }
 
 .kolvomes{
-    width: 100% !important;
+    width: 260px !important;
 }
 
 .with-important{
     width: 200px !important;
 }
-
+.saveBtnVidRabot{
+    margin-right: 10px;
+}
+.dataNaKakoyGod{
+    width: 70px;
+    margin-right: 0px !important;
+}
+.lableKolMesyac{
+    overflow: auto ;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 10px;
+}
+.sleshForData{
+    font-size: 25px;
+}

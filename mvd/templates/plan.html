@@ -242,7 +242,7 @@
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 ">
-              <div class="row content-input">
+              <!-- <div class="row content-input"> -->
                 <div class="card rounded">
                    <form  action="{%url 'profileinfo'%}" method="post" class="shapka" id="qwewq">
                   {% csrf_token %}
@@ -280,19 +280,19 @@
                     </div>
                     <div class="mb-3 row">
                       <div class="col-lg-3 col-md-6">
-                        <label for="address">Ставка</label>
+                        <label for="address" class="infoAccLable">Ставка</label>
                         {{infoform.stavka}}
                       </div>
                       <div class="col-lg-3 col-md-6">
-                        <label for="address">Ученая степень</label>
+                        <label for="address" class="infoAccLable">Ученая степень</label>
                        {{infoform.uchst}}
                       </div>
                       <div class="col-lg-3 col-md-6">
-                        <label for="address">Ученое звание</label>
+                        <label for="address" class="infoAccLable">Ученое звание</label>
                       {{infoform.uchzv}}
                       </div>
                       <div class="col-lg-3 col-md-6">
-                        <label for="address">Выслуга полных лет</label>
+                        <label for="address" class="infoAccLable">Выслуга полных лет</label>
                        {{infoform.visluga}}
                       </div>
                     </div>
@@ -300,7 +300,7 @@
                 </form>
                   </div>
 
-              </div>
+              <!-- </div> -->
                 {%if profile.role == 2 or profile.role == 3%}
               <div class="card rounded">
                 <supertable></supertable>
@@ -607,7 +607,7 @@ Vue.component('supertable',{
     >
       <template v-slot:top>
         <v-toolbar flat color="rgba(0,0,0,.03)">
-          <v-toolbar-title>Список сотрудников кафедры</v-toolbar-title>
+          <v-toolbar-title class="spSotrKafText">Список сотрудников кафедры</v-toolbar-title>
           <v-divider
             class="mx-4"
             inset
@@ -619,7 +619,7 @@ Vue.component('supertable',{
               <button type="button"
                 v-bind="attrs"
                 v-on="on"
-                class="btn btn-outline-primary dok-button"
+                class="btn btn-outline-primary dok-button addSotrBut"
               >Добавить сотрудника</button>
             </template>
             <v-card>

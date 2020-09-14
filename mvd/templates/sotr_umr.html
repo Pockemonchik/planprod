@@ -28,7 +28,7 @@
   <div class="content active"  id="app" data-app>
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-12">
             <div class="flex-block">
                 <div class="graph-block">
                   <div class="row pr-3 pl-3">
@@ -37,12 +37,14 @@
                     <v-text-field class="anim" label="Введите год" :rules="rules" hide-details="auto" standard @change="onChangeGraph($event)" v-model="yearGraph"></v-text-field>
                     <v-btn @click="getRatingAllCafedras()">Рейтинг по кафедрам</v-btn>
                   </div>
-                  <apexchart width="800" height="600" type="bar" :options="options" :series="series"></apexchart>
+                  <apexchart width="100%" height="800px" type="bar" :options="options" :series="series"></apexchart>
                 </div>
             </div>
-            <div class="cake">
-              <supertable></supertable>
-            </div>
+        </div>
+        <div class="col-12">
+          <div class="cake">
+            <supertable></supertable>
+          </div>
         </div>
       </div>
     </div>
@@ -85,9 +87,9 @@ Vue.component('supertable',{
   template: `
     <v-card style="display:flex; flex-direction:column;">
       <v-card-title>
-          Рейтинг по сотрудникам за
-          <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="margin-bottom:11px;padding-left:15px;"></v-text-field>
-          год
+          <p class="pDataHeader">Рейтинг по сотрудникам за</p>
+          <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="padding-right:10px"></v-text-field>
+          <p class="pDataHeader">год</p>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -98,7 +100,6 @@ Vue.component('supertable',{
         ></v-text-field>
       </v-card-title>
       <v-data-table
-        items-per-page="25"
         multi-sort
         :headers="headers"
         :items="desserts"
@@ -112,14 +113,14 @@ Vue.component('supertable',{
 
 
 
-      const urlkaf = "http://78.24.220.66:9000/rating/kafedras"
-      const urlman = "http://78.24.220.66:9000/rating/profiles"
-      const urlyear ="http://78.24.220.66:9000/rating/years"
-      const urlpar = "http://78.24.220.66:9000/rating/profilerating"
-      const urlpar1 = "http://78.24.220.66:9000/rating/profileplace"
-      const urlparkaf = "http://78.24.220.66:9000/rating/graphkafedra"
-      const urlgraph = "http://78.24.220.66:9000/rating/graph"
-      const urlgraphMan = "http://78.24.220.66:9000/rating/profilesfilter"
+      const urlkaf = "http://127.0.0.1:8000/rating/kafedras"
+      const urlman = "http://127.0.0.1:8000/rating/profiles"
+      const urlyear ="http://127.0.0.1:8000/rating/years"
+      const urlpar = "http://127.0.0.1:8000/rating/profilerating"
+      const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
+      const urlparkaf = "http://127.0.0.1:8000/rating/graphkafedra"
+      const urlgraph = "http://127.0.0.1:8000/rating/graph"
+      const urlgraphMan = "http://127.0.0.1:8000/rating/profilesfilter"
 
       Vue.component('apexchart', VueApexCharts)
 
@@ -167,7 +168,7 @@ Vue.component('supertable',{
           options: {
             chart: {
               type: 'bar',
-              height: '100%',
+              height: 'auto',
               width:'100%',
               stacked: true,
               toolbar: {
@@ -204,7 +205,7 @@ Vue.component('supertable',{
             },
             legend: {
               horizontalAlign: 'left',
-              width: 500,
+              width: "100%",
               position: 'top',
             },
             fill: {
