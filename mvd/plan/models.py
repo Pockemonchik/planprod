@@ -102,7 +102,10 @@ class Plan(models.Model):
             str(self.dr_1_p),
             str(self.dr_2_p),
             str(self.inr_1_p),
-            str(self.inr_2_p))
+            str(self.inr_2_p),
+            str(self.dr_1_p),
+            str(self.dr_2_p),
+        )
 
 class DocInfo(models.Model):
     shapka=models.CharField(max_length=250,blank=True)
