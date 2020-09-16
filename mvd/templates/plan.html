@@ -244,6 +244,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 ">
               <!-- <div class="row content-input"> -->
                 <div class="card rounded">
+                  <input type="hidden" value="{{profile.info.dolznost}}" id="defaultSelectedDolzhnost">
                    <form  action="{%url 'profileinfo'%}" method="post" class="shapka" id="qwewq">
                   {% csrf_token %}
                   <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
@@ -265,8 +266,8 @@
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="lastName">Должность</label>
-                      <!-- {{infoform.dolznost}} -->
-                      <select label="Должность" name="dolznost" id="id_dolznost" class="form-control">
+                      
+                      <select label="Должность" name="dolznost" id="id_dolznost" class="form-control" v-model="defaultSelectedDolzhnost">
                         <option v-for="item in dolzhnost" :value="item">{item}</option>
                       </select>
                         <div class="invalid-feedback">
@@ -736,6 +737,8 @@ Vue.component('supertable',{
       // userredirect:"",
 
       dolzhnost: ["профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
+      defaultSelectedDolzhnost: document.getElementById('defaultSelectedDolzhnost').value,
+
       kafname:document.getElementById("kafname").value,
       plfa:"",
       planfact:["Планируемая","Фактическая"],
