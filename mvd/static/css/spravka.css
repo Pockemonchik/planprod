@@ -54,10 +54,18 @@
 }
 
 .dolbpic1 {
-    height: 50px;
+    height: 36px;
+    width: 60px !important;
 }
 
 .dolbpic2 {
-    height: 70px;
+    height: 40px;
+    width: 45px !important;
 }
 
+.forma2{
+    width: 95% !important;
+}
+.doc{
+    width: 30px !important;
+}
