@@ -102,7 +102,7 @@ def detail_plan(request, slug, year):
         formset14 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
         kafedri = Kafedra.objects.all()
         try:
-            kolvomes = Rating.objects.get(profile=profile1).kolvomes
+            kolvomes = Rating.objects.get(profile=profile1,year=year).kolvomes
         except Exception as e:
             print(e)
             kolvomes = 0
