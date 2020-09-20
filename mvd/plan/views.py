@@ -101,6 +101,11 @@ def detail_plan(request, slug, year):
         formset13 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
         formset14 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
         kafedri = Kafedra.objects.all()
+        try:
+            kolvomes = Rating.objects.get(profile=profile1).kolvomes
+        except Exception as e:
+            print(e)
+            kolvomes = 0
         if profile.role == 2:
             kafedri = Kafedra.objects.filter(name=profile.kafedra.name)
         try:
@@ -135,7 +140,8 @@ def detail_plan(request, slug, year):
             'shapka': shapka,
             'docForm': docForm,
             'mesyac': mesyac,
-            'title': title
+            'title': title,
+            'kolvomes': kolvomes
 
         })
     else:
