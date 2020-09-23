@@ -54,7 +54,8 @@
                         </div>
                      </div>
                      <div class="col justify-content-end">
-                        <label for="address" class="lableKolMesyac flex-row justify-content-end">Количество отработанных месяцев</label>
+                        <label for="address" class="lableKolMesyac flex-row justify-content-end">Количество отработанных
+                           месяцев</label>
                         <div class="flex-row justify-content-end">
 
                            <input type="number" name="kolvomes" value="{{kolvomes}}" class="form-control kolvomes">
@@ -142,7 +143,7 @@
                               <a class="nav-item nav-link" id="tab3" data-toggle="tab" href="#nav3" role="tab"
                                  aria-selected="false">Факт. вып. работа</a>
                               <a class="nav-item nav-link" id="tab4" data-toggle="tab" href="#nav4" role="tab"
-                                 aria-selected="false">Ежемесяный Учет вып. уч. нагрузок</a>
+                                 aria-selected="false">Ежемесячный учет вып. уч. нагрузок</a>
                               <a class="nav-item nav-link" id="tab5" data-toggle="tab" href="#nav5" role="tab"
                                  aria-selected="false">Метод. работа</a>
                               <a class="nav-item nav-link" id="tab6" data-toggle="tab" href="#nav6" role="tab"
@@ -157,7 +158,7 @@
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
                            <div class="tab-pane fade show active row-content" id="nav1" role="tabpanel">
-                              <h3>Сведения об выполнении видов работ</h3>
+                              <h3>Сведения о выполнении видов работ</h3>
                               <div class="flex-block" id="table-first">
                                  <!-- <hr class="mt-2"> -->
                                  <form action="{%url 'mainTableSave'%}" method="post">
@@ -215,21 +216,20 @@
                                     <input type="hidden" name="profile" value="{{profile1.user.username}}">
                                     <input type="hidden" name="year" value="{{plan.year}}">
                                     <div class="flex-row  justify-content-start">
-                                    {%if profile.role == 2 or profile.role == 3%}
-                                    <div class="btn-right saveBtnVidRabot">
-                                       <button type="button" class="btn btn-outline-primary btn-save"
-                                          @click="save($event)" :disabled="dis">{buttontext}</button>
-                                       <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                       <div class="btn-right saveBtnVidRabot">
+                                          <button type="button" class="btn btn-outline-primary btn-save"
+                                             @click="save($event)" :disabled="dis">{buttontext}</button>
+                                          <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                       </div>
+                                       <div class="btn-right">
+                                          <button type="button" style="flex: auto;"
+                                             class="btn btn-outline-primary btn-save" @click="updateFirstTable($event)"
+                                             :disabled="dis">Обновить данные</button>
+                                          <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                                       </div>
                                     </div>
-                                    {%endif%}
-                                    <div class="btn-right">
-                                       <button type="button" style="flex: auto;" class="btn btn-outline-primary btn-save"
-                                          @click="updateFirstTable($event)" :disabled="dis">Обновить данные</button>
-                                       <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                                    </div>
-                                 </div>
                                  </form>
-                                 
+
                               </div>
 
                            </div>
@@ -572,7 +572,8 @@
                                           {%endfor%}
 
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset3.empty_form %}
                                              <td>{{ field }}</td>
@@ -726,7 +727,8 @@
 
 
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset3.empty_form %}
                                              <td>{{ field }}</td>
@@ -910,7 +912,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset5.empty_form %}
                                              <td>{{ field }}</td>
@@ -956,7 +959,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset6.empty_form %}
                                              <td>{{ field }}</td>
@@ -1002,7 +1006,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset7.empty_form %}
                                              <td>{{ field }}</td>
@@ -1046,7 +1051,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset8.empty_form %}
                                              <td>{{ field }}</td>
@@ -1092,7 +1098,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset9.empty_form %}
                                              <td>{{ field }}</td>
@@ -1137,7 +1144,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset10.empty_form %}
                                              <td>{{ field }}</td>
@@ -1184,7 +1192,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset13.empty_form %}
                                              <td>{{ field }}</td>
@@ -1229,7 +1238,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset14.empty_form %}
                                              <td>{{ field }}</td>
@@ -1276,7 +1286,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset11.empty_form %}
                                              <td>{{ field }}</td>
@@ -1321,7 +1332,8 @@
                                           </tr>
                                           {%endfor%}
                                           <tr id="empty_form" style="display:none;">
-                                             <td class="deleteRow" @click="deleteRow"><img src="{% static "admin1/images/minus.png" %}">
+                                             <td class="deleteRow" @click="deleteRow"><img
+                                                   src="{% static "admin1/images/minus.png" %}">
                                              </td>
                                              {% for field in formset12.empty_form %}
                                              <td>{{ field }}</td>
@@ -1372,57 +1384,64 @@
          timeout: 2000,
       },
       methods: {
+         cl(){
+            console.log(this.rtn())
+         },
+         rtn(){
+            return ['a','b'].indexOf('a') !== -1
+         },
          updateFirstTable($event) {
-            this.dis = true
-            var pathpost = "{% url 'update_plan_summ' profile1.user.username plan.year%}"
-            console.log(event)
-            console.log(event.path[3][1])
-            let firstNUM=event.path[3][1]
-            let secondNUM=event.path[3][2]
+            this.cl()
+            this.dis = true;
+            var pathpost = "{% url 'update_plan_summ' profile1.user.username plan.year%}";
+            console.log(event);
+            console.log(event.target.form[1]);
+            var firstNUM = event.target.form[1];
+            var secondNUM = event.target.form[2];
             axios.get(pathpost).then((response) => {
-               console.log(response.data)
-               firstNUM.value = response.data[0].first
-               secondNUM.value = response.data[0].second
-               this.dis = false
+               console.log(response.data);
+               firstNUM.value = response.data[0].first;
+               secondNUM.value = response.data[0].second;
+               this.dis = false;
             }).catch((errors) => {
-               this.dis = false
-               this.text = "Ошибка соединения"
-               this.snackbar = true
-               console.log(errors)
+               this.dis = false;
+               this.text = "Ошибка соединения";
+               this.snackbar = true;
+               console.log(errors);
             })
          },
-         addRow($event) {
-            var form_idx = event.target.closest('form')
-            console.log(form_idx)
-            var count = $(form_idx).find('#id_form-TOTAL_FORMS').val()
+         addRow(event) {
+            var form_idx = event.target.closest('form');
+            console.log(form_idx);
+            var count = $(form_idx).find('#id_form-TOTAL_FORMS').val();
             // $(form_idx).find('table').append($('#empty_form').html().replace(/__prefix__/g, count));
-            var empty_form = $(form_idx).find('#empty_form')
-            console.log(empty_form)
+            var empty_form = $(form_idx).find('#empty_form');
+            console.log(empty_form);
             var newrow = $(empty_form).html().replace(/__prefix__/g, count);
 
-            $('<tr>').appendTo($(form_idx).find('tbody'))
-            
-            console.log(form_idx)
-            var table = $(form_idx).children('#table').children('#form_set');
+            $('<tr>').appendTo($(form_idx).find('tbody'));
 
-            $(newrow).clone().appendTo($(table).find('tbody'))
+            console.log(form_idx);
+            var table = $(form_idx).children('#table').children('#form_set');;
 
-            $('</tr>').appendTo($(form_idx).find('tbody'))
+            $(newrow).clone().appendTo($(table).find('tbody'));
+
+            $('</tr>').appendTo($(form_idx).find('tbody'));
             $(form_idx).find('#id_form-TOTAL_FORMS').val(parseInt(count) + 1);
          },
          deleteRow() {
-            var test = document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center')
-            console.log("del")
+            var test = document.getElementsByClassName('table table-bordered table-responsive-md table-striped text-center');
+            console.log("del");
             for (var i = 0; i < test.length; i++) {
-               console.log(test[i])
+               console.log(test[i]);
                test[i].addEventListener('click', function (evt) {
                   if (evt.target.closest('.deleteRow')) {
                      m = evt.target.closest('tr');
-                     var i = m.getElementsByTagName('textarea')[0]
-                     console.log($(i).val())
-                     var t = ""
-                     $(i).val(t)
-                     console.log($(i).val())
+                     var i = m.getElementsByTagName('textarea')[0];
+                     console.log($(i).val());
+                     var t = "";
+                     $(i).val(t);
+                     console.log($(i).val());
                      evt.target.closest('tr').style.display = 'none';
 
                   }
@@ -1430,45 +1449,54 @@
             }
          },
          save(event) {
-            console.log(event)
-            this.dis = true
-            this.buttontext = "Загрузка таблицы..."
-            try { var form = event.path[2]; var formData = new FormData(form); }
-            catch{ var form = event.path[3]; var formData = new FormData(form); }
-            var pathpost = form.action
+            this.dis = true;
+            this.buttontext = "Загрузка таблицы...";
+            console.log(event);
+            // if (event.path[2].localName == "form") { 
+            //    var form = event.path[2]; var formData = new FormData(form); 
+            //    console.log(form)
+            //    } 
+            // else { 
+            //    var form = event.path[3]; var formData = new FormData(form); 
+            //    console.log(form)
+            // };
+            var form = event.target.form;
+            var formData = new FormData(form)
+
+            var pathpost = form.action;
             axios.post(pathpost, formData).then((response) => {
-               this.dis = false
-               this.buttontext = "Сохранить таблицу"
-               this.text = response.data
-               this.snackbar = true
+               this.dis = false;
+               this.buttontext = "Сохранить таблицу";
+               this.text = response.data;
+               this.snackbar = true;
             })
                .catch((errors) => {
-                  this.dis = false
-                  this.buttontext = "Сохранить таблицу"
-                  this.text = "Ошибка соединения"
-                  this.snackbar = true
-                  console.log(errors)
+                  this.dis = false;
+                  this.buttontext = "Сохранить таблицу";
+                  this.text = "Ошибка соединения";
+                  this.snackbar = true;
+                  console.log(errors);
                })
 
          },
          saveShap(event) {
-            this.dis = true
-            this.buttontext = "Загрузка таблицы..."
-            form = event.path[4];
+            this.dis = true;
+            this.buttontext = "Загрузка таблицы...";
+            form = event.target.form;
             var formData = new FormData(form);
-            var pathpost = event.path[4].action
+            var pathpost = event.target.form.action;
             axios.post(pathpost, formData).then((response) => {
-               this.dis = false
-               this.buttontext = "Сохранить таблицу"
-               this.text = response.data
-               this.snackbar = true
+               this.dis = false;
+               this.buttontext = "Сохранить таблицу";
+               this.text = response.data;
+               this.snackbar = true;
             })
                .catch((errors) => {
-                  this.dis = false
-                  this.buttontext = "Сохранить таблицу"
-                  this.text = "Ошибка соединения"
-                  this.snackbar = true
-                  console.log(errors)
+                  this.dis = false;
+                  this.buttontext = "Сохранить таблицу";
+                  this.text = "Ошибка соединения";
+                  this.snackbar = true;
+                  console.log(errors);
                })
          }
       }

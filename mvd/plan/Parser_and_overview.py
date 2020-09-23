@@ -463,10 +463,12 @@ def tekeUpdateTable(document):
                 if cell.text == '' or cell.text == ' ':
                     listRow.append('0')
                 else:
+                    cell.text = cell.text.replace(',','.')
                     listRow.append(cell.text)
             listOneTable.append(listRow)
         countRow+=1
     listAllTable.append(listOneTable)
+    print(listOneTable)
     listOneTable = []
 
     #Метод 1 полугодие
@@ -614,7 +616,7 @@ def takeTable(nameDoc):
     # document = Document("/root/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
     # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
-    document = Document('C:/Users/UzziMauzer/Desktop/planprod/' + nameDoc)
+    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
 
     # document = nameDoc
     listAllTable = []
@@ -730,6 +732,7 @@ def takeTable(nameDoc):
                 if cell.text == '' or cell.text == ' ':
                     listRow.append('0')
                 else:
+                    cell.text = cell.text.replace(',','.')
                     listRow.append(cell.text)
             listOneTable.append(listRow)
         countRow+=1

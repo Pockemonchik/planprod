@@ -79,7 +79,7 @@ Vue.component('supertable',{
   methods: {
     updateTable(value) {
       console.log(value)
-      axios.get("127.0.0.1:8000/rating/ratingTable/", {params: {year:value}}).then(response => {
+      axios.get("http://" + document.location.host + "/rating/ratingTable/", {params: {year:value}}).then(response => {
         this.desserts=response.data
       })
     }
@@ -113,14 +113,14 @@ Vue.component('supertable',{
 
 
 
-      const urlkaf = "http://127.0.0.1:8000/rating/kafedras"
-      const urlman = "http://127.0.0.1:8000/rating/profiles"
-      const urlyear ="http://127.0.0.1:8000/rating/years"
-      const urlpar = "http://127.0.0.1:8000/rating/profilerating"
-      const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
-      const urlparkaf = "http://127.0.0.1:8000/rating/graphkafedra"
-      const urlgraph = "http://127.0.0.1:8000/rating/graph"
-      const urlgraphMan = "http://127.0.0.1:8000/rating/profilesfilter"
+      const urlkaf = "http://" + document.location.host + "/rating/kafedras"
+      const urlman = "http://" + document.location.host + "/rating/profiles"
+      const urlyear ="http://" + document.location.host + "/rating/years"
+      const urlpar = "http://" + document.location.host + "/rating/profilerating"
+      const urlpar1 = "http://" + document.location.host + "/rating/profileplace"
+      const urlparkaf = "http://" + document.location.host + "/rating/graphkafedra"
+      const urlgraph = "http://" + document.location.host + "/rating/graph"
+      const urlgraphMan = "http://" + document.location.host + "/rating/profilesfilter"
 
       Vue.component('apexchart', VueApexCharts)
 
@@ -250,11 +250,11 @@ Vue.component('supertable',{
           },
           getRatingAllCafedras(){
             if (this.yearGraph != ''){
-              axios.get('http://127.0.0.1:8000/rating/graph', {params: {kafedra:'Рейтинг по кафедрам',year:this.yearGraph}}).then(response => {
+              axios.get("http://" + document.location.host + "/rating/graph", {params: {kafedra:'Рейтинг по кафедрам',year:this.yearGraph}}).then(response => {
               console.log(response.data)
               this.updateSeries(response.data)
             })
-            axios.get('http://127.0.0.1:8000/rating/kafedras/').then(response => {
+            axios.get("http://" + document.location.host + "/rating/kafedras/").then(response => {
               var fio=[]
               console.log(response.data)
               response.data.forEach(element => {

@@ -719,7 +719,7 @@ def docxobr(request):
 
 
 def handle_uploaded_file(f):
-    with open('anal.docx', 'wb+') as destination:
+    with open('analize.docx', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -735,7 +735,7 @@ def documentAnalize(request):
             print(profile.fullname)
             handle_uploaded_file(file)
             try:
-                data = takeTable('anal.docx')
+                data = takeTable('analize.docx')
             except Exception as e:
                 print(e)
                 print("fail takeTable")

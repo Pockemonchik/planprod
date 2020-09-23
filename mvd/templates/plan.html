@@ -9,7 +9,7 @@
 <script src="{% static "/js/vue.js" %}"></script>
 <script src="{% static "/js/axios.js" %}"></script>
 <script src="{% static "/js/vuetify.js" %}"></script>
-   <div class="content active">
+<div class="content active">
   <div class="container-fluid" id="app" data-app>
     <div class="row">
       <div class="col p-5">
@@ -23,65 +23,61 @@
                   <h3>Индивидуальные планы</h3>
                   <!-- <button type="button" class="btn btn-outline-primary dok-button">Добавить ИП</button> -->
 
-                  <v-menu
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :nudge-width="100"
-                    offset-x
-                    left
-                  >
+                  <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="100" offset-x left>
                     <template v-slot:activator="{ on, attrs }">
-                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить ИП</button>
+                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить
+                        ИП</button>
                     </template>
 
                     <v-card>
                       <form>
                         {%csrf_token%}
-                      <v-list>
-                        <v-list-item>
+                        <v-list>
+                          <v-list-item>
 
-                          <v-list-item-action>
-                            <v-text-field
-                              solo
-                              label="Введите год"
-                              v-model="yearIP"
-                              clearable
-                              name="year"
-                            ></v-text-field>
-                          </v-list-item-action>
-                        </v-list-item>
-                      </v-list>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
+                            <v-list-item-action>
+                              <v-text-field label="Введите год" v-model="yearIP" clearable name="year" :rules="rules"
+                                hide-details="auto"></v-text-field>
+                            </v-list-item-action>
+                          </v-list-item>
+                        </v-list>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
 
-                        <v-btn text @click="menu = false">закрыть</v-btn>
-                        <v-btn color="#007bff" text @click="addIP($event)">сохранить</v-btn>
-                      </v-card-actions>
-                    </form>
+                          <v-btn text @click="menu = false">закрыть</v-btn>
+                          <v-btn color="#007bff" text @click="addIP($event)">сохранить</v-btn>
+                        </v-card-actions>
+                      </form>
                     </v-card>
                   </v-menu>
 
                 </div>
-                <div class="card-body card-body-alt dokumenti" >
+                <div class="card-body card-body-alt dokumenti">
                   <table class="table table-css">
                     <tbody>
                       {%for plan in plans%}
                       <tr>
-                        <td style="border:0;width:35px;"><a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " ><img src="{% static "admin1/images/doc.png" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;width:35px;"><a
+                            href="{%url 'detail_plan' plan.prepod.user.username plan.year %} "><img
+                              src="{% static "admin1/images/doc.png" %}" width="35px" height="35px" alt=""></a></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.fullname}}</td>
                         <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
-                        	<a href="{%url  'documentSave' profile.user.username  plan.year %}" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                          <a href="{%url  'documentSave' profile.user.username  plan.year %}"
+                            class="ml-1 btn btn-sm btn-light badge-pill"><img
+                              src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
                       <template v-for="item in items">
                         <tr>
-                          <td style="border:0;width:35px;"><a v-bind:href="item.href" ><img src="/static/admin1/images/doc.png" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;width:35px;"><a v-bind:href="item.href"><img
+                                src="/static/admin1/images/doc.png" width="35px" height="35px" alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
                           <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
-                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
+                                src="/static/admin1/images/download.png"></a>
                           </td>
                         </tr>
                       </template>
@@ -93,31 +89,21 @@
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Рейтинги</h3>
-                    <v-menu
-                      v-model="menuRate"
-                      :close-on-content-click="false"
-                      :nudge-width="100"
-                      offset-x
-                      left
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
-                      </template>
+                  <v-menu v-model="menuRate" :close-on-content-click="false" :nudge-width="100" offset-x left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <button type="button" v-bind="attrs" v-on="on"
+                        class="btn btn-outline-primary dok-button">Сформировать рейтинг</button>
+                    </template>
 
-                      <v-card>
-                        <form>
-                          {%csrf_token%}
+                    <v-card>
+                      <form>
+                        {%csrf_token%}
                         <v-list>
                           <v-list-item>
 
                             <v-list-item-action>
-                              <v-text-field
-                                name="year"
-                                solo
-                                label="Введите год"
-                                v-model="yearRate"
-                                clearable
-                              ></v-text-field>
+                              <v-text-field name="year" label="Введите год" v-model="yearRate" clearable :rules="rules"
+                                hide-details="auto"></v-text-field>
                             </v-list-item-action>
                           </v-list-item>
                         </v-list>
@@ -125,32 +111,38 @@
                           <v-spacer></v-spacer>
 
                           <v-btn text @click="menuRate = false">закрыть</v-btn>
-                          <v-btn color="#007bff" text @click="addRate">сохранить</v-btn>
+                          <v-btn color="#007bff" text @click="addRate($event)">сохранить</v-btn>
                         </v-card-actions>
                       </form>
-                      </v-card>
-                    </v-menu>
+                    </v-card>
+                  </v-menu>
                 </div>
-                <div class="card-body card-body-alt dokumenti" >
+                <div class="card-body card-body-alt dokumenti">
                   <table class="table table-css">
                     <tbody>
                       {%for r in ratings%}
                       <tr>
-                        <td style="border:0;width:35px;"><a href="{%url 'rate_otsenka' r.profile.user.username r.year %} " ><img src="{% static "admin1/images/graph.svg" %}" width="35px" height="35px"  alt=""></a></td>
+                        <td style="border:0;width:35px;"><a
+                            href="{%url 'rate_otsenka' r.profile.user.username r.year %} "><img
+                              src="{% static "admin1/images/graph.svg" %}" width="35px" height="35px" alt=""></a></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{r.profile.fullname}}</td>
                         <td style="border:0;vertical-align:middle;">{{r.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
-                        	<a href="{%url  'documentSaveRating' r.year profile.user.username   %}" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                          <a href="{%url  'documentSaveRating' r.year profile.user.username   %}"
+                            class="ml-1 btn btn-sm btn-light badge-pill"><img
+                              src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
                       <template v-for="item in itemsRate">
                         <tr>
-                          <td style="border:0;width:35px;"><a v-bind:href="item.href" ><img src="/static/admin1/images/graph.svg" width="35px" height="35px"  alt=""></a></td>
+                          <td style="border:0;width:35px;"><a v-bind:href="item.href"><img
+                                src="/static/admin1/images/graph.svg" width="35px" height="35px" alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
                           <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
-                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
+                                src="/static/admin1/images/download.png"></a>
                           </td>
                         </tr>
                       </template>
@@ -163,74 +155,66 @@
               <div class="card rounded">
                 <div class="card-header">
                   <h3>Документы кафедры</h3>
-                  <v-menu
-                    v-model="menuDoc"
-                    :close-on-content-click="false"
-                    :nudge-width="100"
-                    offset-x
-                    left
-                  >
+                  <v-menu v-model="menuDoc" :close-on-content-click="false" :nudge-width="100" offset-x left>
                     <template v-slot:activator="{ on, attrs }">
-                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить документ</button>
+                      <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить
+                        документ</button>
                     </template>
 
                     <v-card>
                       <form>
                         {%csrf_token%}
-                      <v-list>
-                        <v-list-item>
+                        <v-list>
+                          <v-list-item>
 
-                            <v-text-field
-                              name="year"
-                              label="Введите год"
-                              clearable
-                              v-model="yearDoc"
-                            ></v-text-field>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-select
-                            name="status"
-                            :items="planfact"
-                            label="Вид нагрузки"
-                            v-model="plfa"
-                          ></v-select>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-file-input name="document" accept=".xlsx" label="Файл .xlsx" prepend-icon=""></v-file-input>
-                        </v-list-item>
-                      </v-list>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn text @click="menuDoc = false">Закрыть</v-btn>
-                        <v-btn color="#007bff" text @click="addDoc">Сохранить</v-btn>
-                      </v-card-actions>
-                    </form>
+                            <v-text-field name="year" label="Введите год" clearable v-model="yearDoc" :rules="rules"
+                              hide-details="auto">
+                            </v-text-field>
+                          </v-list-item>
+                          <v-list-item>
+                            <v-select name="status" :items="planfact" label="Вид нагрузки" v-model="plfa"></v-select>
+                          </v-list-item>
+                          <v-list-item>
+                            <v-file-input name="document" accept=".xlsx" label="Файл .xlsx" prepend-icon="">
+                            </v-file-input>
+                          </v-list-item>
+                        </v-list>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn text @click="menuDoc = false">Закрыть</v-btn>
+                          <v-btn color="#007bff" text @click="addDoc($event)">Сохранить</v-btn>
+                        </v-card-actions>
+                      </form>
                     </v-card>
                   </v-menu>
 
                 </div>
-                <div class="card-body card-body-alt dokumenti" >
+                <div class="card-body card-body-alt dokumenti">
                   <table class="table table-css">
                     <tbody>
-                       {%if profile.role == 2 or profile.role == 3%}
+                      {%if profile.role == 2 or profile.role == 3%}
                       {%for doc in nagruzkadocs%}
                       <tr>
-                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}" width="35px" height="35px"  alt=""></td>
+                        <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}"
+                            width="35px" height="35px" alt=""></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{doc}}</td>
                         <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
-                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="{% static "admin1/images/download.png" %}"></a>
+                          <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
+                              src="{% static "admin1/images/download.png" %}"></a>
                         </td>
                       </tr>
                       {%endfor%}
                       {%endif%}
                       <template v-for="item in itemsDoc">
                         <tr>
-                          <td style="border:0;width:35px;"><img src="/static/admin1/images/docexel.png" width="35px" height="35px"  alt=""></td>
+                          <td style="border:0;width:35px;"><img src="/static/admin1/images/docexel.png" width="35px"
+                              height="35px" alt=""></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{item.kafname}</td>
                           <td style="border:0;vertical-align:middle;">{item.year}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
-                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img src="/static/admin1/images/download.png"></a>
+                            <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
+                                src="/static/admin1/images/download.png"></a>
                           </td>
                         </tr>
                       </template>
@@ -243,33 +227,36 @@
 
             <div class="col-lg-6 col-md-6 col-sm-12 ">
               <!-- <div class="row content-input"> -->
-                <div class="card rounded">
-                  <input type="hidden" value="{{profile.info.dolznost}}" id="defaultSelectedDolzhnost">
-                   <form  action="{%url 'profileinfo'%}" method="post" class="shapka" id="qwewq">
+              <div class="card rounded">
+                <input type="hidden" value="{{profile.info.dolznost}}" id="defaultSelectedDolzhnost">
+                <form action="{%url 'profileinfo'%}" method="post" class="shapka" id="qwewq">
                   {% csrf_token %}
-                  <input type="hidden"name="profile"  value="{{profile1.user.username}}"><input type="hidden"name="year"  value="{{plan.year}}">
-                <div class="card-header">
-                  <h3>Информация об аккаунте</h3>
-                  <button type="button" class="btn btn-outline-primary dok-button" @click="save($event)" :disabled="dis">{buttontext}</button>
-                  <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
-                </div>
+                  <input type="hidden" name="profile" value="{{profile1.user.username}}"><input type="hidden"
+                    name="year" value="{{plan.year}}">
+                  <div class="card-header">
+                    <h3>Информация об аккаунте</h3>
+                    <button type="button" class="btn btn-outline-primary dok-button" @click="save($event)"
+                      :disabled="dis">{buttontext}</button>
+                    <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular>
+                  </div>
 
 
                   <div class="block-content">
                     <div class="row">
                       <div class="col-md-6 mb-3">
                         <label for="firstName">Фио преподавателя</label>
-                          {{infoform.fio}}
+                        {{infoform.fio}}
                         <div class="invalid-feedback">
                           Valid first name is required.
                         </div>
                       </div>
                       <div class="col-md-6 mb-3">
                         <label for="lastName">Должность</label>
-                      
-                      <select label="Должность" name="dolznost" id="id_dolznost" class="form-control" v-model="defaultSelectedDolzhnost">
-                        <option v-for="item in dolzhnost" :value="item">{item}</option>
-                      </select>
+
+                        <select label="Должность" name="dolznost" id="id_dolznost" class="form-control"
+                          v-model="defaultSelectedDolzhnost">
+                          <option v-for="item in dolzhnost" :value="item">{item}</option>
+                        </select>
                         <div class="invalid-feedback">
                           Valid last name is required.
                         </div>
@@ -277,7 +264,9 @@
                     </div>
                     <div class="mb-3">
                       <label for="email">Кафедра</label>
-                      <input type="text" readonly name="kafedra" id="id_kafedra" maxlength="250" placeholder="кафедры административного права" class="form-control" value="{{profile.kafedra.fullname}}">
+                      <input type="text" readonly name="kafedra" id="id_kafedra" maxlength="250"
+                        placeholder="кафедры административного права" class="form-control"
+                        value="{{profile.kafedra.fullname}}">
                     </div>
                     <div class="mb-3 row">
                       <div class="col-lg-3 col-md-6">
@@ -286,319 +275,284 @@
                       </div>
                       <div class="col-lg-3 col-md-6">
                         <label for="address" class="infoAccLable">Ученая степень</label>
-                       {{infoform.uchst}}
+                        {{infoform.uchst}}
                       </div>
                       <div class="col-lg-3 col-md-6">
                         <label for="address" class="infoAccLable">Ученое звание</label>
-                      {{infoform.uchzv}}
+                        {{infoform.uchzv}}
                       </div>
                       <div class="col-lg-3 col-md-6">
                         <label for="address" class="infoAccLable">Выслуга полных лет</label>
-                       {{infoform.visluga}}
+                        {{infoform.visluga}}
                       </div>
                     </div>
                   </div>
                 </form>
-                  </div>
+              </div>
 
               <!-- </div> -->
-                {%if profile.role == 2 or profile.role == 3%}
+              {%if profile.role == 2 or profile.role == 3%}
               <div class="card rounded">
                 <supertable></supertable>
               </div>
               {%endif%}
             </div>
+          </div>
+        </div>
       </div>
+
     </div>
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      { text }
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Закрыть
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-dialog v-model="dialogredirect" persistent max-width="700px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Перейти в:</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" sm="5" md="5">
+                <v-text-field label="Индивидальный план за" rows="1" :disabled="true" :rounded="true" auto-grow="true">
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="3" md="3">
+                <v-text-field label="Введите год" v-model="redtoIPYear"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="1">
+                <v-text-field label="год" rows="1" :disabled="true" :rounded="true" auto-grow="true"></v-text-field>
+
+              </v-col>
+
+              <v-col cols="12" sm="3" md="3">
+                <v-btn style="margin-top: 10px;" @click="redtoIP($event)">
+                  Перейти
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12" sm="5" md="5">
+                <v-text-field label="Рейтинги за" rows="1" :disabled="true" :rounded="true" auto-grow="true">
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="3" md="3">
+                <v-text-field label="Введите год" v-model="redtoRateYear"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="1">
+                <v-text-field label="год" rows="1" :disabled="true" :rounded="true" auto-grow="true"></v-text-field>
+
+              </v-col>
+              <v-col cols="12" sm="3" md="3">
+                <v-btn style="margin-top: 10px;" @click="redtoRate($event)">
+                  Перейти
+                </v-btn>
+              </v-col>
+
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialogredirect=false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <input type="hidden" value={{profile.kafedra.name}} id="kafname">
   </div>
-
-</div>
-<v-snackbar
-         v-model="snackbar"
-         :timeout="timeout"
-         >
-         { text }
-
-         <template v-slot:action="{ attrs }">
-            <v-btn
-               color="blue"
-               text
-               v-bind="attrs"
-               @click="snackbar = false"
-            >
-               Закрыть
-            </v-btn>
-         </template>
-      </v-snackbar>
-        <v-dialog v-model="dialogredirect" persistent max-width="700px">
-          <v-card>
-            <v-card-title>
-              <span class="headline">Перейти в:</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="5" md="5">
-                    <v-text-field
-                      label="Индивидальный план за"
-                      rows="1"
-                      :disabled="true"
-                      :rounded="true"
-                      auto-grow="true"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="3" md="3">
-                    <v-text-field
-                      label="Введите год"
-                      v-model="redtoIPYear"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="1" md="1">
-                    <v-text-field
-                      label="год"
-                      rows="1"
-                      :disabled="true"
-                      :rounded="true"
-                      auto-grow="true"
-                    ></v-text-field>
-
-                  </v-col>
-
-                  <v-col cols="12" sm="3" md="3">
-                    <v-btn style="margin-top: 10px;" @click="redtoIP()">
-                      Перейти
-                    </v-btn>
-                  </v-col>
-
-                  <v-col cols="12" sm="5" md="5">
-                    <v-text-field
-                      label="Рейтинги за"
-                      rows="1"
-                      :disabled="true"
-                      :rounded="true"
-                      auto-grow="true"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="3" md="3">
-                    <v-text-field
-                      label="Введите год"
-                      v-model="redtoRateYear"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="1" md="1">
-                    <v-text-field
-                      label="год"
-                      rows="1"
-                      :disabled="true"
-                      :rounded="true"
-                      auto-grow="true"
-                    ></v-text-field>
-
-                  </v-col>
-                  <v-col cols="12" sm="3" md="3">
-                    <v-btn style="margin-top: 10px;" @click="redtoRate()">
-                      Перейти
-                    </v-btn>
-                  </v-col>
-
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="dialogredirect=false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <input type="hidden" value={{profile.kafedra.name}} id="kafname">
-</div>
 </div>
 </div>
 <script id='INLINE_PEN_JS_ID'>
-Vue.component('supertable',{
-  delimiters:['##','##'],
-  data: () => ({
-    rulesLogin: [
-      value => !!value || 'Required.',
-      value => {
-        const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
-        return pattern.test(value) || 'Только буквы или цифры'
+  Vue.component('supertable', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      rulesLogin: [
+        value => !!value || 'Required.',
+        value => {
+          const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
+          return pattern.test(value) || 'Только буквы или цифры';
+        },
+      ],
+      rulesPassword: [
+        value => !!value || 'Required.',
+        value => {
+          const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
+          return pattern.test(value) || 'Только буквы или цифры';
+        },
+      ],
+      flagDialogAddOrEdit: false,
+      dialog: false,
+      snackbar: false,
+      timeout: 2000,
+      buttontext: "Сохранить таблицу",
+      text: 'My timeout is set to 2000.',
+      headers: [
+        {
+          text: 'ФИО',
+          align: 'start',
+          value: 'name',
+        },
+        { text: 'Действия', value: 'actions', sortable: false },
+      ],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        login: '',
+        password: '',
       },
-    ],
-    rulesPassword: [
-      value => !!value || 'Required.',
-      value => {
-        const pattern = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
-        return pattern.test(value) || 'Только буквы или цифры'
+      defaultItem: {
+        name: '',
+        login: '',
+        password: '',
       },
-    ],
-    flagDialogAddOrEdit: false,
-    dialog: false,
-    snackbar: false,
-    timeout: 2000,
-    buttontext:"Сохранить таблицу",
-    text: 'My timeout is set to 2000.',
-    headers: [
-      {
-        text: 'ФИО',
-        align: 'start',
-        value: 'name',
+    }),
+
+    computed: {
+      formTitle() {
+        return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
       },
-      { text: 'Действия', value: 'actions', sortable: false },
-    ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      login: '',
-      password: '',
     },
-    defaultItem: {
-      name: '',
-      login: '',
-      password: '',
+
+    watch: {
+      dialog(val) {
+        val || this.close();
+      },
     },
-  }),
 
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    created() {
+      this.initialize();
     },
-  },
 
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-  },
-
-  created () {
-    this.initialize()
-  },
-
-  methods: {
-    initialize () {
-      console.log(this.$root.kafname)
-      axios.get("http://127.0.0.1:8000/supertable/", {params: {"kafname":this.$root.kafname}}).then((response) => {
-        this.desserts= response.data
+    methods: {
+      initialize() {
+        console.log(this.$root.kafname);
+        axios.get("http://" + document.location.host + "/supertable/", { params: { "kafname": this.$root.kafname } }).then((response) => {
+          this.desserts = response.data;
         })
-      // this.desserts = [
-      //   {
-      //     name: 'Ленин Владимир Ильич',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      //   {
-      //     name: 'Ice cream sandwich',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      //   {
-      //     name: 'Eclair',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      //   {
-      //     name: 'Cupcake',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      //   {
-      //     name: 'Gingerbread',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      //   {
-      //     name: 'Jelly bean',
-      //     login: 'asdasd',
-      //     password: 'asd',
-      //   },
-      // ]
-    },
+        // this.desserts = [
+        //   {
+        //     name: 'Ленин Владимир Ильич',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        //   {
+        //     name: 'Ice cream sandwich',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        //   {
+        //     name: 'Eclair',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        //   {
+        //     name: 'Cupcake',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        //   {
+        //     name: 'Gingerbread',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        //   {
+        //     name: 'Jelly bean',
+        //     login: 'asdasd',
+        //     password: 'asd',
+        //   },
+        // ]
+      },
 
-    itr(item){
-      if (this.dialog!=true){
-        this.$root.dialogredirect=true
-        // this.$parent.$options.methods.redirectto(item.name)
-        this.$root.itemToRedirect=item.login
-      }
-    },
-
-    editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.flagDialogAddOrEdit = true
-      this.dialog = true
-    },
-
-    deleteItem (item, $event) {
-      if(confirm('Вы действительно хотите удалить сотрудника?')){
-        console.log(1)
-        formData=new FormData(event.path[1].firstChild)
-        console.log(2)
-        axios.post("http://127.0.0.1:8000/deluser/", formData).then((response) => {
-          const index = this.desserts.indexOf(item)
-          this.desserts.splice(index, 1)
-        })
-      }
-    },
-
-    close () {
-      this.flagDialogAddOrEdit = false
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    save ($event) {
-      if (this.editedIndex > -1) {
-        console.log(this.desserts[this.editedIndex].login)
-        params = {
-          "name": this.editedItem.name,
-          "login": this.editedItem.login,
-          "pass": this.editedItem.password,
-          "prev_login":this.desserts[this.editedIndex].login
+      itr(item) {
+        if (this.dialog != true) {
+          this.$root.dialogredirect = true;
+          // this.$parent.$options.methods.redirectto(item.name)
+          this.$root.itemToRedirect = item.login;
         }
-        var formData = new FormData(event.path[3])
-        axios.post("http://127.0.0.1:8000/editUser/", formData).then((response) => {
-          if (response.data=="Учетные данные успешно изменены"){
-            Object.assign(this.desserts[this.editedIndex], this.editedItem)
-          }
-          this.text=response.data
-          this.snackbar=true
-          this.close()
-        }).catch((errors) => {
-          this.text="Ошибка соединения"
-          this.snackbar=true
-          this.close()
-        })
-      } else {
-        params = {
-        "name": this.editedItem.name,
-        "login": this.editedItem.login,
-        "pass": this.editedItem.password,
-        "kafname": this.$root.kafname
-        }
-        var formData = new FormData(event.path[3])
-        axios.post("http://127.0.0.1:8000/createUser/", formData).then((response) => {
-          if (response.data=="Сотрудник успешно добавлен"){
-            this.desserts.push(this.editedItem)
-          }
-          this.text=response.data
-          this.snackbar=true
-          this.close()
-        }).catch((errors) => {
-          this.text="Ошибка соединения"
-          this.snackbar=true
-          this.close()
-        })
-      }
+      },
 
+      editItem(item) {
+        this.editedIndex = this.desserts.indexOf(item);
+        this.editedItem = Object.assign({}, item);
+        this.flagDialogAddOrEdit = true;
+        this.dialog = true;
+      },
+
+      deleteItem(item, event) {
+        if (confirm('Вы действительно хотите удалить сотрудника?')) {
+          console.log(1);
+          console.log(event)
+          formData = new FormData(event.target.parentElement.firstChild);
+          console.log(2);
+          axios.post("http://" + document.location.host + "/deluser/", formData).then((response) => {
+            const index = this.desserts.indexOf(item);
+            this.desserts.splice(index, 1);
+          })
+        }
+      },
+
+      close() {
+        this.flagDialogAddOrEdit = false;
+        this.dialog = false;
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem);
+          this.editedIndex = -1;
+        })
+      },
+
+      save(event) {
+        if (this.editedIndex > -1) {
+          console.log(this.desserts[this.editedIndex].login);
+          params = {
+            "name": this.editedItem.name,
+            "login": this.editedItem.login,
+            "pass": this.editedItem.password,
+            "prev_login": this.desserts[this.editedIndex].login
+          }
+          var formData = new FormData(event.target.closest("form"));
+          axios.post("http://" + document.location.host + "/editUser/", formData).then((response) => {
+            if (response.data == "Учетные данные успешно изменены") {
+              Object.assign(this.desserts[this.editedIndex], this.editedItem);
+            }
+            this.text = response.data;
+            this.snackbar = true;
+            this.close();
+          }).catch((errors) => {
+            this.text = "Ошибка соединения";
+            this.snackbar = true;
+            this.close();
+          })
+        } else {
+          params = {
+            "name": this.editedItem.name,
+            "login": this.editedItem.login,
+            "pass": this.editedItem.password,
+            "kafname": this.$root.kafname
+          }
+          var formData = new FormData(event.target.closest("form"))
+          axios.post("http://" + document.location.host + "/createUser/", formData).then((response) => {
+            if (response.data == "Сотрудник успешно добавлен") {
+              this.desserts.push(this.editedItem);
+            }
+            this.text = response.data;
+            this.snackbar = true;
+            this.close();
+          }).catch((errors) => {
+            this.text = "Ошибка соединения";
+            this.snackbar = true;
+            this.close();
+          })
+        }
+
+      },
     },
-  },
-  template: `
+    template: `
   <v-data-table
       :headers="headers"
       :items="desserts"
@@ -709,20 +663,20 @@ Vue.component('supertable',{
       </template>
     </v-data-table>
   `
-})
+  })
 
 
-  const addIPurl = "http://127.0.0.1:8000/createplan/"
-  const addRateurl = "http://127.0.0.1:8000/createratinghome/"
-  const addDocurl ="http://127.0.0.1:8000/nagruzkaSave/"
-  const urlpar = "http://127.0.0.1:8000/rating/profilerating"
-  const urlpar1 = "http://127.0.0.1:8000/rating/profileplace"
+  const addIPurl = "http://" + document.location.host + "/createplan/";
+  const addRateurl = "http://" + document.location.host + "/createratinghome/";
+  const addDocurl = "http://" + document.location.host + "/nagruzkaSave/";
+  const urlpar = "http://" + document.location.host + "/rating/profilerating";
+  const urlpar1 = "http://" + document.location.host + "/rating/profileplace";
 
   new Vue({
     el: '#app',
-    delimiters:['{','}'],
+    delimiters: ['{', '}'],
     vuetify: new Vuetify(),
-    data:{
+    data: {
 
       // token:"",
 
@@ -739,114 +693,126 @@ Vue.component('supertable',{
       dolzhnost: ["профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
       defaultSelectedDolzhnost: document.getElementById('defaultSelectedDolzhnost').value,
 
-      kafname:document.getElementById("kafname").value,
-      plfa:"",
-      planfact:["Планируемая","Фактическая"],
-      yearIP:"",
-      yearRate:"",
-      yearDoc:"",
+      kafname: document.getElementById("kafname").value,
+      plfa: "",
+      planfact: ["Планируемая", "Фактическая"],
+      yearIP: "",
+      yearRate: "",
+      yearDoc: "",
       menu: false,
       menuRate: false,
-      menuDoc:false,
-      items:[],
-      itemsRate:[],
-      itemsDoc:[],
-      dis:false,
+      menuDoc: false,
+      items: [],
+      itemsRate: [],
+      itemsDoc: [],
+      dis: false,
       snackbar: false,
-      buttontext:"Сохранить изменения",
+      buttontext: "Сохранить изменения",
       text: 'My timeout is set to 2000.',
       timeout: 2000,
+      rules: [
+        value => !!value || ' ',
+        value => (value && value.length == 4) || '4 цифры'
+      ],
     },
-    methods:{
+    methods: {
       // redirectto(fioredirect){
-      //   pathpost="http://127.0.0.1:8000/"
+      //   pathpost="http://" + document.location.host + "/"
       //   axios.post(pathpost, fioredirect).then((response) => {
       //     itemsIpYear=response.data.Ip
       //     itemsRateYear=response.data.Rate
       //     userredirect=response.data.username
       //   })
       // },
-      redtoIP(){
-        window.location.href = "http://127.0.0.1:8000/plan/"+ this.itemToRedirect + "/" + this.redtoIPYear
+      redtoIP() {
+        window.location.href = "http://" + document.location.host + "/plan/" + this.itemToRedirect + "/" + this.redtoIPYear;
       },
-      redtoRate(){
-        window.location.href = "http://127.0.0.1:8000/rating/rate_otsenka/"+ this.itemToRedirect + "/" + this.redtoRateYear
+      redtoRate() {
+        window.location.href = "http://" + document.location.host + "/rating/rate_otsenka/" + this.itemToRedirect + "/" + this.redtoRateYear;
       },
       save(event) {
-        this.dis=true
-        this.buttontext="Загрузка таблицы..."
-        form = event.path[2];
+        this.dis = true;
+        this.buttontext = "Загрузка таблицы...";
+        form = event.target.form;
         var formData = new FormData(form);
-        var pathpost = event.path[2].action
+        var pathpost = event.target.form.action;
         axios.post(pathpost, formData).then((response) => {
-        this.dis=false
-        this.buttontext="Сохранить изменения"
-        this.text=response.data
-        this.snackbar=true
+          this.dis = false;
+          this.buttontext = "Сохранить изменения";
+          this.text = response.data;
+          this.snackbar = true;
         })
-        .catch((errors) => {
-          this.dis=false
-          this.buttontext="Сохранить изменения"
-          this.text="Ошибка соединения"
-          this.snackbar=true
-          console.log(errors)
-        })
+          .catch((errors) => {
+            this.dis = false;
+            this.buttontext = "Сохранить изменения";
+            this.text = "Ошибка соединения";
+            this.snackbar = true;
+            console.log(errors);
+          })
       },
-      addIP(event){
-        this.menu = false
-        var formData = new FormData(event.path[3]);
-        axios.post(addIPurl, formData).then((response) => {
-        this.dis=false
-        this.text=response.data[0].text
-        this.snackbar=true
-        if (this.text == "План успешно создан"){
-          this.items.push({"year":this.yearIP,"href":response.data[0].href})
+      addIP(event) {
+        console.log(event.target.closest("form"))
+        if (this.yearIP.length == 4) {
+          this.menu = false;
+          var formData = new FormData(event.target.closest("form"));
+          console.log(formData)
+          axios.post(addIPurl, formData).then((response) => {
+            this.dis = false;
+            this.text = response.data[0].text;
+            this.snackbar = true;
+            if (this.text == "План успешно создан") {
+              this.items.push({ "year": this.yearIP, "href": response.data[0].href });
+            }
+          })
+            .catch((errors) => {
+              this.dis = false;
+              this.text = "Ошибка соединения";
+              this.snackbar = true;
+              console.log(errors);
+            })
         }
-        })
-        .catch((errors) => {
-            this.dis=false
-            this.text="Ошибка соединения"
-            this.snackbar=true
-            console.log(errors)
-        })
 
 
       },
-      addRate(){
-        this.menuRate = false
-        var formData = new FormData(event.path[3]);
-        axios.post(addRateurl, formData).then((response) => {
-        this.dis=false
-        this.text=response.data[0].text
-        this.snackbar=true
-        if (this.text == "Рейтинг успешно сформирован"){
-          this.itemsRate.push({"year":this.yearRate,"href":response.data[0].href})
+      addRate(event) {
+        if (this.yearRate.length == 4) {
+          this.menuRate = false;
+          var formData = new FormData(event.target.closest("form"));
+          axios.post(addRateurl, formData).then((response) => {
+            this.dis = false;
+            this.text = response.data[0].text;
+            this.snackbar = true;
+            if (this.text == "Рейтинг успешно сформирован") {
+              this.itemsRate.push({ "year": this.yearRate, "href": response.data[0].href });
+            }
+          })
+            .catch((errors) => {
+              this.dis = false;
+              this.text = "Ошибка соединения";
+              this.snackbar = true;
+              console.log(errors);;
+            })
         }
-        })
-        .catch((errors) => {
-            this.dis=false
-            this.text="Ошибка соединения"
-            this.snackbar=true
-            console.log(errors)
-        })
       },
-      addDoc(){
-        this.menuDoc = false
-        var formData = new FormData(event.path[3]);
-        axios.post(addDocurl, formData).then((response) => {
-        this.dis=false
-        this.text=response.data[0].text
-        this.snackbar=true
-        if (this.text == "Нагрузка успешно добавлена"){
-          this.itemsDoc.push({"year":this.yearDoc,"kafname":response.data[0].kafname})
+      addDoc(event) {
+        if (this.yearDoc.length == 4) {
+          this.menuDoc = false;
+          var formData = new FormData(event.target.closest("form"));
+          axios.post(addDocurl, formData).then((response) => {
+            this.dis = false;
+            this.text = response.data[0].text;
+            this.snackbar = true;
+            if (this.text == "Нагрузка успешно добавлена") {
+              this.itemsDoc.push({ "year": this.yearDoc, "kafname": response.data[0].kafname });
+            }
+          })
+            .catch((errors) => {
+              this.dis = false;
+              this.text = "Ошибка соединения";
+              this.snackbar = true;
+              console.log(errors);
+            })
         }
-        })
-        .catch((errors) => {
-            this.dis=false
-            this.text="Ошибка соединения"
-            this.snackbar=true
-            console.log(errors)
-        })
       },
     }
   })
