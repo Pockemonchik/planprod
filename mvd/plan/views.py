@@ -1286,7 +1286,7 @@ def nagruzka(request, year, slug):
             Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
         predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=False)
         predmetsdel.delete()
-
+        data = ""
         try:
             plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
             count = 0
@@ -1298,7 +1298,11 @@ def nagruzka(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, True)
             else:
-                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
+                try:
+                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
+                except:
+                    data = takeXls(nagruzkadoc.document.path, profile1.fullname.split(' ')[0], True)
+
             if type(data) != list:
                 if data == '404':
                     return render(request, 'error.html', {
@@ -1423,6 +1427,7 @@ def nagruzkafact(request, year, slug):
         print(nagruzkadoc.document.path)
         print(plan.name[0:-4])
         print('')
+        data=""
         try:
             plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
             count = 0
@@ -1434,7 +1439,10 @@ def nagruzkafact(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, False)
             else:
-                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], False)
+                try:
+                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], False)
+                except:
+                    data = takeXls(nagruzkadoc.document.path, profile1.fullname.split(' ')[0], False)
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})

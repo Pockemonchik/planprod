@@ -278,7 +278,9 @@ def takeXls(nameDoc,namePrepod,flag):
 # Запись в документ Основной информации
 def writeInfoDoc(listInfo, listCell,indexRow):
     # document = Document("/root/planprod/mvd/plan/docDynamic.docx")
-    document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
+    #
+    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
+   # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
 
 
     needStrings = [8, 9, 10, 20, 22, 23,31]
@@ -344,7 +346,9 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
     # document.save('/root/planprod/mvd/tmp.docx')
-    document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
+    document.save("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
+
+    #document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     return createDoc(listCell,indexRow)
 
 
@@ -395,7 +399,9 @@ def createDoc(listCell, indexRow):
 
     needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     # document = Document("/root/planprod/mvd/tmp.docx")
-    document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
+    #document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
+    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
+
     print(indexRow)
     count = -1
     for i in needTables:
@@ -616,7 +622,8 @@ def takeTable(nameDoc):
     # document = Document("/root/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
     # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
-    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
+    document = Document('C:/Users/Andrey/Desktop/planprod/mvd/' + nameDoc)
+    #document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
 
     # document = nameDoc
     listAllTable = []
