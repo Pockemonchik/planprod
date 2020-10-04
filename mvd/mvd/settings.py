@@ -26,7 +26,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.18','78.24.220.66']
+ALLOWED_HOSTS = ['10.1.132.93','172.16.0.71','127.0.0.1','192.168.0.18','78.24.220.66']
 
 INTERNAL_IPS = [
     # ...
@@ -48,12 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gunicorn',
-    'corsheaders'
+#    'corsheaders'
     # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+#    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -99,10 +99,10 @@ WSGI_APPLICATION = 'mvd.wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
 }
 
 #python3 manage.py dumpdata > db.json
@@ -110,14 +110,14 @@ DATABASES = {
 #python3 manage.py migrate --run-syncdb
 #python3 manage.py loaddata datadump.json
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django1_db',
-#         'USER' : 'user_name',
-#         'PASSWORD' : 'password',
-#         'HOST' : '127.0.0.1',
-#         'PORT' : '5432',
-#     }
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': 'django2_db',
+#          'USER' : 'username',
+#          'PASSWORD' : 'password',
+#          'HOST' : '127.0.0.1',
+#          'PORT' : '5432',
+#      }
 # }
 
 

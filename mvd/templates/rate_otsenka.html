@@ -14,7 +14,7 @@
 
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
   <script type="text/javascript" src="{% static "/js/bootstrap.min.js" %}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="{% static "/js/jquery.min.js" %}"></script>
 	<script type="text/javascript" src="{% static "/js/bootstrap.js" %}"></script>
 </head>
 <body>
@@ -82,22 +82,22 @@
                         <tbody>
                           <tr>
                             <td class="pt-3-half">Учебная работа</td>
-                            <td class="pt-3-half">{{rating.urr}}</td>
+                            <td class="pt-3-half">{{rating.urr|floatformat:2}}</td>
                           </tr>
                           <!-- This is our clonable table line -->
                           <tr>
                             <td class="pt-3-half">Организационно-методическая</td>
-                            <td class="pt-3-half">{{rating.ormr}}</td>
+                            <td class="pt-3-half">{{rating.ormr|floatformat:2}}</td>
                           </tr>
                           <!-- This is our clonable table line -->
                           <tr>
                             <td class="pt-3-half">Подготовка учебно-методических материалов</td>
-                            <td class="pt-3-half">{{rating.mrr}}</td>
+                            <td class="pt-3-half">{{rating.mrr|floatformat:2}}</td>
                           </tr>
                           <!-- This is our clonable table line -->
                           <tr>
                             <td class="pt-3-half">Педагогический контроль</td>
-                            <td class="pt-3-half">{{rating.pcr}}</td>
+                            <td class="pt-3-half">{{rating.pcr|floatformat:2}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -115,7 +115,7 @@
                         <tbody>
                           <tr>
                             <td class="pt-3-half">Сумма баллов</td>
-                            <td class="pt-3-half">{{rating.summ}}</td>
+                            <td class="pt-3-half">{{rating.summ|floatformat:2}}</td>
                           </tr>
                           <!-- This is our clonable table line -->
                           <tr>
@@ -705,7 +705,7 @@
 
 
 
-                         {%if "абочей программы дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
+                         {%if "абочей программы учебной дисциплины" in field.value and  "римерной рабочей программы учебной дисциплины" not in field.value %}
                          <td class="pt-3-half">  <input class="form-control qwerqwer" @change="findball($event)"></input>  <input type="hidden" value="1"></input></td>
                          {%endif%}
 

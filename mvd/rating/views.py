@@ -461,7 +461,8 @@ class RatingTableView(APIView):
                      'summ': r.summ,
                      'unikplace': r.unikplace,
                      'dolzhnostplace': r.dolzhnostplace,
-                     'kafedraplace': r.kafedraplace
+                     'kafedraplace': r.kafedraplace,
+                     'username': r.profile.user.username,
                      }
                 )
         return Response(data)

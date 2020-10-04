@@ -1,4 +1,4 @@
-from background_task import background
+#from background_task import background
 from django.shortcuts import render, redirect, get_object_or_404
 from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
 from plan.forms import ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MainTableForm,Table1UploadForm,NagruzkaForm
@@ -62,10 +62,10 @@ def zapolnenie_bd():
                 kafedra = Kafedra.objects.get(fullname="ОРД и спец.техники")
             if "ОиТ" in file_name:
                 kafedra = Kafedra.objects.get(fullname="оружиевед.и трасологии")
-            if "Педагогики" in file_name:
-                kafedra = Kafedra.objects.get(fullname="прав человека и междун.права")
-            if "ПЧиМП" in file_name:
+            if "Педагогики" in file_name or "Педагогика" in file_name:
                 kafedra = Kafedra.objects.get(fullname="педагогики")
+            if "ПЧиМП" in file_name:
+                kafedra = Kafedra.objects.get(fullname="прав человека и междун.права")
             if "ПР" in file_name:
                 kafedra = Kafedra.objects.get(fullname="предв. расслед.")
             if "психология" in file_name:
@@ -101,11 +101,12 @@ def zapolnenie_bd():
         except Exception as e:
             print(file_name)
 
-        full_path = os.path.abspath(os.curdir)+'\\plan\\'+path_input
+        full_path = os.path.abspath(os.curdir)+'/plan/'+path_input
         # print(full_path)
         profiles = Profile.objects.filter(kafedra=kafedra)
         logs = open("logs.txt",'a')
         status = None
+        data = ""
         if type == 0:
             status = False
         else:
@@ -117,14 +118,17 @@ def zapolnenie_bd():
 
             try:
                 if type == 0:
-                    data = takeXls(full_path+'\\'+file_name, p.fullname.split(' ',1)[0],True)
+                    data = takeXls(full_path+'/'+file_name, p.fullname.split(' ',1)[0],True)
                 else:
-                    data = takeXls(full_path+'\\'+file_name, p.fullname.split(' ',1)[0],False)
+                    data = takeXls(full_path+'/'+file_name, p.fullname.split(' ',1)[0],False)
                 if not isinstance(data, list):
-                    print(p.kafedra.fullname+"  "+p.fullname)
-                    print(data)
-                    logs.write(p.kafedra.fullname+"  "+p.fullname+ " "+ data+'\n')
-                    continue
+                    try:
+                       print(p.kafedra.fullname+"  "+p.fullname)
+                       print(data)
+                       logs.write(p.kafedra.fullname+"  "+p.fullname+ " "+ data+'\n')
+                       continue
+                    except Exception as e:
+                       logs.write(str(e)+" \n")
                 try:
                     fields=Predmet._meta.get_fields()
                     for table in range(len(data)):
@@ -250,8 +254,25 @@ def zapolnenie_bd():
 
 
     return 0
+def create_plans():
+    print("enter year for new plans")
+    year = int(input())
+    profiles = Profile.objects.all()
+    count = 0
+    for p in profiles:
+        if not Plan.objects.get(prepod=p,year=year):
+            newplan = Plan()
+            newplan.user = p.user
+            newplan.prepod = p
+            newplan.year = year
 
+            newplan.name = "".join([p.fullname.split(' ')[0], ' ', p.fullname.split(' ')[1][0], '.',p.fullname.split(' ')[2][0]])
+            print("sozadanie plana ")
+            count +=1
+            #newplan.save()
+    print("sozdano "+count+" planov iz " +profiles.count()+"profiley")
 zapolnenie_bd()
+#create_plans()
 print('konets')
 
 

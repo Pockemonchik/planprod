@@ -114,9 +114,12 @@ def detail_plan(request, slug, year):
         except DocInfo.DoesNotExist:
             shapka = ShapkaForm()
 
-        title = "Индивидуальный план  " + ''.join(
+        try:
+            title = "Индивидуальный план  " + ''.join(
             [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
              profile1.fullname.split(' ')[1][0]])+" "+year
+        except:
+            title="Индивидуальный план  " + profile1.fullname + " "+year
         return render(request, 'detail_plan.html', {
             'mainForm': mainForm,
             'formset': formset,
@@ -165,10 +168,11 @@ def index(request):
             infoform = ProfileInfoForm(instance=info)
         except:
             infoform = ProfileInfoForm()
-
-        title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
+        try:
+            title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
                                       profile.fullname.split(' ')[1][0]])
-
+        except:
+            title = "Главная " + profile.fullname
         return render(request, 'plan.html', {
             'profile': profile,
             'kafedri': kafedri,
@@ -719,7 +723,7 @@ def docxobr(request):
 
 
 def handle_uploaded_file(f):
-    with open('analize.docx', 'wb+') as destination:
+    with open('anal.docx', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -735,7 +739,7 @@ def documentAnalize(request):
             print(profile.fullname)
             handle_uploaded_file(file)
             try:
-                data = takeTable('analize.docx')
+                data = takeTable('anal.docx')
             except Exception as e:
                 print(e)
                 print("fail takeTable")
@@ -1286,7 +1290,7 @@ def nagruzka(request, year, slug):
             Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
         predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=False)
         predmetsdel.delete()
-        data = ""
+
         try:
             plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
             count = 0
@@ -1298,11 +1302,7 @@ def nagruzka(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, True)
             else:
-                try:
-                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
-                except:
-                    data = takeXls(nagruzkadoc.document.path, profile1.fullname.split(' ')[0], True)
-
+                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
             if type(data) != list:
                 if data == '404':
                     return render(request, 'error.html', {
@@ -1427,7 +1427,7 @@ def nagruzkafact(request, year, slug):
         print(nagruzkadoc.document.path)
         print(plan.name[0:-4])
         print('')
-        data=""
+        data = ""
         try:
             plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
             count = 0
@@ -1439,10 +1439,7 @@ def nagruzkafact(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, False)
             else:
-                try:
-                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], False)
-                except:
-                    data = takeXls(nagruzkadoc.document.path, profile1.fullname.split(' ')[0], False)
+                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], False)
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})

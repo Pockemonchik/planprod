@@ -9,7 +9,7 @@ from docx import Document
 from docx.shared import Pt
 
 def createRatingDocx(toptext, tableLens, inTable, sumBal):
-    document = Document('/home/andrey/Desktop/planprod/mvd/rating/RateShablon.docx')
+    document = Document('/home/user/planprod/mvd/rating/RateShablon.docx')
 
     document.paragraphs[0].text="Рейтинговый информационный лист педагогической деятельности кафедры %s по итогам работы в %s/%s учебном году" % (toptext[0], toptext[1], toptext[2])
     document.paragraphs[1].text="Фамилия, имя, отчество: %s" % (toptext[3])

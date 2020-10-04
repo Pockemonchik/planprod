@@ -60,6 +60,7 @@
 Vue.component('supertable',{
   delimiters:['##','##'],
   data: () => ({
+    yearHref:"",
     rules: [
       value => !!value || ' ',
       value => (value && value.length == 4) || '4 цифры'
@@ -77,8 +78,11 @@ Vue.component('supertable',{
     desserts: []
   }),
   methods: {
+    itr(item){
+      window.location.href = "http://"  + document.location.host + "/rating/rate_otsenka/" + item.username + "/" + this.yearHref + "/"
+    },
     updateTable(value) {
-      console.log(value)
+      this.yearHref = value
       axios.get("http://" + document.location.host + "/rating/ratingTable/", {params: {year:value}}).then(response => {
         this.desserts=response.data
       })
@@ -100,6 +104,7 @@ Vue.component('supertable',{
         ></v-text-field>
       </v-card-title>
       <v-data-table
+        @click:row="itr"
         multi-sort
         :headers="headers"
         :items="desserts"

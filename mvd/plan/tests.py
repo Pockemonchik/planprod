@@ -2,11 +2,11 @@
 
 
 from django.shortcuts import render, redirect, get_object_or_404
-from models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
-from forms import ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
+from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
+from plan.forms import ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MAinTableForm,Table1UploadForm,NagruzkaForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
+from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
 from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -18,51 +18,8 @@ import random
 from docx import Document
 import os
 
-"""Функции для заполнения бд из нагрузок"""
-def zapolnenie_bd():
-    print('Введите тип нагрузки 0=планируемая,1=фактическая(type of nagtuzka)')
-
-    while type !=1 or type !=0:
-        type = input()
-        if type == 0:
-            type = False
-        elif type == 1:
-            type = True
-    print('Введите год нагрузки, 2019 например (year of nagtuzka)')
-    year = int(input())
-    print('Введите путь до папки с файлами, ./dir например (paht to dir with files)')
-    path = input()
-    file_list = os.listdir(path)
-    print(file_list)
-    for file in file_list:
-        print(file)
-    return 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Create your tests here.
-# def nepustNagr():
+def nepustNagr():
     #check po xlxs
     # nagr=Nagruzka.objects.all()
     # data=[]
@@ -106,11 +63,14 @@ def zapolnenie_bd():
     #     f.write(str(p))
     #     f.write('\n')
     # f.close()
-    # inf=DocInfo.objects.all()
-    # for i in inf:
+    inf=DocInfo.objects.all()
+    for i in inf:
         # if i.plan.pk=='':
         #     print(i.plan.name)
-        # print(str(i.plan.pk)+" "+i.plan.name)
+        print(str(i.plan.pk)+" "+i.plan.name)
+
+
+nepustNagr()
 
 #zapoln doc nagrq all
 # obr=0
