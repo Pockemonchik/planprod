@@ -1258,7 +1258,6 @@ def nagruzkaSave(request):
 
                     }])
             else:
-                print('blen')
                 return Response([{
 
                     "text": "Произошла ошибка при сохранении нагрузки",
