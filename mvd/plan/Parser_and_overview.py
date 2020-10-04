@@ -1385,7 +1385,7 @@ def takeTable(nameDoc):
     return listAllTable
 
 def checkDocumentXLS(namedoc, namePrepod, flag):
-    document = Document(nameDoc)
+    wb = openpyxl.load_workbook(filename =nameDoc, data_only=True)
     if flag==True:
         zapasFact=[]
         zapasFactAudit=[]
