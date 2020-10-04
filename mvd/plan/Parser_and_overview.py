@@ -22,8 +22,8 @@ import subprocess
 def convert(nameDoc):
     wdFormatPDF = 17
 
-    in_file = os.path.abspath('/root/planprod/mvd/plan' + nameDoc)
-    out_file = os.path.abspath('/root/planprod/mvd/plan' + "out.pdf")
+    in_file = os.path.abspath('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan' + nameDoc)
+    out_file = os.path.abspath('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan' + "out.pdf")
 
     word = comtypes.client.CreateObject('Word.Application')
     doc = word.Documents.Open(in_file)
@@ -32,7 +32,7 @@ def convert(nameDoc):
     word.Quit()
 
     pdf_document = "out.pdf"
-    pdf = PdfFileReader(open('/root/planprod/mvd/plan' + pdf_document, "rb"))
+    pdf = PdfFileReader(open('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan' + pdf_document, "rb"))
 
     return pdf
 
@@ -277,7 +277,7 @@ def takeXls(nameDoc,namePrepod,flag):
 
 # Запись в документ Основной информации
 def writeInfoDoc(listInfo, listCell,indexRow):
-    # document = Document("/root/planprod/mvd/plan/docDynamic.docx")
+    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
     #
     document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
@@ -345,7 +345,7 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
 
-    # document.save('/root/planprod/mvd/tmp.docx')
+    # document.save('C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx')
     document.save("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
 
     #document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
@@ -368,7 +368,7 @@ def readInfoDoc(nameDoc):
     print(infoDoc)
 
 def createDoc2(nameDoc, listCell, numString1, numString2):
-    document = Document('/root/planprod/mvd/plan/test.docx')
+    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/test.docx')
     #document = Document("test.docx")
     count = 0
     for table in document.tables:
@@ -391,14 +391,14 @@ def createDoc2(nameDoc, listCell, numString1, numString2):
                     count+=1
 #         print(count)
 
-    document.save('/root/planprod/mvd/'+nameDoc+'.docx')
+    document.save('C:/Users/UzziMauzer/Desktop/planprod/mvd/'+nameDoc+'.docx')
 
 # Заполнение документа по полученным данным и сохранение документа
 def createDoc(listCell, indexRow):
 #     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
 
     needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    # document = Document("/root/planprod/mvd/tmp.docx")
+    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx")
     #document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
 
@@ -433,7 +433,7 @@ def createDoc(listCell, indexRow):
     return(document)
 #    return convert(nameDoc)
 # def createDoc(nameDoc, listCell):
-#     document = Document('/root/planprod/mvd/plan322.docx')
+#     document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan322.docx')
 #
 #     count = 0
 #     for table in document.tables:
@@ -447,7 +447,7 @@ def createDoc(listCell, indexRow):
 #                     count+=1
 # #         print(count)
 #
-#     document.save('/root/planprod/mvd/'+nameDoc+'.docx')
+#     document.save('C:/Users/UzziMauzer/Desktop/planprod/mvd/'+nameDoc+'.docx')
 #     # return convert(nameDoc)
 #     return document
 
@@ -614,15 +614,15 @@ def tekeUpdateTable(document):
 # Ð¡Ð¾Ð²ÐµÑ‚ÑƒÑŽ Ñ‚ÑƒÑ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð¼ÐµÐ½ÑÑ‚ÑŒ, Ð³Ð¾Ð²Ð½Ð¾ Ð¸Ð´ÐµÑ. Ð’ÑÑ‘ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ðµ Ð² Ñ†Ð¸ÐºÐ»Ðµ, Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð° Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÐµÐ¹
 def takeTable(nameDoc):
     # try:
-    #     document = Document("/root/planprod/mvd/"+nameDoc)
+    #     document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/"+nameDoc)
     # except:
     #     print(nameDoc)
-    #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "/root/planprod/mvd/"+nameDoc])
+    #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "C:/Users/UzziMauzer/Desktop/planprod/mvd/"+nameDoc])
     #     print("1")
-    # document = Document("/root/planprod/"+nameDoc)
+    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
     # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
-    document = Document('C:/Users/Andrey/Desktop/planprod/mvd/' + nameDoc)
+    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
     #document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
 
     # document = nameDoc
@@ -1384,6 +1384,109 @@ def takeTable(nameDoc):
     '''
     return listAllTable
 
+def checkDocumentXLS(namedoc, namePrepod, flag):
+    document = Document(nameDoc)
+    if flag==True:
+        zapasFact=[]
+        zapasFactAudit=[]
+        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Плановая нагрузка', 'Плановая аудиторная нагрузка']
+    else:
+        nameNeedColunm = ['лекции', 'семинары', 'практические занятия в группе', 'практические занятия в подгруппе', 'круглый стол', 'консультации перед экзаменами', 'текущие консультации', 'внеаудиторное чтение', 'практика руководство', 'ВКР', 'курсовая работа', 'контрольная работа аудиторная', 'контрольная работа домашняя', 'проверка практикума', 'проверка лабораторной работы', 'защита практики', 'зачет устный', 'зачет письменный', 'вступительные испытания', 'экзамены', 'государственные экзамены', 'юнктура)', 'руководство адъюнктами', 'Фактически выполненная нагрузка', 'Фактически выполненная аудиторная нагрузка']
+        zapasFact=['Фактически выполненная нагрузка', 'выполненная нагрузка','выполненая нагрузка','Фактическая нагрузка']
+        zapasFactAudit=['Фактически выполненная аудиторная нагрузка', 'выполненная аудиторная нагрузка','выполненая аудиторная нагрузка','Фактическая аудиторная нагрузка']
+    nameprepodColumn = ['наименование дисциплины', 'Факультет', 'Курс, группа']
+    listFirst = []
+    listSecond = []
+    listResult = []
+    needColumnFirst = []
+    needColumnSecond = []
+    needColumnThird = []
+    needPrepodColumn = []
+    sheets = wb.sheetnames
+    ws = wb[sheets[0]]
+    prepodRow = 1
+    #Защита от дураков на ошибки
+    for textCol in zapasFact:
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=500, max_row=8):
+            if textCol.lower() in str(column[0].value).lower():
+                column[0].value = 'фактически выполненная нагрузка'
+    for textCol in zapasFactAudit:
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=500, max_row=8):
+                if textCol.lower() in str(column[0].value).lower():
+                    column[0].value = 'фактически выполненная аудиторная нагрузка'
+    #Функция заполнения Индексов столбцов
+    for textCol in nameNeedColunm:
+        k = 0
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=200, max_row=8):
+                if textCol.lower() in str(column[0].value).lower():
+                    if textCol.lower() == 'экзамены':
+                        if textCol.lower() != str(column[0].value).lower():
+                            continue
+                    k += 1
+                    column[0].value = ' '
+                    reg = re.search(".+?\.(.+?)8>", str(column[0]))
+                    if reg and len(reg.group(1)) > 0:
+                        needText = reg.group(1)
+                    if k == 1:
+                        needColumnFirst.append(needText)
+                    elif k == 2:
+                        needColumnSecond.append(needText)
+                    else: needColumnThird.append(needText)
+        if k != 3 :
+            if textCol == 'лекции':
+                return ('Произошла ошибка: пожалуйста, проверьте, что в вашем EXCEL документе только один лист (одна вкладка в нижнем левом углу), если это так, то либо шапка таблицы с названиями видов занятий находится не на 8й строке, либо орфографическая ошибка в слове "лекции"')
+            elif textCol == 'фактически выполненная нагрузка':
+                return ('Произошла ошибка: пожалуйста, проверьте, что в вашем EXCEL документе только один лист (одна вкладка в нижнем левом углу), если это так, то возможна ошибка в слове "фактически выполненная нагрузка" (Чтобы убедиться в этом, вам нужно нажать CTRL+F в документе, в поле найти ввести "фактически выполненная нагрузка" и нажать "найти все", в выводе должно отобразиться 3 строки)')
+            return ('Произошла ошибка: пожалуйста, проверьте, что в вашем EXCEL документе только один лист (одна вкладка в нижнем левом углу), если это так, то возможна ошибка в слове %s (Чтобы убедиться в этом, вам нужно нажать CTRL+F в документе, в поле найти ввести "%s" и нажать "найти все", в выводе должно отобразиться 3 строки)') % (textCol, textCol)
+    for textCol in nameprepodColumn:
+        k = 0
+        for column in ws.iter_cols(min_col=1, min_row=8, max_col=200, max_row=8):
+                if textCol.lower() == str(column[0].value).lower():
+                    k += 1
+                    column[0].value = ' '
+                    reg = re.search(".+?\.(.+?)8>", str(column[0]))
+                    if reg and len(reg.group(1)) > 0:
+                        needText = reg.group(1)
+                    needPrepodColumn.append(needText)
+        if k != 4:
+            return ('Ошибка в одном из слов:' + str(', '.join(nameprepodColumn)))
+    return 'OK'
+
+def checkPrerod(nameDoc, namePrepod):
+    wb = openpyxl.load_workbook(filename = nameDoc , data_only=True)
+
+    sheets = wb.sheetnames
+    ws = wb[sheets[0]]
+    prepodRow = 1
+
+    #Находим строку с преподом
+    print(str(namePrepod).lower())
+    for column in ws.iter_rows(min_col=2, min_row=1, max_col=2, max_row=1000, values_only=True):
+        if str(namePrepod).lower() in str(column[0]).lower():
+            break
+        prepodRow += 1
+    
+    if prepodRow == 1001:
+        return ("Произошла ошибка: преподаватель %s не был найден в EXCEL таблице, пожалуйста, проверьте, что столбец с преподавателями находится в столбце 'B'. Иначе проверьте правописание фамилии в документе на орфографические ошибки.") % namePrepod
+    
+    secondPrepod = 1
+    for column in ws.iter_rows(min_col=2, min_row=(prepodRow+1), max_col=2, max_row=(prepodRow+30), values_only=True):
+        print(str(column[0]))
+        reg = re.search("^([А-ЯЁ].+?\s)[А-ЯЁ]\.[А-ЯЁ]\.", str(column[0]))
+        if reg and len(reg.group(1)) > 0:
+            count = secondPrepod
+            break
+        reg = re.search("(ИТОГО):", str(column[0]))
+        if reg and len(reg.group(1)) > 0:
+            count = secondPrepod
+            break
+
+        secondPrepod+=1
+
+    if secondPrepod  == 1:
+        return('Произошла ошибка: в вашем документе 2 фамилии стоят в двух строках подряд, нельзя писать фамилии преподавателей в строках с названиями дискиплин, если они идут по замене.')
+
+    return ('OK')
 
 if __name__ == '__main__':
     print("start")
