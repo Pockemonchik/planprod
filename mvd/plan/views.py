@@ -7,7 +7,7 @@ from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, V
 from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form, Table4Form, Table6Form, Table5Form, MainTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from plan.Parser_and_overview import createDoc2, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod
+from plan.Parser_and_overview import createDoc2, checkPrerods, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod, checkDocumentXLS
 from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -117,7 +117,7 @@ def detail_plan(request, slug, year):
         try:
             title = "Индивидуальный план  " + ''.join(
             [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-             profile1.fullname.split(' ')[1][0]])+" "+year
+             profile1.fullname.split(' ')[2][0]])+" "+year
         except:
             title="Индивидуальный план  " + profile1.fullname + " "+year
         return render(request, 'detail_plan.html', {
@@ -1240,9 +1240,30 @@ def nagruzkaSave(request):
                     my_object.delete()
                     nagruzka.kafedra = profile.kafedra
                     nagruzka.save()
+                    if nagruzka.status == 'Планируемая':
+                        flag = True
+                    else:
+                        flag = False
+                    print(nagruzka.status)
+                    response = ""
+                    # response = checkDocumentXLS(nagruzka.document.path,flag)
+                    # print(nagruzka.document.path, flag)
+                    # profiles = Profile.objects.filter(kafedra=profile.kafedra)
+                    # for p in profiles:
+                    #     # try:
+                    #
+                    #         name =p.fullname.split(' ')[0]
+                    #         print(name)
+                    #         prepod = checkPrepods(nagruzka.document.path, name)
+                    #         response += " " +prepod+ "\n"
+                        # except Exception as e:
+                        #     print(e)
+                        #     response += "Не нашлись учетные данные "+p.fullname
+
+                    print(response)
                     return Response([{
 
-                        "text": "Нагрузка успешно заменена",
+                        "text": "Нагрузка успешно заменена, ниже представлены сведения о документе \n"+response,
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
@@ -1251,9 +1272,25 @@ def nagruzkaSave(request):
                     nagruzka = form.save(commit=False)
                     nagruzka.kafedra = profile.kafedra
                     nagruzka.save()
+                    if nagruzka.status == 'Планируемая':
+                        flag = True
+                    else:
+                        flag = False
+                    response = ""
+                    # response = checkDocumentXLS(nagruzka.document.path, flag)
+                    # profiles = Profile.objects.filter(kafedra=profile.kafedra)
+                    # for p in profiles:
+                    #     try:
+                    #         name = p.fullname.split(' ')[0]
+                    #         print(name)
+                    #         response += " " + checkPrerod(nagruzka.document.path, name) + "\n"
+                    #     except Exception as e:
+                    #         print(e)
+                    #         response += "Не нашлись учетные данные " + p.fullname
+                    # print(response)
                     return Response([{
 
-                        "text": "Нагрузка успешно добавлена",
+                        "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response,
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
@@ -1282,128 +1319,132 @@ def deleteNgruzka(request, year):
 # анализ нагрузки
 def nagruzka(request, year, slug):
     if request.user.is_authenticated:
-        user = User.objects.get(username=slug)
-        profile = get_object_or_404(Profile, user=user)
-        plan = get_object_or_404(Plan, prepod=profile, year=year)
-        nagruzkadoc = get_object_or_404(
-            Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
-        predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=False)
-        predmetsdel.delete()
-
         try:
-            plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
-            count = 0
-            for p in plans:
-                if p.name[0:-4] == plan.name[0:-4]:
-                    count += 1
-                # print(p)
-                # print(p)
-            if count == 2:
-                data = takeXls(nagruzkadoc.document.path, plan.name, True)
-            else:
-                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
-            if type(data) != list:
-                if data == '404':
-                    return render(request, 'error.html', {
-                        'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), ФИО преподавателя не найдено, проверьте написание"})
+            user = User.objects.get(username=slug)
+            profile = get_object_or_404(Profile, user=user)
+            plan = get_object_or_404(Plan, prepod=profile, year=year)
+            nagruzkadoc = get_object_or_404(
+                Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
+            predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=False)
+            predmetsdel.delete()
 
-                if data == 'лекции':
-                    return render(request, 'error.html', {
-                        'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data + ", либо строчка в exel документе с наименованием видов учебной работы(лекции, практики и т.д) находится не в соответствии с образцом, должна быть на 8 строчке"})
+            try:
+                plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
+                count = 0
+                for p in plans:
+                    if p.name[0:-4] == plan.name[0:-4]:
+                        count += 1
+                    # print(p)
+                    # print(p)
+                if count == 2:
+                    data = takeXls(nagruzkadoc.document.path, plan.name, True)
+                else:
+                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
+                if type(data) != list:
+                    if data == '404':
+                        return render(request, 'error.html', {
+                            'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), ФИО преподавателя не найдено, проверьте написание"})
 
+                    if data == 'лекции':
+                        return render(request, 'error.html', {
+                            'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data + ", либо строчка в exel документе с наименованием видов учебной работы(лекции, практики и т.д) находится не в соответствии с образцом, должна быть на 8 строчке"})
+
+                    return render(request, 'error.html', {
+                        'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})
+
+            except:
                 return render(request, 'error.html', {
-                    'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})
+                    'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
+            # for i in range(len(data)):
+            #     for j in range(len(data[i])):
+            #         print(data[i][j])
+            # # print('')
+            # print(data)
+
+            fields = Predmet._meta.get_fields()
+            for table in range(len(data)):
+                if table == 0:
+                    for row in range(len(data[table])):
+                        count = 0
+                        predmet = Predmet()
+                        # print(data)
+                        # print(len(data[table]))
+                        # print(data[table])
+
+                        if data[table][row][0] == "0":
+                            continue
+                        for field in fields:
+                            if field.name == "id":
+                                continue
+                            if row == (len(data[table]) - 1) and field.name == "name":
+                                setattr(predmet, field.name, "Итого за 1 полугодие:")
+                                continue
+                            if row == (len(data[table]) - 1) and field.name == "auditor_nagruzka":
+                                setattr(predmet, field.name, data[table][row][count])
+                                break
+
+                            setattr(predmet, field.name, data[table][row][count])
+
+                            if count == 25:
+                                break
+                            count += 1
+                        predmet.kafedra = profile.kafedra
+                        # print(predmet.__dict__)
+                        predmet.prepodavatel = profile
+                        predmet.year = year
+                        predmet.polugodie = '1'
+                        predmet.status = False
+                        # tru если выполена false если план
+
+                        # print(data)
+                        predmet.save1()
+
+                if table == 1:
+                    for row in range(len(data[table])):
+                        count = 0
+                        predmet = Predmet()
+                        # print(len(data[table]))
+                        # print(data[table])
+                        # print( data[table][row][0])
+                        if data[table][row][0] == "0":
+                            continue
+                        for field in fields:
+                            if field.name == "id":
+                                continue
+                            if row == (len(data[table]) - 2) and field.name == "name":
+                                setattr(predmet, field.name, "Итого за 2 полугодие:")
+                                continue
+                            if row == (len(data[table]) - 1) and field.name == "name":
+                                setattr(predmet, field.name, "Итого за учебный год:")
+                                continue
+
+                            if row == (len(data[table]) - 2) and field.name == "auditor_nagruzka":
+                                setattr(predmet, field.name, data[table][row][count])
+                                break
+                            if row == (len(data[table]) - 1) and field.name == "auditor_nagruzka":
+                                setattr(predmet, field.name, data[table][row][count])
+                                break
+
+                            setattr(predmet, field.name, data[table][row][count])
+                            # print(count)
+                            if count == 25:
+                                break
+                            count += 1
+                            # print(field.name+str(data[table][row][count]))
+                        predmet.kafedra = profile.kafedra
+                        # print(predmet.__dict__)
+                        predmet.prepodavatel = profile
+                        predmet.year = year
+                        predmet.polugodie = '2'
+                        predmet.status = False  # tru если выполена false если план
+                        # print(predmet.all_values())
+                        predmet.save1()
+            return redirect('detail_plan', slug=profile.user.username, year=year)
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
-        # for i in range(len(data)):
-        #     for j in range(len(data[i])):
-        #         print(data[i][j])
-        # # print('')
-        # print(data)
-
-        fields = Predmet._meta.get_fields()
-        for table in range(len(data)):
-            if table == 0:
-                for row in range(len(data[table])):
-                    count = 0
-                    predmet = Predmet()
-                    # print(data)
-                    # print(len(data[table]))
-                    # print(data[table])
-
-                    if data[table][row][0] == "0":
-                        continue
-                    for field in fields:
-                        if field.name == "id":
-                            continue
-                        if row == (len(data[table]) - 1) and field.name == "name":
-                            setattr(predmet, field.name, "Итого за 1 полугодие:")
-                            continue
-                        if row == (len(data[table]) - 1) and field.name == "auditor_nagruzka":
-                            setattr(predmet, field.name, data[table][row][count])
-                            break
-
-                        setattr(predmet, field.name, data[table][row][count])
-
-                        if count == 25:
-                            break
-                        count += 1
-                    predmet.kafedra = profile.kafedra
-                    # print(predmet.__dict__)
-                    predmet.prepodavatel = profile
-                    predmet.year = year
-                    predmet.polugodie = '1'
-                    predmet.status = False
-                    # tru если выполена false если план
-
-                    # print(data)
-                    predmet.save1()
-
-            if table == 1:
-                for row in range(len(data[table])):
-                    count = 0
-                    predmet = Predmet()
-                    # print(len(data[table]))
-                    # print(data[table])
-                    # print( data[table][row][0])
-                    if data[table][row][0] == "0":
-                        continue
-                    for field in fields:
-                        if field.name == "id":
-                            continue
-                        if row == (len(data[table]) - 2) and field.name == "name":
-                            setattr(predmet, field.name, "Итого за 2 полугодие:")
-                            continue
-                        if row == (len(data[table]) - 1) and field.name == "name":
-                            setattr(predmet, field.name, "Итого за учебный год:")
-                            continue
-
-                        if row == (len(data[table]) - 2) and field.name == "auditor_nagruzka":
-                            setattr(predmet, field.name, data[table][row][count])
-                            break
-                        if row == (len(data[table]) - 1) and field.name == "auditor_nagruzka":
-                            setattr(predmet, field.name, data[table][row][count])
-                            break
-
-                        setattr(predmet, field.name, data[table][row][count])
-                        # print(count)
-                        if count == 25:
-                            break
-                        count += 1
-                        # print(field.name+str(data[table][row][count]))
-                    predmet.kafedra = profile.kafedra
-                    # print(predmet.__dict__)
-                    predmet.prepodavatel = profile
-                    predmet.year = year
-                    predmet.polugodie = '2'
-                    predmet.status = False  # tru если выполена false если план
-                    # print(predmet.all_values())
-                    predmet.save1()
-
-        return redirect('detail_plan', slug=profile.user.username, year=year)
     else:
         return redirect('log')
 

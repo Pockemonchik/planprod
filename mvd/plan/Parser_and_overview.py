@@ -1384,7 +1384,47 @@ def takeTable(nameDoc):
     '''
     return listAllTable
 
-def checkDocumentXLS(namedoc, namePrepod, flag):
+
+def checkPrerods(nameDoc, namePrepod):
+    wb = openpyxl.load_workbook(filename=nameDoc, data_only=True)
+
+    sheets = wb.sheetnames
+    ws = wb[sheets[0]]
+    prepodRow = 1
+
+    # Находим строку с преподом
+    print(str(namePrepod).lower())
+    for column in ws.iter_rows(min_col=2, min_row=1, max_col=2, max_row=1000, values_only=True):
+        if str(namePrepod).lower() in str(column[0]).lower():
+            break
+        prepodRow += 1
+
+    if prepodRow == 1001:
+        return (
+                   "Произошла ошибка: преподаватель %s не был найден в EXCEL таблице, пожалуйста, проверьте, что столбец с преподавателями находится в столбце 'B'. Иначе проверьте правописание фамилии в документе на орфографические ошибки.") % namePrepod
+
+    secondPrepod = 1
+    for column in ws.iter_rows(min_col=2, min_row=(prepodRow + 1), max_col=2, max_row=(prepodRow + 30),
+                               values_only=True):
+        print(str(column[0]))
+        reg = re.search("^([А-ЯЁ].+?\s)[А-ЯЁ]\.[А-ЯЁ]\.", str(column[0]))
+        if reg and len(reg.group(1)) > 0:
+            count = secondPrepod
+            break
+        reg = re.search("(ИТОГО):", str(column[0]))
+        if reg and len(reg.group(1)) > 0:
+            count = secondPrepod
+            break
+
+        secondPrepod += 1
+
+    if secondPrepod == 1:
+        return (
+            'Произошла ошибка: в вашем документе 2 фамилии стоят в двух строках подряд, нельзя писать фамилии преподавателей в строках с названиями дискиплин, если они идут по замене.')
+
+    return ('OK')
+
+def checkDocumentXLS(nameDoc, flag):
     wb = openpyxl.load_workbook(filename =nameDoc, data_only=True)
     if flag==True:
         zapasFact=[]
@@ -1452,41 +1492,7 @@ def checkDocumentXLS(namedoc, namePrepod, flag):
             return ('Ошибка в одном из слов:' + str(', '.join(nameprepodColumn)))
     return 'OK'
 
-def checkPrerod(nameDoc, namePrepod):
-    wb = openpyxl.load_workbook(filename = nameDoc , data_only=True)
 
-    sheets = wb.sheetnames
-    ws = wb[sheets[0]]
-    prepodRow = 1
-
-    #Находим строку с преподом
-    print(str(namePrepod).lower())
-    for column in ws.iter_rows(min_col=2, min_row=1, max_col=2, max_row=1000, values_only=True):
-        if str(namePrepod).lower() in str(column[0]).lower():
-            break
-        prepodRow += 1
-    
-    if prepodRow == 1001:
-        return ("Произошла ошибка: преподаватель %s не был найден в EXCEL таблице, пожалуйста, проверьте, что столбец с преподавателями находится в столбце 'B'. Иначе проверьте правописание фамилии в документе на орфографические ошибки.") % namePrepod
-    
-    secondPrepod = 1
-    for column in ws.iter_rows(min_col=2, min_row=(prepodRow+1), max_col=2, max_row=(prepodRow+30), values_only=True):
-        print(str(column[0]))
-        reg = re.search("^([А-ЯЁ].+?\s)[А-ЯЁ]\.[А-ЯЁ]\.", str(column[0]))
-        if reg and len(reg.group(1)) > 0:
-            count = secondPrepod
-            break
-        reg = re.search("(ИТОГО):", str(column[0]))
-        if reg and len(reg.group(1)) > 0:
-            count = secondPrepod
-            break
-
-        secondPrepod+=1
-
-    if secondPrepod  == 1:
-        return('Произошла ошибка: в вашем документе 2 фамилии стоят в двух строках подряд, нельзя писать фамилии преподавателей в строках с названиями дискиплин, если они идут по замене.')
-
-    return ('OK')
 
 if __name__ == '__main__':
     print("start")
