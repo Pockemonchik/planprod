@@ -908,7 +908,11 @@
                                              <td class="deleteRow" @click="deleteRow"><img
                                                    src="{% static "admin1/images/minus.png" %}"></td>
                                              {% for field in form %}
-                                             <td>{{ field }}</td>
+
+                                             <td>
+
+                                                {{ field }}
+                                             </td>
 
                                              {% endfor %}
                                           </tr>

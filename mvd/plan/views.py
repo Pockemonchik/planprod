@@ -444,7 +444,7 @@ def changepass(request):
                         return HttpResponse("Произошла ошибка при изменении данных пользователя, такой пользователь уже существует")
 
         else:
-            print('blen')
+            return HttpResponse("Ошибка при сохранении")
             return HttpResponse("Произошла ошибка при изменении данных пользователя")
 
     return HttpResponse("Учетные данные успешно изменены")
@@ -473,7 +473,7 @@ def adduser(request):
         else:
             return HttpResponse("Произошла ошибка при добавлении пользователя,ошибка при отправке формы")
     else:
-        print('blen')
+        return HttpResponse("Ошибка при сохранении")
         return render(request, 'error.html', {'content': "Произошла ошибка при добавлении пользователя"})
     return HttpResponse("Сотрудник успешно добавлен")
 
@@ -1744,7 +1744,7 @@ def saveT1(request):
                     if predmet.name != '':
                         predmet.save()
                 else:
-                    print('blen')
+                    return HttpResponse("Ошибка при сохранении")
         return redirect('detail_plan', slug=profile.user.username, year=plan.year)
     else:
         return redirect('log')
@@ -1771,7 +1771,7 @@ def saveT2(request):
                     if predmet.name != '':
                         predmet.save()
             else:
-                print('blen')
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -1788,21 +1788,41 @@ def saveT3(request):
             formset3 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
+            try:
+                try:
+                    for form in formset3:
+                        if form.is_valid():
+                            predmet = form.save(commit=False)
+                            predmet.kafedra = profile.kafedra
+                            predmet.polugodie = 1
+                            predmet.status = True
+                            # print(predmet.get_obshaya_nagruzka())
+                            predmet.prepodavatel = profile
+                            predmet.year = request.POST['year']
+                            try:
+                                predmetdel = Predmet.objects.get(id=predmet.id)
+                                predmetdel.delete()
+                            except Exception as e:
+                                print(e)
 
-            if formset3.is_valid():
-                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
-                for p in pdel:
-                    p.delete()
-                for form in formset3:
-                    predmet = form.save(commit=False)
-                    predmet.kafedra = profile.kafedra
-                    predmet.polugodie = 1
-                    predmet.status = True
-                    # print(predmet.get_obshaya_nagruzka())
-                    predmet.prepodavatel = profile
-                    predmet.year = request.POST['year']
-                    if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:':
-                        predmet.save()
+                            predmetdel = Predmet.objects.filter(name='Итого за 1 полугодие:', polugodie=1, status=True,
+                                                                year=request.POST['year'])
+                            predmetdel.delete()
+                            if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
+                                predmet.save()
+                            else:
+                                try:
+                                    predmetdel = Predmet.objects.get(id=predmet.id)
+                                    predmetdel.delete()
+                                except Exception as e:
+                                    print(e)
+
+                except Exception as e:
+                    print(e)
+                    return HttpResponse("Ошибка при сохранении")
+
+
+
                 itog = Predmet()
                 itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=False, year=year)
@@ -1831,9 +1851,11 @@ def saveT3(request):
                     # print(str(buff)+field.name)
                 itog.save()
                 itogmes.save()
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
 
-            else:
-                print('blen')
+
 
         return HttpResponse("Успешно сохранено")
     else:
@@ -1850,21 +1872,42 @@ def saveT4(request):
             formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
+            try:
+                try:
+                    for form in formset4:
+                        if form.is_valid():
+                            predmet = form.save(commit=False)
+                            predmet.kafedra = profile.kafedra
+                            predmet.polugodie = 2
+                            predmet.status = True
+                            # print(predmet.get_obshaya_nagruzka())
+                            predmet.prepodavatel = profile
+                            predmet.year = request.POST['year']
+                            try:
+                                predmetdel = Predmet.objects.get(id=predmet.id)
+                                predmetdel.delete()
+                            except Exception as e:
+                                print(e)
 
-            if formset4.is_valid():
-                pdel = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
-                for p in pdel:
-                    p.delete()
-                for form in formset4:
-                    predmet = form.save(commit=False)
-                    predmet.kafedra = profile.kafedra
-                    predmet.polugodie = 2
-                    predmet.status = True
-                    print(predmet.get_obshaya_nagruzka())
-                    predmet.prepodavatel = profile
-                    predmet.year = request.POST['year']
-                    if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:':
-                        predmet.save()
+                            predmetdel = Predmet.objects.filter(name='Итого за 2 полугодие:', polugodie=2, status=True,
+                                                                year=request.POST['year'])
+                            predmetdel.delete()
+
+                            predmetdel = Predmet.objects.filter(name='Итого за учебный год:', polugodie=2, status=True,
+                                                                year=request.POST['year'])
+                            predmetdel.delete()
+                            if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
+                                predmet.save()
+                            else:
+                                try:
+                                    predmetdel = Predmet.objects.get(id=predmet.id)
+                                    predmetdel.delete()
+                                except Exception as e:
+                                    print(e)
+
+                except Exception as e:
+                    print(e)
+                    return HttpResponse("Ошибка при сохранении")
                 itog = Predmet()
                 itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
                                       year=year)
@@ -1936,13 +1979,15 @@ def saveT4(request):
                         setattr(itogmesall, field.name, (getattr(itog, field.name)))
                     itogall.save()
                     itogmesall.save()
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
 
 
 
 
-            else:
-
-                print('blen')
+            except Exception as e:
+                return HttpResponse("Ошибка при сохранении")
 
         return HttpResponse("Успешно сохранено")
     else:
@@ -1952,28 +1997,42 @@ def saveT5(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         if request.method == "POST":
+            print(request.POST)
             year=request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
-            formset4 = Table1FormSet(request.POST)
+            formset4 = Table1FormSet(request.POST,queryset=UMR.objects.filter(prepodavatel=profile, polugodie=1,year=year))
             # predmets=formset.save()
             # формсет для первого полугодия
-
-            if formset4.is_valid():
-                udel = UMR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 1
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                   if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 1
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = UMR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = UMR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                   else:
+                       print(form.errors)
+            except Exception as e:
+                    print(e)
+
             return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -1990,19 +2049,30 @@ def saveT6(request):
             # predmets=formset.save()
             # формсет для первого полугодия
 
-            if formset4.is_valid():
-                udel = UMR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 2
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 2
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = UMR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = UMR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2016,23 +2086,34 @@ def saveT7(request):
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(NIR, form=Table3Form, extra=5)
-            formset4 = Table1FormSet(request.POST, queryset=NIR.objects.filter(prepodavatel=profile, polugodie=1))
+            formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
-            if formset4.is_valid():
-                udel = NIR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 1
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 1
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = NIR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = NIR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2045,23 +2126,34 @@ def saveT8(request):
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(NIR, form=Table3Form, extra=5)
-            formset4 = Table1FormSet(request.POST, queryset=NIR.objects.filter(prepodavatel=profile, polugodie=2))
+            formset4 = Table1FormSet(request.POST)
             # predmets=formset.save()
             # формсет для первого полугодия
 
-            if formset4.is_valid():
-                udel = NIR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 2
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 2
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = NIR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = NIR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2078,19 +2170,30 @@ def saveT9(request):
             # predmets=formset.save()
             # формсет для первого полугодия
 
-            if formset4.is_valid():
-                udel = VR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 1
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 1
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = VR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = VR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2107,19 +2210,30 @@ def saveT10(request):
             # predmets=formset.save()
             # формсет для первого полугодия
 
-            if formset4.is_valid():
-                udel = VR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 2
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 2
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = VR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = VR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2135,20 +2249,30 @@ def saveT11(request):
             formset4 = Table1FormSet(request.POST, queryset=DR.objects.filter(prepodavatel=profile, polugodie=1))
             # predmets=formset.save()
             # формсет для первого полугодия
-            print(formset4.errors)
-            if formset4.is_valid():
-                udel = DR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 1
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 1
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = DR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = DR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2164,21 +2288,30 @@ def saveT12(request):
             formset4 = Table1FormSet(request.POST, queryset=DR.objects.filter(prepodavatel=profile, polugodie=2))
             # predmets=formset.save()
             # формсет для первого полугодия
-            print(request.POST['year'])
-            print(formset4.errors)
-            if formset4.is_valid():
-                udel = DR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 2
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 2
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = DR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = DR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2195,21 +2328,30 @@ def saveT13(request):
             formset4 = Table1FormSet(request.POST, queryset=INR.objects.filter(prepodavatel=profile, polugodie=1))
             # predmets=formset.save()
             # формсет для первого полугодия
-            print(request.POST['year'])
-            print(formset4.errors)
-            if formset4.is_valid():
-                udel = INR.objects.filter(prepodavatel=profile, polugodie=1,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 1
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 1
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = INR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = INR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2225,21 +2367,31 @@ def saveT14(request):
             formset4 = Table1FormSet(request.POST, queryset=INR.objects.filter(prepodavatel=profile, polugodie=2))
             # predmets=formset.save()
             # формсет для первого полугодия
-            print(request.POST['year'])
-            print(formset4.errors)
-            if formset4.is_valid():
-                udel = INR.objects.filter(prepodavatel=profile, polugodie=2,year=request.POST['year'])
-                for u in udel:
-                    u.delete()
+
+            try:
                 for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.polugodie = 2
-                    umr.prepodavatel = profile
-                    umr.year = request.POST['year']
-                    if umr.vid != '':
-                        umr.save()
-            else:
-                print('blen')
+                    if form.is_valid():
+                        umr = form.save(commit=False)
+                        umr.polugodie = 2
+                        umr.prepodavatel = profile
+                        umr.year = request.POST['year']
+                        if umr.vid != '' and umr.vid is not None:
+
+                            try:
+                                umrdel = INR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+                            umr.save()
+                        else:
+                            try:
+                                umrdel = INR.objects.filter(id=umr.id)
+                                umrdel.delete()
+                            except Exception as e:
+                                print(e)
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
@@ -2262,42 +2414,46 @@ def shapka(request):
 
             if form.is_valid():
                 try:
-                    shpkdel = get_object_or_404(DocInfo, plan=plan)
-                    shpkdel.delete()
-                except:
-                    print("ne bilo shapki")
+                    try:
+                        shpkdel = get_object_or_404(DocInfo, plan=plan)
+                        shpkdel.delete()
+                    except:
+                        print("ne bilo shapki")
 
-                shpk = form.save(commit=False)
-                shpk.plan = plan
-                try:
-                    profileinfo = ProfileInfo.objects.get(profile=profile)
-                    shpk.fio=profileinfo.fio
-                    shpk.dolznost = profileinfo.dolznost
-                    shpk.stavka = profileinfo.stavka
-                    shpk.uchzv = profileinfo.uchzv
-                    shpk.uchst = profileinfo.uchst
-                    shpk.visluga = profileinfo.visluga
-                    shpk.kafedra = profileinfo.kafedra
+                    shpk = form.save(commit=False)
+                    shpk.plan = plan
+                    try:
+                        profileinfo = ProfileInfo.objects.get(profile=profile)
+                        shpk.fio=profileinfo.fio
+                        shpk.dolznost = profileinfo.dolznost
+                        shpk.stavka = profileinfo.stavka
+                        shpk.uchzv = profileinfo.uchzv
+                        shpk.uchst = profileinfo.uchst
+                        shpk.visluga = profileinfo.visluga
+                        shpk.kafedra = profileinfo.kafedra
 
 
-                except:
-                    return HttpResponse("Ошибка при сохранении, сначала заполните информацию на главной странице")
+                    except:
+                        return HttpResponse("Ошибка при сохранении, сначала заполните информацию на главной странице")
 
-                shpk.save()
-                kolvomes = request.POST['kolvomes']
-                try:
-                    rating = Rating.objects.get(year=request.POST['year'], profile=profile)
-                    rating.kolvomes = kolvomes
-                    rating.save()
-                except:
-                    rating = Rating()
-                    rating.profile = profile
-                    rating.kolvomes = kolvomes
-                    rating.year = request.POST['year']
-                    rating.save()
+                    shpk.save()
+                    kolvomes = request.POST['kolvomes']
+                    try:
+                        rating = Rating.objects.get(year=request.POST['year'], profile=profile)
+                        rating.kolvomes = kolvomes
+                        rating.save()
+                    except:
+                        rating = Rating()
+                        rating.profile = profile
+                        rating.kolvomes = kolvomes
+                        rating.year = request.POST['year']
+                        rating.save()
+                except Exception as e:
+                    print(e)
+                    return HttpResponse("Ошибка при сохранении")
 
             else:
-                print('blen')
+
                 return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
@@ -2314,23 +2470,27 @@ def saveMesyac(request):
             formset4 = MesyacFormSet(request.POST, queryset=Mesyac.objects.filter(prepodavatel=profile, polugodie=1))
             if formset4.is_valid():
                 try:
-                    mesyacdel = Mesyac.objects.filter(prepodavatel=profile,year=request.POST['year'])
-                    for m in mesyacdel:
-                        m.delete()
+                    try:
+                        mesyacdel = Mesyac.objects.filter(prepodavatel=profile,year=request.POST['year'])
+                        for m in mesyacdel:
+                            m.delete()
 
-                except:
-                    print("ne")
+                    except:
+                        print("ne")
 
-                for form in formset4:
-                    umr = form.save(commit=False)
-                    umr.prepodavatel = profile
-                    umr.kafedra = profile.kafedra
-                    umr.year = request.POST['year']
-                    umr.save()
+                    for form in formset4:
+                        umr = form.save(commit=False)
+                        umr.prepodavatel = profile
+                        umr.kafedra = profile.kafedra
+                        umr.year = request.POST['year']
+                        umr.save()
+                except Exception as e:
+                    print(e)
+                    return HttpResponse("Ошибка при сохранении")
 
 
             else:
-                print('blen')
+                return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
