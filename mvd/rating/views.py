@@ -470,76 +470,80 @@ class RatingTableView(APIView):
 
 """Сохранение документа"""
 def documentSave(request, year, slug):
-    if request.user.is_authenticated:
-        user = User.objects.get(username=slug)
-        profile = get_object_or_404(Profile, user=user)
-        rating = get_object_or_404(Rating, profile=profile, year=year)
+    try:
+        if request.user.is_authenticated:
+            user = User.objects.get(username=slug)
+            profile = get_object_or_404(Profile, user=user)
+            rating = get_object_or_404(Rating, profile=profile, year=year)
 
-        toptext = []
-        tableLens = []
-        inTable = [
+            toptext = []
+            tableLens = []
+            inTable = [
 
-        ]
-        try:
-            toptext.append(profile.kafedra.fullname)
-            toptext.append(str(year))
-            toptext.append(str((int(year) + 1)))
-            toptext.append(profile.info.fio)
-            toptext.append(profile.info.dolznost)
-            toptext.append(str(profile.info.stavka))
-            toptext.append(profile.info.uchst)
-            toptext.append(profile.info.uchzv)
-            toptext.append(" ")
-        except:
-            toptext = [" ", " ", " ", "Заполните главную страницу", " ", " ", " ", " ", " "]
+            ]
+            try:
+                toptext.append(profile.kafedra.fullname)
+                toptext.append(str(year))
+                toptext.append(str((int(year) + 1)))
+                toptext.append(profile.info.fio)
+                toptext.append(profile.info.dolznost)
+                toptext.append(str(profile.info.stavka))
+                toptext.append(profile.info.uchst)
+                toptext.append(profile.info.uchzv)
+                toptext.append(" ")
+            except:
+                toptext = [" ", " ", " ", "Заполните главную страницу", " ", " ", " ", " ", " "]
 
-        try:
-            urr = get_object_or_404(URR, profile=profile, year=year)
-            inTable.append(urr.getDataForDoc())
-        except:
-            urr = URR()
-            urr.profile = profile
-            urr.year = year
-            inTable.append(urr.getDataForDoc())
-        try:
-            ormr = get_object_or_404(ORMR, profile=profile, year=year)
-            inTable.append(ormr.getDataForDoc())
-        except:
-            ormr = ORMR()
-            ormr.profile = profile
-            ormr.year = year
-            inTable.append(ormr.getDataForDoc())
-        mrrdata = []
-        mrr = MRR.objects.filter(profile=profile, year=year)
-        for m in mrr:
-            mrrdata.extend(["3.1", m.name, str(m.bal)])
-        inTable.append(mrrdata)
+            try:
+                urr = get_object_or_404(URR, profile=profile, year=year)
+                inTable.append(urr.getDataForDoc())
+            except:
+                urr = URR()
+                urr.profile = profile
+                urr.year = year
+                inTable.append(urr.getDataForDoc())
+            try:
+                ormr = get_object_or_404(ORMR, profile=profile, year=year)
+                inTable.append(ormr.getDataForDoc())
+            except:
+                ormr = ORMR()
+                ormr.profile = profile
+                ormr.year = year
+                inTable.append(ormr.getDataForDoc())
+            mrrdata = []
+            mrr = MRR.objects.filter(profile=profile, year=year)
+            for m in mrr:
+                mrrdata.extend(["3.1", m.name, str(m.bal)])
+            inTable.append(mrrdata)
 
-        try:
-            pcr = get_object_or_404(PCR, profile=profile, year=year)
-            inTable.append(pcr.getDataForDoc())
-        except:
-            pcr = PCR()
-            pcr.profile = profile
-            pcr.year = year
-            inTable.append(pcr.getDataForDoc())
-        tableLens.extend([7, 35, mrr.count(), 5])
+            try:
+                pcr = get_object_or_404(PCR, profile=profile, year=year)
+                inTable.append(pcr.getDataForDoc())
+            except:
+                pcr = PCR()
+                pcr.profile = profile
+                pcr.year = year
+                inTable.append(pcr.getDataForDoc())
+            tableLens.extend([7, 35, mrr.count(), 5])
 
-        sumBal = [str(rating.urr), str(rating.ormr), str(rating.mrr), str(rating.pcr), str(rating.summ)]
+            sumBal = [str(rating.urr), str(rating.ormr), str(rating.mrr), str(rating.pcr), str(rating.summ)]
 
-        doc = createRatingDocx(toptext, tableLens, inTable, sumBal)
+            doc = createRatingDocx(toptext, tableLens, inTable, sumBal)
 
-        f = BytesIO()
-        doc.save(f)
-        response = HttpResponse(f.getvalue(),
-                                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'inline; filename=rating.docx'
-        return response
+            f = BytesIO()
+            doc.save(f)
+            response = HttpResponse(f.getvalue(),
+                                    content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            response['Content-Disposition'] = 'inline; filename=rating.docx'
+            return response
 
 
 
-    else:
-        return redirect('log')
+        else:
+            return redirect('log')
+    except Exception as e:
+        return render(request, 'error.html', {
+            'content': "Произошла ошибка при попытке скачать документ"})
 
 
 """Пересчет рейтинга и сумм баллов при сохраненни отдельных отаблиц"""

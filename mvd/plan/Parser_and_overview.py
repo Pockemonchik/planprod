@@ -1385,7 +1385,7 @@ def takeTable(nameDoc):
     return listAllTable
 
 
-def checkPrerods(nameDoc, namePrepod):
+def checkPrepods(nameDoc, namePrepod):
     wb = openpyxl.load_workbook(filename=nameDoc, data_only=True)
 
     sheets = wb.sheetnames
@@ -1393,7 +1393,6 @@ def checkPrerods(nameDoc, namePrepod):
     prepodRow = 1
 
     # Находим строку с преподом
-    print(str(namePrepod).lower())
     for column in ws.iter_rows(min_col=2, min_row=1, max_col=2, max_row=1000, values_only=True):
         if str(namePrepod).lower() in str(column[0]).lower():
             break
@@ -1406,7 +1405,7 @@ def checkPrerods(nameDoc, namePrepod):
     secondPrepod = 1
     for column in ws.iter_rows(min_col=2, min_row=(prepodRow + 1), max_col=2, max_row=(prepodRow + 30),
                                values_only=True):
-        print(str(column[0]))
+
         reg = re.search("^([А-ЯЁ].+?\s)[А-ЯЁ]\.[А-ЯЁ]\.", str(column[0]))
         if reg and len(reg.group(1)) > 0:
             count = secondPrepod
@@ -1488,7 +1487,8 @@ def checkDocumentXLS(nameDoc, flag):
                     if reg and len(reg.group(1)) > 0:
                         needText = reg.group(1)
                     needPrepodColumn.append(needText)
-        if k != 4:
+        if k != 3:
+            print(k)
             return ('Ошибка в одном из слов:' + str(', '.join(nameprepodColumn)))
     return 'OK'
 

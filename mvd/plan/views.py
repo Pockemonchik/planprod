@@ -7,7 +7,7 @@ from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, V
 from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form, Table4Form, Table6Form, Table5Form, MainTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from plan.Parser_and_overview import createDoc2, checkPrerods, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod, checkDocumentXLS
+from plan.Parser_and_overview import createDoc2, checkPrepods, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod, checkDocumentXLS
 from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -955,7 +955,6 @@ def documentAnalize(request):
                         umr.year = year
                         umr.polugodie = '2'
                         umr.save()
-            print("vrode norm")
             return redirect('detail_plan', slug=profile.user.username, year=request.POST['year'])
         else:
             return redirect('log')
@@ -963,255 +962,261 @@ def documentAnalize(request):
 
 def documentSave(request, year, slug):
     if request.user.is_authenticated:
-        user = User.objects.get(username=slug)
-        profile = get_object_or_404(Profile, user=user)
-        plan = get_object_or_404(Plan, prepod=profile, year=year)
-        data = []
-        # count row for every table
-        indexRow = []
-
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-
-        indexRow.append(predmets.count())
-
-        # data+=[" "]*(122-(predmets.count()*12))
-        ##не забыть впихнуть 11 клеток итогов ра полугодие
-        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        indexRow.append(predmets.count())
-
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True, year=year)
-        itog1 = ()
-        itog2 = ()
-        itogall = ()
-        for p in predmets:
-
-            arr = p.all_values()
-            if arr[0] == 'Итого за 1 полугодие:':
-                itog1 = arr
-                continue
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        if itog1:
-            for a in itog1:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-
-        indexRow.append(predmets.count())
-
-        ##не забыть впихнуть 11 клеток итогов ра полугодие
-        ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
-        for p in predmets:
-            arr = p.all_values()
-            if arr[0] == 'Итого за 2 полугодие:':
-                itog2 = arr
-                continue
-            if arr[0] == 'Итого за учебный год:':
-                itogall = arr
-                continue
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        indexRow.append(predmets.count())
-        if itog2:
-            for a in itog2:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        if itogall:
-            for a in itogall:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-        # по месяцам!!
-        # data += [" "] * (375)
-        ##normalno po mesyacam
-        # u admina dolzhna bit tablisa zapolnena
-        mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
-        for m in mesyac:
-            arr=m.all_values()
-            for a in arr:
-               if a=='0':
-                   data.append(" ")
-               else:
-                   data.append(a)
-
-        # учебно метадоч работа
-        umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in umr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(umr.count())
-
-        umr = UMR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in umr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(umr.count())
-        # таблица научно исслеовтельских работа
-        nir = NIR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in nir:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(nir.count())
-        nir = NIR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in nir:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(nir.count())
-        # для воспитаттльной работы
-        vr = VR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in vr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(vr.count())
-
-        vr = VR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in vr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(vr.count())
-        # работа ин спец
-        inr = INR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in inr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(inr.count())
-
-        inr = INR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in inr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(inr.count())
-        # для другой работы
-        dr = DR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
-        count = 1
-        for u in dr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(dr.count())
-
-        dr = DR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
-        count = 1
-        for u in dr:
-            arr = u.all_values()
-            data.append(str(count))
-            for a in arr:
-                if a == '0':
-                    data.append(" ")
-                else:
-                    data.append(a)
-            count += 1
-        indexRow.append(dr.count())
-        # главная таблица
-        data += plan.all_values()
-
-        # shapka
         try:
-            docinf = DocInfo.objects.get(plan=plan)
-        except:
-            docinf = DocInfo(plan=plan)
-        listInfo = docinf.all_values()
-        # print(indexRow)
-        # print(data)
+            user = User.objects.get(username=slug)
+            profile = get_object_or_404(Profile, user=user)
+            plan = get_object_or_404(Plan, prepod=profile, year=year)
+            data = []
+            # count row for every table
+            indexRow = []
+
+            predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False, year=year)
+            for p in predmets:
+                arr = p.all_values()
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+
+            indexRow.append(predmets.count())
+
+            # data+=[" "]*(122-(predmets.count()*12))
+            ##не забыть впихнуть 11 клеток итогов ра полугодие
+            ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False, year=year)
+            for p in predmets:
+                arr = p.all_values()
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+            indexRow.append(predmets.count())
+
+            predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True, year=year)
+            itog1 = ()
+            itog2 = ()
+            itogall = ()
+            for p in predmets:
+
+                arr = p.all_values()
+                if arr[0] == 'Итого за 1 полугодие:':
+                    itog1 = arr
+                    continue
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+            if itog1:
+                for a in itog1:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+
+            indexRow.append(predmets.count())
+
+            ##не забыть впихнуть 11 клеток итогов ра полугодие
+            ##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
+            for p in predmets:
+                arr = p.all_values()
+                if arr[0] == 'Итого за 2 полугодие:':
+                    itog2 = arr
+                    continue
+                if arr[0] == 'Итого за учебный год:':
+                    itogall = arr
+                    continue
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+            indexRow.append(predmets.count())
+            if itog2:
+                for a in itog2:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+            if itogall:
+                for a in itogall:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+            # по месяцам!!
+            # data += [" "] * (375)
+            ##normalno po mesyacam
+            # u admina dolzhna bit tablisa zapolnena
+            mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+            for m in mesyac:
+                arr=m.all_values()
+                for a in arr:
+                   if a=='0':
+                       data.append(" ")
+                   else:
+                       data.append(a)
+
+            # учебно метадоч работа
+            umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+            count = 1
+            for u in umr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(umr.count())
+
+            umr = UMR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+            count = 1
+            for u in umr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(umr.count())
+            # таблица научно исслеовтельских работа
+            nir = NIR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+            count = 1
+            for u in nir:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(nir.count())
+            nir = NIR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+            count = 1
+            for u in nir:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(nir.count())
+            # для воспитаттльной работы
+            vr = VR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+            count = 1
+            for u in vr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(vr.count())
+
+            vr = VR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+            count = 1
+            for u in vr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(vr.count())
+            # работа ин спец
+            inr = INR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+            count = 1
+            for u in inr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(inr.count())
+
+            inr = INR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+            count = 1
+            for u in inr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(inr.count())
+            # для другой работы
+            dr = DR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
+            count = 1
+            for u in dr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(dr.count())
+
+            dr = DR.objects.filter(prepodavatel=profile, polugodie=2, year=year)
+            count = 1
+            for u in dr:
+                arr = u.all_values()
+                data.append(str(count))
+                for a in arr:
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
+                count += 1
+            indexRow.append(dr.count())
+            # главная таблица
+            data += plan.all_values()
+
+            # shapka
+            try:
+                docinf = DocInfo.objects.get(plan=plan)
+            except:
+                docinf = DocInfo(plan=plan)
+            listInfo = docinf.all_values()
+            # print(indexRow)
+            # print(data)
 
 
-        doc = writeInfoDoc(listInfo, data, indexRow)
-        # doc=createDoc('testforsave',data)
-        # plan.document.save("testsave",f,save=True)
-        file_path = plan.document.path
-        f = BytesIO()
-        doc.save(f)
-        response = HttpResponse(f.getvalue(),
-                                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'inline; filename=plan.docx'
-        return response
+            doc = writeInfoDoc(listInfo, data, indexRow)
+            # doc=createDoc('testforsave',data)
+            # plan.document.save("testsave",f,save=True)
+            file_path = plan.document.path
+            f = BytesIO()
+            doc.save(f)
+            response = HttpResponse(f.getvalue(),
+                                    content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            response['Content-Disposition'] = 'inline; filename=plan.docx'
+            return response
+        except Exception as e:
+
+            return render(request, 'error.html', {
+                'content': "Произошла ошибка при заполнении плана из загруженного доумента, пожалуйста проверьте "
+                           "формат документа(см.справку)"})
 
         # print(data)
         # response = HttpResponse(doc,content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
@@ -1246,16 +1251,15 @@ def nagruzkaSave(request):
                         flag = False
                     print(nagruzka.status)
                     response = ""
-                    # response = checkDocumentXLS(nagruzka.document.path,flag)
-                    # print(nagruzka.document.path, flag)
-                    # profiles = Profile.objects.filter(kafedra=profile.kafedra)
-                    # for p in profiles:
-                    #     # try:
-                    #
-                    #         name =p.fullname.split(' ')[0]
-                    #         print(name)
-                    #         prepod = checkPrepods(nagruzka.document.path, name)
-                    #         response += " " +prepod+ "\n"
+                    response = checkDocumentXLS(nagruzka.document.path,flag)
+                    print(nagruzka.document.path, flag,response)
+                    profiles = Profile.objects.filter(kafedra=profile.kafedra)
+                    for p in profiles:
+                        # try:
+
+                            name =p.fullname.split(' ')[0]
+                            prepod = checkPrepods(nagruzka.document.path, name)
+                            response += " " +prepod+ "\n"
                         # except Exception as e:
                         #     print(e)
                         #     response += "Не нашлись учетные данные "+p.fullname
