@@ -305,6 +305,17 @@
       </div>
 
     </div>
+    <v-dialog v-model="dialogLoading" persistent max-width="700px">
+      <v-card>
+        <v-card-title>Отчет по загрузке документа:</v-card-title>
+        <v-card-text v-if="dis">Пожалуйста подождите, идет проверка документа <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular></v-card-text>
+        <v-card-text style="white-space: pre-line;" v-else>{ text }</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="dis" color="blue darken-1" text @click="dialogLoading=false">Закрыть</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar v-model="snackbar" :timeout="timeout">
       { text }
 
@@ -362,7 +373,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogredirect=false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogredirect=false">Закрыть</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -696,6 +707,7 @@
       dolzhnost: ["профессор", "преподаватель", "доцент", "нач.кафедры", "зам.нач.кафедры", "ст.преподаватель"],
       defaultSelectedDolzhnost: document.getElementById('defaultSelectedDolzhnost').value,
 
+      dialogLoading: false,
       kafname: document.getElementById("kafname").value,
       plfa: "",
       planfact: ["Планируемая", "Фактическая"],
@@ -801,10 +813,11 @@
         if (this.yearDoc.length == 4) {
           this.menuDoc = false;
           var formData = new FormData(event.target.closest("form"));
+          this.dis = true;
+          this.dialogLoading = true;
           axios.post(addDocurl, formData).then((response) => {
             this.dis = false;
             this.text = response.data[0].text;
-            this.snackbar = true;
             if (this.text == "Нагрузка успешно добавлена") {
               this.itemsDoc.push({ "year": this.yearDoc, "kafname": response.data[0].kafname });
             }
@@ -812,7 +825,6 @@
             .catch((errors) => {
               this.dis = false;
               this.text = "Ошибка соединения";
-              this.snackbar = true;
               console.log(errors);
             })
         }
