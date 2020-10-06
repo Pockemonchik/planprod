@@ -1259,7 +1259,7 @@ def nagruzkaSave(request):
 
                             name =p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += " " +prepod+ "\n"
+                            response += " •   " +prepod+ "\n"
                         except Exception as e:
                             print(e)
                             response += "Не нашлись данные "+p.fullname
@@ -1289,7 +1289,7 @@ def nagruzkaSave(request):
 
                             name = p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += " " + prepod + "\n"
+                            response += " •   " + prepod + "\n"
                         except Exception as e:
                             print(e)
                             response += "Не нашлись учетные данные "+p.fullname
