@@ -1255,14 +1255,14 @@ def nagruzkaSave(request):
                     print(nagruzka.document.path, flag,response)
                     profiles = Profile.objects.filter(kafedra=profile.kafedra)
                     for p in profiles:
-                        # try:
+                        try:
 
                             name =p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += " " +prepod+ "\n"
-                        # except Exception as e:
-                        #     print(e)
-                        #     response += "Не нашлись учетные данные "+p.fullname
+                            response += " •   " +prepod+ "\n"
+                        except Exception as e:
+                            print(e)
+                            response += "Не нашлись данные "+p.fullname
 
                     print(response)
                     return Response([{
@@ -1281,17 +1281,18 @@ def nagruzkaSave(request):
                     else:
                         flag = False
                     response = ""
-                    # response = checkDocumentXLS(nagruzka.document.path, flag)
-                    # profiles = Profile.objects.filter(kafedra=profile.kafedra)
-                    # for p in profiles:
-                    #     try:
-                    #         name = p.fullname.split(' ')[0]
-                    #         print(name)
-                    #         response += " " + checkPrerod(nagruzka.document.path, name) + "\n"
-                    #     except Exception as e:
-                    #         print(e)
-                    #         response += "Не нашлись учетные данные " + p.fullname
-                    # print(response)
+                    response = checkDocumentXLS(nagruzka.document.path, flag)
+                    print(nagruzka.document.path, flag, response)
+                    profiles = Profile.objects.filter(kafedra=profile.kafedra)
+                    for p in profiles:
+                        try:
+
+                            name = p.fullname.split(' ')[0]
+                            prepod = checkPrepods(nagruzka.document.path, name)
+                            response += " •   " + prepod + "\n"
+                        except Exception as e:
+                            print(e)
+                            response += "Не нашлись учетные данные "+p.fullname
                     return Response([{
 
                         "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response,
@@ -1329,7 +1330,7 @@ def nagruzka(request, year, slug):
             plan = get_object_or_404(Plan, prepod=profile, year=year)
             nagruzkadoc = get_object_or_404(
                 Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
-            predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=False)
+            predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=False)
             predmetsdel.delete()
 
             try:
@@ -1466,7 +1467,7 @@ def nagruzkafact(request, year, slug):
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
-        predmetsdel = Predmet.objects.filter(prepodavatel=profile, status=True)
+        predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=True)
         predmetsdel.delete()
         print(nagruzkadoc.document.path)
         print(plan.name[0:-4])
@@ -1734,11 +1735,11 @@ def mainTableSave(request):
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             try:
-                 plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
+                plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
             except Exception as e:
                 Plan.objects.filter(prepod=profile,year=request.POST['year']).delete()
-            form = MainTableForm(request.POST)
-            print(form.errors)
+                plan = Plan()
+            form = MainTableForm(request.POST,instance=plan)
             if form.is_valid():
 
                 newplan = form.save(commit=False)
@@ -1753,8 +1754,6 @@ def mainTableSave(request):
                 newplan.year = request.POST['year']
                 newplan.name = plan.name
                 newplan.prepod = profile
-                print(newplan.name)
-                plan.delete()
                 newplan.save()
 
                 return HttpResponse("Успешно сохранено")
@@ -2454,9 +2453,6 @@ def shapka(request):
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
             form = ShapkaForm(request.POST)
-            print(request.POST)
-
-
             if form.is_valid():
                 try:
                     try:

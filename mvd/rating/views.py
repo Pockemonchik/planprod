@@ -24,6 +24,8 @@ import os
 from io import StringIO, BytesIO
 
 """Ренедеринг основных страниц"""
+
+
 def rate_otsenka(request, slug, year):
     profile = get_object_or_404(Profile, user=request.user)
     profile1 = get_object_or_404(Profile, user__username=slug)
@@ -49,7 +51,7 @@ def rate_otsenka(request, slug, year):
     print(MRR.objects.filter(profile=profile1, year=year))
     title = "Рейтинговая оценка " + ''.join(
         [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-         profile1.fullname.split(' ')[1][0]])+" "+year
+         profile1.fullname.split(' ')[1][0]]) + " " + year
     return render(request, 'rate_otsenka.html', {
         'formset': formset,
         'urrform': urrform,
@@ -82,6 +84,8 @@ def sotr_umr(request):
 
 
 """Получение данных о пользователях, кафедрах и друге"""
+
+
 class GraphView(APIView):
     permission_classes = [AllowAny]
 
@@ -93,29 +97,29 @@ class GraphView(APIView):
             kafedras = Kafedra.objects.all()
             graphdata = []
             buff = []
-            urr_list=[]
-            ormr_list=[]
-            mrr_list=[]
-            pcr_list=[]
+            urr_list = []
+            ormr_list = []
+            mrr_list = []
+            pcr_list = []
             urr = 0
             ormr = 0
             mrr = 0
             pcr = 0
             for k in kafedras:
                 print(k.fullname)
-                profiles=k.prepods.all()
+                profiles = k.prepods.all()
 
                 for p in profiles:
                     try:
                         rating = Rating.objects.get(profile=p, year=year)
-                        print(rating.profile.fullname, rating.urr,rating.ormr,rating.mrr,rating.pcr)
+                        print(rating.profile.fullname, rating.urr, rating.ormr, rating.mrr, rating.pcr)
                         urr += rating.urr
                         ormr += rating.ormr
                         mrr += rating.mrr
-                        pcr +=rating.pcr
+                        pcr += rating.pcr
                     except Rating.DoesNotExist:
                         continue
-                print(urr,ormr,mrr,pcr)
+                print(urr, ormr, mrr, pcr)
                 urr_list.append(urr)
                 ormr_list.append(ormr)
                 mrr_list.append(mrr)
@@ -302,6 +306,8 @@ class ProfilePlaceView(APIView):
 
 
 """Сохранение основных таблиц"""
+
+
 class SaveURRView(View):
 
     def post(self, request):
@@ -435,6 +441,8 @@ class SaveMRRView(View):
 
 
 """Обновление рейтингов для всех сотрудников по ссыылке"""
+
+
 class RefreshRatingView(APIView):
     permission_classes = [AllowAny]
 
@@ -445,6 +453,8 @@ class RefreshRatingView(APIView):
 
 
 """Класс для общей таблицы """
+
+
 class RatingTableView(APIView):
     permission_classes = [AllowAny]
 
@@ -453,22 +463,23 @@ class RatingTableView(APIView):
         allrating = Rating.objects.filter(year=year).order_by("summ").reverse()
         data = []
         for r in allrating:
-            if r.summ != 0:
-                data.append(
-                    {'fio': r.profile.fullname,
-                     'kafedra':r.profile.kafedra.fullname,
-                     'dolzhnost':r.profile.dolzhnost,
-                     'summ': r.summ,
-                     'unikplace': r.unikplace,
-                     'dolzhnostplace': r.dolzhnostplace,
-                     'kafedraplace': r.kafedraplace,
-                     'username': r.profile.user.username,
-                     }
-                )
+            data.append(
+                {'fio': r.profile.fullname,
+                 'kafedra': r.profile.kafedra.fullname,
+                 'dolzhnost': r.profile.dolzhnost,
+                 'summ': r.summ,
+                 'unikplace': r.unikplace,
+                 'dolzhnostplace': r.dolzhnostplace,
+                 'kafedraplace': r.kafedraplace,
+                 'username': r.profile.user.username,
+                 }
+            )
         return Response(data)
 
 
 """Сохранение документа"""
+
+
 def documentSave(request, year, slug):
     try:
         if request.user.is_authenticated:
@@ -547,6 +558,8 @@ def documentSave(request, year, slug):
 
 
 """Пересчет рейтинга и сумм баллов при сохраненни отдельных отаблиц"""
+
+
 def setplace(year, profile):
     allrating = Rating.objects.filter(year=year)
     profilerating = Rating.objects.get(profile=profile, year=year)
@@ -564,11 +577,11 @@ def setplace(year, profile):
     except:
         pcrsumm = 0
     mrrsumm = 0
-    effect_stavka=(profilerating.profile.info.stavka*profilerating.kolvomes/11)
+    effect_stavka = (profilerating.profile.info.stavka * profilerating.kolvomes / 11)
     mrrs = MRR.objects.filter(profile=profile, year=year)
     for m in mrrs:
         mrrsumm += m.bal
-    profilerating.summ = (urrsumm + ormrsumm + pcrsumm + mrrsumm)*effect_stavka
+    profilerating.summ = (urrsumm + ormrsumm + pcrsumm + mrrsumm) * effect_stavka
     profilerating.urr = urrsumm
     profilerating.ormr = ormrsumm
     profilerating.pcr = pcrsumm
@@ -579,12 +592,14 @@ def setplace(year, profile):
                                                     summ__gte=profilerating.summ).count()
     profilerating.unikplace = allrating.filter(year=year, summ__gte=profilerating.summ).count()
     profilerating.save()
-    print(profilerating.profile.fullname," ",profilerating.summ," ",profilerating.unikplace)
+    print(profilerating.profile.fullname, " ", profilerating.summ, " ", profilerating.unikplace)
 
-    #print(allrating.filter(year=year, summ__gte=profilerating.summ))
+    # print(allrating.filter(year=year, summ__gte=profilerating.summ))
 
 
 """Пересчет рейтинга для всех сотрудников"""
+
+
 def refresh_places(year):
     try:
         allrating = Rating.objects.filter(year=year)
