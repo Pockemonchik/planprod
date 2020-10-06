@@ -1421,7 +1421,7 @@ def checkPrepods(nameDoc, namePrepod):
         return (
             'Произошла ошибка: в вашем документе 2 фамилии стоят в двух строках подряд, нельзя писать фамилии преподавателей в строках с названиями дискиплин, если они идут по замене.')
 
-    return ('OK')
+    return 'Преподаватель %s найден' % namePrepod
 
 def checkDocumentXLS(nameDoc, flag):
     wb = openpyxl.load_workbook(filename =nameDoc, data_only=True)
@@ -1490,7 +1490,7 @@ def checkDocumentXLS(nameDoc, flag):
         if k != 3:
             print(k)
             return ('Ошибка в одном из слов:' + str(', '.join(nameprepodColumn)))
-    return 'OK'
+    return 'Ваш документ соотвествует образцу'
 
 
 

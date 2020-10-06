@@ -1259,7 +1259,7 @@ def nagruzkaSave(request):
 
                             name =p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += " •   " +prepod+ "\n"
+                            response += "\n •   " +prepod+ "\n"
                         except Exception as e:
                             print(e)
                             response += "Не нашлись данные "+p.fullname
@@ -1267,7 +1267,7 @@ def nagruzkaSave(request):
                     print(response)
                     return Response([{
 
-                        "text": "Нагрузка успешно заменена, ниже представлены сведения о документе \n"+response,
+                        "text": "Нагрузка успешно заменена, ниже представлены сведения о документе \n"+response+'\n',
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
@@ -1289,13 +1289,13 @@ def nagruzkaSave(request):
 
                             name = p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += " •   " + prepod + "\n"
+                            response += "\n •   " + prepod + "\n"
                         except Exception as e:
                             print(e)
                             response += "Не нашлись учетные данные "+p.fullname
                     return Response([{
 
-                        "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response,
+                        "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response+'\n',
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
