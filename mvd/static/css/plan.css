@@ -42,6 +42,6 @@
 .addSotrBut{
     margin-left: auto;
 }
-.infoAccLable{
-    
+.v-dialog{
+    max-height: 80%!important;
 }

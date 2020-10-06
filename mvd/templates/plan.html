@@ -305,7 +305,7 @@
       </div>
 
     </div>
-    <v-dialog v-model="dialogLoading" persistent max-width="700px">
+    <v-dialog v-model="dialogLoading" scrollable persistent max-width="700px">
       <v-card>
         <v-card-title>Отчет по загрузке документа:</v-card-title>
         <v-card-text v-if="dis">Пожалуйста подождите, идет проверка документа <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular></v-card-text>
