@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from plan.models import Profile,Kafedra,Plan,Predmet,NIR,VR,DR,UMR,INR,Nagruzka,DocInfo
 from plan.forms import ShapkaForm,Table1Form,Table2Form,Table3Form,Table4Form,Table6Form,Table5Form,MainTableForm,Table1UploadForm,NagruzkaForm
+from rating.models import URR, ORMR, PCR, MRR, Rating
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from plan.Parser_and_overview import createDoc2,createDoc,takeTable,takeXls,writeInfoDoc,xlsPrepod
@@ -14,8 +15,52 @@ import random
 from docx import Document
 import os
 
-#exec(open('plan/tasks.py', encoding='utf-8').read())
 
+#exec(open('plan/tasks.py', encoding='utf-8').read())
+def setplace(year, profile):
+    allrating = Rating.objects.filter(year=year)
+    profilerating = Rating.objects.get(profile=profile, year=year)
+
+    try:
+        urrsumm = (URR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        urrsumm = 0
+    try:
+        ormrsumm = (ORMR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        ormrsumm = 0
+    try:
+        pcrsumm = (PCR.objects.get(profile=profile, year=year)).getsumm()
+    except:
+        pcrsumm = 0
+    mrrsumm = 0
+    effect_stavka=(profilerating.profile.info.stavka*profilerating.kolvomes/11)
+    mrrs = MRR.objects.filter(profile=profile, year=year)
+    for m in mrrs:
+        mrrsumm += m.bal
+    profilerating.summ = (urrsumm + ormrsumm + pcrsumm + mrrsumm)*effect_stavka
+    profilerating.urr = urrsumm
+    profilerating.ormr = ormrsumm
+    profilerating.pcr = pcrsumm
+    profilerating.mrr = mrrsumm
+    profilerating.kafedraplace = allrating.filter(profile__kafedra=profile.kafedra, year=year,
+                                                  summ__gte=profilerating.summ).count()
+    profilerating.dolzhnostplace = allrating.filter(profile__dolzhnost=profile.dolzhnost, year=year,
+                                                    summ__gte=profilerating.summ).count()
+    profilerating.unikplace = allrating.filter(year=year, summ__gte=profilerating.summ).count()
+    profilerating.save()
+    print(profilerating.profile.fullname," ",profilerating.summ," ",profilerating.unikplace)
+
+"""Пересчет рейтинга для всех сотрудников"""
+def refresh_places(year):
+    try:
+        allrating = Rating.objects.filter(year=year)
+        for r in allrating:
+            setplace(year, r.profile)
+        return "Успешно обновлены позиции"
+    except Exception as e:
+        print(e)
+        return "Ошибка при обновлении позиций"
 """Функции для заполнения бд из нагрузок"""
 def zapolnenie_bd():
     print('Введите название папки в с файлами в plan/, ./dir например (paht to dir with files)')
@@ -271,8 +316,19 @@ def create_plans():
             count +=1
             #newplan.save()
     print("sozdano "+count+" planov iz " +profiles.count()+"profiley")
-zapolnenie_bd()
-#create_plans()
+
+
+print("Выберете опцию: 1 запонить нагрузки из папки , 2 создать планы ,3 обновить рейтинги")
+command = input()
+if command == '1':
+    zapolnenie_bd()
+elif command == '2':
+    create_plans()
+elif command == '3':
+    print("введите год")
+    year = input()
+    refresh_places(int(year))
+
 print('konets')
 
 

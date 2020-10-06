@@ -1255,14 +1255,14 @@ def nagruzkaSave(request):
                     print(nagruzka.document.path, flag,response)
                     profiles = Profile.objects.filter(kafedra=profile.kafedra)
                     for p in profiles:
-                        # try:
+                        try:
 
                             name =p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
                             response += " " +prepod+ "\n"
-                        # except Exception as e:
-                        #     print(e)
-                        #     response += "Не нашлись учетные данные "+p.fullname
+                        except Exception as e:
+                            print(e)
+                            response += "Не нашлись данные "+p.fullname
 
                     print(response)
                     return Response([{
@@ -1281,17 +1281,18 @@ def nagruzkaSave(request):
                     else:
                         flag = False
                     response = ""
-                    # response = checkDocumentXLS(nagruzka.document.path, flag)
-                    # profiles = Profile.objects.filter(kafedra=profile.kafedra)
-                    # for p in profiles:
-                    #     try:
-                    #         name = p.fullname.split(' ')[0]
-                    #         print(name)
-                    #         response += " " + checkPrerod(nagruzka.document.path, name) + "\n"
-                    #     except Exception as e:
-                    #         print(e)
-                    #         response += "Не нашлись учетные данные " + p.fullname
-                    # print(response)
+                    response = checkDocumentXLS(nagruzka.document.path, flag)
+                    print(nagruzka.document.path, flag, response)
+                    profiles = Profile.objects.filter(kafedra=profile.kafedra)
+                    for p in profiles:
+                        try:
+
+                            name = p.fullname.split(' ')[0]
+                            prepod = checkPrepods(nagruzka.document.path, name)
+                            response += " " + prepod + "\n"
+                        except Exception as e:
+                            print(e)
+                            response += "Не нашлись учетные данные "+p.fullname
                     return Response([{
 
                         "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response,
