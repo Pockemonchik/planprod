@@ -117,9 +117,9 @@ def detail_plan(request, slug, year):
         try:
             title = "Индивидуальный план  " + ''.join(
             [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-             profile1.fullname.split(' ')[2][0]])+" "+year
+             profile1.fullname.split(' ')[2][0]])+" "+str(year)+"-"+str(int(year)+1)
         except:
-            title="Индивидуальный план  " + profile1.fullname + " "+year
+            title="Индивидуальный план  " + profile1.fullname + " "+str(year)+"-"+str(int(year)+1)
         return render(request, 'detail_plan.html', {
             'mainForm': mainForm,
             'formset': formset,
@@ -170,7 +170,7 @@ def index(request):
             infoform = ProfileInfoForm()
         try:
             title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
-                                      profile.fullname.split(' ')[1][0]])
+                                      profile.fullname.split(' ')[2][0]])
         except:
             title = "Главная " + profile.fullname
         return render(request, 'plan.html', {
@@ -319,39 +319,42 @@ def createratinghome(request):
                             newmrr.name = u.vid
                             print(newmrr.name)
                             newmrr.bal = 20
+                            newmrr.default = 20
                             newmrr.year = year
                             summmrr += 20
                             newmrr.save()
                         if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
-                                "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                                "азработка примерной дополнительной профессиональной " in u.vid or
                                 "азработка дополнительной профессиональной программы" in u.vid or
                                 "азработка фондовой лекции" in u.vid or
                                 "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
                                 "азработка сценария для учебного фильма" in u.vid or
-                                "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                                "азработка компьютерной программы " in u.vid
                         ):
                             newmrr = MRR()
                             newmrr.profile = profile
                             newmrr.name = u.vid
                             print(newmrr.name)
                             newmrr.bal = 10
+                            newmrr.default = 10
                             newmrr.year = year
                             summmrr += 10
                             newmrr.save()
                         if ("азработка рабочей программы учебной дисциплины" in u.vid or
-                                "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                                "азработка рабочей программы государственной итоговой " in u.vid or
                                 "азработка натурных объектов на контрольные экспертизы" in u.vid or
                                 "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
                                 "азработка практикума по дисциплине" in u.vid or
                                 "азработка материалов для вступительных испытаний" in u.vid or
                                 "азработка материалов для проведения кандидатского экзамен" in u.vid or
                                 "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
-                                "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                                "азработка cборника образцов процессуальных и служебных документов" in u.vid):
                             newmrr = MRR()
                             newmrr.profile = profile
                             newmrr.name = u.vid
                             print(newmrr.name)
                             newmrr.bal = 5
+                            newmrr.default = 5
                             newmrr.year = year
                             summmrr += 5
                             newmrr.save()
@@ -529,12 +532,12 @@ def createrating(request, year, slug):
                     summmrr += 20
                     newmrr.save()
                 if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
-                        "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                        "азработка примерной дополнительной профессиональной " in u.vid or
                         "азработка дополнительной профессиональной программы" in u.vid or
                         "азработка фондовой лекции" in u.vid or
                         "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
                         "азработка сценария для учебного фильма" in u.vid or
-                        "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                        "азработка компьютерной программы " in u.vid
                 ):
                     newmrr = MRR()
                     newmrr.profile = profile
@@ -546,14 +549,14 @@ def createrating(request, year, slug):
                     summmrr += 10
                     newmrr.save()
                 if ("азработка рабочей программы учебной дисциплины" in u.vid or
-                        "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                        "азработка рабочей программы государственной итоговой " in u.vid or
                         "азработка натурных объектов на контрольные экспертизы" in u.vid or
                         "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
                         "азработка практикума по дисциплине" in u.vid or
                         "азработка материалов для вступительных испытаний" in u.vid or
                         "азработка материалов для проведения кандидатского экзамен" in u.vid or
                         "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
-                        "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                        "азработка cборника образцов процессуальных и служебных документов" in u.vid):
                     newmrr = MRR()
                     newmrr.profile = profile
                     newmrr.name = u.vid
@@ -1845,7 +1848,7 @@ def saveT3(request):
                         except Exception as e:
                             print(e)
 
-                        predmetdel = Predmet.objects.filter(name='Итого за 1 полугодие:', polugodie=1, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за 1 полугодие:', polugodie=1, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
                         if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
@@ -1927,7 +1930,7 @@ def saveT4(request):
                         except Exception as e:
                             print(e)
 
-                        predmetdel = Predmet.objects.filter(name='Итого за 2 полугодие:', polugodie=2, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за 2 полугодие:', polugodie=2, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
 
