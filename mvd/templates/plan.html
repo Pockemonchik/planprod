@@ -26,7 +26,7 @@
                   <h3>Индивидуальные планы</h3>
                   <!-- <button type="button" class="btn btn-outline-primary dok-button">Добавить ИП</button> -->
 
-                  <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="100" offset-x left>
+                  <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x left>
                     <template v-slot:activator="{ on, attrs }">
                       <button type="button" v-bind="attrs" v-on="on" class="btn btn-outline-primary dok-button">Добавить
                         ИП</button>
@@ -39,8 +39,20 @@
                           <v-list-item>
 
                             <v-list-item-action>
-                              <v-text-field label="Введите год" v-model="yearIP" clearable name="year" :rules="rules"
-                                hide-details="auto"></v-text-field>
+                              <v-row>
+                                <v-col sm = 6>
+                                  <v-text-field label="Введите год" v-model="yearIP" clearable name="year" :rules="rules"
+                                  hide-details="auto"></v-text-field>
+                                </v-col>
+                                <v-col sm="1">
+                                  -
+                                </v-col>
+                                <v-col sm="5">
+                                  <v-text-field disabled clearable :value="Number(yearIP)+1"></v-text-field>
+                                </v-col>
+                              </v-row>
+                              
+                              
                             </v-list-item-action>
                           </v-list-item>
                         </v-list>
@@ -64,7 +76,7 @@
                             href="{%url 'detail_plan' plan.prepod.user.username plan.year %} "><img
                               src="{% static "admin1/images/doc.png" %}" width="35px" height="35px" alt=""></a></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{plan.prepod.fullname}}</td>
-                        <td style="border:0;vertical-align:middle;">{{plan.year}}</td>
+                        <td style="border:0;vertical-align:middle;">{{plan.year}} - {{plan.year|add:1}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                           <a href="{%url  'documentSave' profile.user.username  plan.year %}"
                             class="ml-1 btn btn-sm btn-light badge-pill"><img
@@ -77,7 +89,7 @@
                           <td style="border:0;width:35px;"><a v-bind:href="item.href"><img
                                 src="/static/admin1/images/doc.png" width="35px" height="35px" alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
-                          <td style="border:0;vertical-align:middle;">{item.year}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year} - {Number(item.year) + 1}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
                                 src="/static/admin1/images/download.png"></a>
@@ -103,10 +115,19 @@
                         {%csrf_token%}
                         <v-list>
                           <v-list-item>
-
                             <v-list-item-action>
-                              <v-text-field name="year" label="Введите год" v-model="yearRate" clearable :rules="rules"
-                                hide-details="auto"></v-text-field>
+                              <v-row>
+                                <v-col sm="6">
+                                  <v-text-field name="year" label="Введите год" v-model="yearRate" clearable :rules="rules"
+                                  hide-details="auto"></v-text-field>.
+                              </v-col>
+                              <v-col sm="1">
+                                -
+                              </v-col>
+                              <v-col sm="5">
+                                <v-text-field disabled clearable :value="Number(yearRate)+1"></v-text-field>
+                              </v-col>
+                            </v-row>
                             </v-list-item-action>
                           </v-list-item>
                         </v-list>
@@ -129,7 +150,7 @@
                             href="{%url 'rate_otsenka' r.profile.user.username r.year %} "><img
                               src="{% static "admin1/images/graph.svg" %}" width="35px" height="35px" alt=""></a></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{r.profile.fullname}}</td>
-                        <td style="border:0;vertical-align:middle;">{{r.year}}</td>
+                        <td style="border:0;vertical-align:middle;">{{r.year}} - {{r.year|add:1}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                           <a href="{%url  'documentSaveRating' r.year profile.user.username   %}"
                             class="ml-1 btn btn-sm btn-light badge-pill"><img
@@ -142,7 +163,7 @@
                           <td style="border:0;width:35px;"><a v-bind:href="item.href"><img
                                 src="/static/admin1/images/graph.svg" width="35px" height="35px" alt=""></a></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{{profile.fullname}}</td>
-                          <td style="border:0;vertical-align:middle;">{item.year}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year} - {Number(item.year) + 1}</td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
                                 src="/static/admin1/images/download.png"></a>
@@ -172,7 +193,8 @@
 
                             <v-text-field name="year" label="Введите год" clearable v-model="yearDoc" :rules="rules"
                               hide-details="auto">
-                            </v-text-field>
+                            </v-text-field><div style="margin-top: 15px;">-</div>
+                            <v-text-field style="margin-top: 25px;" disabled clearable :value="Number(yearDoc)+1"></v-text-field>
                           </v-list-item>
                           <v-list-item>
                             <v-select name="status" :items="planfact" label="Вид нагрузки" v-model="plfa"></v-select>
@@ -201,7 +223,7 @@
                         <td style="border:0;width:35px;"><img src="{% static "admin1/images/docexel.png" %}"
                             width="35px" height="35px" alt=""></td>
                         <td style="border:0;vertical-align:middle;" valign="middle">{{doc}}</td>
-                        <td style="border:0;vertical-align:middle;">{{doc.year}}</td>
+                        <td style="border:0;vertical-align:middle;">{{doc.year}} - {{doc.year|add:1}}</td>
                         <td style="border:0;text-align:right;vertical-align:middle;">
                           <a href="{{doc.document.url}}" class="ml-1 btn btn-sm btn-light badge-pill"><img
                               src="{% static "admin1/images/download.png" %}"></a>
@@ -214,7 +236,7 @@
                           <td style="border:0;width:35px;"><img src="/static/admin1/images/docexel.png" width="35px"
                               height="35px" alt=""></td>
                           <td style="border:0;vertical-align:middle;" valign="middle">{item.kafname}</td>
-                          <td style="border:0;vertical-align:middle;">{item.year}</td>
+                          <td style="border:0;vertical-align:middle;">{item.year} - {Number(item.year) + 1} </td>
                           <td style="border:0;text-align:right;vertical-align:middle;">
                             <a href="" class="ml-1 btn btn-sm btn-light badge-pill"><img
                                 src="/static/admin1/images/download.png"></a>
