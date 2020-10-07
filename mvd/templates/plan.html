@@ -840,7 +840,7 @@
           axios.post(addDocurl, formData).then((response) => {
             this.dis = false;
             this.text = response.data[0].text;
-            if (this.text == "Нагрузка успешно добавлена") {
+            if ((this.text.indexOf("Нагрузка успешно добавлена") >= 0) || (this.text.indexOf("Нагрузка успешно заменена") >= 0)) {
               this.itemsDoc.push({ "year": this.yearDoc, "kafname": response.data[0].kafname });
             }
           })
