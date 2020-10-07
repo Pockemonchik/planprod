@@ -188,3 +188,11 @@
 .sleshForData{
     font-size: 25px;
 }
+.stopTop{
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+.stopTopTable{
+    height: 90vh;
+}
