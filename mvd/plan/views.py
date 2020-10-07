@@ -1332,19 +1332,16 @@ def nagruzka(request, year, slug):
                 Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
             predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=False)
             predmetsdel.delete()
-
             try:
                 plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
                 count = 0
                 for p in plans:
                     if p.name[0:-4] == plan.name[0:-4]:
                         count += 1
-                    # print(p)
-                    # print(p)
                 if count == 2:
                     data = takeXls(nagruzkadoc.document.path, plan.name, True)
                 else:
-                    data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], True)
+                    data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ',1)[0], True)
                 if type(data) != list:
                     if data == '404':
                         return render(request, 'error.html', {
@@ -1357,7 +1354,8 @@ def nagruzka(request, year, slug):
                     return render(request, 'error.html', {
                         'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})
 
-            except:
+            except Exception as e:
+                print(e)
                 return render(request, 'error.html', {
                     'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
@@ -1445,8 +1443,10 @@ def nagruzka(request, year, slug):
                         predmet.status = False  # tru если выполена false если план
                         # print(predmet.all_values())
                         predmet.save1()
+
             return redirect('detail_plan', slug=profile.user.username, year=year)
-        except:
+        except Exception as e:
+            print(e)
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
 
@@ -1466,12 +1466,9 @@ def nagruzkafact(request, year, slug):
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
-
+        print(plan.name)
         predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=True)
         predmetsdel.delete()
-        print(nagruzkadoc.document.path)
-        print(plan.name[0:-4])
-        print('')
         data = ""
         try:
             plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
@@ -1484,7 +1481,7 @@ def nagruzkafact(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, False)
             else:
-                data = takeXls(nagruzkadoc.document.path, plan.name[0:-4], False)
+                data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ',1)[0], False)
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})
@@ -1580,7 +1577,6 @@ def nagruzkafact(request, year, slug):
                     predmet.status = True  # tru если выполена false если план
                     print(predmet.all_values())
                     predmet.save1()
-
         return redirect('detail_plan', slug=profile.user.username, year=year)
     else:
         return redirect('log')
@@ -1833,37 +1829,35 @@ def saveT3(request):
             # predmets=formset.save()
             # формсет для первого полугодия
             try:
-                try:
-                    for form in formset3:
-                        if form.is_valid():
-                            predmet = form.save(commit=False)
-                            predmet.kafedra = profile.kafedra
-                            predmet.polugodie = 1
-                            predmet.status = True
-                            # print(predmet.get_obshaya_nagruzka())
-                            predmet.prepodavatel = profile
-                            predmet.year = request.POST['year']
+
+                for form in formset3:
+                    if form.is_valid():
+                        predmet = form.save(commit=False)
+                        predmet.kafedra = profile.kafedra
+                        predmet.polugodie = 1
+                        predmet.status = True
+                        # print(predmet.get_obshaya_nagruzka())
+                        predmet.prepodavatel = profile
+                        predmet.year = request.POST['year']
+                        try:
+                            predmetdel = Predmet.objects.get(id=predmet.id)
+                            predmetdel.delete()
+                        except Exception as e:
+                            print(e)
+
+                        predmetdel = Predmet.objects.filter(name='Итого за 1 полугодие:', polugodie=1, status=True,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+                        if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
+                            predmet.save()
+                        else:
                             try:
                                 predmetdel = Predmet.objects.get(id=predmet.id)
                                 predmetdel.delete()
                             except Exception as e:
                                 print(e)
 
-                            predmetdel = Predmet.objects.filter(name='Итого за 1 полугодие:', polugodie=1, status=True,
-                                                                year=request.POST['year'])
-                            predmetdel.delete()
-                            if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
-                                predmet.save()
-                            else:
-                                try:
-                                    predmetdel = Predmet.objects.get(id=predmet.id)
-                                    predmetdel.delete()
-                                except Exception as e:
-                                    print(e)
 
-                except Exception as e:
-                    print(e)
-                    return HttpResponse("Ошибка при сохранении")
 
 
 
@@ -1917,41 +1911,38 @@ def saveT4(request):
             # predmets=formset.save()
             # формсет для первого полугодия
             try:
-                try:
-                    for form in formset4:
-                        if form.is_valid():
-                            predmet = form.save(commit=False)
-                            predmet.kafedra = profile.kafedra
-                            predmet.polugodie = 2
-                            predmet.status = True
-                            # print(predmet.get_obshaya_nagruzka())
-                            predmet.prepodavatel = profile
-                            predmet.year = request.POST['year']
+
+                for form in formset4:
+                    if form.is_valid():
+                        predmet = form.save(commit=False)
+                        predmet.kafedra = profile.kafedra
+                        predmet.polugodie = 2
+                        predmet.status = True
+                        # print(predmet.get_obshaya_nagruzka())
+                        predmet.prepodavatel = profile
+                        predmet.year = request.POST['year']
+                        try:
+                            predmetdel = Predmet.objects.get(id=predmet.id)
+                            predmetdel.delete()
+                        except Exception as e:
+                            print(e)
+
+                        predmetdel = Predmet.objects.filter(name='Итого за 2 полугодие:', polugodie=2, status=True,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+
+                        predmetdel = Predmet.objects.filter(name='Итого за учебный год:', polugodie=2, status=True,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+                        if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
+                            predmet.save()
+                        else:
                             try:
                                 predmetdel = Predmet.objects.get(id=predmet.id)
                                 predmetdel.delete()
                             except Exception as e:
                                 print(e)
 
-                            predmetdel = Predmet.objects.filter(name='Итого за 2 полугодие:', polugodie=2, status=True,
-                                                                year=request.POST['year'])
-                            predmetdel.delete()
-
-                            predmetdel = Predmet.objects.filter(name='Итого за учебный год:', polugodie=2, status=True,
-                                                                year=request.POST['year'])
-                            predmetdel.delete()
-                            if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
-                                predmet.save()
-                            else:
-                                try:
-                                    predmetdel = Predmet.objects.get(id=predmet.id)
-                                    predmetdel.delete()
-                                except Exception as e:
-                                    print(e)
-
-                except Exception as e:
-                    print(e)
-                    return HttpResponse("Ошибка при сохранении")
                 itog = Predmet()
                 itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
                                       year=year)
