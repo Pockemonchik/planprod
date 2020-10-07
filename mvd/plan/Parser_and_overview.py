@@ -279,7 +279,8 @@ def takeXls(nameDoc,namePrepod,flag):
 def writeInfoDoc(listInfo, listCell,indexRow):
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
     #
-    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
+    # document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
+    document = Document("//home/user/planprod/mvd/plan/docDynamic.docx")
    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
 
 
@@ -346,7 +347,9 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
     # document.save('C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx')
-    document.save("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
+
+
+    document.save("//home/user/planprod/mvd/plan/tmp.docx")
 
     #document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     return createDoc(listCell,indexRow)
@@ -368,7 +371,7 @@ def readInfoDoc(nameDoc):
     print(infoDoc)
 
 def createDoc2(nameDoc, listCell, numString1, numString2):
-    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/test.docx')
+    document = Document('//home/user/planprod/mvd/plan/test.docx')
     #document = Document("test.docx")
     count = 0
     for table in document.tables:
@@ -391,7 +394,7 @@ def createDoc2(nameDoc, listCell, numString1, numString2):
                     count+=1
 #         print(count)
 
-    document.save('C:/Users/UzziMauzer/Desktop/planprod/mvd/'+nameDoc+'.docx')
+    document.save('//home/user/planprod/mvd/plan/'+nameDoc+'.docx')
 
 # Заполнение документа по полученным данным и сохранение документа
 def createDoc(listCell, indexRow):
@@ -400,7 +403,7 @@ def createDoc(listCell, indexRow):
     needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx")
     #document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
-    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
+    document = Document("//home/user/planprod/mvd/plan/tmp.docx")
 
     print(indexRow)
     count = -1
@@ -622,7 +625,7 @@ def takeTable(nameDoc):
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/"+nameDoc)
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
     # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
-    document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
+    document = Document('//home/user/planprod/mvd/plan/' + nameDoc)
     #document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
 
     # document = nameDoc
