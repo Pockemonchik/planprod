@@ -308,8 +308,18 @@ def createratinghome(request):
                     print(newurr.sootnbal)
                     newurr.save()
                     umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+                    mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+                    for u in umrs:
+                        mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
+                    mmrs_for_del.delete()
+
                     summmrr = 0
                     for u in umrs:
+                        try:
+                            copy = MRR.objects.get(name=u.vid)
+                            continue
+                        except Exception as e:
+                            print(e)
                         if ("азработка основной профессиональной образовательной" in u.vid or
                                 "азработка примерной основной профессиональной образовательной" in u.vid or
                                 "оздание структуры и содержания электронного учебного курса" in u.vid or
@@ -512,12 +522,19 @@ def createrating(request, year, slug):
 
             print(newurr.sootnbal)
             newurr.save()
-            mmrs_for_del=MRR.objects.filter(profile=profile,year=year)
-            for m in mmrs_for_del:
-                m.delete()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+            mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+            for u in umrs:
+                mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
+            mmrs_for_del.delete()
+
             summmrr = 0
             for u in umrs:
+                try:
+                    copy = MRR.objects.get(name=u.vid)
+                    continue
+                except Exception as e:
+                    print(e)
                 if ("азработка основной профессиональной образовательной" in u.vid or
                         "азработка примерной основной профессиональной образовательной" in u.vid or
                         "оздание структуры и содержания электронного учебного курса" in u.vid or
@@ -566,7 +583,6 @@ def createrating(request, year, slug):
                     newmrr.year = year
                     summmrr += 5
                     newmrr.save()
-
             newrating.summ = newurr.getsumm() + summmrr
             newrating.save()
             setplace(year, profile)
