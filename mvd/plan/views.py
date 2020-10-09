@@ -1950,7 +1950,7 @@ def saveT4(request):
                                                             year=request.POST['year'])
                         predmetdel.delete()
 
-                        predmetdel = Predmet.objects.filter(name='Итого за учебный год:', polugodie=2, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за учебный год:', polugodie=2, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
                         if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
@@ -1963,8 +1963,18 @@ def saveT4(request):
                                 print(e)
 
                 itog = Predmet()
-                itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
-                                      year=year)
+                try:
+                    itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                          year=year)
+                except Exception as e:
+                    print("not itog 2")
+                    itogmes = Mesyac()
+                    setattr(itogmes, 'name', "Итого за 2 полугодие:")
+                    setattr(itogmes, 'status', False)
+                    setattr(itogmes, 'polugodie', 2)
+                    setattr(itogmes, 'kafedra', profile.kafedra)
+                    setattr(itogmes, 'year', request.POST['year'])
+                    setattr(itogmes, 'prepodavatel', profile)
                 predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
@@ -1993,8 +2003,18 @@ def saveT4(request):
                 itogmes.save()
                 """Сохраняем год"""
                 itogall = Predmet()
-                itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
+                try:
+                    itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
                                                year=year)
+                except Exception as e:
+                    print("not itog")
+                    itogmesall = Mesyac()
+                    setattr(itogmesall, 'name', "Итого за учебный год:")
+                    setattr(itogmesall, 'status', False)
+                    setattr(itogmesall, 'polugodie', 2)
+                    setattr(itogmesall, 'kafedra', profile.kafedra)
+                    setattr(itogmesall, 'year', request.POST['year'])
+                    setattr(itogmesall, 'prepodavatel', profile)
                 try:
                     itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=True,year=year)
