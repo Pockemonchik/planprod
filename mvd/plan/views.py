@@ -50,7 +50,7 @@ def detail_plan(request, slug, year):
         try:
             querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
 
-            if not querymes:
+            if not querymes or querymes.count()<15:
                 mesyacprofile = profile1
 
                 mes1 = Mesyac.objects.create(name='АВГУСТ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
