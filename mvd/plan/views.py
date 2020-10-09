@@ -1885,6 +1885,9 @@ def saveT3(request):
                     itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=False, year=year)
                 except Exception as e:
+                    itogmesdel = Mesyac.objects.filter(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                                                 status=False, year=year)
+                    itogmesdel.delete()
                     print("not itog 1")
                     itogmes = Mesyac()
                     setattr(itogmes, 'name', "Итого за 1 полугодие:")
@@ -1977,6 +1980,9 @@ def saveT4(request):
                     itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
                                           year=year)
                 except Exception as e:
+                    itogmes_del = Mesyac.objects.filter(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                                 year=year)
+                    itogmes_del.delete()
                     print("not itog 2")
                     itogmes = Mesyac()
                     setattr(itogmes, 'name', "Итого за 2 полугодие:")
@@ -2017,6 +2023,9 @@ def saveT4(request):
                     itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
                                                year=year)
                 except Exception as e:
+                    itogmes_del = Mesyac.objects.filter(name="Итого за учебный год:", prepodavatel=profile,
+                                               year=year)
+                    itogmes_del.delete()
                     print("not itog")
                     itogmesall = Mesyac()
                     setattr(itogmesall, 'name', "Итого за учебный год:")
