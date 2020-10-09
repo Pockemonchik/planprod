@@ -1881,8 +1881,18 @@ def saveT3(request):
 
 
                 itog = Predmet()
-                itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                try:
+                    itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=False, year=year)
+                except Exception as e:
+                    print("not itog 1")
+                    itogmes = Mesyac()
+                    setattr(itogmes, 'name', "Итого за 1 полугодие:")
+                    setattr(itogmes, 'status', False)
+                    setattr(itogmes, 'polugodie', 1)
+                    setattr(itogmes, 'kafedra', profile.kafedra)
+                    setattr(itogmes, 'year', request.POST['year'])
+                    setattr(itogmes, 'prepodavatel', profile)
                 predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
