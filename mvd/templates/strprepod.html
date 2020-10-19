@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 {%load static%}
 {% block content %}
+<link rel="stylesheet" href="{% static "/css/strprepod.css" %}" />
+<link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+<script src="{% static "/js/vue.js" %}"></script>
+<script src="{% static "/js/vuetify.js" %}"></script>
 <div class="content active">
 
+  <!-- <div class="container"> -->
+  <div class="container-fluid">
+    <div class="row">
 
-        <div class="container-fluid">
-          <div class="row">
+
+      {%for plan in plans%}
+      <a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " class="href">
+        <div class="card rounded">
+
+          <div class="card-body">
+            <v-row>
+              <v-col class="doc">
+                <img class="doc" src="{% static "admin1/images/doc.png" %}">
+              </v-col>
+              <v-col>
+                {{plan.prepod.fullname}}
+
+              </v-col>
+            </v-row>
 
 
-            {%for plan in plans%}
-              <div class="card rounded">
-                <div class="card-body card-body-alt" >
-                	<div class="image-block">
-                		<a href="{%url 'detail_plan' plan.prepod.user.username plan.year %} " >
-                      <img src="{% static "admin1/images/doc.png" %}">
-                    </a>
-                	</div>
-                	<div class="text-block">
-                		<p>{{plan.prepod.fullname}} {{plan.year}}</p>
-                	</div>
-                </div>
-              </div>
-
-              {%endfor%}
 
 
           </div>
+
         </div>
+      </a>
+
+      {%endfor%}
+    </div>
+
+  </div>
+  <!-- </div> -->
 </div>
 {% endblock %}
