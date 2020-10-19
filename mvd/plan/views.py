@@ -308,8 +308,18 @@ def createratinghome(request):
                     print(newurr.sootnbal)
                     newurr.save()
                     umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+                    mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+                    for u in umrs:
+                        mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
+                    mmrs_for_del.delete()
+
                     summmrr = 0
                     for u in umrs:
+                        try:
+                            copy = MRR.objects.get(name=u.vid)
+                            continue
+                        except Exception as e:
+                            print(e)
                         if ("азработка основной профессиональной образовательной" in u.vid or
                                 "азработка примерной основной профессиональной образовательной" in u.vid or
                                 "оздание структуры и содержания электронного учебного курса" in u.vid or
@@ -512,12 +522,19 @@ def createrating(request, year, slug):
 
             print(newurr.sootnbal)
             newurr.save()
-            mmrs_for_del=MRR.objects.filter(profile=profile,year=year)
-            for m in mmrs_for_del:
-                m.delete()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+            mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+            for u in umrs:
+                mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
+            mmrs_for_del.delete()
+
             summmrr = 0
             for u in umrs:
+                try:
+                    copy = MRR.objects.get(name=u.vid)
+                    continue
+                except Exception as e:
+                    print(e)
                 if ("азработка основной профессиональной образовательной" in u.vid or
                         "азработка примерной основной профессиональной образовательной" in u.vid or
                         "оздание структуры и содержания электронного учебного курса" in u.vid or
@@ -566,7 +583,6 @@ def createrating(request, year, slug):
                     newmrr.year = year
                     summmrr += 5
                     newmrr.save()
-
             newrating.summ = newurr.getsumm() + summmrr
             newrating.save()
             setplace(year, profile)
@@ -1865,8 +1881,21 @@ def saveT3(request):
 
 
                 itog = Predmet()
-                itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                try:
+                    itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=False, year=year)
+                except Exception as e:
+                    itogmesdel = Mesyac.objects.filter(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                                                 status=False, year=year)
+                    itogmesdel.delete()
+                    print("not itog 1")
+                    itogmes = Mesyac()
+                    setattr(itogmes, 'name', "Итого за 1 полугодие:")
+                    setattr(itogmes, 'status', False)
+                    setattr(itogmes, 'polugodie', 1)
+                    setattr(itogmes, 'kafedra', profile.kafedra)
+                    setattr(itogmes, 'year', request.POST['year'])
+                    setattr(itogmes, 'prepodavatel', profile)
                 predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
@@ -1934,7 +1963,7 @@ def saveT4(request):
                                                             year=request.POST['year'])
                         predmetdel.delete()
 
-                        predmetdel = Predmet.objects.filter(name='Итого за учебный год:', polugodie=2, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за учебный год:', polugodie=2, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
                         if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
@@ -1947,8 +1976,21 @@ def saveT4(request):
                                 print(e)
 
                 itog = Predmet()
-                itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
-                                      year=year)
+                try:
+                    itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                          year=year)
+                except Exception as e:
+                    itogmes_del = Mesyac.objects.filter(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                                 year=year)
+                    itogmes_del.delete()
+                    print("not itog 2")
+                    itogmes = Mesyac()
+                    setattr(itogmes, 'name', "Итого за 2 полугодие:")
+                    setattr(itogmes, 'status', False)
+                    setattr(itogmes, 'polugodie', 2)
+                    setattr(itogmes, 'kafedra', profile.kafedra)
+                    setattr(itogmes, 'year', request.POST['year'])
+                    setattr(itogmes, 'prepodavatel', profile)
                 predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True,year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
@@ -1977,8 +2019,21 @@ def saveT4(request):
                 itogmes.save()
                 """Сохраняем год"""
                 itogall = Predmet()
-                itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
+                try:
+                    itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
                                                year=year)
+                except Exception as e:
+                    itogmes_del = Mesyac.objects.filter(name="Итого за учебный год:", prepodavatel=profile,
+                                               year=year)
+                    itogmes_del.delete()
+                    print("not itog")
+                    itogmesall = Mesyac()
+                    setattr(itogmesall, 'name', "Итого за учебный год:")
+                    setattr(itogmesall, 'status', False)
+                    setattr(itogmesall, 'polugodie', 2)
+                    setattr(itogmesall, 'kafedra', profile.kafedra)
+                    setattr(itogmesall, 'year', request.POST['year'])
+                    setattr(itogmesall, 'prepodavatel', profile)
                 try:
                     itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
                                                 status=True,year=year)
