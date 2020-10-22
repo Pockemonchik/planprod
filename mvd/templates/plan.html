@@ -51,8 +51,8 @@
                                   <v-text-field disabled clearable :value="Number(yearIP)+1"></v-text-field>
                                 </v-col>
                               </v-row>
-                              
-                              
+
+
                             </v-list-item-action>
                           </v-list-item>
                         </v-list>
@@ -321,7 +321,15 @@
                 <supertable></supertable>
               </div>
               {%endif%}
+
             </div>
+          </div>
+            {%if  profile.role == 3%}
+              <div class="cake">
+            <supertable_plan></supertable_plan>
+                </div>
+              {%endif%}
+
           </div>
         </div>
       </div>
@@ -404,6 +412,82 @@
 </div>
 </div>
 <script id='INLINE_PEN_JS_ID'>
+Vue.component('supertable_plan',{
+  delimiters:['##','##'],
+  data: () => ({
+    expanded: [],
+    singleExpand: false,
+    yearHref:"",
+    rules: [
+      value => !!value || ' ',
+      value => (value && value.length == 4) || '4 цифры'
+    ],
+    search: '',
+    headers: [
+      { text: 'ФИО', align: 'start', value: 'fio' },
+      { text: 'Кафедра', value:'kafedra' },
+      { text: 'Должность', value:'dolzhnost' },
+      { text: 'Ставка', value:'stavka' },
+      { text: 'ИП ', align: 'start', value: 'plan' },
+      { text: 'Рейтинг', value:'rating' },
+      { text: 'Подробнее', value: 'data-table-expand' },
+    ],
+    desserts: []
+
+  }),
+  methods: {
+    itr(item){
+      window.location.href = "http://"  + document.location.host + "/plan/" + item.username + "/" + this.yearHref + "/"
+    },
+    updateTable(value) {
+      this.yearHref = value
+      axios.get("http://" + document.location.host + "/plan_table/", {params: {year:value}}).then(response => {
+        this.desserts=response.data
+      })
+    }
+  },
+  template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+          <p class="pDataHeader">Список ИП за </p>
+          <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="padding-right:10px"></v-text-field>
+          <p class="pDataHeader">год</p>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        @click:row="itr"
+        multi-sort
+        :headers="headers"
+        :single-expand="singleExpand"
+        :items="desserts"
+        :search="search"
+        :expanded.sync="expanded"
+        item-key="fio"
+        show-expand
+      >
+
+       <template v-slot:expanded-item="{ headers,item }">
+       <th :colspan ="headers.length">
+       <v-row>
+            <v-col v-for="zapoln in item.zapoln" style="width:10%;">
+           ##zapoln##
+            </v-col>
+            </v-row>
+        </th>
+
+      </template>
+      </v-data-table>
+    </v-card>
+
+  `,
+})
   Vue.component('supertable', {
     delimiters: ['##', '##'],
     data: () => ({

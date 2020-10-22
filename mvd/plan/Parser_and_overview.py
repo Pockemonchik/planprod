@@ -279,11 +279,9 @@ def takeXls(nameDoc,namePrepod,flag):
 def writeInfoDoc(listInfo, listCell,indexRow):
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
     #
-    # document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
+    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/docDynamic.docx")
     #document = Document("//home/user/planprod/mvd/plan/docDynamic.docx")
-    document = Document("//root/planprod/mvd/plan/docDynamic.docx")
-   # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
-
+    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/docDynamic.docx")
 
     needStrings = [8, 9, 10, 20, 22, 23,31]
     # Для строчек, который разделяются на 3, то есть кафедры
@@ -351,8 +349,10 @@ def writeInfoDoc(listInfo, listCell,indexRow):
 
 
     #document.save("//home/user/planprod/mvd/plan/tmp.docx")
-    document.save("//root/planprod/mvd/plan/tmp.docx")
 
+
+    #document.save("//root/planprod/mvd/plan/tmp.docx")
+    document.save("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
     #document.save("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     return createDoc(listCell,indexRow)
 
@@ -373,7 +373,8 @@ def readInfoDoc(nameDoc):
     print(infoDoc)
 
 def createDoc2(nameDoc, listCell, numString1, numString2):
-    document = Document('//home/user/planprod/mvd/plan/test.docx')
+    #document = Document('//home/user/planprod/mvd/plan/test.docx')
+    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/test.docx")
     #document = Document("test.docx")
     count = 0
     for table in document.tables:
@@ -406,7 +407,7 @@ def createDoc(listCell, indexRow):
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx")
     #document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
     #document = Document("//home/user/planprod/mvd/plan/tmp.docx")
-    document = Document("//root/planprod/mvd/plan/tmp.docx")
+    #document = Document("//root/planprod/mvd/plan/tmp.docx")
     print(indexRow)
     count = -1
     for i in needTables:
@@ -625,10 +626,12 @@ def takeTable(nameDoc):
     #     subprocess.call(['soffice', '--headless', '--convert-to', 'docx', "C:/Users/UzziMauzer/Desktop/planprod/mvd/"+nameDoc])
     #     print("1")
     # document = Document("C:/Users/UzziMauzer/Desktop/planprod/"+nameDoc)
+
     #document = Document("/home/andrey/Desktop/planprod/"+nameDoc)
     # document= Document('C:/Users/UzziMauzer/Downloads/planqwer.docx')
     #document = Document('//home/user/planprod/mvd/plan/' + nameDoc)
-    document = Document('//root/planprod/mvd/' + nameDoc)
+    #document = Document('//root/planprod/mvd/' + nameDoc)
+    document = Document("C:/Users/Andrey/Desktop/planprod/mvd/" + nameDoc)
     #document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/' + nameDoc)
 
     # document = nameDoc

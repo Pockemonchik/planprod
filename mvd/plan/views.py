@@ -388,7 +388,108 @@ def createratinghome(request):
     }])
 
 
-""" Работа с пользователями в главной таблице"""
+"""Вывод информации в таблицу заполненности ИП"""
+@api_view(['GET'])
+def supertable_plan(request):
+    year = request.GET['year']
+    profiles = Profile.objects.all()
+    data = []
+    for profile in profiles:
+        try:
+            percent = 0
+            zapoln = []
+            predmets_plan=Predmet.objects.filter(prepodavatel=profile,year=year,status=False).exists()
+            predmets_fact = Predmet.objects.filter(prepodavatel=profile, year=year, status=True).exists()
+            mes = Mesyac.objects.filter(prepodavatel=profile,year=year)\
+                .exclude(name__contains="Итого",ucheb_nagruzka=0).exists()
+            umr = UMR.objects.filter(prepodavatel=profile, year=year).exists()
+            nir = NIR.objects.filter(prepodavatel=profile, year=year).exists()
+            vr = VR.objects.filter(prepodavatel=profile, year=year).exists()
+            inr = INR.objects.filter(prepodavatel=profile, year=year).exists()
+            dr = DR.objects.filter(prepodavatel=profile, year=year).exists()
+            info = ProfileInfo.objects.filter(profile=profile).exists()
+            plan = Plan.objects.filter(year=year,prepod=profile).first()
+            docinfo = DocInfo.objects.filter(plan=plan).exists()
+            if info:
+                percent += 1
+                zapoln.append("Профиль : Да")
+            else:
+                zapoln.append("Профиль : Нет")
+            if docinfo:
+                percent += 1
+                zapoln.append("Шапка : Да")
+            else:
+                zapoln.append("Шапка : Нет")
+            if predmets_plan:
+                percent += 1
+                zapoln.append("План : Да")
+            else:
+                zapoln.append("План : Нет")
+            if predmets_fact:
+                percent += 1
+                zapoln.append("Факт : Да")
+            else:
+                zapoln.append("Факт : Нет")
+            if mes:
+                percent += 1
+                zapoln.append("Ежемес.учет : Да")
+            else:
+                zapoln.append("Ежемес.учет : Нет")
+
+            if umr:
+                percent += 1
+                zapoln.append("Метод.р : Да")
+            else:
+                zapoln.append("Метод.р : Нет")
+            if nir:
+                percent += 1
+                zapoln.append("НИР : Да")
+            else:
+                zapoln.append("НИР : Нет")
+            if vr:
+                percent += 1
+                zapoln.append("МПР : Да")
+            else:
+                zapoln.append("МПР : Нет")
+            if inr:
+                percent += 1
+                zapoln.append("Иностр : Да")
+            else:
+                zapoln.append("Иностр : Нет")
+            if dr:
+                percent += 1
+                zapoln.append("Иные : Да")
+            else:
+                zapoln.append("Иные : Нет")
+            rating_query = Rating.objects.filter(profile=profile,year=year).exclude(summ=0).exists()
+            try:
+                stavka = ProfileInfo.objects.get(profile=profile).stavka
+            except Exception as e:
+                print(e)
+                stavka = 'нет данных'
+            if rating_query:
+                rating = "+"
+            else:
+                rating = "-"
+            data.append(
+                {'fio': profile.fullname.split(" ")[0],
+                 'kafedra': profile.kafedra.fullname,
+                 'rating':rating,
+                 'stavka': stavka,
+                 'plan':str(percent)+"0 %",
+                 'username': profile.user.username,
+                 'zapoln': zapoln,
+                 'dolzhnost': profile.dolzhnost
+                 }
+            )
+        except Exception as e:
+            print(e)
+
+
+    return Response(data)
+
+
+""" Работа с пользователями в главной таблице по кафедре"""
 def deluser(request):
     if request.method == "POST":
 
@@ -693,7 +794,7 @@ def profileinfo(request):
                     print("ne")
 
                 infodel = form.save(commit=False)
-                profile.dolznost = infodel.dolznost
+                profile.dolzhnost = infodel.dolznost
                 infodel.profile = profile
                 profile.save()
                 infodel.save()
