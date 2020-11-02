@@ -1,6 +1,6 @@
 from django import forms
-from plan.models import Predmet, NIR, VR, DR, UMR, Plan, INR, Nagruzka, DocInfo, ProfileInfo
-from django.forms import TextInput, Textarea, NumberInput, FileInput, Select
+from plan.models import Zamech, Predmet, NIR, VR, DR, UMR, Plan, INR, Nagruzka, DocInfo, ProfileInfo
+from django.forms import TextInput, Textarea, NumberInput, FileInput, Select,DateInput
 
 
 class UserAddForm(forms.Form):
@@ -253,3 +253,19 @@ class Table6Form(forms.ModelForm):
             'otmetka': TextInput(attrs={'class': 'form-control', }),
             'srok': TextInput(attrs={'class': 'form-control', 'id': 'mes'})
         }
+
+class ZamechAdminForm(forms.ModelForm):
+    class Meta:
+        model = Zamech
+        fields = ['name','status']
+        widgets = {
+            'name': Textarea(attrs={'class': 'form-control', 'spellcheck': 'true', 'rows': '2'}),        
+               }
+
+class ZamechForm(forms.ModelForm):
+    class Meta:
+        model = Zamech
+        fields = ['name','status']
+        widgets = {
+            'name': Textarea(attrs={'class': 'form-control', 'spellcheck': 'true', 'rows': '2','readonly': 'true'}),        
+               }

@@ -54,7 +54,7 @@ def rate_otsenka(request, slug, year):
             [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
              profile1.fullname.split(' ')[2][0]]) + " " + str(year)+"-"+str(int(year)+1)
     except:
-        title = "Индивидуальный план  " + profile1.fullname + " " + str(year) + "-" + str(int(year) + 1)
+        title = "Рейтинговая оценка  " + profile1.fullname + " " + str(year) + "-" + str(int(year) + 1)
     return render(request, 'rate_otsenka.html', {
         'formset': formset,
         'urrform': urrform,

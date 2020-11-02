@@ -11,7 +11,12 @@
 <script src="{% static "/js/vuetify.js" %}"></script>
 <div class="content active">
   <div class="container-fluid" id="app" data-app>
-     <div class="container-fluid card rounded" style="width:auto;margin:0px 50px;"><p><h3><b>ВНИМАНИЕ!!!</b></h3> Если некорректно отображаются некоторые элементы (кнопки и т.д., например buttontext), то необходимо обновить браузер <br> Исправлены ошибки которые вызывали утерю данных при сохранении таблиц, добавлена дополнительная проверка документов учебных нагррузок при загрузке</p></div>
+    <div class="container-fluid card rounded" style="width:auto;margin:0px 50px;">
+      <p>
+      <h3><b>ВНИМАНИЕ!!!</b></h3> Если некорректно отображаются некоторые элементы (кнопки и т.д., например buttontext),
+      то необходимо обновить браузер <br> Исправлены ошибки которые вызывали утерю данных при сохранении таблиц,
+      добавлена дополнительная проверка документов учебных нагррузок при загрузке</p>
+    </div>
 
 
     <div class="row">
@@ -40,9 +45,9 @@
 
                             <v-list-item-action>
                               <v-row>
-                                <v-col sm = 6>
-                                  <v-text-field label="Введите год" v-model="yearIP" clearable name="year" :rules="rules"
-                                  hide-details="auto"></v-text-field>
+                                <v-col sm=6>
+                                  <v-text-field label="Введите год" v-model="yearIP" clearable name="year"
+                                    :rules="rules" hide-details="auto"></v-text-field>
                                 </v-col>
                                 <v-col sm="1">
                                   -
@@ -118,16 +123,16 @@
                             <v-list-item-action>
                               <v-row>
                                 <v-col sm="6">
-                                  <v-text-field name="year" label="Введите год" v-model="yearRate" clearable :rules="rules"
-                                  hide-details="auto"></v-text-field>
-                              </v-col>
-                              <v-col sm="1">
-                                -
-                              </v-col>
-                              <v-col sm="5">
-                                <v-text-field disabled clearable :value="Number(yearRate)+1"></v-text-field>
-                              </v-col>
-                            </v-row>
+                                  <v-text-field name="year" label="Введите год" v-model="yearRate" clearable
+                                    :rules="rules" hide-details="auto"></v-text-field>
+                                </v-col>
+                                <v-col sm="1">
+                                  -
+                                </v-col>
+                                <v-col sm="5">
+                                  <v-text-field disabled clearable :value="Number(yearRate)+1"></v-text-field>
+                                </v-col>
+                              </v-row>
                             </v-list-item-action>
                           </v-list-item>
                         </v-list>
@@ -193,8 +198,10 @@
 
                             <v-text-field name="year" label="Введите год" clearable v-model="yearDoc" :rules="rules"
                               hide-details="auto">
-                            </v-text-field><div style="margin-top: 15px;">-</div>
-                            <v-text-field style="margin-top: 25px;" disabled clearable :value="Number(yearDoc)+1"></v-text-field>
+                            </v-text-field>
+                            <div style="margin-top: 15px;">-</div>
+                            <v-text-field style="margin-top: 25px;" disabled clearable :value="Number(yearDoc)+1">
+                            </v-text-field>
                           </v-list-item>
                           <v-list-item>
                             <v-select name="status" :items="planfact" label="Вид нагрузки" v-model="plfa"></v-select>
@@ -316,7 +323,7 @@
               </div>
 
               <!-- </div> -->
-              {%if profile.role == 2 or profile.role == 3%}
+              {%if profile.role == 2 %}
               <div class="card rounded">
                 <supertable></supertable>
               </div>
@@ -324,11 +331,18 @@
 
             </div>
 
-            {%if  profile.role == 3%}
-              <div class="cake">
-            <supertable_plan></supertable_plan>
-                </div>
-              {%endif%}
+            
+            <div class="row">
+              <div class="col">
+                <supertable_plan></supertable_plan>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <zamech_table></zamech_table>
+              </div>
+            </div>
+
 
           </div>
         </div>
@@ -338,7 +352,9 @@
     <v-dialog v-model="dialogLoading" scrollable persistent max-width="700px">
       <v-card>
         <v-card-title>Отчет по загрузке документа:</v-card-title>
-        <v-card-text v-if="dis">Пожалуйста подождите, идет проверка документа <v-progress-circular v-if=dis indeterminate size="24"></v-progress-circular></v-card-text>
+        <v-card-text v-if="dis">Пожалуйста подождите, идет проверка документа <v-progress-circular v-if=dis
+            indeterminate size="24"></v-progress-circular>
+        </v-card-text>
         <v-card-text style="white-space: pre-line;" v-else>{ text }</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -412,41 +428,41 @@
 </div>
 </div>
 <script id='INLINE_PEN_JS_ID'>
-Vue.component('supertable_plan',{
-  delimiters:['##','##'],
-  data: () => ({
-    expanded: [],
-    singleExpand: false,
-    yearHref:"",
-    rules: [
-      value => !!value || ' ',
-      value => (value && value.length == 4) || '4 цифры'
-    ],
-    search: '',
-    headers: [
-      { text: 'ФИО', align: 'start', value: 'fio' },
-      { text: 'Кафедра', value:'kafedra' },
-      { text: 'Должность', value:'dolzhnost' },
-      { text: 'Ставка', value:'stavka' },
-      { text: 'ИП ', align: 'start', value: 'plan' },
-      { text: 'Рейтинг', value:'rating' },
-      { text: 'Подробнее', value: 'data-table-expand' },
-    ],
-    desserts: []
+  Vue.component('supertable_plan', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      expanded: [],
+      singleExpand: false,
+      yearHref: "",
+      rules: [
+        value => !!value || ' ',
+        value => (value && value.length == 4) || '4 цифры'
+      ],
+      search: '',
+      headers: [
+        { text: 'ФИО', align: 'start', value: 'fio' },
+        { text: 'Кафедра', value: 'kafedra' },
+        { text: 'Должность', value: 'dolzhnost' },
+        { text: 'Ставка', value: 'stavka' },
+        { text: 'ИП ', align: 'start', value: 'plan' },
+        { text: 'Рейтинг', value: 'rating' },
+        { text: 'Подробнее', value: 'data-table-expand' },
+      ],
+      desserts: []
 
-  }),
-  methods: {
-    itr(item){
-      window.location.href = "http://"  + document.location.host + "/plan/" + item.username + "/" + this.yearHref + "/"
+    }),
+    methods: {
+      itr(item) {
+        window.open("http://" + document.location.host + "/plan/" + item.username + "/" + this.yearHref + "/", '_blank');
+           },
+      updateTable(value) {
+        this.yearHref = value
+        axios.get("http://" + document.location.host + "/plan_table/", { params: { year: value ,kafname:this.$root.kafname} }).then(response => {
+          this.desserts = response.data
+        })
+      }
     },
-    updateTable(value) {
-      this.yearHref = value
-      axios.get("http://" + document.location.host + "/plan_table/", {params: {year:value}}).then(response => {
-        this.desserts=response.data
-      })
-    }
-  },
-  template: `
+    template: `
     <v-card style="display:flex; flex-direction:column;">
       <v-card-title>
           <p class="pDataHeader">Список ИП за </p>
@@ -487,7 +503,7 @@ Vue.component('supertable_plan',{
     </v-card>
 
   `,
-})
+  })
   Vue.component('supertable', {
     delimiters: ['##', '##'],
     data: () => ({
@@ -554,39 +570,7 @@ Vue.component('supertable_plan',{
         console.log(this.$root.kafname);
         axios.get("http://" + document.location.host + "/supertable/", { params: { "kafname": this.$root.kafname } }).then((response) => {
           this.desserts = response.data;
-        })
-        // this.desserts = [
-        //   {
-        //     name: 'Ленин Владимир Ильич',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        //   {
-        //     name: 'Ice cream sandwich',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        //   {
-        //     name: 'Eclair',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        //   {
-        //     name: 'Cupcake',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        //   {
-        //     name: 'Gingerbread',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        //   {
-        //     name: 'Jelly bean',
-        //     login: 'asdasd',
-        //     password: 'asd',
-        //   },
-        // ]
+        })  
       },
 
       itr(item) {
@@ -784,7 +768,66 @@ Vue.component('supertable_plan',{
     </v-data-table>
   `
   })
+  Vue.component('zamech_table', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      search: '',
+      headers: [
+        { text: 'ФИО', align: 'start', value: 'profile' },
+        { text: 'Кафедра', value: 'kafedra' },
+        { text: 'Дата замечания', value: 'date_1' },
+        { text: 'Статус', value: 'status' },
+        { text: 'Дата исправления', value: 'date_2' },
+        { text: 'Год ИП', align: 'start', value: 'year' },
+    
+      ],
+      desserts: []
 
+    }),
+    created() {
+      this.initialize();
+    },
+    methods: { 
+      initialize() {
+        axios.get("http://" + document.location.host + "/zamech_table/",  { params: { "kafname": this.$root.kafname } }).then(response => {
+          this.desserts = response.data
+        })
+      }
+    },
+    template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+        <p class="pDataHeader">Информация о замечаниях по ИП от сотрудников  УМР</p>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :items-per-page="5"
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      >
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="download_nagruzka(item)"
+        >
+        mdi-download
+        </v-icon>
+        </template>
+      </v-data-table>
+    </v-card>
+
+  `,
+  })
 
   const addIPurl = "http://" + document.location.host + "/createplan/";
   const addRateurl = "http://" + document.location.host + "/createratinghome/";

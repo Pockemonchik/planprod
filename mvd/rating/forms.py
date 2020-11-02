@@ -184,7 +184,7 @@ class MRRForm(forms.ModelForm):
         exclude = ['year','profile']
         widgets = {
             'soavtr': NumberInput(attrs={"class":"form-control", "@change":"soavtrChange($event)"}),
-            'dgsk' : CheckboxInput(attrs={"@change":"dgskChange($event)"}),
+            'dgsk': CheckboxInput(attrs={"@change":"dgskChange($event)"}),
             'bal': NumberInput(attrs={"class": "form-control", "readonly":"readonly"}),
-            'name': TextInput(attrs={"class": "form-control"}),
+            'name': Textarea(attrs={'class': 'form-control', 'spellcheck': 'true', 'rows': '2'}),
         }

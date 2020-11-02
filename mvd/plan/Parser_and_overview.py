@@ -270,9 +270,10 @@ def takeXls(nameDoc,namePrepod,flag):
     listResult.append(listFirst)
     listResult.append(listSecond)
 
-    # for i in range(len(listResult)):
-    #     for j in range(len(listResult[i])):
-    #         print(listResult[i][j])
+    for i in range(len(listResult)):
+        for j in range(len(listResult[i])):
+            print(listResult[i][j])
+
     return(listResult)
 
 # Запись в документ Основной информации
@@ -401,42 +402,46 @@ def createDoc2(nameDoc, listCell, numString1, numString2):
 
 # Заполнение документа по полученным данным и сохранение документа
 def createDoc(listCell, indexRow):
-#     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
+    try:
+        #     document = Document('/home/andrey/Documents/Vazhno_sho_pizdec/mvdproject/mvd/plan/Shablon.docx')
 
-    needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx")
-    #document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/plan/tmp.docx")
-    #document = Document("//home/user/planprod/mvd/plan/tmp.docx")
-    #document = Document("//root/planprod/mvd/plan/tmp.docx")
-    print(indexRow)
-    count = -1
-    for i in needTables:
-        count += 1
-        table = document.tables[i-1]
-        for j in range(indexRow[count]):
-            table.add_row()
-            print(count)
-    needTables.append(5)
-    needTables.append(16)
-    needTables.sort()
-    print(listCell)
+        needTables = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,19]
+        # document = Document("C:/Users/UzziMauzer/Desktop/planprod/mvd/tmp.docx")
+        document = Document("C:/Users/Andrey/Desktop/planprod/mvd/plan/tmp.docx")
+        #document = Document("//home/user/planprod/mvd/plan/tmp.docx")
+        #document = Document("//root/planprod/mvd/plan/tmp.docx")
+        print(len(document.tables))
+        count = -1
+        for i in needTables:
+            count += 1
+            table = document.tables[i-1]
+            for j in range(indexRow[count]):
+                table.add_row()
+        needTables.append(5)
+        needTables.append(16)
+        needTables.sort()
+        print(listCell)
+        print(indexRow)
 
-    count = 0
-    for i in needTables:
-        table = document.tables[i-1]
-        for row in (table.rows):
-            for cell in row.cells:
-                if cell.text.lower() == '' or cell.text.lower() =='x':
-                    cell.text = str(listCell[count])
-                    cell.alignment=WD_ALIGN_PARAGRAPH.CENTER
-#                     cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
-                    count+=1
-#         print(count)
+        count = 0
+        for i in needTables:
+            table = document.tables[i-1]
+            for row in (table.rows):
+                for cell in row.cells:
+                    if cell.text.lower() == '' or cell.text.lower() =='x':
+                        print(cell.text)
+                        print(listCell[count])
+                        cell.text = str(listCell[count])
+                        cell.alignment=WD_ALIGN_PARAGRAPH.CENTER
+        #                     cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+                        count+=1
 
-#     document.save(nameDoc+'.docx')
-    # document.save("C:/Users/UzziMauzer/Desktop/asdasdasdasdasdasd"+'docx')
-    print("Wow")
-    return(document)
+        #document.save(nameDoc+'.docx')
+        # document.save("C:/Users/UzziMauzer/Desktop/asdasdasdasdasdasd"+'docx')
+        print("Wow")
+        return(document)
+    except Exception as e:
+        print(e)
 #    return convert(nameDoc)
 # def createDoc(nameDoc, listCell):
 #     document = Document('C:/Users/UzziMauzer/Desktop/planprod/mvd/plan322.docx')

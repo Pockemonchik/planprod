@@ -1,13 +1,15 @@
-#
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from rating.models import URR, ORMR, PCR, MRR, Rating
 from rating.views import setplace
-from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, VR, DR, UMR, INR, Nagruzka, DocInfo, ProfileInfo
-from plan.forms import MesyacForm,ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, Table3Form, Table4Form, Table6Form, Table5Form, MainTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
+from plan.models import Article, Mesyac, Profile, Kafedra, Plan, Predmet, NIR, VR, DR, UMR, INR, Nagruzka, DocInfo, \
+    ProfileInfo,Zamech
+from plan.forms import ZamechForm,ZamechAdminForm,MesyacForm, ChangePassForm, UserAddForm, docUploadForm, ShapkaForm, Table1Form, Table2Form, \
+    Table3Form, Table4Form, Table6Form, Table5Form, MainTableForm, Table1UploadForm, NagruzkaForm, ProfileInfoForm
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from plan.Parser_and_overview import createDoc2, checkPrepods, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod, checkDocumentXLS
+from plan.Parser_and_overview import createDoc2, checkPrepods, createDoc, takeTable, takeXls, writeInfoDoc, xlsPrepod, \
+    checkDocumentXLS
 from django.core.files.base import ContentFile
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -21,54 +23,75 @@ from django.http import HttpResponse
 import random
 from docx import Document
 import os
+import datetime as dt
 from io import StringIO, BytesIO
 from rest_framework.decorators import api_view
 from itertools import chain
 
-
 """Рендер основных страниц"""
+
 
 def detail_plan(request, slug, year):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         profile1 = get_object_or_404(Profile, user__username=slug)
-        Table0FormSet = modelformset_factory(Predmet, form=Table1Form, extra=0)
+        if profile.role == 3 or profile.role == 2:
+            Table0FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
+        else:
+            Table0FormSet = modelformset_factory(Predmet, form=Table1Form, extra=0)
         Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
         Table2FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
         Table3FormSet = modelformset_factory(NIR, form=Table3Form, extra=5)
         Table4FormSet = modelformset_factory(VR, form=Table4Form, extra=5)
         Table5FormSet = modelformset_factory(DR, form=Table5Form, extra=5)
         Table6FormSet = modelformset_factory(INR, form=Table6Form, extra=5)
-        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm,extra=0)
+        MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm, extra=0)
+        if profile.role == 3:
+            ZamechFormSet = modelformset_factory(Zamech, form=ZamechAdminForm, extra=5)
+        else:
+            ZamechFormSet = modelformset_factory(Zamech, form=ZamechForm, extra=0)
         try:
             plan = get_object_or_404(Plan, prepod=profile1, year=year)
-            print(plan.prepod.fullname, plan.year)
         except Exception as e:
             print(e)
-            return render(request, 'error.html', {'content': "Произошла ошибка, обратитесь к админитсрации"})
-        print(Predmet.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=True))
+            return render(request, 'error.html', {'content': "Произошла ошибка, обратитесь к администрации"})
         try:
             querymes = Mesyac.objects.filter(prepodavatel=profile1, year=year, polugodie=1, status=False)
 
             if not querymes:
                 mesyacprofile = profile1
 
-                mes1 = Mesyac.objects.create(name='АВГУСТ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes2 = Mesyac.objects.create(name='СЕНТЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes3 = Mesyac.objects.create(name='ОКТЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes4 = Mesyac.objects.create(name='НОЯБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes5 = Mesyac.objects.create(name='ДЕКАБРЬ',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes6 = Mesyac.objects.create(name='Итого за 1 полугодие:',prepodavatel=mesyacprofile, year=year, polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
-                mes7 = Mesyac.objects.create(name='ЯНВАРЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes8 = Mesyac.objects.create(name='ФЕВРАЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes9 = Mesyac.objects.create(name='МАРТ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes10 = Mesyac.objects.create(name='АПРЕЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes11 = Mesyac.objects.create(name='МАЙ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes12 = Mesyac.objects.create(name='ИЮНЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes13 = Mesyac.objects.create(name='ИЮЛЬ',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes14 = Mesyac.objects.create(name='Итого за 2 полугодие:',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                mes15 = Mesyac.objects.create(name='Итого за учебный год:',prepodavatel=mesyacprofile, year=year, polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
-                qs=Mesyac.objects.filter(prepodavatel=mesyacprofile, year=year, status=False)
+                mes1 = Mesyac.objects.create(name='АВГУСТ', prepodavatel=mesyacprofile, year=year, polugodie=1,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes2 = Mesyac.objects.create(name='СЕНТЯБРЬ', prepodavatel=mesyacprofile, year=year, polugodie=1,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes3 = Mesyac.objects.create(name='ОКТЯБРЬ', prepodavatel=mesyacprofile, year=year, polugodie=1,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes4 = Mesyac.objects.create(name='НОЯБРЬ', prepodavatel=mesyacprofile, year=year, polugodie=1,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes5 = Mesyac.objects.create(name='ДЕКАБРЬ', prepodavatel=mesyacprofile, year=year, polugodie=1,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes6 = Mesyac.objects.create(name='Итого за 1 полугодие:', prepodavatel=mesyacprofile, year=year,
+                                             polugodie=1, status=False, kafedra=mesyacprofile.kafedra)
+                mes7 = Mesyac.objects.create(name='ЯНВАРЬ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes8 = Mesyac.objects.create(name='ФЕВРАЛЬ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes9 = Mesyac.objects.create(name='МАРТ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                             status=False, kafedra=mesyacprofile.kafedra)
+                mes10 = Mesyac.objects.create(name='АПРЕЛЬ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                              status=False, kafedra=mesyacprofile.kafedra)
+                mes11 = Mesyac.objects.create(name='МАЙ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                              status=False, kafedra=mesyacprofile.kafedra)
+                mes12 = Mesyac.objects.create(name='ИЮНЬ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                              status=False, kafedra=mesyacprofile.kafedra)
+                mes13 = Mesyac.objects.create(name='ИЮЛЬ', prepodavatel=mesyacprofile, year=year, polugodie=2,
+                                              status=False, kafedra=mesyacprofile.kafedra)
+                mes14 = Mesyac.objects.create(name='Итого за 2 полугодие:', prepodavatel=mesyacprofile, year=year,
+                                              polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                mes15 = Mesyac.objects.create(name='Итого за учебный год:', prepodavatel=mesyacprofile, year=year,
+                                              polugodie=2, status=False, kafedra=mesyacprofile.kafedra)
+                qs = Mesyac.objects.filter(prepodavatel=mesyacprofile, year=year, status=False)
 
                 mesyac = MesyacFormSet(
                     queryset=qs)
@@ -100,9 +123,10 @@ def detail_plan(request, slug, year):
         formset12 = Table5FormSet(queryset=DR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
         formset13 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=1))
         formset14 = Table6FormSet(queryset=INR.objects.filter(prepodavatel=profile1, year=year, polugodie=2))
+        zamech_formset = ZamechFormSet(queryset=Zamech.objects.filter(profile=profile1, year=year))
         kafedri = Kafedra.objects.all()
         try:
-            kolvomes = Rating.objects.get(profile=profile1,year=year).kolvomes
+            kolvomes = Rating.objects.get(profile=profile1, year=year).kolvomes
         except Exception as e:
             print(e)
             kolvomes = 0
@@ -116,10 +140,10 @@ def detail_plan(request, slug, year):
 
         try:
             title = "Индивидуальный план  " + ''.join(
-            [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
-             profile1.fullname.split(' ')[2][0]])+" "+str(year)+"-"+str(int(year)+1)
+                [profile1.fullname.split(' ')[0], ' ', profile1.fullname.split(' ')[1][0], '.',
+                 profile1.fullname.split(' ')[2][0]]) + " " + str(year) + "-" + str(int(year) + 1)
         except:
-            title="Индивидуальный план  " + profile1.fullname + " "+str(year)+"-"+str(int(year)+1)
+            title = "Индивидуальный план  " + profile1.fullname + " " + str(year) + "-" + str(int(year) + 1)
         return render(request, 'detail_plan.html', {
             'mainForm': mainForm,
             'formset': formset,
@@ -144,11 +168,13 @@ def detail_plan(request, slug, year):
             'docForm': docForm,
             'mesyac': mesyac,
             'title': title,
-            'kolvomes': kolvomes
+            'kolvomes': kolvomes,
+            'zamech_formset':zamech_formset
 
         })
     else:
         return redirect('log')
+
 
 def index(request):
     if request.user.is_authenticated:
@@ -170,23 +196,38 @@ def index(request):
             infoform = ProfileInfoForm()
         try:
             title = "Главная " + ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
-                                      profile.fullname.split(' ')[2][0]])
+                                          profile.fullname.split(' ')[2][0]])
         except:
             title = "Главная " + profile.fullname
-        return render(request, 'plan.html', {
-            'profile': profile,
-            'kafedri': kafedri,
-            'plans': plans,
-            'nagruzka': nagruzka,
-            'nagruzkadocs': nagruzkadocs,
-            'useraddform': useraddform,
-            'sotr': sotr,
-            'ratings': ratings,
-            'infoform': infoform,
-            'title': title
-        })
+        if profile.role < 3:
+            return render(request, 'plan.html', {
+                'profile': profile,
+                'kafedri': kafedri,
+                'plans': plans,
+                'nagruzka': nagruzka,
+                'nagruzkadocs': nagruzkadocs,
+                'useraddform': useraddform,
+                'sotr': sotr,
+                'ratings': ratings,
+                'infoform': infoform,
+                'title': title
+            })
+        if profile.role == 3:
+            return render(request, 'plan_sotr.html', {
+                'profile': profile,
+                'kafedri': kafedri,
+                'plans': plans,
+                'nagruzka': nagruzka,
+                'nagruzkadocs': nagruzkadocs,
+                'useraddform': useraddform,
+                'sotr': sotr,
+                'ratings': ratings,
+                'infoform': infoform,
+                'title': title
+            })
     else:
         return redirect('log')
+
 
 def kafedra_view(request, kafedra, year):
     if request.user.is_authenticated:
@@ -208,6 +249,7 @@ def kafedra_view(request, kafedra, year):
         return redirect('log')
         # выгружаем данные в документ
 
+
 def spravka(request):
     if request.user.is_authenticated:
 
@@ -217,6 +259,7 @@ def spravka(request):
 
 
 """Работа на главной странице"""
+
 
 @api_view(['GET'])
 def supertable(request):
@@ -257,7 +300,7 @@ def createplan(request):
                 newplan.year = request.POST['year']
 
                 newplan.name = ''.join([profile.fullname.split(' ')[0], ' ', profile.fullname.split(' ')[1][0], '.',
-                                        profile.fullname.split(' ')[1][0]])
+                                        profile.fullname.split(' ')[2][0]])
                 print("sozadanie plana " + newplan.name)
                 newplan.save()
 
@@ -276,19 +319,13 @@ def createratinghome(request):
         year = request.POST['year']
         if request.method == "POST":
             try:
-                Rating.objects.get(profile=profile, year=year)
-                return Response([{
-
-                    "text": "Такой рейтинг уже существует",
-
-                }])
-            except:
                 try:
-                    newrating = Rating()
-                    print(newrating)
+                    newrating = Rating.objects.get(profile=profile, year=year)
                     newrating.profile = profile
                     newrating.year = year
-                    itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:")
+                    print("menyaem")
+                    itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:",
+                                               status=True)
                     try:
                         newurr = URR.objects.get(profile=profile, year=year)
                     except:
@@ -296,9 +333,13 @@ def createratinghome(request):
                     newurr.profile = profile
                     newurr.year = year
                     newurr.obsh = itog.get_obshaya_nagruzka()
-                    newurr.obshbal = itog.get_obshaya_nagruzka()
+                    newurr.obshbal = int(itog.get_obshaya_nagruzka() / 45)
+                    # не забыть поменять на флоат
                     sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
                     newurr.sootn = sootn
+                    print(newurr.sootn)
+
+                    print(newurr.sootnbal)
                     if sootn > 70:
                         newurr.sootnbal = sootn - 70
                     else:
@@ -309,20 +350,21 @@ def createratinghome(request):
                     newurr.save()
                     umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
                     mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+                    for name in MRR.objects.filter(profile=profile).values_list('name', flat=True).distinct():
+                        MRR.objects.filter(
+                            pk__in=MRR.objects.filter(name=name).values_list('id', flat=True)[1:]).delete()
+
                     for u in umrs:
                         mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
                     mmrs_for_del.delete()
 
                     summmrr = 0
                     for u in umrs:
-                        try:
-                            copy = MRR.objects.get(name=u.vid)
+                        if MRR.objects.filter(name=u.vid, profile=profile, year=year).exists():
                             continue
-                        except Exception as e:
-                            print(e)
                         if ("азработка основной профессиональной образовательной" in u.vid or
                                 "азработка примерной основной профессиональной образовательной" in u.vid or
-                                "оздание структуры и содержания электронного учебного курса" in u.vid or
+                                "электронного учебного курса" in u.vid or
                                 "нтеграция тестовых заданий в программную оболочку" in u.vid):
                             newmrr = MRR()
                             newmrr.profile = profile
@@ -339,7 +381,7 @@ def createratinghome(request):
                                 "азработка фондовой лекции" in u.vid or
                                 "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
                                 "азработка сценария для учебного фильма" in u.vid or
-                                "азработка компьютерной программы " in u.vid
+                                "азработка компьютерной программы" in u.vid
                         ):
                             newmrr = MRR()
                             newmrr.profile = profile
@@ -358,7 +400,105 @@ def createratinghome(request):
                                 "азработка материалов для вступительных испытаний" in u.vid or
                                 "азработка материалов для проведения кандидатского экзамен" in u.vid or
                                 "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
-                                "азработка cборника образцов процессуальных и служебных документов" in u.vid):
+                                "азработка сборника образцов процессуальных и служебных документов" in u.vid):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 5
+                            newmrr.default = 5
+                            newmrr.year = year
+                            summmrr += 5
+                            newmrr.save()
+                    newrating.summ = newurr.getsumm() + summmrr
+                    newrating.save()
+                    setplace(year, profile)
+                    return Response([{
+
+                        "text": "Рейтинг успешно переформирован",
+
+                    }])
+                except Exception as e:
+                    print(e)
+                    return Response([{
+
+                        "text": "Ошибка при переформировании рейтинга",
+
+                    }])
+            except Exception as e:
+                print(e)
+                try:
+                    try:
+                        newrating = Rating.objects.get(profile=profile, year=year)
+                    except:
+                        newrating = Rating()
+                    print(newrating)
+                    print("sozd nwe rat")
+                    newrating.profile = profile
+                    newrating.year = year
+                    itog = Predmet.objects.get(prepodavatel=profile, year=year, name="Итого за учебный год:",
+                                               status=True)
+                    try:
+                        newurr = URR.objects.get(profile=profile, year=year)
+                    except:
+                        newurr = URR()
+                    newurr.profile = profile
+                    newurr.year = year
+                    newurr.obsh = itog.get_obshaya_nagruzka()
+                    newurr.obshbal = int(itog.get_obshaya_nagruzka() / 45)
+                    sootn = int(itog.get_auditor_nagruzka() / itog.get_obshaya_nagruzka() * 100)
+                    newurr.sootn = sootn
+                    print(newurr.sootn)
+                    if sootn > 70:
+                        newurr.sootnbal = sootn - 70
+                    else:
+                        newurr.sootnbal = 0
+                    print(newurr.sootnbal)
+                    newurr.save()
+                    umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
+                    summmrr = 0
+                    for u in umrs:
+                        if MRR.objects.filter(name=u.vid, profile=profile, year=year).exists():
+                            continue
+                        if ("азработка основной профессиональной образовательной" in u.vid or
+                                "азработка примерной основной профессиональной образовательной" in u.vid or
+                                "электронного учебного курса" in u.vid or
+                                "нтеграция тестовых заданий в программную оболочку" in u.vid):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 20
+                            newmrr.default = 20
+                            newmrr.year = year
+                            summmrr += 20
+                            newmrr.save()
+                        if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
+                                "азработка примерной дополнительной профессиональной программы" in u.vid or
+                                "азработка дополнительной профессиональной программы" in u.vid or
+                                "азработка фондовой лекции" in u.vid or
+                                "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
+                                "азработка сценария для учебного фильма" in u.vid or
+                                "азработка компьютерной программы (обучающей, тестовой, прочее)" in u.vid
+                        ):
+                            newmrr = MRR()
+                            newmrr.profile = profile
+                            newmrr.name = u.vid
+                            print(newmrr.name)
+                            newmrr.bal = 10
+                            newmrr.year = year
+                            newmrr.default = 10
+                            summmrr += 10
+                            newmrr.save()
+                        if ("азработка рабочей программы учебной дисциплины" in u.vid or
+                                "азработкар рабочей программы государственной итоговой аттестации, программы практики" in u.vid or
+                                "азработка натурных объектов на контрольные экспертизы" in u.vid or
+                                "азработка тестов для проведения мероприятий по указанию МВД России" in u.vid or
+                                "азработка практикума по дисциплине" in u.vid or
+                                "азработка материалов для вступительных испытаний" in u.vid or
+                                "азработка материалов для проведения кандидатского экзамен" in u.vid or
+                                "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
+                                "азработка сборника образцов процессуальных и служебных документов" in u.vid):
                             newmrr = MRR()
                             newmrr.profile = profile
                             newmrr.name = u.vid
@@ -369,48 +509,62 @@ def createratinghome(request):
                             summmrr += 5
                             newmrr.save()
 
-                        newrating.summ = newurr.getsumm() + summmrr
-                        newrating.save()
-                        print("zaebis")
+                    newrating.summ = newurr.getsumm() + summmrr
+                    newrating.save()
+                    setplace(year, profile)
+                    return Response([{
+
+                        "text": "Рейтинг успешно сформирован",
+
+                    }])
                 except Exception as e:
                     print(e)
                     return Response([{
 
-                        "text": "Ошибка при созданиии рейтинга, сначала аполните ИП на этот год",
-
+                        "text": "Ошибка! Сначала заполните фактически выполненную работы за оба полугодия, а также данные\
+                                             в шапке и профиле",
                     }])
 
-    return Response([{
+            return Response([{
 
-        "text": "Рейтинг успешно сформирован",
-        "href": "rating/rate_otsenka/" + profile.user.username + "/" + year + "/",
+                "text": "Рейтинг успешно сформирован",
+                "href": "rating/rate_otsenka/" + profile.user.username + "/" + year + "/",
 
-    }])
+            }])
 
 
 """Вывод информации в таблицу заполненности ИП"""
+
+
 @api_view(['GET'])
 def supertable_plan(request):
     year = request.GET['year']
-    profiles = Profile.objects.all()
+    kafname = request.GET['kafname']
+    if kafname == "all":
+        profiles = Profile.objects.all()
+    else:
+        profiles = Profile.objects.filter(kafedra__name=kafname)
     data = []
     for profile in profiles:
         try:
             percent = 0
             zapoln = []
-            predmets_plan=Predmet.objects.filter(prepodavatel=profile,year=year,status=False).exists()
+            dolhznost = profile.dolzhnost
+            predmets_plan = Predmet.objects.filter(prepodavatel=profile, year=year, status=False).exists()
             predmets_fact = Predmet.objects.filter(prepodavatel=profile, year=year, status=True).exists()
-            mes = Mesyac.objects.filter(prepodavatel=profile,year=year)\
-                .exclude(name__contains="Итого",ucheb_nagruzka=0).exists()
+            mes = Mesyac.objects.filter(prepodavatel=profile, year=year) \
+                .exclude(name__contains="Итого", ucheb_nagruzka=0).exists()
             umr = UMR.objects.filter(prepodavatel=profile, year=year).exists()
             nir = NIR.objects.filter(prepodavatel=profile, year=year).exists()
             vr = VR.objects.filter(prepodavatel=profile, year=year).exists()
             inr = INR.objects.filter(prepodavatel=profile, year=year).exists()
             dr = DR.objects.filter(prepodavatel=profile, year=year).exists()
             info = ProfileInfo.objects.filter(profile=profile).exists()
-            plan = Plan.objects.filter(year=year,prepod=profile).first()
+            plan = Plan.objects.filter(year=year, prepod=profile).first()
             docinfo = DocInfo.objects.filter(plan=plan).exists()
             if info:
+                if ProfileInfo.objects.filter(profile=profile).first().dolznost != "":
+                    dolhznost = ProfileInfo.objects.filter(profile=profile).first().dolznost
                 percent += 1
                 zapoln.append("Профиль : Да")
             else:
@@ -461,7 +615,7 @@ def supertable_plan(request):
                 zapoln.append("Иные : Да")
             else:
                 zapoln.append("Иные : Нет")
-            rating_query = Rating.objects.filter(profile=profile,year=year).exclude(summ=0).exists()
+            rating_query = Rating.objects.filter(profile=profile, year=year).exclude(summ=0).exists()
             try:
                 stavka = ProfileInfo.objects.get(profile=profile).stavka
             except Exception as e:
@@ -471,25 +625,79 @@ def supertable_plan(request):
                 rating = "+"
             else:
                 rating = "-"
+
             data.append(
                 {'fio': profile.fullname.split(" ")[0],
                  'kafedra': profile.kafedra.fullname,
-                 'rating':rating,
+                 'rating': rating,
                  'stavka': stavka,
-                 'plan':str(percent)+"0 %",
+                 'plan': str(percent * 10) + " %",
                  'username': profile.user.username,
                  'zapoln': zapoln,
-                 'dolzhnost': profile.dolzhnost
+                 'dolzhnost': dolhznost
                  }
             )
         except Exception as e:
             print(e)
 
+    return Response(data)
 
+
+"""Вывод информации в таблицу нагрузок всех кафедр"""
+
+
+@api_view(['GET'])
+def nagruzka_table(request):
+    nagruzkas = Nagruzka.objects.all().order_by('kafedra__fullname')
+    data = []
+    for nagruzka in nagruzkas:
+        try:
+            change_date = dt.datetime.fromtimestamp(os.path.getctime(nagruzka.document.path)).strftime("%d %m %Y, %H:%M")
+        except Exception as e:
+            change_date = "файл не найден"
+
+        data.append(
+            {
+                'kafedra':nagruzka.kafedra.fullname,
+                'vid_nagruzki':nagruzka.status,
+                'year':str(nagruzka.year)+"-"+str(nagruzka.year+1),
+                'change_date': change_date,
+                'href':nagruzka.document.url
+            }
+        )
+    return Response(data)
+    
+@api_view(['GET'])
+def zamech_table(request):
+    kafname = request.GET.get('kafname')
+    if kafname == 'all':
+        zamech = Zamech.objects.all().order_by('profile__fullname')
+    else:
+        zamech = Zamech.objects.filter(profile__kafedra__name=kafname).order_by('profile__fullname')
+    data = []
+    for z in zamech:
+        if z.status == False:
+            date_2 = "-"
+            status = 'не исправлено'
+        else:
+            date_2 = z.date_2.strftime("%m/%d/%Y")
+            status = 'исправлено'
+        data.append(
+            {
+                'profile':z.profile.fullname,
+                'kafedra':z.profile.kafedra.fullname,
+                'date_1':z.date_1.strftime("%m/%d/%Y"),
+                'date_2':date_2,
+                'status': status,
+                'year':str(z.year)+"-"+str(z.year+1)
+            }
+        )
     return Response(data)
 
 
 """ Работа с пользователями в главной таблице по кафедре"""
+
+
 def deluser(request):
     if request.method == "POST":
 
@@ -507,6 +715,7 @@ def deluser(request):
         return HttpResponse("Пользователь удален, чтобы восстановить обратитесь к администации")
     else:
         return redirect('log')
+
 
 def changepass(request):
     # profile=get_object_or_404(Profile,user=request.user)
@@ -534,7 +743,7 @@ def changepass(request):
                     print("change pass")
                     try:
                         previos_user.set_password(password)
-                        previos_user.email=password
+                        previos_user.email = password
                         previos_user.save()
                         profile = Profile.objects.get(user=previos_user)
                         profile.fullname = fio
@@ -545,7 +754,7 @@ def changepass(request):
                 else:
                     print("change pass login ")
                     try:
-                        previos_user.username=username
+                        previos_user.username = username
                         previos_user.set_password(password)
                         previos_user.email = password
                         previos_user.save()
@@ -555,7 +764,8 @@ def changepass(request):
 
                     except Exception as e:
                         print(e)
-                        return HttpResponse("Произошла ошибка при изменении данных пользователя, такой пользователь уже существует")
+                        return HttpResponse(
+                            "Произошла ошибка при изменении данных пользователя, такой пользователь уже существует")
 
         else:
             return HttpResponse("Ошибка при сохранении")
@@ -625,20 +835,19 @@ def createrating(request, year, slug):
             newurr.save()
             umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
             mmrs_for_del = MRR.objects.filter(profile=profile, year=year)
+            for name in MRR.objects.filter(profile=profile).values_list('name', flat=True).distinct():
+                MRR.objects.filter(pk__in=MRR.objects.filter(name=name).values_list('id', flat=True)[1:]).delete()
             for u in umrs:
                 mmrs_for_del = mmrs_for_del.exclude(name=u.vid)
             mmrs_for_del.delete()
 
             summmrr = 0
             for u in umrs:
-                try:
-                    copy = MRR.objects.get(name=u.vid)
+                if MRR.objects.filter(name=u.vid, profile=profile, year=year).exists():
                     continue
-                except Exception as e:
-                    print(e)
                 if ("азработка основной профессиональной образовательной" in u.vid or
                         "азработка примерной основной профессиональной образовательной" in u.vid or
-                        "оздание структуры и содержания электронного учебного курса" in u.vid or
+                        "электронного учебного курса" in u.vid or
                         "нтеграция тестовых заданий в программную оболочку" in u.vid):
                     newmrr = MRR()
                     newmrr.profile = profile
@@ -650,12 +859,12 @@ def createrating(request, year, slug):
                     summmrr += 20
                     newmrr.save()
                 if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
-                        "азработка примерной дополнительной профессиональной " in u.vid or
+                        "азработка примерной дополнительной профессиональной" in u.vid or
                         "азработка дополнительной профессиональной программы" in u.vid or
                         "азработка фондовой лекции" in u.vid or
                         "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
                         "азработка сценария для учебного фильма" in u.vid or
-                        "азработка компьютерной программы " in u.vid
+                        "азработка компьютерной программы" in u.vid
                 ):
                     newmrr = MRR()
                     newmrr.profile = profile
@@ -674,7 +883,7 @@ def createrating(request, year, slug):
                         "азработка материалов для вступительных испытаний" in u.vid or
                         "азработка материалов для проведения кандидатского экзамен" in u.vid or
                         "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
-                        "азработка cборника образцов процессуальных и служебных документов" in u.vid):
+                        "азработка сборника образцов процессуальных и служебных документов" in u.vid):
                     newmrr = MRR()
                     newmrr.profile = profile
                     newmrr.name = u.vid
@@ -693,7 +902,7 @@ def createrating(request, year, slug):
                 try:
                     newrating = Rating.objects.get(profile=profile, year=year)
                 except:
-                     newrating = Rating()
+                    newrating = Rating()
                 print(newrating)
                 print("sozd nwe rat")
                 newrating.profile = profile
@@ -719,20 +928,23 @@ def createrating(request, year, slug):
                 umrs = UMR.objects.filter(prepodavatel=profile, year=year, include_rating=True)
                 summmrr = 0
                 for u in umrs:
+                    if MRR.objects.filter(name=u.vid, profile=profile, year=year).exists():
+                        continue
                     if ("азработка основной профессиональной образовательной" in u.vid or
                             "азработка примерной основной профессиональной образовательной" in u.vid or
-                            "оздание структуры и содержания электронного учебного курса" in u.vid or
+                            "электронного учебного курса" in u.vid or
                             "нтеграция тестовых заданий в программную оболочку" in u.vid):
                         newmrr = MRR()
                         newmrr.profile = profile
                         newmrr.name = u.vid
                         print(newmrr.name)
                         newmrr.bal = 20
+                        newmrr.default = 20
                         newmrr.year = year
                         summmrr += 20
                         newmrr.save()
                     if ("азработка примерной рабочей программы учебной дисциплины" in u.vid or
-                            "азработка примерной дополнительной профессиональной программы (программы повышения квалификации, программы профессиональной переподготовки)" in u.vid or
+                            "азработка примерной дополнительной профессиональной программы" in u.vid or
                             "азработка дополнительной профессиональной программы" in u.vid or
                             "азработка фондовой лекции" in u.vid or
                             "азработка материалов для проведения конкурса профессионального мастерств" in u.vid or
@@ -744,6 +956,7 @@ def createrating(request, year, slug):
                         newmrr.name = u.vid
                         print(newmrr.name)
                         newmrr.bal = 10
+                        newmrr.default = 10
                         newmrr.year = year
                         summmrr += 10
                         newmrr.save()
@@ -755,12 +968,13 @@ def createrating(request, year, slug):
                             "азработка материалов для вступительных испытаний" in u.vid or
                             "азработка материалов для проведения кандидатского экзамен" in u.vid or
                             "азработка материалов для мультимедийного сопровождения дисциплины" in u.vid or
-                            "азработка cборника образцов процессуальных и служебных документов, макета дела, комплекта ситуационных задач по дисциплине" in u.vid):
+                            "азработка сборника образцов процессуальных и служебных документов" in u.vid):
                         newmrr = MRR()
                         newmrr.profile = profile
                         newmrr.name = u.vid
                         print(newmrr.name)
                         newmrr.bal = 5
+                        newmrr.default = 10
                         newmrr.year = year
                         summmrr += 5
                         newmrr.save()
@@ -771,7 +985,8 @@ def createrating(request, year, slug):
             except Exception as e:
                 print(e)
                 return render(request, 'error.html',
-                              {'content': "Сначала заполните фактически выполненную работы за оба полугодия, а также данные в шапке и профиле"})
+                              {
+                                  'content': "Сначала заполните фактически выполненную работы за оба полугодия (проверьте наличие строк итого за год, итого за 1 полгодие и тд,если их нет то сохраните таблицы), а также данные в шапке и профиле"})
 
         return redirect('rate_otsenka', slug=profile.user.username, year=year)
     else:
@@ -811,6 +1026,8 @@ def profileinfo(request):
 
 
 """ Работа с документами """
+
+
 def exelobr(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'examplexlsx.xlsx')
     if os.path.exists(file_path):
@@ -873,10 +1090,10 @@ def documentAnalize(request):
             print(data)
             for table in range(len(data)):
                 if table == 0:
-                    Mesyac.objects.filter(prepodavatel=profile, year=year, status=False).delete()
+                    Mesyac.objects.filter(prepodavatel=profile, year=year).delete()
                     for row in range(len(data[table])):
                         count = 0
-                        if row <6:
+                        if row < 6:
 
                             mes = Mesyac()
                             mes.name = data[table][row][0]
@@ -940,7 +1157,7 @@ def documentAnalize(request):
                             mes.ucheb_nagruzka = float(data[table][row][24])
                             mes.auditor_nagruzka = float(data[table][row][25])
                             mes.prepodavatel = profile
-                            mes.kafedra=profile.kafedra
+                            mes.kafedra = profile.kafedra
                             mes.polugodie = '2'
                             mes.year = year
                             mes.save()
@@ -1171,14 +1388,14 @@ def documentSave(request, year, slug):
             # data += [" "] * (375)
             ##normalno po mesyacam
             # u admina dolzhna bit tablisa zapolnena
-            mesyac=Mesyac.objects.filter(prepodavatel=profile,year=year)
+            mesyac = Mesyac.objects.filter(prepodavatel=profile, year=year)
             for m in mesyac:
-                arr=m.all_values()
+                arr = m.all_values()
                 for a in arr:
-                   if a=='0':
-                       data.append(" ")
-                   else:
-                       data.append(a)
+                    if a == '0':
+                        data.append(" ")
+                    else:
+                        data.append(a)
 
             # учебно метадоч работа
             umr = UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year)
@@ -1311,7 +1528,13 @@ def documentSave(request, year, slug):
             indexRow.append(dr.count())
             # главная таблица
             data += plan.all_values()
-
+            
+            #информация о замечаниях от умр
+            zamech = Zamech.objects.filter(profile=profile,year=year)
+            indexRow.append(zamech.count())
+            for z in zamech:
+                data.append(str(z.date_1.strftime("%m/%d/%Y")))
+                data.append(z.name)
             # shapka
             try:
                 docinf = DocInfo.objects.get(plan=plan)
@@ -1320,7 +1543,6 @@ def documentSave(request, year, slug):
             listInfo = docinf.all_values()
             # print(indexRow)
             # print(data)
-
 
             doc = writeInfoDoc(listInfo, data, indexRow)
             # doc=createDoc('testforsave',data)
@@ -1345,6 +1567,7 @@ def documentSave(request, year, slug):
 
     else:
         return redirect('log')
+
 
 def saveDB(request):
     saveallnagr()
@@ -1371,23 +1594,23 @@ def nagruzkaSave(request):
                         flag = False
                     print(nagruzka.status)
                     response = ""
-                    response = checkDocumentXLS(nagruzka.document.path,flag)
-                    print(nagruzka.document.path, flag,response)
+                    response = checkDocumentXLS(nagruzka.document.path, flag)
+                    print(nagruzka.document.path, flag, response)
                     profiles = Profile.objects.filter(kafedra=profile.kafedra)
                     for p in profiles:
                         try:
 
-                            name =p.fullname.split(' ')[0]
+                            name = p.fullname.split(' ')[0]
                             prepod = checkPrepods(nagruzka.document.path, name)
-                            response += "\n •   " +prepod+ "\n"
+                            response += "\n •   " + prepod + "\n"
                         except Exception as e:
                             print(e)
-                            response += "Не нашлись данные "+p.fullname
+                            response += "Не нашлись данные " + p.fullname
 
                     print(response)
                     return Response([{
 
-                        "text": "Нагрузка успешно заменена, ниже представлены сведения о документе \n"+response+'\n',
+                        "text": "Нагрузка успешно заменена, ниже представлены сведения о документе \n" + response + '\n',
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
@@ -1412,10 +1635,10 @@ def nagruzkaSave(request):
                             response += "\n •   " + prepod + "\n"
                         except Exception as e:
                             print(e)
-                            response += "Не нашлись учетные данные "+p.fullname
+                            response += "Не нашлись учетные данные " + p.fullname
                     return Response([{
 
-                        "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n"+response+'\n',
+                        "text": "Нагрузка успешно добавлена, ниже представлены сведения о документе \n" + response + '\n',
                         "kafname": "Нагрузка по кафедре " + nagruzka.kafedra.fullname + " " + nagruzka.status
 
                     }])
@@ -1441,6 +1664,7 @@ def deleteNgruzka(request, year):
     else:
         return redirect('log')
 
+
 # анализ нагрузки
 def nagruzka(request, year, slug):
     if request.user.is_authenticated:
@@ -1450,18 +1674,17 @@ def nagruzka(request, year, slug):
             plan = get_object_or_404(Plan, prepod=profile, year=year)
             nagruzkadoc = get_object_or_404(
                 Nagruzka.objects.filter(year=year, kafedra=profile.kafedra).exclude(status='Фактическая'))
-            predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=False)
-            predmetsdel.delete()
+
             try:
-                plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
+                plans = Plan.objects.filter(prepod__kafedra=profile.kafedra,year=year)
                 count = 0
                 for p in plans:
                     if p.name[0:-4] == plan.name[0:-4]:
                         count += 1
                 if count == 2:
-                    data = takeXls(nagruzkadoc.document.path, plan.name, True)
+                    data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ', 1)[0], True)
                 else:
-                    data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ',1)[0], True)
+                    data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ', 1)[0], True)
                 if type(data) != list:
                     if data == '404':
                         return render(request, 'error.html', {
@@ -1484,7 +1707,8 @@ def nagruzka(request, year, slug):
             #         print(data[i][j])
             # # print('')
             # print(data)
-
+            predmetsdel = Predmet.objects.filter(prepodavatel=profile, year=year, status=False)
+            predmetsdel.delete()
             fields = Predmet._meta.get_fields()
             for table in range(len(data)):
                 if table == 0:
@@ -1587,11 +1811,10 @@ def nagruzkafact(request, year, slug):
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку)"})
         print(plan.name)
-        predmetsdel = Predmet.objects.filter(prepodavatel=profile,year=year, status=True)
-        predmetsdel.delete()
+
         data = ""
         try:
-            plans = Plan.objects.filter(prepod__kafedra=profile.kafedra)
+            plans = Plan.objects.filter(prepod__kafedra=profile.kafedra,year=year)
             count = 0
             for p in plans:
                 if p.name[0:-4] == plan.name[0:-4]:
@@ -1601,7 +1824,7 @@ def nagruzkafact(request, year, slug):
             if count == 2:
                 data = takeXls(nagruzkadoc.document.path, plan.name, False)
             else:
-                data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ',1)[0], False)
+                data = takeXls(nagruzkadoc.document.path, profile.fullname.split(' ', 1)[0], False)
         except:
             return render(request, 'error.html', {
                 'content': "Произошла ошибка при заполнении плана из загруженного XLSX учебной нагрузки файла, пожалуйста проверьте формат документа(см.справку), возможно орфографическая ошибка в слове " + data})
@@ -1618,7 +1841,8 @@ def nagruzkafact(request, year, slug):
         #         print(data[i][j])
         # # print('')
         # print(data)
-
+        predmetsdel = Predmet.objects.filter(prepodavatel=profile, year=year, status=True)
+        predmetsdel.delete()
         fields = Predmet._meta.get_fields()
         for table in range(len(data)):
             if table == 0:
@@ -1844,6 +2068,7 @@ def mainTableCount(request):
     else:
         return redirect('log')
 
+
 def mainTableSave(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -1853,13 +2078,13 @@ def mainTableSave(request):
             try:
                 plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
             except Exception as e:
-                Plan.objects.filter(prepod=profile,year=request.POST['year']).delete()
+                Plan.objects.filter(prepod=profile, year=request.POST['year']).delete()
                 plan = Plan()
-            form = MainTableForm(request.POST,instance=plan)
+            form = MainTableForm(request.POST, instance=plan)
             if form.is_valid():
 
                 newplan = form.save(commit=False)
-                predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=request.POST['year'])
+                predmets = Predmet.objects.filter(prepodavatel=profile, status=True, year=request.POST['year'])
                 for p in predmets:
                     if p.name == "Итого за 1 полугодие:":
                         newplan.ucheb_r_1_p = p.ucheb_nagruzka
@@ -1879,68 +2104,211 @@ def mainTableSave(request):
         return redirect('log')
 
 
-
-
 def saveT1(request):
     if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        plan = get_object_or_404(Plan, prepod=profile, year=year)
         if request.method == "POST":
+            # print(request.POST)
+            year = request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
-            Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
-            formset = Table1FormSet(request.POST,
-                                    queryset=Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False))
-            # predmets=formset.save()
-            # формсет для первого полугодия
+            if profile.role == 3 or profile.role == 2:
+                profile = get_object_or_404(Profile, user__username=request.POST['profile'])
+            Table1FormSet = modelformset_factory(Predmet, form=Table1Form)
+            formset3 = Table1FormSet(request.POST)
+            try:
+                for form in formset3:
+                    if form.is_valid():
+                        predmet = form.save(commit=False)
+                        predmet.kafedra = profile.kafedra
+                        predmet.polugodie = 1
+                        predmet.status = False
+                        # print(predmet.get_obshaya_nagruzka())
+                        predmet.prepodavatel = profile
+                        predmet.year = request.POST['year']
+                        try:
+                            predmetdel = Predmet.objects.get(id=predmet.id)
+                            predmetdel.delete()
+                        except Exception as e:
+                            print(e)
 
-            for form in formset:
-                if form.is_valid():
-                    predmet = form.save(commit=False)
-                    predmet.kafedra = profile.kafedra
-                    predmet.polugodie = 1
-                    predmet.status = False
-                    print(predmet.get_obshaya_nagruzka())
-                    predmet.prepodavatel = profile
-                    if predmet.name != '':
-                        predmet.save()
-                else:
-                    return HttpResponse("Ошибка при сохранении")
-        return redirect('detail_plan', slug=profile.user.username, year=plan.year)
-    else:
-        return redirect('log')
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за 1 полугодие:',
+                                                            polugodie=1, status=False,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+                        if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
+                            predmet.save()
+                        else:
+                            try:
+                                predmetdel = Predmet.objects.get(id=predmet.id)
+                                predmetdel.delete()
+                            except Exception as e:
+                                print(e)
 
-def saveT2(request):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user)
-        if request.method == "POST":
-            profile = get_object_or_404(Profile, user=request.user)
-            Table1FormSet = modelformset_factory(Predmet, form=Table1Form, extra=5)
-            formset2 = Table1FormSet(request.POST,
-                                     queryset=Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False))
-            # predmets=formset.save()
-            # формсет для первого полугодия
+                itog = Predmet()
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=False, year=year)
+                fields = Predmet._meta.get_fields()
+                setattr(itog, 'status', False)
+                setattr(itog, 'polugodie', 1)
+                setattr(itog, 'kafedra', profile.kafedra)
+                setattr(itog, 'year', request.POST['year'])
+                setattr(itog, 'prepodavatel', profile)
 
-            if formset2.is_valid():
-                for form in formset2:
-                    predmet = form.save(commit=False)
-                    predmet.kafedra = profile.kafedra
-                    predmet.polugodie = 2
-                    predmet.status = False
-                    print(predmet.get_obshaya_nagruzka())
-                    predmet.prepodavatel = profile
-                    if predmet.name != '':
-                        predmet.save()
-            else:
+                for field in fields:
+                    buff = 0
+                    if field.name == "id" or field.name == "kafedra" or field.name == "polugodie" or field.name == "status" or field.name == "prepodavatel" or field.name == "year":
+                        continue
+
+                    if field.name == "name":
+                        setattr(itog, field.name, 'Итого за 1 полугодие:')
+                        continue
+                    for p in predmets:
+                        buff += getattr(p, field.name)
+                        # print(getattr(p,field.name))
+
+                    setattr(itog, field.name, buff)
+                  
+                    # print(str(buff)+field.name)
+                itog.save()
+
+            except Exception as e:
+                print(e)
                 return HttpResponse("Ошибка при сохранении")
+
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
+
+def saveT2(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            year = request.POST['year']
+            profile = get_object_or_404(Profile, user=request.user)
+            if profile.role == 3 or profile.role == 2:
+                profile = get_object_or_404(Profile, user__username=request.POST['profile'])
+            Table1FormSet = modelformset_factory(Predmet, form=Table1Form)
+            formset4 = Table1FormSet(request.POST)
+            # predmets=formset.save()
+            # формсет для первого полугодия
+            try:
+
+                for form in formset4:
+                    if form.is_valid():
+                        predmet = form.save(commit=False)
+                        predmet.kafedra = profile.kafedra
+                        predmet.polugodie = 2
+                        predmet.status = False
+                        # print(predmet.get_obshaya_nagruzka())
+                        predmet.prepodavatel = profile
+                        predmet.year = request.POST['year']
+                        try:
+                            predmetdel = Predmet.objects.get(id=predmet.id)
+                            predmetdel.delete()
+                        except Exception as e:
+                            print(e)
+
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за 2 полугодие:',
+                                                            polugodie=2, status=False,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за учебный год:',
+                                                            polugodie=2, status=False,
+                                                            year=request.POST['year'])
+                        predmetdel.delete()
+                        if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
+                            predmet.save()
+                        else:
+                            try:
+                                predmetdel = Predmet.objects.get(id=predmet.id)
+                                predmetdel.delete()
+                            except Exception as e:
+                                print(e)
+
+                itog = Predmet()
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=False, year=year)
+                fields = Predmet._meta.get_fields()
+                setattr(itog, 'status', False)
+                setattr(itog, 'polugodie', 2)
+                setattr(itog, 'kafedra', profile.kafedra)
+                setattr(itog, 'year', request.POST['year'])
+                setattr(itog, 'prepodavatel', profile)
+
+                for field in fields:
+                    buff = 0
+                    if field.name == "id" or field.name == "kafedra" or field.name == "polugodie" or field.name == "status" or field.name == "prepodavatel" or field.name == "year":
+                        continue
+
+                    if field.name == "name":
+                        setattr(itog, field.name, 'Итого за 2 полугодие:')
+                        print('Итого за 2 полугодие:')
+                        continue
+                    for p in predmets:
+                        buff += getattr(p, field.name)
+                        # print(getattr(p,field.name))
+
+                    setattr(itog, field.name, buff)
+                    print(str(buff) + field.name)
+                itog.save()
+                """Сохраняем год"""
+                itogall = Predmet()
+                try:
+                    itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
+                                                status=False, year=year)
+                    setattr(itogall, 'status', False)
+                    setattr(itogall, 'polugodie', 2)
+                    setattr(itogall, 'kafedra', profile.kafedra)
+                    setattr(itogall, 'year', request.POST['year'])
+                    setattr(itogall, 'prepodavatel', profile)
+                    for field in fields:
+                        buff = 0
+                        if field.name == "id" or field.name == "kafedra" or field.name == "polugodie" or field.name == "status" or field.name == "prepodavatel" or field.name == "year":
+                            continue
+
+                        if field.name == "name":
+                            setattr(itogall, field.name, 'Итого за учебный год:')
+                            continue
+                        setattr(itogall, field.name, (getattr(itog, field.name) + getattr(itog1, field.name)))
+
+                    itogall.save()
+
+                except:
+                    setattr(itogall, 'status', False)
+                    setattr(itogall, 'polugodie', 2)
+                    setattr(itogall, 'kafedra', profile.kafedra)
+                    setattr(itogall, 'year', request.POST['year'])
+                    setattr(itogall, 'prepodavatel', profile)
+                    for field in fields:
+                        buff = 0
+                        if field.name == "id" or field.name == "kafedra" or field.name == "polugodie" or field.name == "status" or field.name == "prepodavatel" or field.name == "year":
+                            continue
+
+                        if field.name == "name":
+                            setattr(itogall, field.name, 'Итого за учебный год:')
+                            continue
+                        setattr(itogall, field.name, (getattr(itog, field.name)))
+
+                    itogall.save()
+
+            except Exception as e:
+                print(e)
+                return HttpResponse("Ошибка при сохранении")
+
+
+
+
+            except Exception as e:
+                return HttpResponse("Ошибка при сохранении")
+
+        return HttpResponse("Успешно сохранено")
+    else:
+        return redirect('log')
+
 
 def saveT3(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             # print(request.POST)
-            year=request.POST['year']
+            year = request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
@@ -1965,7 +2333,8 @@ def saveT3(request):
                         except Exception as e:
                             print(e)
 
-                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за 1 полугодие:', polugodie=1, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за 1 полугодие:',
+                                                            polugodie=1, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
                         if predmet.name != '' and predmet.name != 'Итого за 1 полугодие:' and predmet.name is not None:
@@ -1977,17 +2346,13 @@ def saveT3(request):
                             except Exception as e:
                                 print(e)
 
-
-
-
-
                 itog = Predmet()
                 try:
                     itogmes = Mesyac.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
-                                                status=False, year=year)
+                                                 status=False, year=year)
                 except Exception as e:
                     itogmesdel = Mesyac.objects.filter(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
-                                                 status=False, year=year)
+                                                       status=False, year=year)
                     itogmesdel.delete()
                     print("not itog 1")
                     itogmes = Mesyac()
@@ -1997,7 +2362,7 @@ def saveT3(request):
                     setattr(itogmes, 'kafedra', profile.kafedra)
                     setattr(itogmes, 'year', request.POST['year'])
                     setattr(itogmes, 'prepodavatel', profile)
-                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True,year=year)
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=1, status=True, year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
                 setattr(itog, 'polugodie', 1)
@@ -2026,11 +2391,10 @@ def saveT3(request):
                 print(e)
                 return HttpResponse("Ошибка при сохранении")
 
-
-
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT4(request):
     if request.user.is_authenticated:
@@ -2060,11 +2424,13 @@ def saveT4(request):
                         except Exception as e:
                             print(e)
 
-                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за 2 полугодие:', polugodie=2, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за 2 полугодие:',
+                                                            polugodie=2, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
 
-                        predmetdel = Predmet.objects.filter(prepodavatel=profile,name='Итого за учебный год:', polugodie=2, status=True,
+                        predmetdel = Predmet.objects.filter(prepodavatel=profile, name='Итого за учебный год:',
+                                                            polugodie=2, status=True,
                                                             year=request.POST['year'])
                         predmetdel.delete()
                         if predmet.name != '' and predmet.name != 'Итого за 2 полугодие:' and predmet.name != 'Итого за учебный год:' and predmet.name is not None:
@@ -2078,11 +2444,11 @@ def saveT4(request):
 
                 itog = Predmet()
                 try:
-                    itogmes=Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
-                                          year=year)
+                    itogmes = Mesyac.objects.get(name="Итого за 2 полугодие:", prepodavatel=profile,
+                                                 year=year)
                 except Exception as e:
                     itogmes_del = Mesyac.objects.filter(name="Итого за 2 полугодие:", prepodavatel=profile,
-                                                 year=year)
+                                                        year=year)
                     itogmes_del.delete()
                     print("not itog 2")
                     itogmes = Mesyac()
@@ -2092,7 +2458,7 @@ def saveT4(request):
                     setattr(itogmes, 'kafedra', profile.kafedra)
                     setattr(itogmes, 'year', request.POST['year'])
                     setattr(itogmes, 'prepodavatel', profile)
-                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True,year=year)
+                predmets = Predmet.objects.filter(prepodavatel=profile, polugodie=2, status=True, year=year)
                 fields = Predmet._meta.get_fields()
                 setattr(itog, 'status', True)
                 setattr(itog, 'polugodie', 2)
@@ -2122,10 +2488,10 @@ def saveT4(request):
                 itogall = Predmet()
                 try:
                     itogmesall = Mesyac.objects.get(name="Итого за учебный год:", prepodavatel=profile,
-                                               year=year)
+                                                    year=year)
                 except Exception as e:
                     itogmes_del = Mesyac.objects.filter(name="Итого за учебный год:", prepodavatel=profile,
-                                               year=year)
+                                                        year=year)
                     itogmes_del.delete()
                     print("not itog")
                     itogmesall = Mesyac()
@@ -2137,7 +2503,7 @@ def saveT4(request):
                     setattr(itogmesall, 'prepodavatel', profile)
                 try:
                     itog1 = Predmet.objects.get(name="Итого за 1 полугодие:", prepodavatel=profile, polugodie=1,
-                                                status=True,year=year)
+                                                status=True, year=year)
                     setattr(itogall, 'status', True)
                     setattr(itogall, 'polugodie', 2)
                     setattr(itogall, 'kafedra', profile.kafedra)
@@ -2187,22 +2553,24 @@ def saveT4(request):
     else:
         return redirect('log')
 
+
 def saveT5(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         if request.method == "POST":
             print(request.POST)
-            year=request.POST['year']
+            year = request.POST['year']
             profile = get_object_or_404(Profile, user=request.user)
             if profile.role == 3 or profile.role == 2:
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             Table1FormSet = modelformset_factory(UMR, form=Table2Form, extra=5)
-            formset4 = Table1FormSet(request.POST,queryset=UMR.objects.filter(prepodavatel=profile, polugodie=1,year=year))
+            formset4 = Table1FormSet(request.POST,
+                                     queryset=UMR.objects.filter(prepodavatel=profile, polugodie=1, year=year))
             # predmets=formset.save()
             # формсет для первого полугодия
             try:
                 for form in formset4:
-                   if form.is_valid():
+                    if form.is_valid():
                         umr = form.save(commit=False)
                         umr.polugodie = 1
                         umr.prepodavatel = profile
@@ -2210,7 +2578,8 @@ def saveT5(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = UMR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = UMR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
 
                                 umrdel.delete()
                             except Exception as e:
@@ -2222,14 +2591,15 @@ def saveT5(request):
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
-                   else:
-                       print(form.errors)
+                    else:
+                        print(form.errors)
             except Exception as e:
-                    print(e)
+                print(e)
 
             return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT6(request):
     if request.user.is_authenticated:
@@ -2253,7 +2623,8 @@ def saveT6(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = UMR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = UMR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2270,6 +2641,7 @@ def saveT6(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 # tabler foe NIR
 def saveT7(request):
@@ -2294,7 +2666,8 @@ def saveT7(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = NIR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = NIR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2311,6 +2684,7 @@ def saveT7(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT8(request):
     if request.user.is_authenticated:
@@ -2334,7 +2708,8 @@ def saveT8(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = NIR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = NIR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2351,6 +2726,7 @@ def saveT8(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT9(request):
     if request.user.is_authenticated:
@@ -2374,7 +2750,8 @@ def saveT9(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = VR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = VR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                           prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2391,6 +2768,7 @@ def saveT9(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT10(request):
     if request.user.is_authenticated:
@@ -2414,7 +2792,8 @@ def saveT10(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = VR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = VR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                           prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2431,6 +2810,7 @@ def saveT10(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT11(request):
     if request.user.is_authenticated:
@@ -2453,7 +2833,8 @@ def saveT11(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = DR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = DR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                           prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2470,6 +2851,7 @@ def saveT11(request):
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT12(request):
     if request.user.is_authenticated:
@@ -2492,7 +2874,8 @@ def saveT12(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = DR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = DR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                           prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2510,6 +2893,7 @@ def saveT12(request):
     else:
         return redirect('log')
         # иностранные слушателями
+
 
 def saveT13(request):
     if request.user.is_authenticated:
@@ -2532,7 +2916,8 @@ def saveT13(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = INR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = INR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2543,12 +2928,16 @@ def saveT13(request):
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
+                        for vid in INR.objects.values_list('vid', flat=True).distinct():
+                            INR.objects.filter(
+                                pk__in=INR.objects.filter(vid=vid, prepodavatel=profile, year=request.POST['year']).values_list('id',flat=True)[1:]).delete()
             except Exception as e:
                 print(e)
                 return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
+
 
 def saveT14(request):
     if request.user.is_authenticated:
@@ -2572,7 +2961,8 @@ def saveT14(request):
                         if umr.vid != '' and umr.vid is not None:
 
                             try:
-                                umrdel = INR.objects.filter(vid=umr.vid,year=umr.year,polugodie=umr.polugodie,prepodavatel=umr.prepodavatel)
+                                umrdel = INR.objects.filter(vid=umr.vid, year=umr.year, polugodie=umr.polugodie,
+                                                            prepodavatel=umr.prepodavatel)
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
@@ -2583,6 +2973,9 @@ def saveT14(request):
                                 umrdel.delete()
                             except Exception as e:
                                 print(e)
+                        for vid in INR.objects.values_list('vid', flat=True).distinct():
+                            INR.objects.filter(
+                                pk__in=INR.objects.filter(vid=vid,prepodavatel=profile,year=request.POST['year']).values_list('id', flat=True)[1:]).delete()
             except Exception as e:
                 print(e)
                 return HttpResponse("Ошибка при сохранении")
@@ -2590,10 +2983,12 @@ def saveT14(request):
     else:
         return redirect('log')
 
+
 def deltable(request):
     if request.user.is_authenticated and request.method == 'POST':
         print(request.POST)
     return JsonResponse("1", safe=False)
+
 
 def shapka(request):
     if request.user.is_authenticated:
@@ -2615,7 +3010,7 @@ def shapka(request):
                     shpk.plan = plan
                     try:
                         profileinfo = ProfileInfo.objects.get(profile=profile)
-                        shpk.fio=profileinfo.fio
+                        shpk.fio = profileinfo.fio
                         shpk.dolznost = profileinfo.dolznost
                         shpk.stavka = profileinfo.stavka
                         shpk.uchzv = profileinfo.uchzv
@@ -2650,6 +3045,7 @@ def shapka(request):
     else:
         return redirect('log')
 
+
 def saveMesyac(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -2658,15 +3054,17 @@ def saveMesyac(request):
                 profile = get_object_or_404(Profile, user__username=request.POST['profile'])
             plan = get_object_or_404(Plan, prepod=profile, year=request.POST['year'])
             MesyacFormSet = modelformset_factory(Mesyac, form=MesyacForm)
-            formset4 = MesyacFormSet(request.POST, queryset=Mesyac.objects.filter(prepodavatel=profile, polugodie=1))
+            formset4 = MesyacFormSet(request.POST,
+                                     queryset=Mesyac.objects.filter(prepodavatel=profile, year=request.POST['year']))
             if formset4.is_valid():
                 try:
                     try:
-                        mesyacdel = Mesyac.objects.filter(prepodavatel=profile,year=request.POST['year'])
+                        mesyacdel = Mesyac.objects.filter(prepodavatel=profile, year=request.POST['year'])
                         for m in mesyacdel:
                             m.delete()
 
-                    except:
+                    except Exception as e:
+                        print(e)
                         print("ne")
 
                     for form in formset4:
@@ -2681,18 +3079,85 @@ def saveMesyac(request):
 
 
             else:
+                print(formset4.errors)
                 return HttpResponse("Ошибка при сохранении")
         return HttpResponse("Успешно сохранено")
     else:
         return redirect('log')
 
-@api_view(['GET'])
-def update_plan_summ(request,year,slug):
-    try:
-        profile=Profile.objects.get(user__username=slug)
-        predmets = Predmet.objects.filter(prepodavatel=profile, status=True,year=year)
+def zamechSave(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            profile = get_object_or_404(Profile, user=request.user)
+            if profile.role == 3 or profile.role == 2:
+                profile = get_object_or_404(Profile, user__username=request.POST['profile'])
+            ZamechFormSet = modelformset_factory(Zamech, form=ZamechForm)
+            formset4 = ZamechFormSet(request.POST,
+                                     queryset=Zamech.objects.filter(profile=profile, year=request.POST['year']))
+            if request.user.profile.role == 3:                         
+                if formset4.is_valid():
+                    print("umr")
+                    try:
+                        for form in formset4:
+                            umr = form.save(commit=False)
+                            umr.year = request.POST['year']
+                            umr.profile = profile
+                            try:
+                                Zamech.objects.filter(name=umr.name,year=umr.year,profile=umr.profile).delete()
+                            except Exception as e:
+                                print(e)
+                            if umr.status == True:
+                                umr.date_2 = dt.date.today()
+                            if umr.name == "" or umr.name == None:
+                                try:
+                                    Zamech.objects.filter(id=umr.id).delete()
+                                    Zamech.objects.filter(name=umr.name,year=umr.year,profile=umr.profile).delete()
+                                except Exception as e:
+                                    print(e)
+                                    continue
+                                continue
+                            print(umr.name)
+                            umr.save()
+                    except Exception as e:
+                        print(e)
+                        return HttpResponse("Ошибка при сохранении")
+                else:
+                    print(formset4.errors)
+                    return HttpResponse("Ошибка при сохранении")
+            else:
+                if formset4.is_valid():
+                    print("prepod")
+                    print(request.POST)
+                    try:
+                        for form in formset4:
+                            umr = form.save(commit=False)
+                            umr.profile = profile
+                            if umr.status == True:
+                                umr.date_2 = dt.date.today()
+                            umr.year = request.POST['year']
+                            print(umr.name)
+                            umr.save()
+                    except Exception as e:
+                        print(e)
+                        return HttpResponse("Ошибка при сохранении")
+                else:
+                    print(formset4.errors)
+                    return HttpResponse("Ошибка при сохранении")
 
-        newplan=Plan.objects.get(prepod=profile,year=year)
+
+            
+        return HttpResponse("Успешно сохранено")
+    else:
+        return redirect('log')
+
+
+@api_view(['GET'])
+def update_plan_summ(request, year, slug):
+    try:
+        profile = Profile.objects.get(user__username=slug)
+        predmets = Predmet.objects.filter(prepodavatel=profile, status=True, year=year)
+
+        newplan = Plan.objects.get(prepod=profile, year=year)
         ucheb_r_1_p = 0
         ucheb_r_2_p = 0
         for p in predmets:
@@ -2704,12 +3169,11 @@ def update_plan_summ(request,year,slug):
         newplan.save()
         return Response(
             [
-             {
-                "first": ucheb_r_1_p,
-                "second": ucheb_r_2_p
-             }
+                {
+                    "first": ucheb_r_1_p,
+                    "second": ucheb_r_2_p
+                }
             ])
     except Exception as e:
         print(e)
         return HttpResponse("Ошибка при обновлении данных таблицы")
-

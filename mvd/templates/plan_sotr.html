@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{%load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static "/css/vuetify.min.css" %}" />
+<link rel="stylesheet" href="{% static "/css/plan.css" %}" />
+<link rel="stylesheet" href="{% static "/css/materialdesignicons.min.css" %}" />
+
+
+<script src="{% static "/js/vue.js" %}"></script>
+<script src="{% static "/js/axios.js" %}"></script>
+<script src="{% static "/js/vuetify.js" %}"></script>
+<div class="content active">
+  <div class="container-fluid" id="app" data-app>
+    <div class="row">
+      <div class="col p-5">
+        <div class="container-fluid" id="block-content">
+          <div class="row">
+            <div class="col">
+              <supertable_plan></supertable_plan>
+            </div>
+          <div class="row" id="rowid">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Документы кафедр </h3>
+                </div>
+                
+                  <nagruzka_table>
+         
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+              <div class="card rounded">
+                <div class="card-header">
+                  <h3>Информация о замечаниях</h3>
+                </div>
+                <zamech_table></zamech_table>
+              </div>
+            </div>
+
+          </div>
+          
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id='INLINE_PEN_JS_ID'>
+  Vue.component('supertable_plan', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      expanded: [],
+      singleExpand: false,
+      yearHref: "",
+      rules: [
+        value => !!value || ' ',
+        value => (value && value.length == 4) || '4 цифры'
+      ],
+      search: '',
+      headers: [
+        { text: 'ФИО', align: 'start', value: 'fio' },
+        { text: 'Кафедра', value: 'kafedra' },
+        { text: 'Должность', value: 'dolzhnost' },
+        { text: 'Ставка', value: 'stavka' },
+        { text: 'ИП ', align: 'start', value: 'plan' },
+        { text: 'Рейтинг', value: 'rating' },
+        { text: 'Подробнее', value: 'data-table-expand' },
+      ],
+      desserts: []
+
+    }),
+    methods: {
+      itr(item) {
+        window.open("http://" + document.location.host + "/plan/" + item.username + "/" + this.yearHref + "/", '_blank');
+      },
+      updateTable(value) {
+        this.yearHref = value
+        axios.get("http://" + document.location.host + "/plan_table/", { params: { year: value ,kafname:"all"} }).then(response => {
+          this.desserts = response.data
+        })
+      }
+    },
+    template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+          <p class="pDataHeader">Список ИП за  </p>
+          <v-text-field label="Введите год" :rules="rules" hide-details="auto" standard @change="updateTable($event)" style="padding-right:10px"></v-text-field>
+          <p class="pDataHeader">год</p>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        @click:row="itr"
+        multi-sort
+        :headers="headers"
+        :single-expand="singleExpand"
+        :items="desserts"
+        :search="search"
+        :expanded.sync="expanded"
+        item-key="fio"
+        show-expand
+        loading
+        loading-text="Загрузка... Пожалуйста подождите"
+      >
+
+       <template v-slot:expanded-item="{ headers,item }">
+       <th :colspan ="headers.length">
+       <v-row>
+            <v-col v-for="zapoln in item.zapoln" style="width:10%;">
+           ##zapoln##
+            </v-col>
+            </v-row>
+        </th>
+
+      </template>
+      </v-data-table>
+    </v-card>
+
+  `,
+  })
+  Vue.component('nagruzka_table', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      yearHref: "",
+      search: '',
+      headers: [
+        { text: 'Кафедра', value: 'kafedra' },
+        { text: 'Вид нагрузки', value: 'vid_nagruzki' },
+        { text: 'Год', value: 'year' },
+        { text: 'Дата изменения', value: 'change_date' },
+        { text: 'Скачать ',  value: 'actions', sortable: false },
+      
+      ],
+      desserts: []
+
+    }),
+    created() {
+      this.initialize();
+    },
+    methods: {
+      initialize() {
+        axios.get("http://" + document.location.host + "/nagruzka_table/",).then(response => {
+          this.desserts = response.data
+          
+        })
+      },
+      download_nagruzka(item) {
+        console.log(item)
+        window.open("http://" + document.location.host  + item.href+"/", '_blank');
+
+      },
+    },
+    template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :items-per-page="5"
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      >
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="download_nagruzka(item)"
+        >
+        mdi-download
+        </v-icon>
+        </template>
+      </v-data-table>
+    </v-card>
+
+  `,
+})
+Vue.component('zamech_table', {
+    delimiters: ['##', '##'],
+    data: () => ({
+      search: '',
+      headers: [
+        { text: 'ФИО', align: 'start', value: 'profile' },
+        { text: 'Кафедра', value: 'kafedra' },
+        { text: 'Дата замечания', value: 'date_1' },
+        { text: 'Статус', value: 'status' },
+        { text: 'Дата исправления', value: 'date_2' },
+        { text: 'Год ИП', align: 'start', value: 'year' },
+    
+      ],
+      desserts: []
+
+    }),
+    created() {
+      this.initialize();
+    },
+    methods: { 
+      initialize() {
+        axios.get("http://" + document.location.host + "/zamech_table/",  { params: { "kafname": "all" } }).then(response => {
+          this.desserts = response.data
+        })
+      }
+    },
+    template: `
+    <v-card style="display:flex; flex-direction:column;">
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :items-per-page="5"
+        :headers="headers"
+        :items="desserts"
+        :search="search"
+      >
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="download_nagruzka(item)"
+        >
+        mdi-download
+        </v-icon>
+        </template>
+      </v-data-table>
+    </v-card>
+
+  `,
+  })
+  new Vue({
+    el: '#app',
+    delimiters: ['{', '}'],
+    vuetify: new Vuetify(),
+    data: {}
+
+  })
+
+
+
+
+</script>
+{% endblock %}

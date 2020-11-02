@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 from django.conf.urls import url
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-# Create your models here.
- #кафедра
-#талица для записи инфы о преподе в документ
+
+
 class Article(models.Model):
 
     body=models.TextField()
@@ -61,6 +60,22 @@ class ProfileInfo(models.Model):
 
     def __str__(self):
         return self.fio
+
+
+
+#модель для замечний сотрудка умр
+class Zamech(models.Model):
+    profile = models.ForeignKey(Profile,related_name='zamech',on_delete=models.CASCADE)
+    year = models.IntegerField(default=2019)
+
+    status = models.BooleanField(default=False)
+    date_1 = models.DateField(auto_now_add=True,blank=True,null=True)
+    name = models.TextField(blank=True,null=True)
+    date_2 = models.DateField(auto_now=False, auto_now_add=False,blank=True,null=True)
+
+    def __str__(self):
+        return self.profile.fullname+self.profile.kafedra+self.date_1
+
 
 #  основная модель плана
 class Plan(models.Model):
@@ -396,7 +411,7 @@ class UMR(models.Model):
             str(self.otmetka))
 
     def save(self, *args, **kwargs):
-        if self.dubl_to_in==True:
+        if self.dubl_to_in == True and not INR.objects.filter(vid=self.vid,year=self.year).exists():
             inr=INR()
             inr.vid=self.vid
             inr.srok=self.srok
@@ -476,7 +491,7 @@ class DR(models.Model):
 
 class Mesyac(models.Model):
     name=models.CharField(max_length=250,blank=True)
-    ###поля в таблице
+    ###поля в таблицеsudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe
     leccii=models.FloatField(default=0,blank=True,validators=[validate_decimals],null=True)
     seminar=models.FloatField(default=0,blank=True,validators=[validate_decimals])
     practici_v_gruppe=models.FloatField(default=0,blank=True,validators=[validate_decimals])

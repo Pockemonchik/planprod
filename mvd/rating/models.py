@@ -303,7 +303,7 @@ class MRR(models.Model):
     soavtr = models.IntegerField(default=1, blank=True)
     dgsk = models.BooleanField(default=False, blank=True)
     bal = models.FloatField(default=0, blank=True)
-    default = models.FloatField(default=0, blank=True)
+    default = models.FloatField(default=1, blank=True)
     year = models.IntegerField(default=2020, blank=True)
     def __str__(self):
         return self.profile.user.username

@@ -65,12 +65,15 @@ urlpatterns = [
     url(r'^saveT12/$', views.saveT12,name='saveT12'),
     url(r'^saveT13/$', views.saveT13,name='saveT13'),
     url(r'^saveT14/$', views.saveT14,name='saveT14'),
+    url(r'^zamechSave/$', views.zamechSave,name='zamechSave'),
     url(r'^documentAnalize/$', views.documentAnalize,name='documentAnalize'),
 
     url(r'^nagruzkaSave/$', views.nagruzkaSave,name='nagruzkaSave'),
     url(r'^shapka/$', views.shapka,name='shapka'),
     url(r'^update_plan_summ/(?P<slug>[\w-]+)/(?P<year>\d{4})$', views.update_plan_summ,name='update_plan_summ'),
     url(r'^plan_table/$', views.supertable_plan,name='supertable_plan'),
+    url(r'^nagruzka_table/$', views.nagruzka_table,name='nagruzka_table'),
+    url(r'^zamech_table/$', views.zamech_table,name='zamech_table'),
     url(r'^deltable/$', views.deltable,name='deltable'),
 
 

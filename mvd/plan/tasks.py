@@ -318,16 +318,31 @@ def create_plans():
     print("sozdano "+count+" planov iz " +profiles.count()+"profiley")
 
 
-print("Выберете опцию: 1 запонить нагрузки из папки , 2 создать планы ,3 обновить рейтинги")
-command = input()
-if command == '1':
-    zapolnenie_bd()
-elif command == '2':
-    create_plans()
-elif command == '3':
-    print("введите год")
-    year = input()
-    refresh_places(int(year))
+# print("Выберете опцию: 1 запонить нагрузки из папки , 2 создать планы ,3 обновить рейтинги")
+# command = input()
+# if command == '1':
+#     zapolnenie_bd()
+# elif command == '2':
+#     create_plans()
+# elif command == '3':
+#     print("введите год")
+#     year = input()
+#     refresh_places(int(year))
+from rating.models import URR, ORMR, PCR, MRR, Rating
+mrrs = MRR.objects.all()
+for u in mrrs:
+    if ("азработка рабочей программы учебной дисциплины" in u.name or
+            "азработка рабочей программы государственной итоговой " in u.name or
+            "азработка натурных объектов на контрольные экспертизы" in u.name or
+            "азработка тестов для проведения мероприятий по указанию МВД России" in u.name or
+            "азработка практикума по дисциплине" in u.name or
+            "азработка материалов для вступительных испытаний" in u.name or
+            "азработка материалов для проведения кандидатского экзамен" in u.name or
+            "азработка материалов для мультимедийного сопровождения дисциплины" in u.name or
+            "азработка сборника образцов процессуальных и служебных документов" in u.name):
+        if u.default == 5:
+            print(u.profile.fullname)
+
 
 print('konets')
 
